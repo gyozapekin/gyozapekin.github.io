@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ギャラリー | 海鮮餃子 北京</title>
+  <meta name="description" content="海鮮餃子 北京のギャラリー。思い出の写真や各期の写真をご覧いただけます。">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    /* ライトボックス風モーダル */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.85);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+    .modal-overlay.open {
+      display: flex;
+    }
+    .modal-overlay img {
+      max-width: 90vw;
+      max-height: 90vh;
+      object-fit: contain;
+      border: 3px solid #fff;
+    }
+    .modal-close {
+      position: fixed;
+      top: 16px;
+      right: 20px;
+      color: #fff;
+      font-size: 36px;
+      cursor: pointer;
+      line-height: 1;
+    }
+  </style>
+</head>
+<body>
+
+<div class="site-wrapper">
+
+  <header class="site-header">
+    <a href="index.html">
+      <img src="images/logo_banner.jpg" alt="海鮮餃子 北京" class="logo">
+    </a>
+  </header>
+
+  <nav class="site-nav">
+    <ul>
+      <li><a href="index.html">ホーム</a></li>
+      <li><a href="order.html">ネットショップ：ECサイト</a></li>
+      <li><a href="menu.html">メニュー</a></li>
+      <li><a href="about.html">店舗紹介</a></li>
+      <li><a href="howto.html">餃子の焼き方</a></li>
+      <li><a href="blog.html">ブログ</a></li>
+      <li><a href="gallery.html" class="active">ギャラリー</a></li>
+      <li><a href="contact.html">お問合わせ</a></li>
+    </ul>
+  </nav>
+
+  <main>
+
+    <section class="section">
+      <h2>ギャラリー</h2>
+      <p>写真をクリックすると拡大表示されます。</p>
+    </section>
+
+    <!-- 思い出の壁 -->
+    <section class="section">
+      <h2>思い出の壁</h2>
+      <div class="gallery-grid" id="memories">
+        <img src="images/gallery/memory_01.jpg" alt="思い出の写真1" onclick="openModal(this)">
+        <img src="images/gallery/memory_02.jpg" alt="思い出の写真2" onclick="openModal(this)">
+        <img src="images/gallery/memory_03.jpg" alt="思い出の写真3" onclick="openModal(this)">
+        <img src="images/gallery/memory_04.jpg" alt="思い出の写真4" onclick="openModal(this)">
+        <img src="images/gallery/memory_05.jpg" alt="思い出の写真5" onclick="openModal(this)">
+        <img src="images/gallery/memory_06.jpg" alt="思い出の写真6" onclick="openModal(this)">
+      </div>
+    </section>
+
+    <!-- 各期の写真 (2022Q1〜2024Q1) -->
+    <div class="gallery-quarters">
+
+      <div class="gallery-quarter-title">2024年 第1四半期（2024Q1）</div>
+      <div class="gallery-grid">
+        <img src="images/gallery/2024q1_01.jpg" alt="2024Q1-1" onclick="openModal(this)">
+        <img src="images/gallery/2024q1_02.jpg" alt="2024Q1-2" onclick="openModal(this)">
+        <img src="images/gallery/2024q1_03.jpg" alt="2024Q1-3" onclick="openModal(this)">
+      </div>
+
+      <div class="gallery-quarter-title">2023年 第4四半期（2023Q4）</div>
+      <div class="gallery-grid">
+        <img src="images/gallery/2023q4_01.jpg" alt="2023Q4-1" onclick="openModal(this)">
+        <img src="images/gallery/2023q4_02.jpg" alt="2023Q4-2" onclick="openModal(this)">
+        <img src="images/gallery/2023q4_03.jpg" alt="2023Q4-3" onclick="openModal(this)">
+      </div>
+
+      <div class="gallery-quarter-title">2023年 第3四半期（2023Q3）</div>
+      <div class="gallery-grid">
+        <img src="images/gallery/2023q3_01.jpg" alt="2023Q3-1" onclick="openModal(this)">
+        <img src="images/gallery/2023q3_02.jpg" alt="2023Q3-2" onclick="openModal(this)">
+        <img src="images/gallery/2023q3_03.jpg" alt="2023Q3-3" onclick="openModal(this)">
+      </div>
+
+      <div class="gallery-quarter-title">2023年 第2四半期（2023Q2）</div>
+      <div class="gallery-grid">
+        <img src="images/gallery/2023q2_01.jpg" alt="2023Q2-1" onclick="openModal(this)">
+        <img src="images/gallery/2023q2_02.jpg" alt="2023Q2-2" onclick="openModal(this)">
+        <img src="images/gallery/2023q2_03.jpg" alt="2023Q2-3" onclick="openModal(this)">
+      </div>
+
+      <div class="gallery-quarter-title">2023年 第1四半期（2023Q1）</div>
+      <div class="gallery-grid">
+        <img src="images/gallery/2023q1_01.jpg" alt="2023Q1-1" onclick="openModal(this)">
+        <img src="images/gallery/2023q1_02.jpg" alt="2023Q1-2" onclick="openModal(this)">
+        <img src="images/gallery/2023q1_03.jpg" alt="2023Q1-3" onclick="openModal(this)">
+      </div>
+
+      <div class="gallery-quarter-title">2022年 第4四半期（2022Q4）</div>
+      <div class="gallery-grid">
+        <img src="images/gallery/2022q4_01.jpg" alt="2022Q4-1" onclick="openModal(this)">
+        <img src="images/gallery/2022q4_02.jpg" alt="2022Q4-2" onclick="openModal(this)">
+        <img src="images/gallery/2022q4_03.jpg" alt="2022Q4-3" onclick="openModal(this)">
+      </div>
+
+      <div class="gallery-quarter-title">2022年 第3四半期（2022Q3）</div>
+      <div class="gallery-grid">
+        <img src="images/gallery/2022q3_01.jpg" alt="2022Q3-1" onclick="openModal(this)">
+        <img src="images/gallery/2022q3_02.jpg" alt="2022Q3-2" onclick="openModal(this)">
+        <img src="images/gallery/2022q3_03.jpg" alt="2022Q3-3" onclick="openModal(this)">
+      </div>
+
+      <div class="gallery-quarter-title">2022年 第2四半期（2022Q2）</div>
+      <div class="gallery-grid">
+        <img src="images/gallery/2022q2_01.jpg" alt="2022Q2-1" onclick="openModal(this)">
+        <img src="images/gallery/2022q2_02.jpg" alt="2022Q2-2" onclick="openModal(this)">
+        <img src="images/gallery/2022q2_03.jpg" alt="2022Q2-3" onclick="openModal(this)">
+      </div>
+
+      <div class="gallery-quarter-title">2022年 第1四半期（2022Q1）</div>
+      <div class="gallery-grid">
+        <img src="images/gallery/2022q1_01.jpg" alt="2022Q1-1" onclick="openModal(this)">
+        <img src="images/gallery/2022q1_02.jpg" alt="2022Q1-2" onclick="openModal(this)">
+        <img src="images/gallery/2022q1_03.jpg" alt="2022Q1-3" onclick="openModal(this)">
+      </div>
+
+    </div>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-links">
+      <a href="index.html">ホーム</a>
+      <a href="menu.html">メニュー</a>
+      <a href="about.html">店舗紹介</a>
+      <a href="contact.html">お問合わせ</a>
+    </div>
+    <p class="copyright">&copy; 海鮮餃子 北京 All Rights Reserved.</p>
+  </footer>
+
+</div>
+
+<!-- ライトボックスモーダル -->
+<div class="modal-overlay" id="modal" onclick="closeModal()">
+  <span class="modal-close" onclick="closeModal()">&times;</span>
+  <img id="modal-img" src="" alt="">
+</div>
+
+<script>
+  function openModal(img) {
+    document.getElementById('modal-img').src = img.src;
+    document.getElementById('modal-img').alt = img.alt;
+    document.getElementById('modal').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeModal() {
+    document.getElementById('modal').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeModal();
+  });
+</script>
+
+</body>
+</html>

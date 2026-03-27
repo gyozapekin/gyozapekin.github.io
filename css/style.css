@@ -1,0 +1,581 @@
+/* ============================================
+   海鮮餃子 北京 - gyozapekin.com
+   GitHub Pages 用スタイルシート
+   ============================================ */
+
+/* リセット */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* =====================
+   基本設定
+   ===================== */
+body {
+  font-family: 'Hiragino Kaku Gothic ProN', 'Meiryo', 'MS PGothic', sans-serif;
+  font-size: 14px;
+  line-height: 1.8;
+  color: #333;
+  background-color: #1a0800;
+  background-image: url('../images/bg.jpg');
+  background-attachment: fixed;
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+
+/* =====================
+   サイト全体ラッパー
+   ===================== */
+.site-wrapper {
+  max-width: 860px;
+  margin: 0 auto;
+  background: #ffffff;
+  box-shadow: 0 0 20px rgba(0,0,0,0.5);
+  min-height: 100vh;
+}
+
+/* =====================
+   ヘッダー（ロゴバナー）
+   ===================== */
+.site-header {
+  background: #F2B800;
+  text-align: center;
+  overflow: hidden;
+}
+
+.site-header a {
+  display: block;
+}
+
+.site-header img.logo {
+  width: 100%;
+  max-width: 620px;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+
+/* =====================
+   ナビゲーション
+   ===================== */
+.site-nav {
+  background: #ffffff;
+  border-bottom: 2px solid #ddd;
+  border-top: 1px solid #ccc;
+}
+
+.site-nav ul {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+}
+
+.site-nav ul li a {
+  display: block;
+  padding: 10px 13px;
+  font-size: 13px;
+  color: #333;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background 0.2s;
+}
+
+.site-nav ul li a:hover,
+.site-nav ul li a.active {
+  background: #F2B800;
+  color: #333;
+  font-weight: bold;
+}
+
+/* =====================
+   メインコンテンツ
+   ===================== */
+main {
+  padding: 24px 20px 40px;
+}
+
+/* =====================
+   セクション共通
+   ===================== */
+.section {
+  margin-bottom: 36px;
+}
+
+.section h2 {
+  font-size: 18px;
+  color: #003399;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 6px;
+  margin-bottom: 14px;
+}
+
+.section h3 {
+  font-size: 15px;
+  color: #003399;
+  margin: 12px 0 6px;
+}
+
+p {
+  margin-bottom: 10px;
+}
+
+a {
+  color: #003399;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* =====================
+   ホームページ専用
+   ===================== */
+
+/* ヒーロースライドエリア */
+.hero-banner {
+  width: 100%;
+  overflow: hidden;
+  margin-bottom: 6px;
+  background: #000;
+  position: relative;
+}
+
+.hero-banner img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* スライドサムネイル列 */
+.hero-thumbs {
+  display: flex;
+  gap: 2px;
+  overflow-x: auto;
+  margin-bottom: 20px;
+  background: #eee;
+}
+
+.hero-thumbs img {
+  width: 60px;
+  height: 40px;
+  object-fit: cover;
+  flex-shrink: 0;
+  opacity: 0.7;
+  cursor: pointer;
+}
+
+.hero-thumbs img:hover {
+  opacity: 1;
+}
+
+/* お知らせ */
+.news-list {
+  list-style: none;
+  padding: 0;
+}
+
+.news-list li {
+  padding: 6px 0;
+  border-bottom: 1px dotted #ccc;
+}
+
+.news-list li a {
+  color: #003399;
+}
+
+.news-list li a:hover {
+  text-decoration: underline;
+}
+
+/* いらっしゃいませ 写真グリッド */
+.photo-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin: 16px 0;
+}
+
+.photo-grid img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* YouTube埋め込み */
+.video-wrap {
+  position: relative;
+  padding-bottom: 56.25%;
+  height: 0;
+  overflow: hidden;
+  max-width: 510px;
+  margin: 10px 0;
+}
+
+.video-wrap iframe {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+/* 注文ボタン */
+.btn-order {
+  display: inline-block;
+  background: #CC0000;
+  color: #fff !important;
+  padding: 10px 24px;
+  border-radius: 4px;
+  font-size: 15px;
+  font-weight: bold;
+  text-decoration: none !important;
+  margin: 10px 0;
+}
+
+.btn-order:hover {
+  background: #a00000;
+}
+
+/* =====================
+   メニューページ
+   ===================== */
+.menu-category {
+  margin-bottom: 30px;
+}
+
+.menu-category h3 {
+  background: #F2B800;
+  padding: 6px 12px;
+  font-size: 16px;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.menu-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.menu-table th,
+.menu-table td {
+  border: 1px solid #ddd;
+  padding: 8px 10px;
+  text-align: left;
+}
+
+.menu-table th {
+  background: #f5f5f5;
+  color: #333;
+  font-weight: bold;
+}
+
+.menu-table tr:nth-child(even) td {
+  background: #fafafa;
+}
+
+.menu-img {
+  width: 100%;
+  max-width: 400px;
+  height: auto;
+  display: block;
+  margin: 10px 0;
+}
+
+/* =====================
+   餃子の焼き方ページ
+   ===================== */
+.howto-steps {
+  counter-reset: step-counter;
+  list-style: none;
+  padding: 0;
+}
+
+.howto-steps li {
+  counter-increment: step-counter;
+  display: flex;
+  gap: 16px;
+  margin-bottom: 24px;
+  align-items: flex-start;
+}
+
+.howto-steps li::before {
+  content: counter(step-counter);
+  background: #F2B800;
+  color: #333;
+  font-weight: bold;
+  font-size: 20px;
+  min-width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.howto-steps li .step-content img {
+  width: 100%;
+  max-width: 340px;
+  height: auto;
+  margin-top: 8px;
+  display: block;
+}
+
+/* =====================
+   ギャラリー
+   ===================== */
+.gallery-quarters {
+  margin-bottom: 20px;
+}
+
+.gallery-quarter-title {
+  font-size: 14px;
+  font-weight: bold;
+  color: #555;
+  margin: 16px 0 8px;
+  border-left: 4px solid #F2B800;
+  padding-left: 8px;
+}
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+}
+
+.gallery-grid img {
+  width: 100%;
+  aspect-ratio: 4/3;
+  object-fit: cover;
+  display: block;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.gallery-grid img:hover {
+  opacity: 0.85;
+}
+
+/* =====================
+   お問い合わせ
+   ===================== */
+.contact-info {
+  background: #f9f7f0;
+  border: 1px solid #ddd;
+  padding: 16px 20px;
+  margin-bottom: 20px;
+}
+
+.contact-info dl {
+  display: grid;
+  grid-template-columns: 130px 1fr;
+  gap: 8px 16px;
+}
+
+.contact-info dt {
+  font-weight: bold;
+  color: #555;
+}
+
+.contact-form label {
+  display: block;
+  font-weight: bold;
+  margin: 12px 0 4px;
+  color: #333;
+}
+
+.contact-form input[type="text"],
+.contact-form input[type="email"],
+.contact-form textarea {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  font-size: 14px;
+  font-family: inherit;
+}
+
+.contact-form textarea {
+  min-height: 140px;
+  resize: vertical;
+}
+
+.contact-form .required {
+  color: #CC0000;
+  font-size: 12px;
+  margin-left: 4px;
+}
+
+.contact-form button[type="submit"] {
+  display: inline-block;
+  background: #003399;
+  color: #fff;
+  padding: 10px 30px;
+  border: none;
+  border-radius: 4px;
+  font-size: 15px;
+  cursor: pointer;
+  margin-top: 16px;
+}
+
+.contact-form button[type="submit"]:hover {
+  background: #002277;
+}
+
+/* Google Map埋め込み */
+.map-wrap {
+  width: 100%;
+  height: 300px;
+  margin: 14px 0;
+}
+
+.map-wrap iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+/* =====================
+   店舗紹介ページ
+   ===================== */
+.store-info-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.store-info-table th,
+.store-info-table td {
+  border: 1px solid #ddd;
+  padding: 10px 12px;
+  text-align: left;
+  vertical-align: top;
+}
+
+.store-info-table th {
+  background: #f9f7f0;
+  width: 130px;
+  font-weight: bold;
+  color: #555;
+  white-space: nowrap;
+}
+
+/* =====================
+   ブログページ
+   ===================== */
+.blog-list {
+  list-style: none;
+  padding: 0;
+}
+
+.blog-list li {
+  padding: 12px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.blog-list li .blog-date {
+  font-size: 12px;
+  color: #888;
+  margin-bottom: 4px;
+}
+
+.blog-list li a {
+  font-size: 15px;
+  color: #003399;
+  font-weight: bold;
+}
+
+.blog-list li .blog-category {
+  display: inline-block;
+  background: #F2B800;
+  color: #333;
+  font-size: 11px;
+  padding: 1px 6px;
+  border-radius: 2px;
+  margin-left: 6px;
+}
+
+/* =====================
+   フッター
+   ===================== */
+.site-footer {
+  background: #222;
+  color: #ccc;
+  text-align: center;
+  padding: 24px 20px;
+  font-size: 12px;
+}
+
+.site-footer a {
+  color: #F2B800;
+}
+
+.site-footer .footer-links {
+  margin-bottom: 10px;
+}
+
+.site-footer .footer-links a {
+  margin: 0 8px;
+}
+
+.site-footer .copyright {
+  color: #888;
+  margin-top: 8px;
+}
+
+/* =====================
+   スマホ対応
+   ===================== */
+@media (max-width: 640px) {
+  .site-nav ul li a {
+    padding: 8px 8px;
+    font-size: 11px;
+  }
+
+  main {
+    padding: 16px 12px 30px;
+  }
+
+  .photo-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .gallery-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .contact-info dl {
+    grid-template-columns: 1fr;
+  }
+
+  .store-info-table th {
+    width: 100px;
+  }
+
+  .video-wrap {
+    max-width: 100%;
+  }
+
+  .howto-steps li {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 400px) {
+  .site-nav ul li a {
+    font-size: 10px;
+    padding: 7px 6px;
+  }
+
+  .gallery-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
