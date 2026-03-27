@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>勤務管理システム | 海鮮餃子 北京</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .shift-portal {
+      min-height: 70vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+    }
+
+    .shift-portal h2 {
+      font-size: 20px;
+      color: #333;
+      margin-bottom: 8px;
+      text-align: center;
+    }
+
+    .shift-portal p {
+      color: #666;
+      font-size: 13px;
+      margin-bottom: 40px;
+      text-align: center;
+    }
+
+    .shift-cards {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+      justify-content: center;
+      width: 100%;
+      max-width: 560px;
+    }
+
+    .shift-card {
+      flex: 1;
+      min-width: 200px;
+      max-width: 240px;
+      border-radius: 10px;
+      padding: 36px 20px 28px;
+      text-align: center;
+      text-decoration: none;
+      color: #fff;
+      transition: transform 0.15s, box-shadow 0.15s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .shift-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+    }
+
+    .shift-card.admin {
+      background: linear-gradient(135deg, #8B1A1A 0%, #c0392b 100%);
+    }
+
+    .shift-card.staff {
+      background: linear-gradient(135deg, #1a5276 0%, #2980b9 100%);
+    }
+
+    .shift-card-icon {
+      font-size: 48px;
+      line-height: 1;
+    }
+
+    .shift-card-title {
+      font-size: 18px;
+      font-weight: bold;
+      letter-spacing: 0.05em;
+    }
+
+    .shift-card-desc {
+      font-size: 12px;
+      opacity: 0.9;
+      line-height: 1.6;
+    }
+
+    .shift-card-btn {
+      margin-top: 8px;
+      padding: 8px 20px;
+      background: rgba(255,255,255,0.2);
+      border: 1px solid rgba(255,255,255,0.5);
+      border-radius: 20px;
+      font-size: 13px;
+      color: #fff;
+    }
+
+    .shift-card:hover .shift-card-btn {
+      background: rgba(255,255,255,0.35);
+    }
+
+    .shift-notice {
+      margin-top: 40px;
+      padding: 12px 20px;
+      background: #fff8e1;
+      border-left: 4px solid #F2B800;
+      border-radius: 4px;
+      font-size: 12px;
+      color: #555;
+      max-width: 480px;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+
+<div class="site-wrapper">
+
+  <header class="site-header">
+    <a href="index.html">
+      <img src="images/logo_banner.png" alt="海鮮餃子 北京" class="logo">
+    </a>
+  </header>
+
+  <nav class="site-nav">
+    <ul>
+      <li><a href="index.html">ホーム</a></li>
+      <li><a href="order.html">ネットショップ：ECサイト</a></li>
+      <li><a href="menu.html">メニュー</a></li>
+      <li><a href="about.html">店舗紹介</a></li>
+      <li><a href="howto.html">餃子の焼き方</a></li>
+      <li><a href="blog.html">ブログ</a></li>
+      <li><a href="gallery.html">ギャラリー</a></li>
+      <li><a href="contact.html">お問合わせ</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <div class="shift-portal">
+
+      <h2>勤務管理システム</h2>
+      <p>海鮮餃子 北京 スタッフ専用ページです。<br>該当のボタンからログインしてください。</p>
+
+      <div class="shift-cards">
+
+        <!-- 管理者 -->
+        <a href="https://shift.gyozapekin.com/admin" class="shift-card admin" target="_blank" rel="noopener">
+          <div class="shift-card-icon">🔑</div>
+          <div class="shift-card-title">管理者ログイン</div>
+          <div class="shift-card-desc">
+            シフト承認・編集<br>スタッフ管理<br>月次集計
+          </div>
+          <div class="shift-card-btn">管理画面へ →</div>
+        </a>
+
+        <!-- スタッフ -->
+        <a href="https://shift.gyozapekin.com/staff" class="shift-card staff" target="_blank" rel="noopener">
+          <div class="shift-card-icon">📅</div>
+          <div class="shift-card-title">スタッフログイン</div>
+          <div class="shift-card-desc">
+            希望シフト入力<br>勤務予定の確認<br>申請・連絡
+          </div>
+          <div class="shift-card-btn">スタッフ画面へ →</div>
+        </a>
+
+      </div>
+
+      <div class="shift-notice">
+        ※ このページはスタッフ専用です。ログインにはシステムから発行されたアカウントが必要です。<br>
+        アカウントをお持ちでない方は店長にお問い合わせください。
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-links">
+      <a href="index.html">ホーム</a>
+      <a href="menu.html">メニュー</a>
+      <a href="about.html">店舗紹介</a>
+      <a href="contact.html">お問合わせ</a>
+    </div>
+    <p class="copyright">&copy; 海鮮餃子 北京 All Rights Reserved.</p>
+  </footer>
+
+</div><!-- /.site-wrapper -->
+
+</body>
+</html>
