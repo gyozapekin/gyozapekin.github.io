@@ -33,1377 +33,170 @@
   <main>
     <section class="section">
       <h2>ギャラリー</h2>
-      <p>お店の様子や料理の写真をご覧ください。</p>
+      <p>四半期ごとにまとめています。タイトルをクリックすると写真が表示されます。</p>
     </section>
 
-    <section class="gallery-quarter">
-      <h3 class="quarter-title">2026年1</h3>
-      <div class="gallery-grid">
-      <img src="images/gallery/2026Q1/20260120.jpg" alt="2026年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2026Q1/20260121.jpg" alt="2026年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2026Q1/20260123.jpg" alt="2026年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2026Q1/20260124.jpg" alt="2026年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2026Q1/20260126.jpg" alt="2026年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2026Q1/20260127.jpg" alt="2026年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2026Q1/20260130.jpg" alt="2026年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2026Q1/20260131.jpg" alt="2026年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2026Q1/20260132.jpg" alt="2026年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2026Q1/20260224.jpg" alt="2026年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2026Q1/20260305.jpg" alt="2026年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2026Q1/20260306.jpg" alt="2026年1" loading="lazy" onclick="openModal(this)">
+    <div class="accordion" id="gallery-accordion">
+      <div class="accordion-item open" data-quarter="2026Q1">
+        <button class="accordion-btn" onclick="toggleAccordion(this)">
+          <span>2026年 1〜3月（12枚）</span>
+          <span class="accordion-arrow">▼</span>
+        </button>
+        <div class="accordion-body">
+          <div class="gallery-grid" id="grid-2026Q1"></div>
+        </div>
       </div>
-    </section>
-
-    <section class="gallery-quarter">
-      <h3 class="quarter-title">2025年4</h3>
-      <div class="gallery-grid">
-      <img src="images/gallery/2025Q4/20250901.jpg" alt="2025年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q4/20250902.jpg" alt="2025年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q4/20250903.jpg" alt="2025年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q4/20250904.jpg" alt="2025年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q4/20250905.jpg" alt="2025年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q4/20250906.jpg" alt="2025年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q4/20250907.jpg" alt="2025年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q4/20250908.jpg" alt="2025年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q4/20250909.jpg" alt="2025年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q4/20250910.jpg" alt="2025年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q4/20250911.jpg" alt="2025年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q4/20250912.jpg" alt="2025年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q4/20250913.jpg" alt="2025年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q4/20250914.jpg" alt="2025年4" loading="lazy" onclick="openModal(this)">
+      <div class="accordion-item" data-quarter="2025Q4">
+        <button class="accordion-btn" onclick="toggleAccordion(this)">
+          <span>2025年 10〜12月（14枚）</span>
+          <span class="accordion-arrow">▼</span>
+        </button>
+        <div class="accordion-body">
+          <div class="gallery-grid" id="grid-2025Q4"></div>
+        </div>
       </div>
-    </section>
-
-    <section class="gallery-quarter">
-      <h3 class="quarter-title">2025年3</h3>
-      <div class="gallery-grid">
-      <img src="images/gallery/2025Q3/20250701.jpg" alt="2025年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q3/20250702.jpg" alt="2025年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q3/20250703.jpg" alt="2025年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q3/20250704.jpg" alt="2025年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q3/20250705.jpg" alt="2025年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q3/20250706.jpg" alt="2025年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q3/20250707.jpg" alt="2025年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q3/20250708.jpg" alt="2025年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q3/20250709.jpg" alt="2025年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q3/20250710.jpg" alt="2025年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q3/20250711.jpg" alt="2025年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q3/20250712.jpg" alt="2025年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q3/20250713.jpg" alt="2025年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q3/20250714.jpg" alt="2025年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q3/20250715.jpg" alt="2025年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q3/20250716.jpg" alt="2025年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q3/20250717.jpg" alt="2025年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q3/20250718.jpg" alt="2025年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q3/20250719.jpg" alt="2025年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q3/20250720.jpg" alt="2025年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q3/20250721.jpg" alt="2025年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q3/20250722.jpg" alt="2025年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q3/20250723.jpg" alt="2025年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q3/20250724.jpg" alt="2025年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q3/20250725.jpg" alt="2025年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q3/20250726.jpg" alt="2025年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q3/20250727.jpg" alt="2025年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q3/20250728.jpg" alt="2025年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q3/20250729.jpg" alt="2025年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q3/20250730.jpg" alt="2025年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q3/20250801.jpg" alt="2025年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q3/20250802.jpg" alt="2025年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q3/20250803.jpg" alt="2025年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q3/20250804.jpg" alt="2025年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q3/20250805.jpg" alt="2025年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q3/20250806.jpg" alt="2025年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q3/20250807.jpg" alt="2025年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q3/20250808.jpg" alt="2025年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q3/20250809.jpg" alt="2025年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q3/20250810.jpg" alt="2025年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q3/20250811.jpg" alt="2025年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q3/20250812.jpg" alt="2025年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q3/20250813.jpg" alt="2025年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q3/20250814.jpg" alt="2025年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q3/20250815.jpg" alt="2025年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q3/20250816.jpg" alt="2025年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q3/20250817.jpg" alt="2025年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q3/20250818.jpg" alt="2025年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q3/20250819.jpg" alt="2025年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q3/20250820.jpg" alt="2025年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q3/20250821.jpg" alt="2025年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q3/20250822.jpg" alt="2025年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q3/20250823.jpg" alt="2025年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q3/20250824.jpg" alt="2025年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q3/20250825.jpg" alt="2025年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q3/20250826.jpg" alt="2025年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q3/20250827.jpg" alt="2025年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q3/20250828.jpg" alt="2025年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q3/20250829.jpg" alt="2025年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q3/20250830.jpg" alt="2025年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q3/20250831.jpg" alt="2025年3" loading="lazy" onclick="openModal(this)">
+      <div class="accordion-item" data-quarter="2025Q3">
+        <button class="accordion-btn" onclick="toggleAccordion(this)">
+          <span>2025年 7〜9月（61枚）</span>
+          <span class="accordion-arrow">▼</span>
+        </button>
+        <div class="accordion-body">
+          <div class="gallery-grid" id="grid-2025Q3"></div>
+        </div>
       </div>
-    </section>
-
-    <section class="gallery-quarter">
-      <h3 class="quarter-title">2025年2</h3>
-      <div class="gallery-grid">
-      <img src="images/gallery/2025Q2/20250401.jpg" alt="2025年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q2/20250402.jpg" alt="2025年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q2/20250403.jpg" alt="2025年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q2/20250404.jpg" alt="2025年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q2/20250405.jpg" alt="2025年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q2/20250406.jpg" alt="2025年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q2/20250407.jpg" alt="2025年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q2/20250408.jpg" alt="2025年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q2/20250409.jpg" alt="2025年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q2/20250410.jpg" alt="2025年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q2/20250411.jpg" alt="2025年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q2/20250412.jpg" alt="2025年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q2/20250413.jpg" alt="2025年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q2/20250414.jpg" alt="2025年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q2/20250415.jpg" alt="2025年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q2/20250416.jpg" alt="2025年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q2/20250417.jpg" alt="2025年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q2/20250418.jpg" alt="2025年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q2/20250419.jpg" alt="2025年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q2/20250420.jpg" alt="2025年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q2/20250421.jpg" alt="2025年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q2/20250422.jpg" alt="2025年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q2/20250423.jpg" alt="2025年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q2/20250424.jpg" alt="2025年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q2/20250425.jpg" alt="2025年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q2/20250426.jpg" alt="2025年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q2/20250427.jpg" alt="2025年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q2/20250428.jpg" alt="2025年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q2/20250429.jpg" alt="2025年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q2/20250430.jpg" alt="2025年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q2/20250501.jpg" alt="2025年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q2/20250502.jpg" alt="2025年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q2/20250503.jpg" alt="2025年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q2/20250504.jpg" alt="2025年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q2/20250505.jpg" alt="2025年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q2/20250506.jpg" alt="2025年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q2/20250507.jpg" alt="2025年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q2/20250508.jpg" alt="2025年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q2/20250509.jpg" alt="2025年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q2/20250510.jpg" alt="2025年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q2/20250511.jpg" alt="2025年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q2/20250512.jpg" alt="2025年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q2/20250513.jpg" alt="2025年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q2/20250514.jpg" alt="2025年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q2/20250515.jpg" alt="2025年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q2/20250516.jpg" alt="2025年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q2/20250517.jpg" alt="2025年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q2/20250518.jpg" alt="2025年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q2/20250519.jpg" alt="2025年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q2/20250520.jpg" alt="2025年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q2/20250521.jpg" alt="2025年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q2/20250522.jpg" alt="2025年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q2/20250523.jpg" alt="2025年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q2/20250524.jpg" alt="2025年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q2/20250525.jpg" alt="2025年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q2/20250526.jpg" alt="2025年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q2/20250527.jpg" alt="2025年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q2/20250528.jpg" alt="2025年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q2/20250529.jpg" alt="2025年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q2/20250530.jpg" alt="2025年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q2/20250601.jpg" alt="2025年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q2/20250602.jpg" alt="2025年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q2/20250603.jpg" alt="2025年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q2/20250604.jpg" alt="2025年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q2/20250605.jpg" alt="2025年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q2/20250606.jpg" alt="2025年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q2/20250607.jpg" alt="2025年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q2/20250608.jpg" alt="2025年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q2/20250609.jpg" alt="2025年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q2/20250610.jpg" alt="2025年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q2/20250611.jpg" alt="2025年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q2/20250612.jpg" alt="2025年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q2/20250613.jpg" alt="2025年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q2/20250614.jpg" alt="2025年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q2/20250615.jpg" alt="2025年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q2/20250616.jpg" alt="2025年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q2/20250617.jpg" alt="2025年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q2/20250618.jpg" alt="2025年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q2/20250619.jpg" alt="2025年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q2/20250620.jpg" alt="2025年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q2/20250621.jpg" alt="2025年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q2/20250622.jpg" alt="2025年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q2/20250623.jpg" alt="2025年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q2/20250624.jpg" alt="2025年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q2/20250625.jpg" alt="2025年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q2/20250626.jpg" alt="2025年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q2/20250627.jpg" alt="2025年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q2/20250628.jpg" alt="2025年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q2/20250629.jpg" alt="2025年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q2/20250630.jpg" alt="2025年2" loading="lazy" onclick="openModal(this)">
+      <div class="accordion-item" data-quarter="2025Q2">
+        <button class="accordion-btn" onclick="toggleAccordion(this)">
+          <span>2025年 4〜6月（90枚）</span>
+          <span class="accordion-arrow">▼</span>
+        </button>
+        <div class="accordion-body">
+          <div class="gallery-grid" id="grid-2025Q2"></div>
+        </div>
       </div>
-    </section>
-
-    <section class="gallery-quarter">
-      <h3 class="quarter-title">2025年1</h3>
-      <div class="gallery-grid">
-      <img src="images/gallery/2025Q1/20250115.jpg" alt="2025年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q1/20250116.jpg" alt="2025年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q1/20250117.jpg" alt="2025年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q1/20250118.jpg" alt="2025年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q1/20250119.jpg" alt="2025年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q1/20250120.jpg" alt="2025年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q1/20250121.jpg" alt="2025年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q1/20250122.jpg" alt="2025年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q1/20250123.jpg" alt="2025年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q1/20250124.jpg" alt="2025年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q1/20250125.jpg" alt="2025年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q1/20250126.jpg" alt="2025年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q1/20250127.jpg" alt="2025年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q1/20250128.jpg" alt="2025年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q1/20250129.jpg" alt="2025年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q1/20250130.jpg" alt="2025年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q1/20250131.jpg" alt="2025年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q1/20250201.jpg" alt="2025年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q1/20250202.jpg" alt="2025年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q1/20250203.jpg" alt="2025年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q1/20250204.jpg" alt="2025年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q1/20250205.jpg" alt="2025年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q1/20250206.jpg" alt="2025年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q1/20250207.jpg" alt="2025年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q1/20250208.jpg" alt="2025年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q1/20250209.jpg" alt="2025年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q1/20250210.jpg" alt="2025年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q1/20250211.jpg" alt="2025年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q1/20250212.jpg" alt="2025年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q1/20250213.jpg" alt="2025年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q1/20250214.jpg" alt="2025年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q1/20250215.jpg" alt="2025年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q1/20250216.jpg" alt="2025年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q1/20250217.jpg" alt="2025年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q1/20250218.jpg" alt="2025年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q1/20250219.jpg" alt="2025年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q1/20250220.jpg" alt="2025年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q1/20250221.jpg" alt="2025年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q1/20250222.jpg" alt="2025年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q1/20250223.jpg" alt="2025年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q1/20250224.jpg" alt="2025年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q1/20250225.jpg" alt="2025年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q1/20250226.jpg" alt="2025年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q1/20250227.jpg" alt="2025年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q1/20250228.jpg" alt="2025年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q1/20250301.jpg" alt="2025年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q1/20250302.jpg" alt="2025年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q1/20250303.jpg" alt="2025年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q1/20250304.jpg" alt="2025年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q1/20250305.jpg" alt="2025年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q1/20250306.jpg" alt="2025年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q1/20250307.jpg" alt="2025年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q1/20250308.jpg" alt="2025年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q1/20250309.jpg" alt="2025年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q1/20250310.jpg" alt="2025年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q1/20250311.jpg" alt="2025年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q1/20250312.jpg" alt="2025年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q1/20250313.jpg" alt="2025年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q1/20250314.jpg" alt="2025年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q1/20250315.jpg" alt="2025年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q1/20250316.jpg" alt="2025年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q1/20250317.jpg" alt="2025年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q1/20250318.jpg" alt="2025年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q1/20250319.jpg" alt="2025年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q1/20250320.jpg" alt="2025年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q1/20250321.jpg" alt="2025年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q1/20250322.jpg" alt="2025年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q1/20250323.jpg" alt="2025年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q1/20250324.jpg" alt="2025年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q1/20250325.jpg" alt="2025年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q1/20250326.jpg" alt="2025年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q1/20250327.jpg" alt="2025年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q1/20250328.jpg" alt="2025年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q1/20250329.jpg" alt="2025年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q1/20250330.jpg" alt="2025年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2025Q1/20250331.jpg" alt="2025年1" loading="lazy" onclick="openModal(this)">
+      <div class="accordion-item" data-quarter="2025Q1">
+        <button class="accordion-btn" onclick="toggleAccordion(this)">
+          <span>2025年 1〜3月（76枚）</span>
+          <span class="accordion-arrow">▼</span>
+        </button>
+        <div class="accordion-body">
+          <div class="gallery-grid" id="grid-2025Q1"></div>
+        </div>
       </div>
-    </section>
-
-    <section class="gallery-quarter">
-      <h3 class="quarter-title">2024年4</h3>
-      <div class="gallery-grid">
-      <img src="images/gallery/2024Q4/202401001.jpg" alt="2024年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q4/202401002.jpg" alt="2024年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q4/202401003.jpg" alt="2024年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q4/202401004.jpg" alt="2024年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q4/202401005.jpg" alt="2024年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q4/202401006.jpg" alt="2024年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q4/202401007.jpg" alt="2024年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q4/202401008.jpg" alt="2024年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q4/202401009.jpg" alt="2024年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q4/202401010.jpg" alt="2024年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q4/202401011.jpg" alt="2024年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q4/202401012.jpg" alt="2024年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q4/202401013.jpg" alt="2024年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q4/202401014.jpg" alt="2024年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q4/202401015.jpg" alt="2024年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q4/202401016.jpg" alt="2024年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q4/202401017.jpg" alt="2024年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q4/202401018.jpg" alt="2024年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q4/202401019.jpg" alt="2024年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q4/202401020.jpg" alt="2024年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q4/202401021.jpg" alt="2024年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q4/202401022.jpg" alt="2024年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q4/202401023.jpg" alt="2024年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q4/202401024.jpg" alt="2024年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q4/202401025.jpg" alt="2024年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q4/202401026.jpg" alt="2024年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q4/202401027.jpg" alt="2024年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q4/202401028.jpg" alt="2024年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q4/202401029.jpg" alt="2024年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q4/202401030.jpg" alt="2024年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q4/202401031.jpg" alt="2024年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q4/202401101.jpg" alt="2024年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q4/202401102.jpg" alt="2024年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q4/202401103.jpg" alt="2024年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q4/202401104.jpg" alt="2024年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q4/202401105.jpg" alt="2024年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q4/202401106.jpg" alt="2024年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q4/202401107.jpg" alt="2024年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q4/202401108.jpg" alt="2024年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q4/202401109.jpg" alt="2024年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q4/202401110.jpg" alt="2024年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q4/202401111.jpg" alt="2024年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q4/202401112.jpg" alt="2024年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q4/202401113.jpg" alt="2024年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q4/202401114.jpg" alt="2024年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q4/202401115.jpg" alt="2024年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q4/202401116.jpg" alt="2024年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q4/202401117.jpg" alt="2024年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q4/202401118.jpg" alt="2024年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q4/202401119.jpg" alt="2024年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q4/202401120.jpg" alt="2024年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q4/202401121.jpg" alt="2024年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q4/202401122.jpg" alt="2024年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q4/202401123.jpg" alt="2024年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q4/202401124.jpg" alt="2024年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q4/202401125.jpg" alt="2024年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q4/202401126.jpg" alt="2024年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q4/202401127.jpg" alt="2024年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q4/202401128.jpg" alt="2024年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q4/202401129.jpg" alt="2024年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q4/202401130.jpg" alt="2024年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q4/202401201.jpg" alt="2024年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q4/202401202.jpg" alt="2024年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q4/202401203.jpg" alt="2024年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q4/202401204.jpg" alt="2024年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q4/202401205.jpg" alt="2024年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q4/202401206.jpg" alt="2024年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q4/202401207.jpg" alt="2024年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q4/202401208.jpg" alt="2024年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q4/202401209.jpg" alt="2024年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q4/202401210.jpg" alt="2024年4" loading="lazy" onclick="openModal(this)">
+      <div class="accordion-item" data-quarter="2024Q4">
+        <button class="accordion-btn" onclick="toggleAccordion(this)">
+          <span>2024年 10〜12月（71枚）</span>
+          <span class="accordion-arrow">▼</span>
+        </button>
+        <div class="accordion-body">
+          <div class="gallery-grid" id="grid-2024Q4"></div>
+        </div>
       </div>
-    </section>
-
-    <section class="gallery-quarter">
-      <h3 class="quarter-title">2024年3</h3>
-      <div class="gallery-grid">
-      <img src="images/gallery/2024Q3/20240701.jpg" alt="2024年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q3/20240702.jpg" alt="2024年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q3/20240703.jpg" alt="2024年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q3/20240704.jpg" alt="2024年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q3/20240705.jpg" alt="2024年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q3/20240706.jpg" alt="2024年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q3/20240707.jpg" alt="2024年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q3/20240708.jpg" alt="2024年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q3/20240709.jpg" alt="2024年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q3/20240710.jpg" alt="2024年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q3/20240711.jpg" alt="2024年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q3/20240712.jpg" alt="2024年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q3/20240713.jpg" alt="2024年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q3/20240714.jpg" alt="2024年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q3/20240715.jpg" alt="2024年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q3/20240716.jpg" alt="2024年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q3/20240717.jpg" alt="2024年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q3/20240718.jpg" alt="2024年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q3/20240719.jpg" alt="2024年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q3/20240720.jpg" alt="2024年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q3/20240721.jpg" alt="2024年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q3/20240722.jpg" alt="2024年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q3/20240723.jpg" alt="2024年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q3/20240724.jpg" alt="2024年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q3/20240725.jpg" alt="2024年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q3/20240726.jpg" alt="2024年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q3/20240727.jpg" alt="2024年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q3/20240728.jpg" alt="2024年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q3/20240729.jpg" alt="2024年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q3/20240730.jpg" alt="2024年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q3/20240731.jpg" alt="2024年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q3/20240801.jpg" alt="2024年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q3/20240802.jpg" alt="2024年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q3/20240803.jpg" alt="2024年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q3/20240804.jpg" alt="2024年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q3/20240805.jpg" alt="2024年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q3/20240806.jpg" alt="2024年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q3/20240807.jpg" alt="2024年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q3/20240808.jpg" alt="2024年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q3/20240809.jpg" alt="2024年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q3/20240810.jpg" alt="2024年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q3/20240811.jpg" alt="2024年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q3/20240812.jpg" alt="2024年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q3/20240813.jpg" alt="2024年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q3/20240814.jpg" alt="2024年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q3/20240815.jpg" alt="2024年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q3/20240816.jpg" alt="2024年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q3/20240817.jpg" alt="2024年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q3/20240818.jpg" alt="2024年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q3/20240819.jpg" alt="2024年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q3/20240820.jpg" alt="2024年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q3/20240821.jpg" alt="2024年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q3/20240822.jpg" alt="2024年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q3/20240823.jpg" alt="2024年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q3/20240824.jpg" alt="2024年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q3/20240825.jpg" alt="2024年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q3/20240826.jpg" alt="2024年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q3/20240827.jpg" alt="2024年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q3/20240828.jpg" alt="2024年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q3/20240829.jpg" alt="2024年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q3/20240830.jpg" alt="2024年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q3/20240831.jpg" alt="2024年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q3/20240901.jpg" alt="2024年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q3/20240902.jpg" alt="2024年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q3/20240903.jpg" alt="2024年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q3/20240904.jpg" alt="2024年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q3/20240905.jpg" alt="2024年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q3/20240906.jpg" alt="2024年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q3/20240907.jpg" alt="2024年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q3/20240908.jpg" alt="2024年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q3/20240909.jpg" alt="2024年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q3/20240910.jpg" alt="2024年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q3/20240911.jpg" alt="2024年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q3/20240912.jpg" alt="2024年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q3/20240913.jpg" alt="2024年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q3/20240914.jpg" alt="2024年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q3/20240915.jpg" alt="2024年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q3/20240916.jpg" alt="2024年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q3/20240917.jpg" alt="2024年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q3/20240918.jpg" alt="2024年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q3/20240919.jpg" alt="2024年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q3/20240920.jpg" alt="2024年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q3/20240921.jpg" alt="2024年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q3/20240922.jpg" alt="2024年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q3/20240923.jpg" alt="2024年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q3/20240924.jpg" alt="2024年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q3/20240925.jpg" alt="2024年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q3/20240926.jpg" alt="2024年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q3/20240927.jpg" alt="2024年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q3/20240928.jpg" alt="2024年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q3/20240929.jpg" alt="2024年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q3/20240930.jpg" alt="2024年3" loading="lazy" onclick="openModal(this)">
+      <div class="accordion-item" data-quarter="2024Q3">
+        <button class="accordion-btn" onclick="toggleAccordion(this)">
+          <span>2024年 7〜9月（92枚）</span>
+          <span class="accordion-arrow">▼</span>
+        </button>
+        <div class="accordion-body">
+          <div class="gallery-grid" id="grid-2024Q3"></div>
+        </div>
       </div>
-    </section>
-
-    <section class="gallery-quarter">
-      <h3 class="quarter-title">2024年2</h3>
-      <div class="gallery-grid">
-      <img src="images/gallery/2024Q2/20240401.jpg" alt="2024年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q2/20240402.jpg" alt="2024年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q2/20240403.jpg" alt="2024年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q2/20240404.jpg" alt="2024年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q2/20240405.jpg" alt="2024年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q2/20240406.jpg" alt="2024年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q2/20240407.jpg" alt="2024年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q2/20240408.jpg" alt="2024年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q2/20240409.jpg" alt="2024年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q2/20240410.jpg" alt="2024年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q2/20240411.jpg" alt="2024年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q2/20240412.jpg" alt="2024年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q2/20240413.jpg" alt="2024年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q2/20240414.jpg" alt="2024年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q2/20240415.jpg" alt="2024年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q2/20240416.jpg" alt="2024年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q2/20240417.jpg" alt="2024年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q2/20240418.jpg" alt="2024年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q2/20240419.jpg" alt="2024年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q2/20240420.jpg" alt="2024年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q2/20240421.jpg" alt="2024年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q2/20240422.jpg" alt="2024年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q2/20240423.jpg" alt="2024年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q2/20240424.jpg" alt="2024年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q2/20240425.jpg" alt="2024年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q2/20240426.jpg" alt="2024年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q2/20240427.jpg" alt="2024年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q2/20240428.jpg" alt="2024年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q2/20240429.jpg" alt="2024年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q2/20240430.jpg" alt="2024年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q2/20240501.jpg" alt="2024年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q2/20240502.jpg" alt="2024年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q2/20240503.jpg" alt="2024年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q2/20240504.jpg" alt="2024年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q2/20240505.jpg" alt="2024年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q2/20240506.jpg" alt="2024年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q2/20240507.jpg" alt="2024年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q2/20240508.jpg" alt="2024年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q2/20240509.jpg" alt="2024年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q2/20240510.jpg" alt="2024年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q2/20240511.jpg" alt="2024年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q2/20240512.jpg" alt="2024年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q2/20240513.jpg" alt="2024年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q2/20240514.jpg" alt="2024年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q2/20240515.jpg" alt="2024年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q2/20240516.jpg" alt="2024年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q2/20240517.jpg" alt="2024年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q2/20240518.jpg" alt="2024年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q2/20240519.jpg" alt="2024年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q2/20240520.jpg" alt="2024年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q2/20240521.jpg" alt="2024年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q2/20240522.jpg" alt="2024年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q2/20240523.jpg" alt="2024年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q2/20240524.jpg" alt="2024年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q2/20240525.jpg" alt="2024年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q2/20240526.jpg" alt="2024年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q2/20240527.jpg" alt="2024年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q2/20240528.jpg" alt="2024年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q2/20240529.jpg" alt="2024年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q2/20240530.jpg" alt="2024年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q2/20240531.jpg" alt="2024年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q2/20240601.jpg" alt="2024年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q2/20240602.jpg" alt="2024年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q2/20240603.jpg" alt="2024年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q2/20240604.jpg" alt="2024年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q2/20240605.jpg" alt="2024年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q2/20240606.jpg" alt="2024年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q2/20240607.jpg" alt="2024年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q2/20240608.jpg" alt="2024年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q2/20240609.jpg" alt="2024年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q2/20240610.jpg" alt="2024年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q2/20240611.jpg" alt="2024年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q2/20240612.jpg" alt="2024年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q2/20240613.jpg" alt="2024年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q2/20240614.jpg" alt="2024年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q2/20240615.jpg" alt="2024年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q2/20240616.jpg" alt="2024年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q2/20240617.jpg" alt="2024年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q2/20240618.jpg" alt="2024年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q2/20240619.jpg" alt="2024年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q2/20240620.jpg" alt="2024年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q2/20240621.jpg" alt="2024年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q2/20240622.jpg" alt="2024年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q2/20240623.jpg" alt="2024年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q2/20240624.jpg" alt="2024年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q2/20240625.jpg" alt="2024年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q2/20240626.jpg" alt="2024年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q2/20240627.jpg" alt="2024年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q2/20240628.jpg" alt="2024年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q2/20240629.jpg" alt="2024年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q2/20240630.jpg" alt="2024年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q2/20240631.jpg" alt="2024年2" loading="lazy" onclick="openModal(this)">
+      <div class="accordion-item" data-quarter="2024Q2">
+        <button class="accordion-btn" onclick="toggleAccordion(this)">
+          <span>2024年 4〜6月（92枚）</span>
+          <span class="accordion-arrow">▼</span>
+        </button>
+        <div class="accordion-body">
+          <div class="gallery-grid" id="grid-2024Q2"></div>
+        </div>
       </div>
-    </section>
-
-    <section class="gallery-quarter">
-      <h3 class="quarter-title">2024年1</h3>
-      <div class="gallery-grid">
-      <img src="images/gallery/2024Q1/20240101.jpg" alt="2024年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q1/20240102.jpg" alt="2024年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q1/20240103.jpg" alt="2024年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q1/20240104.jpg" alt="2024年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q1/20240105.jpg" alt="2024年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q1/20240106.jpg" alt="2024年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q1/20240107.jpg" alt="2024年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q1/20240108.jpg" alt="2024年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q1/20240109.jpg" alt="2024年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q1/20240110.jpg" alt="2024年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q1/20240111.jpg" alt="2024年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q1/20240112.jpg" alt="2024年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q1/20240113.jpg" alt="2024年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q1/20240114.jpg" alt="2024年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q1/20240115.jpg" alt="2024年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q1/20240116.jpg" alt="2024年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q1/20240117.jpg" alt="2024年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q1/20240118.jpg" alt="2024年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q1/20240119.jpg" alt="2024年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q1/20240120.jpg" alt="2024年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q1/20240121.jpg" alt="2024年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q1/20240122.jpg" alt="2024年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q1/20240123.jpg" alt="2024年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q1/20240124.jpg" alt="2024年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q1/20240125.jpg" alt="2024年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q1/20240126.jpg" alt="2024年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q1/20240127.jpg" alt="2024年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q1/20240128.jpg" alt="2024年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q1/20240129.jpg" alt="2024年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q1/20240130.jpg" alt="2024年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q1/20240131.jpg" alt="2024年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q1/20240201.jpg" alt="2024年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q1/20240202.jpg" alt="2024年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q1/20240203.jpg" alt="2024年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q1/20240204.jpg" alt="2024年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q1/20240205.jpg" alt="2024年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q1/20240206.jpg" alt="2024年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q1/20240207.jpg" alt="2024年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q1/20240208.jpg" alt="2024年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q1/20240209.jpg" alt="2024年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q1/20240210.jpg" alt="2024年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q1/20240211.jpg" alt="2024年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q1/20240212.jpg" alt="2024年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q1/20240213.jpg" alt="2024年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q1/20240214.jpg" alt="2024年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q1/20240215.jpg" alt="2024年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q1/20240216.jpg" alt="2024年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q1/20240217.jpg" alt="2024年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q1/20240218.jpg" alt="2024年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q1/20240219.jpg" alt="2024年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q1/20240220.jpg" alt="2024年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q1/20240221.jpg" alt="2024年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q1/20240222.jpg" alt="2024年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q1/20240223.jpg" alt="2024年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q1/20240224.jpg" alt="2024年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q1/20240225.jpg" alt="2024年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q1/20240226.jpg" alt="2024年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q1/20240227.jpg" alt="2024年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q1/20240228.jpg" alt="2024年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q1/20240301.jpg" alt="2024年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q1/20240302.jpg" alt="2024年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q1/20240303.jpg" alt="2024年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q1/20240304.jpg" alt="2024年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q1/20240305.jpg" alt="2024年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q1/20240306.jpg" alt="2024年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q1/20240307.jpg" alt="2024年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q1/20240308.jpg" alt="2024年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q1/20240309.jpg" alt="2024年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q1/20240310.jpg" alt="2024年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q1/20240311.jpg" alt="2024年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q1/20240312.jpg" alt="2024年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q1/20240313.jpg" alt="2024年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q1/20240314.jpg" alt="2024年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q1/20240315.jpg" alt="2024年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q1/20240316.jpg" alt="2024年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q1/20240317.jpg" alt="2024年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q1/20240318.jpg" alt="2024年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q1/20240319.jpg" alt="2024年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q1/20240320.jpg" alt="2024年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q1/20240321.jpg" alt="2024年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q1/20240322.jpg" alt="2024年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q1/20240323.jpg" alt="2024年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q1/20240324.jpg" alt="2024年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q1/20240325.jpg" alt="2024年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q1/20240326.jpg" alt="2024年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q1/20240327.jpg" alt="2024年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q1/20240328.jpg" alt="2024年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q1/20240329.jpg" alt="2024年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q1/20240330.jpg" alt="2024年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2024Q1/20240331.jpg" alt="2024年1" loading="lazy" onclick="openModal(this)">
+      <div class="accordion-item" data-quarter="2024Q1">
+        <button class="accordion-btn" onclick="toggleAccordion(this)">
+          <span>2024年 1〜3月（90枚）</span>
+          <span class="accordion-arrow">▼</span>
+        </button>
+        <div class="accordion-body">
+          <div class="gallery-grid" id="grid-2024Q1"></div>
+        </div>
       </div>
-    </section>
-
-    <section class="gallery-quarter">
-      <h3 class="quarter-title">2023年4</h3>
-      <div class="gallery-grid">
-      <img src="images/gallery/2023Q4/20231001.jpg" alt="2023年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q4/20231002.jpg" alt="2023年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q4/20231003.jpg" alt="2023年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q4/20231004.jpg" alt="2023年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q4/20231005.jpg" alt="2023年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q4/20231006.jpg" alt="2023年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q4/20231007.jpg" alt="2023年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q4/20231008.jpg" alt="2023年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q4/20231009.jpg" alt="2023年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q4/20231010.jpg" alt="2023年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q4/20231011.jpg" alt="2023年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q4/20231012.jpg" alt="2023年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q4/20231013.jpg" alt="2023年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q4/20231014.jpg" alt="2023年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q4/20231015.jpg" alt="2023年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q4/20231016.jpg" alt="2023年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q4/20231017.jpg" alt="2023年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q4/20231018.jpg" alt="2023年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q4/20231019.jpg" alt="2023年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q4/20231020.jpg" alt="2023年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q4/20231021.jpg" alt="2023年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q4/20231022.jpg" alt="2023年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q4/20231023.jpg" alt="2023年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q4/20231024.jpg" alt="2023年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q4/20231025.jpg" alt="2023年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q4/20231026.jpg" alt="2023年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q4/20231027.jpg" alt="2023年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q4/20231028.jpg" alt="2023年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q4/20231029.jpg" alt="2023年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q4/20231030.jpg" alt="2023年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q4/20231101.jpg" alt="2023年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q4/20231102.jpg" alt="2023年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q4/20231103.jpg" alt="2023年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q4/20231104.jpg" alt="2023年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q4/20231105.jpg" alt="2023年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q4/20231106.jpg" alt="2023年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q4/20231107.jpg" alt="2023年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q4/20231108.jpg" alt="2023年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q4/20231109.jpg" alt="2023年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q4/20231110.jpg" alt="2023年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q4/20231111.jpg" alt="2023年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q4/20231112.jpg" alt="2023年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q4/20231113.jpg" alt="2023年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q4/20231114.jpg" alt="2023年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q4/20231115.jpg" alt="2023年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q4/20231116.jpg" alt="2023年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q4/20231117.jpg" alt="2023年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q4/20231118.jpg" alt="2023年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q4/20231119.jpg" alt="2023年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q4/20231120.jpg" alt="2023年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q4/20231121.jpg" alt="2023年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q4/20231122.jpg" alt="2023年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q4/20231123.jpg" alt="2023年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q4/20231124.jpg" alt="2023年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q4/20231125.jpg" alt="2023年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q4/20231126.jpg" alt="2023年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q4/20231127.jpg" alt="2023年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q4/20231128.jpg" alt="2023年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q4/20231129.jpg" alt="2023年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q4/20231130.jpg" alt="2023年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q4/20231201.jpg" alt="2023年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q4/20231202.jpg" alt="2023年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q4/20231203.jpg" alt="2023年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q4/20231204.jpg" alt="2023年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q4/20231205.jpg" alt="2023年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q4/20231206.jpg" alt="2023年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q4/20231207.jpg" alt="2023年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q4/20231208.jpg" alt="2023年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q4/20231209.jpg" alt="2023年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q4/20231210.jpg" alt="2023年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q4/20231211.jpg" alt="2023年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q4/20231212.jpg" alt="2023年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q4/20231213.jpg" alt="2023年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q4/20231214.jpg" alt="2023年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q4/20231215.jpg" alt="2023年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q4/20231216.jpg" alt="2023年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q4/20231217.jpg" alt="2023年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q4/20231218.jpg" alt="2023年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q4/20231219.jpg" alt="2023年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q4/20231220.jpg" alt="2023年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q4/20231221.jpg" alt="2023年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q4/20231222.jpg" alt="2023年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q4/20231223.jpg" alt="2023年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q4/20231224.jpg" alt="2023年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q4/20231225.jpg" alt="2023年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q4/20231226.jpg" alt="2023年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q4/20231227.jpg" alt="2023年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q4/20231228.jpg" alt="2023年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q4/20231229.jpg" alt="2023年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q4/20231230.jpg" alt="2023年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q4/20231231.jpg" alt="2023年4" loading="lazy" onclick="openModal(this)">
+      <div class="accordion-item" data-quarter="2023Q4">
+        <button class="accordion-btn" onclick="toggleAccordion(this)">
+          <span>2023年 10〜12月（91枚）</span>
+          <span class="accordion-arrow">▼</span>
+        </button>
+        <div class="accordion-body">
+          <div class="gallery-grid" id="grid-2023Q4"></div>
+        </div>
       </div>
-    </section>
-
-    <section class="gallery-quarter">
-      <h3 class="quarter-title">2023年3</h3>
-      <div class="gallery-grid">
-      <img src="images/gallery/2023Q3/20230701.jpg" alt="2023年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q3/20230702.jpg" alt="2023年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q3/20230703.jpg" alt="2023年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q3/20230704.jpg" alt="2023年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q3/20230705.jpg" alt="2023年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q3/20230706.jpg" alt="2023年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q3/20230707.jpg" alt="2023年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q3/20230708.jpg" alt="2023年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q3/20230709.jpg" alt="2023年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q3/20230710.jpg" alt="2023年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q3/20230711.jpg" alt="2023年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q3/20230712.jpg" alt="2023年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q3/20230713.jpg" alt="2023年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q3/20230714.jpg" alt="2023年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q3/20230715.jpg" alt="2023年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q3/20230716.jpg" alt="2023年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q3/20230717.jpg" alt="2023年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q3/20230718.jpg" alt="2023年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q3/20230719.jpg" alt="2023年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q3/20230720.jpg" alt="2023年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q3/20230721.jpg" alt="2023年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q3/20230722.jpg" alt="2023年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q3/20230723.jpg" alt="2023年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q3/20230724.jpg" alt="2023年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q3/20230725.jpg" alt="2023年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q3/20230726.jpg" alt="2023年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q3/20230727.jpg" alt="2023年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q3/20230728.jpg" alt="2023年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q3/20230729.jpg" alt="2023年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q3/20230730.jpg" alt="2023年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q3/20230731.jpg" alt="2023年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q3/20230801.jpg" alt="2023年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q3/20230802.jpg" alt="2023年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q3/20230803.jpg" alt="2023年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q3/20230804.jpg" alt="2023年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q3/20230805.jpg" alt="2023年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q3/20230806.jpg" alt="2023年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q3/20230807.jpg" alt="2023年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q3/20230808.jpg" alt="2023年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q3/20230809.jpg" alt="2023年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q3/20230810.jpg" alt="2023年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q3/20230811.jpg" alt="2023年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q3/20230812.jpg" alt="2023年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q3/20230813.jpg" alt="2023年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q3/20230814.jpg" alt="2023年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q3/20230815.jpg" alt="2023年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q3/20230816.jpg" alt="2023年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q3/20230817.jpg" alt="2023年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q3/20230818.jpg" alt="2023年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q3/20230819.jpg" alt="2023年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q3/20230820.jpg" alt="2023年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q3/20230821.jpg" alt="2023年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q3/20230822.jpg" alt="2023年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q3/20230823.jpg" alt="2023年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q3/20230824.jpg" alt="2023年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q3/20230825.jpg" alt="2023年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q3/20230826.jpg" alt="2023年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q3/20230827.jpg" alt="2023年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q3/20230828.jpg" alt="2023年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q3/20230829.jpg" alt="2023年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q3/20230830.jpg" alt="2023年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q3/20230831.jpg" alt="2023年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q3/20230901.jpg" alt="2023年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q3/20230902.jpg" alt="2023年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q3/20230903.jpg" alt="2023年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q3/20230904.jpg" alt="2023年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q3/20230905.jpg" alt="2023年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q3/20230906.jpg" alt="2023年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q3/20230907.jpg" alt="2023年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q3/20230908.jpg" alt="2023年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q3/20230909.jpg" alt="2023年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q3/20230910.jpg" alt="2023年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q3/20230911.jpg" alt="2023年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q3/20230912.jpg" alt="2023年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q3/20230913.jpg" alt="2023年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q3/20230914.jpg" alt="2023年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q3/20230915.jpg" alt="2023年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q3/20230916.jpg" alt="2023年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q3/20230917.jpg" alt="2023年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q3/20230918.jpg" alt="2023年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q3/20230919.jpg" alt="2023年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q3/20230920.jpg" alt="2023年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q3/20230921.jpg" alt="2023年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q3/20230922.jpg" alt="2023年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q3/20230923.jpg" alt="2023年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q3/20230924.jpg" alt="2023年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q3/20230925.jpg" alt="2023年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q3/20230926.jpg" alt="2023年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q3/20230927.jpg" alt="2023年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q3/20230928.jpg" alt="2023年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q3/20230929.jpg" alt="2023年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q3/20230930.jpg" alt="2023年3" loading="lazy" onclick="openModal(this)">
+      <div class="accordion-item" data-quarter="2023Q3">
+        <button class="accordion-btn" onclick="toggleAccordion(this)">
+          <span>2023年 7〜9月（92枚）</span>
+          <span class="accordion-arrow">▼</span>
+        </button>
+        <div class="accordion-body">
+          <div class="gallery-grid" id="grid-2023Q3"></div>
+        </div>
       </div>
-    </section>
-
-    <section class="gallery-quarter">
-      <h3 class="quarter-title">2023年2</h3>
-      <div class="gallery-grid">
-      <img src="images/gallery/2023Q2/20230401.jpg" alt="2023年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q2/20230402.jpg" alt="2023年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q2/20230403.jpg" alt="2023年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q2/20230404.jpg" alt="2023年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q2/20230405.jpg" alt="2023年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q2/20230406.jpg" alt="2023年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q2/20230407.jpg" alt="2023年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q2/20230408.jpg" alt="2023年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q2/20230409.jpg" alt="2023年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q2/20230410.jpg" alt="2023年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q2/20230411.jpg" alt="2023年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q2/20230412.jpg" alt="2023年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q2/20230413.jpg" alt="2023年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q2/20230414.jpg" alt="2023年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q2/20230415.jpg" alt="2023年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q2/20230416.jpg" alt="2023年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q2/20230417.jpg" alt="2023年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q2/20230418.jpg" alt="2023年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q2/20230419.jpg" alt="2023年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q2/20230420.jpg" alt="2023年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q2/20230421.jpg" alt="2023年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q2/20230422.jpg" alt="2023年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q2/20230423.jpg" alt="2023年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q2/20230424.jpg" alt="2023年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q2/20230425.jpg" alt="2023年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q2/20230426.jpg" alt="2023年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q2/20230427.jpg" alt="2023年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q2/20230428.jpg" alt="2023年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q2/20230429.jpg" alt="2023年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q2/20230430.jpg" alt="2023年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q2/20230501.jpg" alt="2023年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q2/20230502.jpg" alt="2023年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q2/20230503.jpg" alt="2023年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q2/20230504.jpg" alt="2023年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q2/20230505.jpg" alt="2023年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q2/20230506.jpg" alt="2023年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q2/20230507.jpg" alt="2023年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q2/20230508.jpg" alt="2023年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q2/20230509.jpg" alt="2023年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q2/20230510.jpg" alt="2023年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q2/20230511.jpg" alt="2023年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q2/20230512.jpg" alt="2023年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q2/20230513.jpg" alt="2023年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q2/20230514.jpg" alt="2023年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q2/20230515.jpg" alt="2023年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q2/20230516.jpg" alt="2023年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q2/20230517.jpg" alt="2023年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q2/20230518.jpg" alt="2023年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q2/20230519.jpg" alt="2023年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q2/20230520.jpg" alt="2023年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q2/20230521.jpg" alt="2023年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q2/20230522.jpg" alt="2023年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q2/20230523.jpg" alt="2023年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q2/20230524.jpg" alt="2023年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q2/20230525.jpg" alt="2023年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q2/20230526.jpg" alt="2023年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q2/20230527.jpg" alt="2023年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q2/20230528.jpg" alt="2023年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q2/20230529.jpg" alt="2023年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q2/20230530.jpg" alt="2023年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q2/20230531.jpg" alt="2023年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q2/20230601.jpg" alt="2023年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q2/20230602.jpg" alt="2023年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q2/20230603.jpg" alt="2023年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q2/20230604.jpg" alt="2023年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q2/20230605.jpg" alt="2023年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q2/20230606.jpg" alt="2023年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q2/20230607.jpg" alt="2023年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q2/20230608.jpg" alt="2023年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q2/20230609.jpg" alt="2023年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q2/20230610.jpg" alt="2023年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q2/20230611.jpg" alt="2023年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q2/20230612.jpg" alt="2023年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q2/20230613.jpg" alt="2023年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q2/20230614.jpg" alt="2023年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q2/20230615.jpg" alt="2023年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q2/20230616.jpg" alt="2023年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q2/20230617.jpg" alt="2023年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q2/20230618.jpg" alt="2023年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q2/20230619.jpg" alt="2023年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q2/20230620.jpg" alt="2023年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q2/20230621.jpg" alt="2023年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q2/20230622.jpg" alt="2023年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q2/20230623.jpg" alt="2023年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q2/20230624.jpg" alt="2023年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q2/20230625.jpg" alt="2023年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q2/20230626.jpg" alt="2023年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q2/20230627.jpg" alt="2023年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q2/20230628.jpg" alt="2023年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q2/20230629.jpg" alt="2023年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q2/20230630.jpg" alt="2023年2" loading="lazy" onclick="openModal(this)">
+      <div class="accordion-item" data-quarter="2023Q2">
+        <button class="accordion-btn" onclick="toggleAccordion(this)">
+          <span>2023年 4〜6月（91枚）</span>
+          <span class="accordion-arrow">▼</span>
+        </button>
+        <div class="accordion-body">
+          <div class="gallery-grid" id="grid-2023Q2"></div>
+        </div>
       </div>
-    </section>
-
-    <section class="gallery-quarter">
-      <h3 class="quarter-title">2023年1</h3>
-      <div class="gallery-grid">
-      <img src="images/gallery/2023Q1/20230107.jpg" alt="2023年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q1/20230108.jpg" alt="2023年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q1/20230109.jpg" alt="2023年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q1/20230110.jpg" alt="2023年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q1/20230111.jpg" alt="2023年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q1/20230112.jpg" alt="2023年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q1/20230113.jpg" alt="2023年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q1/20230114.jpg" alt="2023年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q1/20230115.jpg" alt="2023年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q1/20230116.jpg" alt="2023年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q1/20230117.jpg" alt="2023年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q1/20230118.jpg" alt="2023年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q1/20230119.jpg" alt="2023年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q1/20230120.jpg" alt="2023年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q1/20230121.jpg" alt="2023年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q1/20230122.jpg" alt="2023年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q1/20230123.jpg" alt="2023年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q1/20230124.jpg" alt="2023年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q1/20230125.jpg" alt="2023年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q1/20230126.jpg" alt="2023年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q1/20230127.jpg" alt="2023年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q1/20230128.jpg" alt="2023年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q1/20230129.jpg" alt="2023年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q1/20230130.jpg" alt="2023年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q1/20230131.jpg" alt="2023年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q1/20230201.jpg" alt="2023年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q1/20230202.jpg" alt="2023年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q1/20230203.jpg" alt="2023年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q1/20230204.jpg" alt="2023年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q1/20230205.jpg" alt="2023年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q1/20230206.jpg" alt="2023年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q1/20230207.jpg" alt="2023年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q1/20230208.jpg" alt="2023年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q1/20230209.jpg" alt="2023年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q1/20230210.jpg" alt="2023年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q1/20230211.jpg" alt="2023年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q1/20230212.jpg" alt="2023年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q1/20230213.jpg" alt="2023年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q1/20230214.jpg" alt="2023年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q1/20230215.jpg" alt="2023年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q1/20230216.jpg" alt="2023年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q1/20230217.jpg" alt="2023年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q1/20230218.jpg" alt="2023年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q1/20230219.jpg" alt="2023年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q1/20230220.jpg" alt="2023年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q1/20230221.jpg" alt="2023年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q1/20230222.jpg" alt="2023年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q1/20230223.jpg" alt="2023年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q1/20230224.jpg" alt="2023年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q1/20230225.jpg" alt="2023年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q1/20230226.jpg" alt="2023年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q1/20230227.jpg" alt="2023年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q1/20230228.jpg" alt="2023年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q1/20230301.jpg" alt="2023年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q1/20230302.jpg" alt="2023年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q1/20230303.jpg" alt="2023年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q1/20230304.jpg" alt="2023年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q1/20230305.jpg" alt="2023年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q1/20230306.jpg" alt="2023年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q1/20230307.jpg" alt="2023年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q1/20230308.jpg" alt="2023年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q1/20230309.jpg" alt="2023年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q1/20230310.jpg" alt="2023年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q1/20230311.jpg" alt="2023年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q1/20230312.jpg" alt="2023年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q1/20230313.jpg" alt="2023年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q1/20230314.jpg" alt="2023年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q1/20230315.jpg" alt="2023年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q1/20230316.jpg" alt="2023年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q1/20230317.jpg" alt="2023年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q1/20230318.jpg" alt="2023年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q1/20230319.jpg" alt="2023年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q1/20230320.jpg" alt="2023年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q1/20230321.jpg" alt="2023年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q1/20230322.jpg" alt="2023年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q1/20230323.jpg" alt="2023年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q1/20230324.jpg" alt="2023年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q1/20230325.jpg" alt="2023年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q1/20230326.jpg" alt="2023年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q1/20230327.jpg" alt="2023年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q1/20230328.jpg" alt="2023年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q1/20230329.jpg" alt="2023年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q1/20230330.jpg" alt="2023年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2023Q1/20230331.jpg" alt="2023年1" loading="lazy" onclick="openModal(this)">
+      <div class="accordion-item" data-quarter="2023Q1">
+        <button class="accordion-btn" onclick="toggleAccordion(this)">
+          <span>2023年 1〜3月（84枚）</span>
+          <span class="accordion-arrow">▼</span>
+        </button>
+        <div class="accordion-body">
+          <div class="gallery-grid" id="grid-2023Q1"></div>
+        </div>
       </div>
-    </section>
-
-    <section class="gallery-quarter">
-      <h3 class="quarter-title">2022年4</h3>
-      <div class="gallery-grid">
-      <img src="images/gallery/2022Q4/20221001.jpg" alt="2022年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q4/20221002.jpg" alt="2022年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q4/20221003.jpg" alt="2022年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q4/20221005.jpg" alt="2022年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q4/20221006.jpg" alt="2022年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q4/20221007.jpg" alt="2022年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q4/20221008.jpg" alt="2022年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q4/20221009.jpg" alt="2022年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q4/20221009a.jpg" alt="2022年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q4/20221010.jpg" alt="2022年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q4/20221010a.jpg" alt="2022年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q4/20221011.jpg" alt="2022年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q4/20221011a.jpg" alt="2022年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q4/20221012.jpg" alt="2022年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q4/20221013.jpg" alt="2022年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q4/20221014.jpg" alt="2022年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q4/20221015.jpg" alt="2022年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q4/20221016.jpg" alt="2022年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q4/20221017.jpg" alt="2022年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q4/20221018.jpg" alt="2022年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q4/20221019.jpg" alt="2022年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q4/20221020.jpg" alt="2022年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q4/20221021.jpg" alt="2022年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q4/20221022.jpg" alt="2022年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q4/20221023.jpg" alt="2022年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q4/20221024.jpg" alt="2022年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q4/20221025.jpg" alt="2022年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q4/20221026.jpg" alt="2022年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q4/20221027.jpg" alt="2022年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q4/20221028.jpg" alt="2022年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q4/20221029.jpg" alt="2022年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q4/20221101.jpg" alt="2022年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q4/20221102.jpg" alt="2022年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q4/20221103.jpg" alt="2022年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q4/20221104.jpg" alt="2022年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q4/20221105.jpg" alt="2022年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q4/20221106.jpg" alt="2022年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q4/20221107.jpg" alt="2022年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q4/20221108.jpg" alt="2022年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q4/20221109.jpg" alt="2022年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q4/20221110.jpg" alt="2022年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q4/20221111.jpg" alt="2022年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q4/20221112.jpg" alt="2022年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q4/20221113.jpg" alt="2022年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q4/20221114.jpg" alt="2022年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q4/20221115.jpg" alt="2022年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q4/20221116.jpg" alt="2022年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q4/20221117.jpg" alt="2022年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q4/20221118.jpg" alt="2022年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q4/20221119.jpg" alt="2022年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q4/20221120.jpg" alt="2022年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q4/20221121.jpg" alt="2022年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q4/20221122.jpg" alt="2022年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q4/20221123.jpg" alt="2022年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q4/20221124.jpg" alt="2022年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q4/20221125.jpg" alt="2022年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q4/20221126.jpg" alt="2022年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q4/20221127.jpg" alt="2022年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q4/20221128.jpg" alt="2022年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q4/20221129.jpg" alt="2022年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q4/20221130.jpg" alt="2022年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q4/2022120.jpg" alt="2022年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q4/20221201.jpg" alt="2022年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q4/20221202.jpg" alt="2022年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q4/20221203.jpg" alt="2022年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q4/20221204.jpg" alt="2022年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q4/20221205.jpg" alt="2022年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q4/20221206.jpg" alt="2022年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q4/20221207.jpg" alt="2022年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q4/20221208.jpg" alt="2022年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q4/20221209.jpg" alt="2022年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q4/2022121.jpg" alt="2022年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q4/20221210.jpg" alt="2022年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q4/20221211.jpg" alt="2022年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q4/20221212.jpg" alt="2022年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q4/20221213.jpg" alt="2022年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q4/20221214.jpg" alt="2022年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q4/20221215.jpg" alt="2022年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q4/20221216.jpg" alt="2022年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q4/20221217.jpg" alt="2022年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q4/20221218.jpg" alt="2022年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q4/20221219.jpg" alt="2022年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q4/20221220.jpg" alt="2022年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q4/20221221.jpg" alt="2022年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q4/20221222.jpg" alt="2022年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q4/20221223.jpg" alt="2022年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q4/20221224.jpg" alt="2022年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q4/20221225.jpg" alt="2022年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q4/20221226.jpg" alt="2022年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q4/20221227.jpg" alt="2022年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q4/20221228.jpg" alt="2022年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q4/20221229.jpg" alt="2022年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q4/20221230.jpg" alt="2022年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q4/20221231.jpg" alt="2022年4" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q4/20221231a.jpg" alt="2022年4" loading="lazy" onclick="openModal(this)">
+      <div class="accordion-item" data-quarter="2022Q4">
+        <button class="accordion-btn" onclick="toggleAccordion(this)">
+          <span>2022年 10〜12月（95枚）</span>
+          <span class="accordion-arrow">▼</span>
+        </button>
+        <div class="accordion-body">
+          <div class="gallery-grid" id="grid-2022Q4"></div>
+        </div>
       </div>
-    </section>
-
-    <section class="gallery-quarter">
-      <h3 class="quarter-title">2022年3</h3>
-      <div class="gallery-grid">
-      <img src="images/gallery/2022Q3/20220701.jpg" alt="2022年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q3/20220702.jpg" alt="2022年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q3/20220703.jpg" alt="2022年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q3/20220704.jpg" alt="2022年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q3/20220706.jpg" alt="2022年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q3/20220707.jpg" alt="2022年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q3/20220709.jpg" alt="2022年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q3/20220710.jpg" alt="2022年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q3/20220711.jpg" alt="2022年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q3/20220712.jpg" alt="2022年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q3/20220713.jpg" alt="2022年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q3/20220714.jpg" alt="2022年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q3/20220715.jpg" alt="2022年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q3/20220716.jpg" alt="2022年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q3/20220717.jpg" alt="2022年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q3/20220718.jpg" alt="2022年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q3/20220719.jpg" alt="2022年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q3/20220720.jpg" alt="2022年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q3/20220721.jpg" alt="2022年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q3/20220722.jpg" alt="2022年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q3/20220825.jpg" alt="2022年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q3/20220826.jpg" alt="2022年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q3/20220827.jpg" alt="2022年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q3/20220828.jpg" alt="2022年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q3/20220829.jpg" alt="2022年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q3/20220830.jpg" alt="2022年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q3/20220901.jpg" alt="2022年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q3/20220903.jpg" alt="2022年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q3/20220904.jpg" alt="2022年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q3/20220905.jpg" alt="2022年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q3/20220906.jpg" alt="2022年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q3/20220907.jpg" alt="2022年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q3/20220908.jpg" alt="2022年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q3/20220909.jpg" alt="2022年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q3/20220910.jpg" alt="2022年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q3/20220911.jpg" alt="2022年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q3/20220911a.jpg" alt="2022年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q3/20220912.jpg" alt="2022年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q3/20220913.jpg" alt="2022年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q3/20220915.jpg" alt="2022年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q3/20220916.jpg" alt="2022年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q3/20220917.jpg" alt="2022年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q3/20220918.jpg" alt="2022年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q3/20220919.jpg" alt="2022年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q3/20220924.jpg" alt="2022年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q3/20220925.jpg" alt="2022年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q3/20220925a.jpg" alt="2022年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q3/20220926.jpg" alt="2022年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q3/20220927.jpg" alt="2022年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q3/20220928.jpg" alt="2022年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q3/20220929.jpg" alt="2022年3" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q3/20220930.jpg" alt="2022年3" loading="lazy" onclick="openModal(this)">
+      <div class="accordion-item" data-quarter="2022Q3">
+        <button class="accordion-btn" onclick="toggleAccordion(this)">
+          <span>2022年 7〜9月（52枚）</span>
+          <span class="accordion-arrow">▼</span>
+        </button>
+        <div class="accordion-body">
+          <div class="gallery-grid" id="grid-2022Q3"></div>
+        </div>
       </div>
-    </section>
-
-    <section class="gallery-quarter">
-      <h3 class="quarter-title">2022年2</h3>
-      <div class="gallery-grid">
-      <img src="images/gallery/2022Q2/20220401.jpg" alt="2022年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q2/20220402.jpg" alt="2022年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q2/20220403.jpg" alt="2022年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q2/20220404.jpg" alt="2022年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q2/20220405.jpg" alt="2022年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q2/20220406.jpg" alt="2022年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q2/20220407.jpg" alt="2022年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q2/20220408.jpg" alt="2022年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q2/20220409.jpg" alt="2022年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q2/20220412.jpg" alt="2022年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q2/20220413.jpg" alt="2022年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q2/20220414.jpg" alt="2022年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q2/20220415.jpg" alt="2022年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q2/20220415‗1.jpg" alt="2022年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q2/20220416.jpg" alt="2022年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q2/20220417.jpg" alt="2022年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q2/20220418.jpg" alt="2022年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q2/20220419.jpg" alt="2022年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q2/20220420.jpg" alt="2022年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q2/20220421.jpg" alt="2022年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q2/20220422.jpg" alt="2022年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q2/20220423.jpg" alt="2022年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q2/20220424.jpg" alt="2022年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q2/20220425.jpg" alt="2022年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q2/20220426.jpg" alt="2022年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q2/20220427.jpg" alt="2022年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q2/20220428.jpg" alt="2022年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q2/20220429.jpg" alt="2022年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q2/20220430.jpg" alt="2022年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q2/20220501.jpg" alt="2022年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q2/20220502.jpg" alt="2022年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q2/20220503.jpg" alt="2022年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q2/20220504.jpg" alt="2022年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q2/20220505.jpg" alt="2022年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q2/20220506.jpg" alt="2022年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q2/20220507.jpg" alt="2022年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q2/20220508.jpg" alt="2022年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q2/20220509.jpg" alt="2022年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q2/20220510.jpg" alt="2022年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q2/20220511.jpg" alt="2022年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q2/20220512.jpg" alt="2022年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q2/20220513.jpg" alt="2022年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q2/20220514.jpg" alt="2022年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q2/20220515.jpg" alt="2022年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q2/20220516.jpg" alt="2022年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q2/20220517.jpg" alt="2022年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q2/20220518.jpg" alt="2022年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q2/20220519.jpg" alt="2022年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q2/20220520.jpg" alt="2022年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q2/20220521.jpg" alt="2022年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q2/20220522.jpg" alt="2022年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q2/20220523.jpg" alt="2022年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q2/20220524.jpg" alt="2022年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q2/20220525.jpg" alt="2022年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q2/20220526.jpg" alt="2022年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q2/20220528.jpg" alt="2022年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q2/20220528_1.jpg" alt="2022年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q2/20220529.jpg" alt="2022年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q2/20220530.jpg" alt="2022年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q2/20220531.jpg" alt="2022年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q2/20220603.jpg" alt="2022年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q2/20220604.jpg" alt="2022年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q2/20220605.jpg" alt="2022年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q2/20220606.jpg" alt="2022年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q2/20220607.jpg" alt="2022年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q2/20220608.jpg" alt="2022年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q2/20220609.jpg" alt="2022年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q2/20220610.jpg" alt="2022年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q2/20220611.jpg" alt="2022年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q2/20220612.jpg" alt="2022年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q2/20220613.jpg" alt="2022年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q2/20220614.jpg" alt="2022年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q2/20220615.jpg" alt="2022年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q2/20220616.jpg" alt="2022年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q2/20220617.jpg" alt="2022年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q2/20220618.jpg" alt="2022年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q2/20220619.jpg" alt="2022年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q2/20220620.jpg" alt="2022年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q2/20220621.jpg" alt="2022年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q2/20220622.jpg" alt="2022年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q2/20220623.jpg" alt="2022年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q2/20220624.jpg" alt="2022年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q2/20220625.jpg" alt="2022年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q2/20220626.jpg" alt="2022年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q2/20220627.jpg" alt="2022年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q2/20220628.jpg" alt="2022年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q2/20220629.jpg" alt="2022年2" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q2/20220630.jpg" alt="2022年2" loading="lazy" onclick="openModal(this)">
+      <div class="accordion-item" data-quarter="2022Q2">
+        <button class="accordion-btn" onclick="toggleAccordion(this)">
+          <span>2022年 4〜6月（88枚）</span>
+          <span class="accordion-arrow">▼</span>
+        </button>
+        <div class="accordion-body">
+          <div class="gallery-grid" id="grid-2022Q2"></div>
+        </div>
       </div>
-    </section>
-
-    <section class="gallery-quarter">
-      <h3 class="quarter-title">2022年1</h3>
-      <div class="gallery-grid">
-      <img src="images/gallery/2022Q1/20220127.jpg" alt="2022年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q1/20220128.jpg" alt="2022年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q1/20220129.jpg" alt="2022年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q1/20220130.jpg" alt="2022年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q1/20220131.jpg" alt="2022年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q1/20220201.jpg" alt="2022年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q1/20220202.jpg" alt="2022年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q1/20220203.jpg" alt="2022年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q1/20220204.jpg" alt="2022年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q1/20220205.jpg" alt="2022年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q1/20220206.jpg" alt="2022年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q1/20220207.jpg" alt="2022年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q1/20220208.jpg" alt="2022年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q1/20220209.jpg" alt="2022年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q1/20220210.jpg" alt="2022年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q1/20220211.jpg" alt="2022年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q1/20220212.jpg" alt="2022年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q1/20220212_2.jpg" alt="2022年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q1/20220213.jpg" alt="2022年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q1/20220214.jpg" alt="2022年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q1/20220214‗2.jpg" alt="2022年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q1/20220215.jpg" alt="2022年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q1/20220216.jpg" alt="2022年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q1/20220217.jpg" alt="2022年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q1/20220218.jpg" alt="2022年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q1/20220219.jpg" alt="2022年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q1/20220220.jpg" alt="2022年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q1/20220221.jpg" alt="2022年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q1/20220222.jpg" alt="2022年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q1/20220223.jpg" alt="2022年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q1/20220224.jpg" alt="2022年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q1/20220225.jpg" alt="2022年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q1/20220226.jpg" alt="2022年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q1/20220226‗1.jpg" alt="2022年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q1/20220227.jpg" alt="2022年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q1/20220227_1.jpg" alt="2022年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q1/20220228.jpg" alt="2022年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q1/20220301.jpg" alt="2022年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q1/20220302.jpg" alt="2022年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q1/20220303.jpg" alt="2022年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q1/20220304.jpg" alt="2022年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q1/20220305.jpg" alt="2022年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q1/20220306.jpg" alt="2022年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q1/20220307.jpg" alt="2022年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q1/20220308.jpg" alt="2022年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q1/20220309.jpg" alt="2022年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q1/20220310.jpg" alt="2022年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q1/20220311.jpg" alt="2022年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q1/20220312.jpg" alt="2022年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q1/20220313.jpg" alt="2022年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q1/20220314.jpg" alt="2022年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q1/20220315.jpg" alt="2022年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q1/20220316.jpg" alt="2022年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q1/20220317.jpg" alt="2022年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q1/20220318.jpg" alt="2022年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q1/20220319.jpg" alt="2022年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q1/20220320.jpg" alt="2022年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q1/20220321.jpg" alt="2022年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q1/20220322.jpg" alt="2022年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q1/20220323.jpg" alt="2022年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q1/20220324.jpg" alt="2022年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q1/20220325.jpg" alt="2022年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q1/20220326.jpg" alt="2022年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q1/20220326‗1.jpg" alt="2022年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q1/20220327.jpg" alt="2022年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q1/20220328.jpg" alt="2022年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q1/20220329.jpg" alt="2022年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q1/20220330.jpg" alt="2022年1" loading="lazy" onclick="openModal(this)">
-      <img src="images/gallery/2022Q1/20220331.jpg" alt="2022年1" loading="lazy" onclick="openModal(this)">
+      <div class="accordion-item" data-quarter="2022Q1">
+        <button class="accordion-btn" onclick="toggleAccordion(this)">
+          <span>2022年 1〜3月（69枚）</span>
+          <span class="accordion-arrow">▼</span>
+        </button>
+        <div class="accordion-body">
+          <div class="gallery-grid" id="grid-2022Q1"></div>
+        </div>
       </div>
-    </section>
-
+    </div>
   </main>
 
-  <!-- ライトボックス モーダル -->
-  <div id="lightbox-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:9999; justify-content:center; align-items:center;">
-    <span onclick="closeModal()" style="position:absolute; top:16px; right:24px; color:#fff; font-size:36px; cursor:pointer;">&times;</span>
-    <img id="lightbox-img" src="" alt="" style="max-width:90%; max-height:90vh; border:3px solid #fff;">
+  <!-- ライトボックス -->
+  <div id="lightbox-modal" onclick="closeModal()" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.88); z-index:9999; justify-content:center; align-items:center;">
+    <span style="position:absolute; top:14px; right:22px; color:#fff; font-size:38px; cursor:pointer; line-height:1;">&times;</span>
+    <img id="lightbox-img" src="" alt="" style="max-width:92%; max-height:92vh; border:3px solid #fff; border-radius:2px; box-shadow:0 4px 32px rgba(0,0,0,0.5);" onclick="event.stopPropagation()">
   </div>
 
   <footer class="site-footer">
@@ -1416,19 +209,71 @@
     <p class="copyright">&copy; 海鮮餃子 北京 All Rights Reserved.</p>
   </footer>
 
-</div>
+</div><!-- /.site-wrapper -->
 
 <script>
-function openModal(img) {
-  document.getElementById('lightbox-img').src = img.src;
-  var m = document.getElementById('lightbox-modal');
-  m.style.display = 'flex';
+const galleryData = {
+  '2026Q1': ['images/gallery/2026Q1/20260120.jpg', 'images/gallery/2026Q1/20260121.jpg', 'images/gallery/2026Q1/20260123.jpg', 'images/gallery/2026Q1/20260124.jpg', 'images/gallery/2026Q1/20260126.jpg', 'images/gallery/2026Q1/20260127.jpg', 'images/gallery/2026Q1/20260130.jpg', 'images/gallery/2026Q1/20260131.jpg', 'images/gallery/2026Q1/20260132.jpg', 'images/gallery/2026Q1/20260224.jpg', 'images/gallery/2026Q1/20260305.jpg', 'images/gallery/2026Q1/20260306.jpg'],
+  '2025Q4': ['images/gallery/2025Q4/20250901.jpg', 'images/gallery/2025Q4/20250902.jpg', 'images/gallery/2025Q4/20250903.jpg', 'images/gallery/2025Q4/20250904.jpg', 'images/gallery/2025Q4/20250905.jpg', 'images/gallery/2025Q4/20250906.jpg', 'images/gallery/2025Q4/20250907.jpg', 'images/gallery/2025Q4/20250908.jpg', 'images/gallery/2025Q4/20250909.jpg', 'images/gallery/2025Q4/20250910.jpg', 'images/gallery/2025Q4/20250911.jpg', 'images/gallery/2025Q4/20250912.jpg', 'images/gallery/2025Q4/20250913.jpg', 'images/gallery/2025Q4/20250914.jpg'],
+  '2025Q3': ['images/gallery/2025Q3/20250701.jpg', 'images/gallery/2025Q3/20250702.jpg', 'images/gallery/2025Q3/20250703.jpg', 'images/gallery/2025Q3/20250704.jpg', 'images/gallery/2025Q3/20250705.jpg', 'images/gallery/2025Q3/20250706.jpg', 'images/gallery/2025Q3/20250707.jpg', 'images/gallery/2025Q3/20250708.jpg', 'images/gallery/2025Q3/20250709.jpg', 'images/gallery/2025Q3/20250710.jpg', 'images/gallery/2025Q3/20250711.jpg', 'images/gallery/2025Q3/20250712.jpg', 'images/gallery/2025Q3/20250713.jpg', 'images/gallery/2025Q3/20250714.jpg', 'images/gallery/2025Q3/20250715.jpg', 'images/gallery/2025Q3/20250716.jpg', 'images/gallery/2025Q3/20250717.jpg', 'images/gallery/2025Q3/20250718.jpg', 'images/gallery/2025Q3/20250719.jpg', 'images/gallery/2025Q3/20250720.jpg', 'images/gallery/2025Q3/20250721.jpg', 'images/gallery/2025Q3/20250722.jpg', 'images/gallery/2025Q3/20250723.jpg', 'images/gallery/2025Q3/20250724.jpg', 'images/gallery/2025Q3/20250725.jpg', 'images/gallery/2025Q3/20250726.jpg', 'images/gallery/2025Q3/20250727.jpg', 'images/gallery/2025Q3/20250728.jpg', 'images/gallery/2025Q3/20250729.jpg', 'images/gallery/2025Q3/20250730.jpg', 'images/gallery/2025Q3/20250801.jpg', 'images/gallery/2025Q3/20250802.jpg', 'images/gallery/2025Q3/20250803.jpg', 'images/gallery/2025Q3/20250804.jpg', 'images/gallery/2025Q3/20250805.jpg', 'images/gallery/2025Q3/20250806.jpg', 'images/gallery/2025Q3/20250807.jpg', 'images/gallery/2025Q3/20250808.jpg', 'images/gallery/2025Q3/20250809.jpg', 'images/gallery/2025Q3/20250810.jpg', 'images/gallery/2025Q3/20250811.jpg', 'images/gallery/2025Q3/20250812.jpg', 'images/gallery/2025Q3/20250813.jpg', 'images/gallery/2025Q3/20250814.jpg', 'images/gallery/2025Q3/20250815.jpg', 'images/gallery/2025Q3/20250816.jpg', 'images/gallery/2025Q3/20250817.jpg', 'images/gallery/2025Q3/20250818.jpg', 'images/gallery/2025Q3/20250819.jpg', 'images/gallery/2025Q3/20250820.jpg', 'images/gallery/2025Q3/20250821.jpg', 'images/gallery/2025Q3/20250822.jpg', 'images/gallery/2025Q3/20250823.jpg', 'images/gallery/2025Q3/20250824.jpg', 'images/gallery/2025Q3/20250825.jpg', 'images/gallery/2025Q3/20250826.jpg', 'images/gallery/2025Q3/20250827.jpg', 'images/gallery/2025Q3/20250828.jpg', 'images/gallery/2025Q3/20250829.jpg', 'images/gallery/2025Q3/20250830.jpg', 'images/gallery/2025Q3/20250831.jpg'],
+  '2025Q2': ['images/gallery/2025Q2/20250401.jpg', 'images/gallery/2025Q2/20250402.jpg', 'images/gallery/2025Q2/20250403.jpg', 'images/gallery/2025Q2/20250404.jpg', 'images/gallery/2025Q2/20250405.jpg', 'images/gallery/2025Q2/20250406.jpg', 'images/gallery/2025Q2/20250407.jpg', 'images/gallery/2025Q2/20250408.jpg', 'images/gallery/2025Q2/20250409.jpg', 'images/gallery/2025Q2/20250410.jpg', 'images/gallery/2025Q2/20250411.jpg', 'images/gallery/2025Q2/20250412.jpg', 'images/gallery/2025Q2/20250413.jpg', 'images/gallery/2025Q2/20250414.jpg', 'images/gallery/2025Q2/20250415.jpg', 'images/gallery/2025Q2/20250416.jpg', 'images/gallery/2025Q2/20250417.jpg', 'images/gallery/2025Q2/20250418.jpg', 'images/gallery/2025Q2/20250419.jpg', 'images/gallery/2025Q2/20250420.jpg', 'images/gallery/2025Q2/20250421.jpg', 'images/gallery/2025Q2/20250422.jpg', 'images/gallery/2025Q2/20250423.jpg', 'images/gallery/2025Q2/20250424.jpg', 'images/gallery/2025Q2/20250425.jpg', 'images/gallery/2025Q2/20250426.jpg', 'images/gallery/2025Q2/20250427.jpg', 'images/gallery/2025Q2/20250428.jpg', 'images/gallery/2025Q2/20250429.jpg', 'images/gallery/2025Q2/20250430.jpg', 'images/gallery/2025Q2/20250501.jpg', 'images/gallery/2025Q2/20250502.jpg', 'images/gallery/2025Q2/20250503.jpg', 'images/gallery/2025Q2/20250504.jpg', 'images/gallery/2025Q2/20250505.jpg', 'images/gallery/2025Q2/20250506.jpg', 'images/gallery/2025Q2/20250507.jpg', 'images/gallery/2025Q2/20250508.jpg', 'images/gallery/2025Q2/20250509.jpg', 'images/gallery/2025Q2/20250510.jpg', 'images/gallery/2025Q2/20250511.jpg', 'images/gallery/2025Q2/20250512.jpg', 'images/gallery/2025Q2/20250513.jpg', 'images/gallery/2025Q2/20250514.jpg', 'images/gallery/2025Q2/20250515.jpg', 'images/gallery/2025Q2/20250516.jpg', 'images/gallery/2025Q2/20250517.jpg', 'images/gallery/2025Q2/20250518.jpg', 'images/gallery/2025Q2/20250519.jpg', 'images/gallery/2025Q2/20250520.jpg', 'images/gallery/2025Q2/20250521.jpg', 'images/gallery/2025Q2/20250522.jpg', 'images/gallery/2025Q2/20250523.jpg', 'images/gallery/2025Q2/20250524.jpg', 'images/gallery/2025Q2/20250525.jpg', 'images/gallery/2025Q2/20250526.jpg', 'images/gallery/2025Q2/20250527.jpg', 'images/gallery/2025Q2/20250528.jpg', 'images/gallery/2025Q2/20250529.jpg', 'images/gallery/2025Q2/20250530.jpg', 'images/gallery/2025Q2/20250601.jpg', 'images/gallery/2025Q2/20250602.jpg', 'images/gallery/2025Q2/20250603.jpg', 'images/gallery/2025Q2/20250604.jpg', 'images/gallery/2025Q2/20250605.jpg', 'images/gallery/2025Q2/20250606.jpg', 'images/gallery/2025Q2/20250607.jpg', 'images/gallery/2025Q2/20250608.jpg', 'images/gallery/2025Q2/20250609.jpg', 'images/gallery/2025Q2/20250610.jpg', 'images/gallery/2025Q2/20250611.jpg', 'images/gallery/2025Q2/20250612.jpg', 'images/gallery/2025Q2/20250613.jpg', 'images/gallery/2025Q2/20250614.jpg', 'images/gallery/2025Q2/20250615.jpg', 'images/gallery/2025Q2/20250616.jpg', 'images/gallery/2025Q2/20250617.jpg', 'images/gallery/2025Q2/20250618.jpg', 'images/gallery/2025Q2/20250619.jpg', 'images/gallery/2025Q2/20250620.jpg', 'images/gallery/2025Q2/20250621.jpg', 'images/gallery/2025Q2/20250622.jpg', 'images/gallery/2025Q2/20250623.jpg', 'images/gallery/2025Q2/20250624.jpg', 'images/gallery/2025Q2/20250625.jpg', 'images/gallery/2025Q2/20250626.jpg', 'images/gallery/2025Q2/20250627.jpg', 'images/gallery/2025Q2/20250628.jpg', 'images/gallery/2025Q2/20250629.jpg', 'images/gallery/2025Q2/20250630.jpg'],
+  '2025Q1': ['images/gallery/2025Q1/20250115.jpg', 'images/gallery/2025Q1/20250116.jpg', 'images/gallery/2025Q1/20250117.jpg', 'images/gallery/2025Q1/20250118.jpg', 'images/gallery/2025Q1/20250119.jpg', 'images/gallery/2025Q1/20250120.jpg', 'images/gallery/2025Q1/20250121.jpg', 'images/gallery/2025Q1/20250122.jpg', 'images/gallery/2025Q1/20250123.jpg', 'images/gallery/2025Q1/20250124.jpg', 'images/gallery/2025Q1/20250125.jpg', 'images/gallery/2025Q1/20250126.jpg', 'images/gallery/2025Q1/20250127.jpg', 'images/gallery/2025Q1/20250128.jpg', 'images/gallery/2025Q1/20250129.jpg', 'images/gallery/2025Q1/20250130.jpg', 'images/gallery/2025Q1/20250131.jpg', 'images/gallery/2025Q1/20250201.jpg', 'images/gallery/2025Q1/20250202.jpg', 'images/gallery/2025Q1/20250203.jpg', 'images/gallery/2025Q1/20250204.jpg', 'images/gallery/2025Q1/20250205.jpg', 'images/gallery/2025Q1/20250206.jpg', 'images/gallery/2025Q1/20250207.jpg', 'images/gallery/2025Q1/20250208.jpg', 'images/gallery/2025Q1/20250209.jpg', 'images/gallery/2025Q1/20250210.jpg', 'images/gallery/2025Q1/20250211.jpg', 'images/gallery/2025Q1/20250212.jpg', 'images/gallery/2025Q1/20250213.jpg', 'images/gallery/2025Q1/20250214.jpg', 'images/gallery/2025Q1/20250215.jpg', 'images/gallery/2025Q1/20250216.jpg', 'images/gallery/2025Q1/20250217.jpg', 'images/gallery/2025Q1/20250218.jpg', 'images/gallery/2025Q1/20250219.jpg', 'images/gallery/2025Q1/20250220.jpg', 'images/gallery/2025Q1/20250221.jpg', 'images/gallery/2025Q1/20250222.jpg', 'images/gallery/2025Q1/20250223.jpg', 'images/gallery/2025Q1/20250224.jpg', 'images/gallery/2025Q1/20250225.jpg', 'images/gallery/2025Q1/20250226.jpg', 'images/gallery/2025Q1/20250227.jpg', 'images/gallery/2025Q1/20250228.jpg', 'images/gallery/2025Q1/20250301.jpg', 'images/gallery/2025Q1/20250302.jpg', 'images/gallery/2025Q1/20250303.jpg', 'images/gallery/2025Q1/20250304.jpg', 'images/gallery/2025Q1/20250305.jpg', 'images/gallery/2025Q1/20250306.jpg', 'images/gallery/2025Q1/20250307.jpg', 'images/gallery/2025Q1/20250308.jpg', 'images/gallery/2025Q1/20250309.jpg', 'images/gallery/2025Q1/20250310.jpg', 'images/gallery/2025Q1/20250311.jpg', 'images/gallery/2025Q1/20250312.jpg', 'images/gallery/2025Q1/20250313.jpg', 'images/gallery/2025Q1/20250314.jpg', 'images/gallery/2025Q1/20250315.jpg', 'images/gallery/2025Q1/20250316.jpg', 'images/gallery/2025Q1/20250317.jpg', 'images/gallery/2025Q1/20250318.jpg', 'images/gallery/2025Q1/20250319.jpg', 'images/gallery/2025Q1/20250320.jpg', 'images/gallery/2025Q1/20250321.jpg', 'images/gallery/2025Q1/20250322.jpg', 'images/gallery/2025Q1/20250323.jpg', 'images/gallery/2025Q1/20250324.jpg', 'images/gallery/2025Q1/20250325.jpg', 'images/gallery/2025Q1/20250326.jpg', 'images/gallery/2025Q1/20250327.jpg', 'images/gallery/2025Q1/20250328.jpg', 'images/gallery/2025Q1/20250329.jpg', 'images/gallery/2025Q1/20250330.jpg', 'images/gallery/2025Q1/20250331.jpg'],
+  '2024Q4': ['images/gallery/2024Q4/202401001.jpg', 'images/gallery/2024Q4/202401002.jpg', 'images/gallery/2024Q4/202401003.jpg', 'images/gallery/2024Q4/202401004.jpg', 'images/gallery/2024Q4/202401005.jpg', 'images/gallery/2024Q4/202401006.jpg', 'images/gallery/2024Q4/202401007.jpg', 'images/gallery/2024Q4/202401008.jpg', 'images/gallery/2024Q4/202401009.jpg', 'images/gallery/2024Q4/202401010.jpg', 'images/gallery/2024Q4/202401011.jpg', 'images/gallery/2024Q4/202401012.jpg', 'images/gallery/2024Q4/202401013.jpg', 'images/gallery/2024Q4/202401014.jpg', 'images/gallery/2024Q4/202401015.jpg', 'images/gallery/2024Q4/202401016.jpg', 'images/gallery/2024Q4/202401017.jpg', 'images/gallery/2024Q4/202401018.jpg', 'images/gallery/2024Q4/202401019.jpg', 'images/gallery/2024Q4/202401020.jpg', 'images/gallery/2024Q4/202401021.jpg', 'images/gallery/2024Q4/202401022.jpg', 'images/gallery/2024Q4/202401023.jpg', 'images/gallery/2024Q4/202401024.jpg', 'images/gallery/2024Q4/202401025.jpg', 'images/gallery/2024Q4/202401026.jpg', 'images/gallery/2024Q4/202401027.jpg', 'images/gallery/2024Q4/202401028.jpg', 'images/gallery/2024Q4/202401029.jpg', 'images/gallery/2024Q4/202401030.jpg', 'images/gallery/2024Q4/202401031.jpg', 'images/gallery/2024Q4/202401101.jpg', 'images/gallery/2024Q4/202401102.jpg', 'images/gallery/2024Q4/202401103.jpg', 'images/gallery/2024Q4/202401104.jpg', 'images/gallery/2024Q4/202401105.jpg', 'images/gallery/2024Q4/202401106.jpg', 'images/gallery/2024Q4/202401107.jpg', 'images/gallery/2024Q4/202401108.jpg', 'images/gallery/2024Q4/202401109.jpg', 'images/gallery/2024Q4/202401110.jpg', 'images/gallery/2024Q4/202401111.jpg', 'images/gallery/2024Q4/202401112.jpg', 'images/gallery/2024Q4/202401113.jpg', 'images/gallery/2024Q4/202401114.jpg', 'images/gallery/2024Q4/202401115.jpg', 'images/gallery/2024Q4/202401116.jpg', 'images/gallery/2024Q4/202401117.jpg', 'images/gallery/2024Q4/202401118.jpg', 'images/gallery/2024Q4/202401119.jpg', 'images/gallery/2024Q4/202401120.jpg', 'images/gallery/2024Q4/202401121.jpg', 'images/gallery/2024Q4/202401122.jpg', 'images/gallery/2024Q4/202401123.jpg', 'images/gallery/2024Q4/202401124.jpg', 'images/gallery/2024Q4/202401125.jpg', 'images/gallery/2024Q4/202401126.jpg', 'images/gallery/2024Q4/202401127.jpg', 'images/gallery/2024Q4/202401128.jpg', 'images/gallery/2024Q4/202401129.jpg', 'images/gallery/2024Q4/202401130.jpg', 'images/gallery/2024Q4/202401201.jpg', 'images/gallery/2024Q4/202401202.jpg', 'images/gallery/2024Q4/202401203.jpg', 'images/gallery/2024Q4/202401204.jpg', 'images/gallery/2024Q4/202401205.jpg', 'images/gallery/2024Q4/202401206.jpg', 'images/gallery/2024Q4/202401207.jpg', 'images/gallery/2024Q4/202401208.jpg', 'images/gallery/2024Q4/202401209.jpg', 'images/gallery/2024Q4/202401210.jpg'],
+  '2024Q3': ['images/gallery/2024Q3/20240701.jpg', 'images/gallery/2024Q3/20240702.jpg', 'images/gallery/2024Q3/20240703.jpg', 'images/gallery/2024Q3/20240704.jpg', 'images/gallery/2024Q3/20240705.jpg', 'images/gallery/2024Q3/20240706.jpg', 'images/gallery/2024Q3/20240707.jpg', 'images/gallery/2024Q3/20240708.jpg', 'images/gallery/2024Q3/20240709.jpg', 'images/gallery/2024Q3/20240710.jpg', 'images/gallery/2024Q3/20240711.jpg', 'images/gallery/2024Q3/20240712.jpg', 'images/gallery/2024Q3/20240713.jpg', 'images/gallery/2024Q3/20240714.jpg', 'images/gallery/2024Q3/20240715.jpg', 'images/gallery/2024Q3/20240716.jpg', 'images/gallery/2024Q3/20240717.jpg', 'images/gallery/2024Q3/20240718.jpg', 'images/gallery/2024Q3/20240719.jpg', 'images/gallery/2024Q3/20240720.jpg', 'images/gallery/2024Q3/20240721.jpg', 'images/gallery/2024Q3/20240722.jpg', 'images/gallery/2024Q3/20240723.jpg', 'images/gallery/2024Q3/20240724.jpg', 'images/gallery/2024Q3/20240725.jpg', 'images/gallery/2024Q3/20240726.jpg', 'images/gallery/2024Q3/20240727.jpg', 'images/gallery/2024Q3/20240728.jpg', 'images/gallery/2024Q3/20240729.jpg', 'images/gallery/2024Q3/20240730.jpg', 'images/gallery/2024Q3/20240731.jpg', 'images/gallery/2024Q3/20240801.jpg', 'images/gallery/2024Q3/20240802.jpg', 'images/gallery/2024Q3/20240803.jpg', 'images/gallery/2024Q3/20240804.jpg', 'images/gallery/2024Q3/20240805.jpg', 'images/gallery/2024Q3/20240806.jpg', 'images/gallery/2024Q3/20240807.jpg', 'images/gallery/2024Q3/20240808.jpg', 'images/gallery/2024Q3/20240809.jpg', 'images/gallery/2024Q3/20240810.jpg', 'images/gallery/2024Q3/20240811.jpg', 'images/gallery/2024Q3/20240812.jpg', 'images/gallery/2024Q3/20240813.jpg', 'images/gallery/2024Q3/20240814.jpg', 'images/gallery/2024Q3/20240815.jpg', 'images/gallery/2024Q3/20240816.jpg', 'images/gallery/2024Q3/20240817.jpg', 'images/gallery/2024Q3/20240818.jpg', 'images/gallery/2024Q3/20240819.jpg', 'images/gallery/2024Q3/20240820.jpg', 'images/gallery/2024Q3/20240821.jpg', 'images/gallery/2024Q3/20240822.jpg', 'images/gallery/2024Q3/20240823.jpg', 'images/gallery/2024Q3/20240824.jpg', 'images/gallery/2024Q3/20240825.jpg', 'images/gallery/2024Q3/20240826.jpg', 'images/gallery/2024Q3/20240827.jpg', 'images/gallery/2024Q3/20240828.jpg', 'images/gallery/2024Q3/20240829.jpg', 'images/gallery/2024Q3/20240830.jpg', 'images/gallery/2024Q3/20240831.jpg', 'images/gallery/2024Q3/20240901.jpg', 'images/gallery/2024Q3/20240902.jpg', 'images/gallery/2024Q3/20240903.jpg', 'images/gallery/2024Q3/20240904.jpg', 'images/gallery/2024Q3/20240905.jpg', 'images/gallery/2024Q3/20240906.jpg', 'images/gallery/2024Q3/20240907.jpg', 'images/gallery/2024Q3/20240908.jpg', 'images/gallery/2024Q3/20240909.jpg', 'images/gallery/2024Q3/20240910.jpg', 'images/gallery/2024Q3/20240911.jpg', 'images/gallery/2024Q3/20240912.jpg', 'images/gallery/2024Q3/20240913.jpg', 'images/gallery/2024Q3/20240914.jpg', 'images/gallery/2024Q3/20240915.jpg', 'images/gallery/2024Q3/20240916.jpg', 'images/gallery/2024Q3/20240917.jpg', 'images/gallery/2024Q3/20240918.jpg', 'images/gallery/2024Q3/20240919.jpg', 'images/gallery/2024Q3/20240920.jpg', 'images/gallery/2024Q3/20240921.jpg', 'images/gallery/2024Q3/20240922.jpg', 'images/gallery/2024Q3/20240923.jpg', 'images/gallery/2024Q3/20240924.jpg', 'images/gallery/2024Q3/20240925.jpg', 'images/gallery/2024Q3/20240926.jpg', 'images/gallery/2024Q3/20240927.jpg', 'images/gallery/2024Q3/20240928.jpg', 'images/gallery/2024Q3/20240929.jpg', 'images/gallery/2024Q3/20240930.jpg'],
+  '2024Q2': ['images/gallery/2024Q2/20240401.jpg', 'images/gallery/2024Q2/20240402.jpg', 'images/gallery/2024Q2/20240403.jpg', 'images/gallery/2024Q2/20240404.jpg', 'images/gallery/2024Q2/20240405.jpg', 'images/gallery/2024Q2/20240406.jpg', 'images/gallery/2024Q2/20240407.jpg', 'images/gallery/2024Q2/20240408.jpg', 'images/gallery/2024Q2/20240409.jpg', 'images/gallery/2024Q2/20240410.jpg', 'images/gallery/2024Q2/20240411.jpg', 'images/gallery/2024Q2/20240412.jpg', 'images/gallery/2024Q2/20240413.jpg', 'images/gallery/2024Q2/20240414.jpg', 'images/gallery/2024Q2/20240415.jpg', 'images/gallery/2024Q2/20240416.jpg', 'images/gallery/2024Q2/20240417.jpg', 'images/gallery/2024Q2/20240418.jpg', 'images/gallery/2024Q2/20240419.jpg', 'images/gallery/2024Q2/20240420.jpg', 'images/gallery/2024Q2/20240421.jpg', 'images/gallery/2024Q2/20240422.jpg', 'images/gallery/2024Q2/20240423.jpg', 'images/gallery/2024Q2/20240424.jpg', 'images/gallery/2024Q2/20240425.jpg', 'images/gallery/2024Q2/20240426.jpg', 'images/gallery/2024Q2/20240427.jpg', 'images/gallery/2024Q2/20240428.jpg', 'images/gallery/2024Q2/20240429.jpg', 'images/gallery/2024Q2/20240430.jpg', 'images/gallery/2024Q2/20240501.jpg', 'images/gallery/2024Q2/20240502.jpg', 'images/gallery/2024Q2/20240503.jpg', 'images/gallery/2024Q2/20240504.jpg', 'images/gallery/2024Q2/20240505.jpg', 'images/gallery/2024Q2/20240506.jpg', 'images/gallery/2024Q2/20240507.jpg', 'images/gallery/2024Q2/20240508.jpg', 'images/gallery/2024Q2/20240509.jpg', 'images/gallery/2024Q2/20240510.jpg', 'images/gallery/2024Q2/20240511.jpg', 'images/gallery/2024Q2/20240512.jpg', 'images/gallery/2024Q2/20240513.jpg', 'images/gallery/2024Q2/20240514.jpg', 'images/gallery/2024Q2/20240515.jpg', 'images/gallery/2024Q2/20240516.jpg', 'images/gallery/2024Q2/20240517.jpg', 'images/gallery/2024Q2/20240518.jpg', 'images/gallery/2024Q2/20240519.jpg', 'images/gallery/2024Q2/20240520.jpg', 'images/gallery/2024Q2/20240521.jpg', 'images/gallery/2024Q2/20240522.jpg', 'images/gallery/2024Q2/20240523.jpg', 'images/gallery/2024Q2/20240524.jpg', 'images/gallery/2024Q2/20240525.jpg', 'images/gallery/2024Q2/20240526.jpg', 'images/gallery/2024Q2/20240527.jpg', 'images/gallery/2024Q2/20240528.jpg', 'images/gallery/2024Q2/20240529.jpg', 'images/gallery/2024Q2/20240530.jpg', 'images/gallery/2024Q2/20240531.jpg', 'images/gallery/2024Q2/20240601.jpg', 'images/gallery/2024Q2/20240602.jpg', 'images/gallery/2024Q2/20240603.jpg', 'images/gallery/2024Q2/20240604.jpg', 'images/gallery/2024Q2/20240605.jpg', 'images/gallery/2024Q2/20240606.jpg', 'images/gallery/2024Q2/20240607.jpg', 'images/gallery/2024Q2/20240608.jpg', 'images/gallery/2024Q2/20240609.jpg', 'images/gallery/2024Q2/20240610.jpg', 'images/gallery/2024Q2/20240611.jpg', 'images/gallery/2024Q2/20240612.jpg', 'images/gallery/2024Q2/20240613.jpg', 'images/gallery/2024Q2/20240614.jpg', 'images/gallery/2024Q2/20240615.jpg', 'images/gallery/2024Q2/20240616.jpg', 'images/gallery/2024Q2/20240617.jpg', 'images/gallery/2024Q2/20240618.jpg', 'images/gallery/2024Q2/20240619.jpg', 'images/gallery/2024Q2/20240620.jpg', 'images/gallery/2024Q2/20240621.jpg', 'images/gallery/2024Q2/20240622.jpg', 'images/gallery/2024Q2/20240623.jpg', 'images/gallery/2024Q2/20240624.jpg', 'images/gallery/2024Q2/20240625.jpg', 'images/gallery/2024Q2/20240626.jpg', 'images/gallery/2024Q2/20240627.jpg', 'images/gallery/2024Q2/20240628.jpg', 'images/gallery/2024Q2/20240629.jpg', 'images/gallery/2024Q2/20240630.jpg', 'images/gallery/2024Q2/20240631.jpg'],
+  '2024Q1': ['images/gallery/2024Q1/20240101.jpg', 'images/gallery/2024Q1/20240102.jpg', 'images/gallery/2024Q1/20240103.jpg', 'images/gallery/2024Q1/20240104.jpg', 'images/gallery/2024Q1/20240105.jpg', 'images/gallery/2024Q1/20240106.jpg', 'images/gallery/2024Q1/20240107.jpg', 'images/gallery/2024Q1/20240108.jpg', 'images/gallery/2024Q1/20240109.jpg', 'images/gallery/2024Q1/20240110.jpg', 'images/gallery/2024Q1/20240111.jpg', 'images/gallery/2024Q1/20240112.jpg', 'images/gallery/2024Q1/20240113.jpg', 'images/gallery/2024Q1/20240114.jpg', 'images/gallery/2024Q1/20240115.jpg', 'images/gallery/2024Q1/20240116.jpg', 'images/gallery/2024Q1/20240117.jpg', 'images/gallery/2024Q1/20240118.jpg', 'images/gallery/2024Q1/20240119.jpg', 'images/gallery/2024Q1/20240120.jpg', 'images/gallery/2024Q1/20240121.jpg', 'images/gallery/2024Q1/20240122.jpg', 'images/gallery/2024Q1/20240123.jpg', 'images/gallery/2024Q1/20240124.jpg', 'images/gallery/2024Q1/20240125.jpg', 'images/gallery/2024Q1/20240126.jpg', 'images/gallery/2024Q1/20240127.jpg', 'images/gallery/2024Q1/20240128.jpg', 'images/gallery/2024Q1/20240129.jpg', 'images/gallery/2024Q1/20240130.jpg', 'images/gallery/2024Q1/20240131.jpg', 'images/gallery/2024Q1/20240201.jpg', 'images/gallery/2024Q1/20240202.jpg', 'images/gallery/2024Q1/20240203.jpg', 'images/gallery/2024Q1/20240204.jpg', 'images/gallery/2024Q1/20240205.jpg', 'images/gallery/2024Q1/20240206.jpg', 'images/gallery/2024Q1/20240207.jpg', 'images/gallery/2024Q1/20240208.jpg', 'images/gallery/2024Q1/20240209.jpg', 'images/gallery/2024Q1/20240210.jpg', 'images/gallery/2024Q1/20240211.jpg', 'images/gallery/2024Q1/20240212.jpg', 'images/gallery/2024Q1/20240213.jpg', 'images/gallery/2024Q1/20240214.jpg', 'images/gallery/2024Q1/20240215.jpg', 'images/gallery/2024Q1/20240216.jpg', 'images/gallery/2024Q1/20240217.jpg', 'images/gallery/2024Q1/20240218.jpg', 'images/gallery/2024Q1/20240219.jpg', 'images/gallery/2024Q1/20240220.jpg', 'images/gallery/2024Q1/20240221.jpg', 'images/gallery/2024Q1/20240222.jpg', 'images/gallery/2024Q1/20240223.jpg', 'images/gallery/2024Q1/20240224.jpg', 'images/gallery/2024Q1/20240225.jpg', 'images/gallery/2024Q1/20240226.jpg', 'images/gallery/2024Q1/20240227.jpg', 'images/gallery/2024Q1/20240228.jpg', 'images/gallery/2024Q1/20240301.jpg', 'images/gallery/2024Q1/20240302.jpg', 'images/gallery/2024Q1/20240303.jpg', 'images/gallery/2024Q1/20240304.jpg', 'images/gallery/2024Q1/20240305.jpg', 'images/gallery/2024Q1/20240306.jpg', 'images/gallery/2024Q1/20240307.jpg', 'images/gallery/2024Q1/20240308.jpg', 'images/gallery/2024Q1/20240309.jpg', 'images/gallery/2024Q1/20240310.jpg', 'images/gallery/2024Q1/20240311.jpg', 'images/gallery/2024Q1/20240312.jpg', 'images/gallery/2024Q1/20240313.jpg', 'images/gallery/2024Q1/20240314.jpg', 'images/gallery/2024Q1/20240315.jpg', 'images/gallery/2024Q1/20240316.jpg', 'images/gallery/2024Q1/20240317.jpg', 'images/gallery/2024Q1/20240318.jpg', 'images/gallery/2024Q1/20240319.jpg', 'images/gallery/2024Q1/20240320.jpg', 'images/gallery/2024Q1/20240321.jpg', 'images/gallery/2024Q1/20240322.jpg', 'images/gallery/2024Q1/20240323.jpg', 'images/gallery/2024Q1/20240324.jpg', 'images/gallery/2024Q1/20240325.jpg', 'images/gallery/2024Q1/20240326.jpg', 'images/gallery/2024Q1/20240327.jpg', 'images/gallery/2024Q1/20240328.jpg', 'images/gallery/2024Q1/20240329.jpg', 'images/gallery/2024Q1/20240330.jpg', 'images/gallery/2024Q1/20240331.jpg'],
+  '2023Q4': ['images/gallery/2023Q4/20231001.jpg', 'images/gallery/2023Q4/20231002.jpg', 'images/gallery/2023Q4/20231003.jpg', 'images/gallery/2023Q4/20231004.jpg', 'images/gallery/2023Q4/20231005.jpg', 'images/gallery/2023Q4/20231006.jpg', 'images/gallery/2023Q4/20231007.jpg', 'images/gallery/2023Q4/20231008.jpg', 'images/gallery/2023Q4/20231009.jpg', 'images/gallery/2023Q4/20231010.jpg', 'images/gallery/2023Q4/20231011.jpg', 'images/gallery/2023Q4/20231012.jpg', 'images/gallery/2023Q4/20231013.jpg', 'images/gallery/2023Q4/20231014.jpg', 'images/gallery/2023Q4/20231015.jpg', 'images/gallery/2023Q4/20231016.jpg', 'images/gallery/2023Q4/20231017.jpg', 'images/gallery/2023Q4/20231018.jpg', 'images/gallery/2023Q4/20231019.jpg', 'images/gallery/2023Q4/20231020.jpg', 'images/gallery/2023Q4/20231021.jpg', 'images/gallery/2023Q4/20231022.jpg', 'images/gallery/2023Q4/20231023.jpg', 'images/gallery/2023Q4/20231024.jpg', 'images/gallery/2023Q4/20231025.jpg', 'images/gallery/2023Q4/20231026.jpg', 'images/gallery/2023Q4/20231027.jpg', 'images/gallery/2023Q4/20231028.jpg', 'images/gallery/2023Q4/20231029.jpg', 'images/gallery/2023Q4/20231030.jpg', 'images/gallery/2023Q4/20231101.jpg', 'images/gallery/2023Q4/20231102.jpg', 'images/gallery/2023Q4/20231103.jpg', 'images/gallery/2023Q4/20231104.jpg', 'images/gallery/2023Q4/20231105.jpg', 'images/gallery/2023Q4/20231106.jpg', 'images/gallery/2023Q4/20231107.jpg', 'images/gallery/2023Q4/20231108.jpg', 'images/gallery/2023Q4/20231109.jpg', 'images/gallery/2023Q4/20231110.jpg', 'images/gallery/2023Q4/20231111.jpg', 'images/gallery/2023Q4/20231112.jpg', 'images/gallery/2023Q4/20231113.jpg', 'images/gallery/2023Q4/20231114.jpg', 'images/gallery/2023Q4/20231115.jpg', 'images/gallery/2023Q4/20231116.jpg', 'images/gallery/2023Q4/20231117.jpg', 'images/gallery/2023Q4/20231118.jpg', 'images/gallery/2023Q4/20231119.jpg', 'images/gallery/2023Q4/20231120.jpg', 'images/gallery/2023Q4/20231121.jpg', 'images/gallery/2023Q4/20231122.jpg', 'images/gallery/2023Q4/20231123.jpg', 'images/gallery/2023Q4/20231124.jpg', 'images/gallery/2023Q4/20231125.jpg', 'images/gallery/2023Q4/20231126.jpg', 'images/gallery/2023Q4/20231127.jpg', 'images/gallery/2023Q4/20231128.jpg', 'images/gallery/2023Q4/20231129.jpg', 'images/gallery/2023Q4/20231130.jpg', 'images/gallery/2023Q4/20231201.jpg', 'images/gallery/2023Q4/20231202.jpg', 'images/gallery/2023Q4/20231203.jpg', 'images/gallery/2023Q4/20231204.jpg', 'images/gallery/2023Q4/20231205.jpg', 'images/gallery/2023Q4/20231206.jpg', 'images/gallery/2023Q4/20231207.jpg', 'images/gallery/2023Q4/20231208.jpg', 'images/gallery/2023Q4/20231209.jpg', 'images/gallery/2023Q4/20231210.jpg', 'images/gallery/2023Q4/20231211.jpg', 'images/gallery/2023Q4/20231212.jpg', 'images/gallery/2023Q4/20231213.jpg', 'images/gallery/2023Q4/20231214.jpg', 'images/gallery/2023Q4/20231215.jpg', 'images/gallery/2023Q4/20231216.jpg', 'images/gallery/2023Q4/20231217.jpg', 'images/gallery/2023Q4/20231218.jpg', 'images/gallery/2023Q4/20231219.jpg', 'images/gallery/2023Q4/20231220.jpg', 'images/gallery/2023Q4/20231221.jpg', 'images/gallery/2023Q4/20231222.jpg', 'images/gallery/2023Q4/20231223.jpg', 'images/gallery/2023Q4/20231224.jpg', 'images/gallery/2023Q4/20231225.jpg', 'images/gallery/2023Q4/20231226.jpg', 'images/gallery/2023Q4/20231227.jpg', 'images/gallery/2023Q4/20231228.jpg', 'images/gallery/2023Q4/20231229.jpg', 'images/gallery/2023Q4/20231230.jpg', 'images/gallery/2023Q4/20231231.jpg'],
+  '2023Q3': ['images/gallery/2023Q3/20230701.jpg', 'images/gallery/2023Q3/20230702.jpg', 'images/gallery/2023Q3/20230703.jpg', 'images/gallery/2023Q3/20230704.jpg', 'images/gallery/2023Q3/20230705.jpg', 'images/gallery/2023Q3/20230706.jpg', 'images/gallery/2023Q3/20230707.jpg', 'images/gallery/2023Q3/20230708.jpg', 'images/gallery/2023Q3/20230709.jpg', 'images/gallery/2023Q3/20230710.jpg', 'images/gallery/2023Q3/20230711.jpg', 'images/gallery/2023Q3/20230712.jpg', 'images/gallery/2023Q3/20230713.jpg', 'images/gallery/2023Q3/20230714.jpg', 'images/gallery/2023Q3/20230715.jpg', 'images/gallery/2023Q3/20230716.jpg', 'images/gallery/2023Q3/20230717.jpg', 'images/gallery/2023Q3/20230718.jpg', 'images/gallery/2023Q3/20230719.jpg', 'images/gallery/2023Q3/20230720.jpg', 'images/gallery/2023Q3/20230721.jpg', 'images/gallery/2023Q3/20230722.jpg', 'images/gallery/2023Q3/20230723.jpg', 'images/gallery/2023Q3/20230724.jpg', 'images/gallery/2023Q3/20230725.jpg', 'images/gallery/2023Q3/20230726.jpg', 'images/gallery/2023Q3/20230727.jpg', 'images/gallery/2023Q3/20230728.jpg', 'images/gallery/2023Q3/20230729.jpg', 'images/gallery/2023Q3/20230730.jpg', 'images/gallery/2023Q3/20230731.jpg', 'images/gallery/2023Q3/20230801.jpg', 'images/gallery/2023Q3/20230802.jpg', 'images/gallery/2023Q3/20230803.jpg', 'images/gallery/2023Q3/20230804.jpg', 'images/gallery/2023Q3/20230805.jpg', 'images/gallery/2023Q3/20230806.jpg', 'images/gallery/2023Q3/20230807.jpg', 'images/gallery/2023Q3/20230808.jpg', 'images/gallery/2023Q3/20230809.jpg', 'images/gallery/2023Q3/20230810.jpg', 'images/gallery/2023Q3/20230811.jpg', 'images/gallery/2023Q3/20230812.jpg', 'images/gallery/2023Q3/20230813.jpg', 'images/gallery/2023Q3/20230814.jpg', 'images/gallery/2023Q3/20230815.jpg', 'images/gallery/2023Q3/20230816.jpg', 'images/gallery/2023Q3/20230817.jpg', 'images/gallery/2023Q3/20230818.jpg', 'images/gallery/2023Q3/20230819.jpg', 'images/gallery/2023Q3/20230820.jpg', 'images/gallery/2023Q3/20230821.jpg', 'images/gallery/2023Q3/20230822.jpg', 'images/gallery/2023Q3/20230823.jpg', 'images/gallery/2023Q3/20230824.jpg', 'images/gallery/2023Q3/20230825.jpg', 'images/gallery/2023Q3/20230826.jpg', 'images/gallery/2023Q3/20230827.jpg', 'images/gallery/2023Q3/20230828.jpg', 'images/gallery/2023Q3/20230829.jpg', 'images/gallery/2023Q3/20230830.jpg', 'images/gallery/2023Q3/20230831.jpg', 'images/gallery/2023Q3/20230901.jpg', 'images/gallery/2023Q3/20230902.jpg', 'images/gallery/2023Q3/20230903.jpg', 'images/gallery/2023Q3/20230904.jpg', 'images/gallery/2023Q3/20230905.jpg', 'images/gallery/2023Q3/20230906.jpg', 'images/gallery/2023Q3/20230907.jpg', 'images/gallery/2023Q3/20230908.jpg', 'images/gallery/2023Q3/20230909.jpg', 'images/gallery/2023Q3/20230910.jpg', 'images/gallery/2023Q3/20230911.jpg', 'images/gallery/2023Q3/20230912.jpg', 'images/gallery/2023Q3/20230913.jpg', 'images/gallery/2023Q3/20230914.jpg', 'images/gallery/2023Q3/20230915.jpg', 'images/gallery/2023Q3/20230916.jpg', 'images/gallery/2023Q3/20230917.jpg', 'images/gallery/2023Q3/20230918.jpg', 'images/gallery/2023Q3/20230919.jpg', 'images/gallery/2023Q3/20230920.jpg', 'images/gallery/2023Q3/20230921.jpg', 'images/gallery/2023Q3/20230922.jpg', 'images/gallery/2023Q3/20230923.jpg', 'images/gallery/2023Q3/20230924.jpg', 'images/gallery/2023Q3/20230925.jpg', 'images/gallery/2023Q3/20230926.jpg', 'images/gallery/2023Q3/20230927.jpg', 'images/gallery/2023Q3/20230928.jpg', 'images/gallery/2023Q3/20230929.jpg', 'images/gallery/2023Q3/20230930.jpg'],
+  '2023Q2': ['images/gallery/2023Q2/20230401.jpg', 'images/gallery/2023Q2/20230402.jpg', 'images/gallery/2023Q2/20230403.jpg', 'images/gallery/2023Q2/20230404.jpg', 'images/gallery/2023Q2/20230405.jpg', 'images/gallery/2023Q2/20230406.jpg', 'images/gallery/2023Q2/20230407.jpg', 'images/gallery/2023Q2/20230408.jpg', 'images/gallery/2023Q2/20230409.jpg', 'images/gallery/2023Q2/20230410.jpg', 'images/gallery/2023Q2/20230411.jpg', 'images/gallery/2023Q2/20230412.jpg', 'images/gallery/2023Q2/20230413.jpg', 'images/gallery/2023Q2/20230414.jpg', 'images/gallery/2023Q2/20230415.jpg', 'images/gallery/2023Q2/20230416.jpg', 'images/gallery/2023Q2/20230417.jpg', 'images/gallery/2023Q2/20230418.jpg', 'images/gallery/2023Q2/20230419.jpg', 'images/gallery/2023Q2/20230420.jpg', 'images/gallery/2023Q2/20230421.jpg', 'images/gallery/2023Q2/20230422.jpg', 'images/gallery/2023Q2/20230423.jpg', 'images/gallery/2023Q2/20230424.jpg', 'images/gallery/2023Q2/20230425.jpg', 'images/gallery/2023Q2/20230426.jpg', 'images/gallery/2023Q2/20230427.jpg', 'images/gallery/2023Q2/20230428.jpg', 'images/gallery/2023Q2/20230429.jpg', 'images/gallery/2023Q2/20230430.jpg', 'images/gallery/2023Q2/20230501.jpg', 'images/gallery/2023Q2/20230502.jpg', 'images/gallery/2023Q2/20230503.jpg', 'images/gallery/2023Q2/20230504.jpg', 'images/gallery/2023Q2/20230505.jpg', 'images/gallery/2023Q2/20230506.jpg', 'images/gallery/2023Q2/20230507.jpg', 'images/gallery/2023Q2/20230508.jpg', 'images/gallery/2023Q2/20230509.jpg', 'images/gallery/2023Q2/20230510.jpg', 'images/gallery/2023Q2/20230511.jpg', 'images/gallery/2023Q2/20230512.jpg', 'images/gallery/2023Q2/20230513.jpg', 'images/gallery/2023Q2/20230514.jpg', 'images/gallery/2023Q2/20230515.jpg', 'images/gallery/2023Q2/20230516.jpg', 'images/gallery/2023Q2/20230517.jpg', 'images/gallery/2023Q2/20230518.jpg', 'images/gallery/2023Q2/20230519.jpg', 'images/gallery/2023Q2/20230520.jpg', 'images/gallery/2023Q2/20230521.jpg', 'images/gallery/2023Q2/20230522.jpg', 'images/gallery/2023Q2/20230523.jpg', 'images/gallery/2023Q2/20230524.jpg', 'images/gallery/2023Q2/20230525.jpg', 'images/gallery/2023Q2/20230526.jpg', 'images/gallery/2023Q2/20230527.jpg', 'images/gallery/2023Q2/20230528.jpg', 'images/gallery/2023Q2/20230529.jpg', 'images/gallery/2023Q2/20230530.jpg', 'images/gallery/2023Q2/20230531.jpg', 'images/gallery/2023Q2/20230601.jpg', 'images/gallery/2023Q2/20230602.jpg', 'images/gallery/2023Q2/20230603.jpg', 'images/gallery/2023Q2/20230604.jpg', 'images/gallery/2023Q2/20230605.jpg', 'images/gallery/2023Q2/20230606.jpg', 'images/gallery/2023Q2/20230607.jpg', 'images/gallery/2023Q2/20230608.jpg', 'images/gallery/2023Q2/20230609.jpg', 'images/gallery/2023Q2/20230610.jpg', 'images/gallery/2023Q2/20230611.jpg', 'images/gallery/2023Q2/20230612.jpg', 'images/gallery/2023Q2/20230613.jpg', 'images/gallery/2023Q2/20230614.jpg', 'images/gallery/2023Q2/20230615.jpg', 'images/gallery/2023Q2/20230616.jpg', 'images/gallery/2023Q2/20230617.jpg', 'images/gallery/2023Q2/20230618.jpg', 'images/gallery/2023Q2/20230619.jpg', 'images/gallery/2023Q2/20230620.jpg', 'images/gallery/2023Q2/20230621.jpg', 'images/gallery/2023Q2/20230622.jpg', 'images/gallery/2023Q2/20230623.jpg', 'images/gallery/2023Q2/20230624.jpg', 'images/gallery/2023Q2/20230625.jpg', 'images/gallery/2023Q2/20230626.jpg', 'images/gallery/2023Q2/20230627.jpg', 'images/gallery/2023Q2/20230628.jpg', 'images/gallery/2023Q2/20230629.jpg', 'images/gallery/2023Q2/20230630.jpg'],
+  '2023Q1': ['images/gallery/2023Q1/20230107.jpg', 'images/gallery/2023Q1/20230108.jpg', 'images/gallery/2023Q1/20230109.jpg', 'images/gallery/2023Q1/20230110.jpg', 'images/gallery/2023Q1/20230111.jpg', 'images/gallery/2023Q1/20230112.jpg', 'images/gallery/2023Q1/20230113.jpg', 'images/gallery/2023Q1/20230114.jpg', 'images/gallery/2023Q1/20230115.jpg', 'images/gallery/2023Q1/20230116.jpg', 'images/gallery/2023Q1/20230117.jpg', 'images/gallery/2023Q1/20230118.jpg', 'images/gallery/2023Q1/20230119.jpg', 'images/gallery/2023Q1/20230120.jpg', 'images/gallery/2023Q1/20230121.jpg', 'images/gallery/2023Q1/20230122.jpg', 'images/gallery/2023Q1/20230123.jpg', 'images/gallery/2023Q1/20230124.jpg', 'images/gallery/2023Q1/20230125.jpg', 'images/gallery/2023Q1/20230126.jpg', 'images/gallery/2023Q1/20230127.jpg', 'images/gallery/2023Q1/20230128.jpg', 'images/gallery/2023Q1/20230129.jpg', 'images/gallery/2023Q1/20230130.jpg', 'images/gallery/2023Q1/20230131.jpg', 'images/gallery/2023Q1/20230201.jpg', 'images/gallery/2023Q1/20230202.jpg', 'images/gallery/2023Q1/20230203.jpg', 'images/gallery/2023Q1/20230204.jpg', 'images/gallery/2023Q1/20230205.jpg', 'images/gallery/2023Q1/20230206.jpg', 'images/gallery/2023Q1/20230207.jpg', 'images/gallery/2023Q1/20230208.jpg', 'images/gallery/2023Q1/20230209.jpg', 'images/gallery/2023Q1/20230210.jpg', 'images/gallery/2023Q1/20230211.jpg', 'images/gallery/2023Q1/20230212.jpg', 'images/gallery/2023Q1/20230213.jpg', 'images/gallery/2023Q1/20230214.jpg', 'images/gallery/2023Q1/20230215.jpg', 'images/gallery/2023Q1/20230216.jpg', 'images/gallery/2023Q1/20230217.jpg', 'images/gallery/2023Q1/20230218.jpg', 'images/gallery/2023Q1/20230219.jpg', 'images/gallery/2023Q1/20230220.jpg', 'images/gallery/2023Q1/20230221.jpg', 'images/gallery/2023Q1/20230222.jpg', 'images/gallery/2023Q1/20230223.jpg', 'images/gallery/2023Q1/20230224.jpg', 'images/gallery/2023Q1/20230225.jpg', 'images/gallery/2023Q1/20230226.jpg', 'images/gallery/2023Q1/20230227.jpg', 'images/gallery/2023Q1/20230228.jpg', 'images/gallery/2023Q1/20230301.jpg', 'images/gallery/2023Q1/20230302.jpg', 'images/gallery/2023Q1/20230303.jpg', 'images/gallery/2023Q1/20230304.jpg', 'images/gallery/2023Q1/20230305.jpg', 'images/gallery/2023Q1/20230306.jpg', 'images/gallery/2023Q1/20230307.jpg', 'images/gallery/2023Q1/20230308.jpg', 'images/gallery/2023Q1/20230309.jpg', 'images/gallery/2023Q1/20230310.jpg', 'images/gallery/2023Q1/20230311.jpg', 'images/gallery/2023Q1/20230312.jpg', 'images/gallery/2023Q1/20230313.jpg', 'images/gallery/2023Q1/20230314.jpg', 'images/gallery/2023Q1/20230315.jpg', 'images/gallery/2023Q1/20230316.jpg', 'images/gallery/2023Q1/20230317.jpg', 'images/gallery/2023Q1/20230318.jpg', 'images/gallery/2023Q1/20230319.jpg', 'images/gallery/2023Q1/20230320.jpg', 'images/gallery/2023Q1/20230321.jpg', 'images/gallery/2023Q1/20230322.jpg', 'images/gallery/2023Q1/20230323.jpg', 'images/gallery/2023Q1/20230324.jpg', 'images/gallery/2023Q1/20230325.jpg', 'images/gallery/2023Q1/20230326.jpg', 'images/gallery/2023Q1/20230327.jpg', 'images/gallery/2023Q1/20230328.jpg', 'images/gallery/2023Q1/20230329.jpg', 'images/gallery/2023Q1/20230330.jpg', 'images/gallery/2023Q1/20230331.jpg'],
+  '2022Q4': ['images/gallery/2022Q4/20221001.jpg', 'images/gallery/2022Q4/20221002.jpg', 'images/gallery/2022Q4/20221003.jpg', 'images/gallery/2022Q4/20221005.jpg', 'images/gallery/2022Q4/20221006.jpg', 'images/gallery/2022Q4/20221007.jpg', 'images/gallery/2022Q4/20221008.jpg', 'images/gallery/2022Q4/20221009.jpg', 'images/gallery/2022Q4/20221009a.jpg', 'images/gallery/2022Q4/20221010.jpg', 'images/gallery/2022Q4/20221010a.jpg', 'images/gallery/2022Q4/20221011.jpg', 'images/gallery/2022Q4/20221011a.jpg', 'images/gallery/2022Q4/20221012.jpg', 'images/gallery/2022Q4/20221013.jpg', 'images/gallery/2022Q4/20221014.jpg', 'images/gallery/2022Q4/20221015.jpg', 'images/gallery/2022Q4/20221016.jpg', 'images/gallery/2022Q4/20221017.jpg', 'images/gallery/2022Q4/20221018.jpg', 'images/gallery/2022Q4/20221019.jpg', 'images/gallery/2022Q4/20221020.jpg', 'images/gallery/2022Q4/20221021.jpg', 'images/gallery/2022Q4/20221022.jpg', 'images/gallery/2022Q4/20221023.jpg', 'images/gallery/2022Q4/20221024.jpg', 'images/gallery/2022Q4/20221025.jpg', 'images/gallery/2022Q4/20221026.jpg', 'images/gallery/2022Q4/20221027.jpg', 'images/gallery/2022Q4/20221028.jpg', 'images/gallery/2022Q4/20221029.jpg', 'images/gallery/2022Q4/20221101.jpg', 'images/gallery/2022Q4/20221102.jpg', 'images/gallery/2022Q4/20221103.jpg', 'images/gallery/2022Q4/20221104.jpg', 'images/gallery/2022Q4/20221105.jpg', 'images/gallery/2022Q4/20221106.jpg', 'images/gallery/2022Q4/20221107.jpg', 'images/gallery/2022Q4/20221108.jpg', 'images/gallery/2022Q4/20221109.jpg', 'images/gallery/2022Q4/20221110.jpg', 'images/gallery/2022Q4/20221111.jpg', 'images/gallery/2022Q4/20221112.jpg', 'images/gallery/2022Q4/20221113.jpg', 'images/gallery/2022Q4/20221114.jpg', 'images/gallery/2022Q4/20221115.jpg', 'images/gallery/2022Q4/20221116.jpg', 'images/gallery/2022Q4/20221117.jpg', 'images/gallery/2022Q4/20221118.jpg', 'images/gallery/2022Q4/20221119.jpg', 'images/gallery/2022Q4/20221120.jpg', 'images/gallery/2022Q4/20221121.jpg', 'images/gallery/2022Q4/20221122.jpg', 'images/gallery/2022Q4/20221123.jpg', 'images/gallery/2022Q4/20221124.jpg', 'images/gallery/2022Q4/20221125.jpg', 'images/gallery/2022Q4/20221126.jpg', 'images/gallery/2022Q4/20221127.jpg', 'images/gallery/2022Q4/20221128.jpg', 'images/gallery/2022Q4/20221129.jpg', 'images/gallery/2022Q4/20221130.jpg', 'images/gallery/2022Q4/2022120.jpg', 'images/gallery/2022Q4/20221201.jpg', 'images/gallery/2022Q4/20221202.jpg', 'images/gallery/2022Q4/20221203.jpg', 'images/gallery/2022Q4/20221204.jpg', 'images/gallery/2022Q4/20221205.jpg', 'images/gallery/2022Q4/20221206.jpg', 'images/gallery/2022Q4/20221207.jpg', 'images/gallery/2022Q4/20221208.jpg', 'images/gallery/2022Q4/20221209.jpg', 'images/gallery/2022Q4/2022121.jpg', 'images/gallery/2022Q4/20221210.jpg', 'images/gallery/2022Q4/20221211.jpg', 'images/gallery/2022Q4/20221212.jpg', 'images/gallery/2022Q4/20221213.jpg', 'images/gallery/2022Q4/20221214.jpg', 'images/gallery/2022Q4/20221215.jpg', 'images/gallery/2022Q4/20221216.jpg', 'images/gallery/2022Q4/20221217.jpg', 'images/gallery/2022Q4/20221218.jpg', 'images/gallery/2022Q4/20221219.jpg', 'images/gallery/2022Q4/20221220.jpg', 'images/gallery/2022Q4/20221221.jpg', 'images/gallery/2022Q4/20221222.jpg', 'images/gallery/2022Q4/20221223.jpg', 'images/gallery/2022Q4/20221224.jpg', 'images/gallery/2022Q4/20221225.jpg', 'images/gallery/2022Q4/20221226.jpg', 'images/gallery/2022Q4/20221227.jpg', 'images/gallery/2022Q4/20221228.jpg', 'images/gallery/2022Q4/20221229.jpg', 'images/gallery/2022Q4/20221230.jpg', 'images/gallery/2022Q4/20221231.jpg', 'images/gallery/2022Q4/20221231a.jpg'],
+  '2022Q3': ['images/gallery/2022Q3/20220701.jpg', 'images/gallery/2022Q3/20220702.jpg', 'images/gallery/2022Q3/20220703.jpg', 'images/gallery/2022Q3/20220704.jpg', 'images/gallery/2022Q3/20220706.jpg', 'images/gallery/2022Q3/20220707.jpg', 'images/gallery/2022Q3/20220709.jpg', 'images/gallery/2022Q3/20220710.jpg', 'images/gallery/2022Q3/20220711.jpg', 'images/gallery/2022Q3/20220712.jpg', 'images/gallery/2022Q3/20220713.jpg', 'images/gallery/2022Q3/20220714.jpg', 'images/gallery/2022Q3/20220715.jpg', 'images/gallery/2022Q3/20220716.jpg', 'images/gallery/2022Q3/20220717.jpg', 'images/gallery/2022Q3/20220718.jpg', 'images/gallery/2022Q3/20220719.jpg', 'images/gallery/2022Q3/20220720.jpg', 'images/gallery/2022Q3/20220721.jpg', 'images/gallery/2022Q3/20220722.jpg', 'images/gallery/2022Q3/20220825.jpg', 'images/gallery/2022Q3/20220826.jpg', 'images/gallery/2022Q3/20220827.jpg', 'images/gallery/2022Q3/20220828.jpg', 'images/gallery/2022Q3/20220829.jpg', 'images/gallery/2022Q3/20220830.jpg', 'images/gallery/2022Q3/20220901.jpg', 'images/gallery/2022Q3/20220903.jpg', 'images/gallery/2022Q3/20220904.jpg', 'images/gallery/2022Q3/20220905.jpg', 'images/gallery/2022Q3/20220906.jpg', 'images/gallery/2022Q3/20220907.jpg', 'images/gallery/2022Q3/20220908.jpg', 'images/gallery/2022Q3/20220909.jpg', 'images/gallery/2022Q3/20220910.jpg', 'images/gallery/2022Q3/20220911.jpg', 'images/gallery/2022Q3/20220911a.jpg', 'images/gallery/2022Q3/20220912.jpg', 'images/gallery/2022Q3/20220913.jpg', 'images/gallery/2022Q3/20220915.jpg', 'images/gallery/2022Q3/20220916.jpg', 'images/gallery/2022Q3/20220917.jpg', 'images/gallery/2022Q3/20220918.jpg', 'images/gallery/2022Q3/20220919.jpg', 'images/gallery/2022Q3/20220924.jpg', 'images/gallery/2022Q3/20220925.jpg', 'images/gallery/2022Q3/20220925a.jpg', 'images/gallery/2022Q3/20220926.jpg', 'images/gallery/2022Q3/20220927.jpg', 'images/gallery/2022Q3/20220928.jpg', 'images/gallery/2022Q3/20220929.jpg', 'images/gallery/2022Q3/20220930.jpg'],
+  '2022Q2': ['images/gallery/2022Q2/20220401.jpg', 'images/gallery/2022Q2/20220402.jpg', 'images/gallery/2022Q2/20220403.jpg', 'images/gallery/2022Q2/20220404.jpg', 'images/gallery/2022Q2/20220405.jpg', 'images/gallery/2022Q2/20220406.jpg', 'images/gallery/2022Q2/20220407.jpg', 'images/gallery/2022Q2/20220408.jpg', 'images/gallery/2022Q2/20220409.jpg', 'images/gallery/2022Q2/20220412.jpg', 'images/gallery/2022Q2/20220413.jpg', 'images/gallery/2022Q2/20220414.jpg', 'images/gallery/2022Q2/20220415.jpg', 'images/gallery/2022Q2/20220415‗1.jpg', 'images/gallery/2022Q2/20220416.jpg', 'images/gallery/2022Q2/20220417.jpg', 'images/gallery/2022Q2/20220418.jpg', 'images/gallery/2022Q2/20220419.jpg', 'images/gallery/2022Q2/20220420.jpg', 'images/gallery/2022Q2/20220421.jpg', 'images/gallery/2022Q2/20220422.jpg', 'images/gallery/2022Q2/20220423.jpg', 'images/gallery/2022Q2/20220424.jpg', 'images/gallery/2022Q2/20220425.jpg', 'images/gallery/2022Q2/20220426.jpg', 'images/gallery/2022Q2/20220427.jpg', 'images/gallery/2022Q2/20220428.jpg', 'images/gallery/2022Q2/20220429.jpg', 'images/gallery/2022Q2/20220430.jpg', 'images/gallery/2022Q2/20220501.jpg', 'images/gallery/2022Q2/20220502.jpg', 'images/gallery/2022Q2/20220503.jpg', 'images/gallery/2022Q2/20220504.jpg', 'images/gallery/2022Q2/20220505.jpg', 'images/gallery/2022Q2/20220506.jpg', 'images/gallery/2022Q2/20220507.jpg', 'images/gallery/2022Q2/20220508.jpg', 'images/gallery/2022Q2/20220509.jpg', 'images/gallery/2022Q2/20220510.jpg', 'images/gallery/2022Q2/20220511.jpg', 'images/gallery/2022Q2/20220512.jpg', 'images/gallery/2022Q2/20220513.jpg', 'images/gallery/2022Q2/20220514.jpg', 'images/gallery/2022Q2/20220515.jpg', 'images/gallery/2022Q2/20220516.jpg', 'images/gallery/2022Q2/20220517.jpg', 'images/gallery/2022Q2/20220518.jpg', 'images/gallery/2022Q2/20220519.jpg', 'images/gallery/2022Q2/20220520.jpg', 'images/gallery/2022Q2/20220521.jpg', 'images/gallery/2022Q2/20220522.jpg', 'images/gallery/2022Q2/20220523.jpg', 'images/gallery/2022Q2/20220524.jpg', 'images/gallery/2022Q2/20220525.jpg', 'images/gallery/2022Q2/20220526.jpg', 'images/gallery/2022Q2/20220528.jpg', 'images/gallery/2022Q2/20220528_1.jpg', 'images/gallery/2022Q2/20220529.jpg', 'images/gallery/2022Q2/20220530.jpg', 'images/gallery/2022Q2/20220531.jpg', 'images/gallery/2022Q2/20220603.jpg', 'images/gallery/2022Q2/20220604.jpg', 'images/gallery/2022Q2/20220605.jpg', 'images/gallery/2022Q2/20220606.jpg', 'images/gallery/2022Q2/20220607.jpg', 'images/gallery/2022Q2/20220608.jpg', 'images/gallery/2022Q2/20220609.jpg', 'images/gallery/2022Q2/20220610.jpg', 'images/gallery/2022Q2/20220611.jpg', 'images/gallery/2022Q2/20220612.jpg', 'images/gallery/2022Q2/20220613.jpg', 'images/gallery/2022Q2/20220614.jpg', 'images/gallery/2022Q2/20220615.jpg', 'images/gallery/2022Q2/20220616.jpg', 'images/gallery/2022Q2/20220617.jpg', 'images/gallery/2022Q2/20220618.jpg', 'images/gallery/2022Q2/20220619.jpg', 'images/gallery/2022Q2/20220620.jpg', 'images/gallery/2022Q2/20220621.jpg', 'images/gallery/2022Q2/20220622.jpg', 'images/gallery/2022Q2/20220623.jpg', 'images/gallery/2022Q2/20220624.jpg', 'images/gallery/2022Q2/20220625.jpg', 'images/gallery/2022Q2/20220626.jpg', 'images/gallery/2022Q2/20220627.jpg', 'images/gallery/2022Q2/20220628.jpg', 'images/gallery/2022Q2/20220629.jpg', 'images/gallery/2022Q2/20220630.jpg'],
+  '2022Q1': ['images/gallery/2022Q1/20220127.jpg', 'images/gallery/2022Q1/20220128.jpg', 'images/gallery/2022Q1/20220129.jpg', 'images/gallery/2022Q1/20220130.jpg', 'images/gallery/2022Q1/20220131.jpg', 'images/gallery/2022Q1/20220201.jpg', 'images/gallery/2022Q1/20220202.jpg', 'images/gallery/2022Q1/20220203.jpg', 'images/gallery/2022Q1/20220204.jpg', 'images/gallery/2022Q1/20220205.jpg', 'images/gallery/2022Q1/20220206.jpg', 'images/gallery/2022Q1/20220207.jpg', 'images/gallery/2022Q1/20220208.jpg', 'images/gallery/2022Q1/20220209.jpg', 'images/gallery/2022Q1/20220210.jpg', 'images/gallery/2022Q1/20220211.jpg', 'images/gallery/2022Q1/20220212.jpg', 'images/gallery/2022Q1/20220212_2.jpg', 'images/gallery/2022Q1/20220213.jpg', 'images/gallery/2022Q1/20220214.jpg', 'images/gallery/2022Q1/20220214‗2.jpg', 'images/gallery/2022Q1/20220215.jpg', 'images/gallery/2022Q1/20220216.jpg', 'images/gallery/2022Q1/20220217.jpg', 'images/gallery/2022Q1/20220218.jpg', 'images/gallery/2022Q1/20220219.jpg', 'images/gallery/2022Q1/20220220.jpg', 'images/gallery/2022Q1/20220221.jpg', 'images/gallery/2022Q1/20220222.jpg', 'images/gallery/2022Q1/20220223.jpg', 'images/gallery/2022Q1/20220224.jpg', 'images/gallery/2022Q1/20220225.jpg', 'images/gallery/2022Q1/20220226.jpg', 'images/gallery/2022Q1/20220226‗1.jpg', 'images/gallery/2022Q1/20220227.jpg', 'images/gallery/2022Q1/20220227_1.jpg', 'images/gallery/2022Q1/20220228.jpg', 'images/gallery/2022Q1/20220301.jpg', 'images/gallery/2022Q1/20220302.jpg', 'images/gallery/2022Q1/20220303.jpg', 'images/gallery/2022Q1/20220304.jpg', 'images/gallery/2022Q1/20220305.jpg', 'images/gallery/2022Q1/20220306.jpg', 'images/gallery/2022Q1/20220307.jpg', 'images/gallery/2022Q1/20220308.jpg', 'images/gallery/2022Q1/20220309.jpg', 'images/gallery/2022Q1/20220310.jpg', 'images/gallery/2022Q1/20220311.jpg', 'images/gallery/2022Q1/20220312.jpg', 'images/gallery/2022Q1/20220313.jpg', 'images/gallery/2022Q1/20220314.jpg', 'images/gallery/2022Q1/20220315.jpg', 'images/gallery/2022Q1/20220316.jpg', 'images/gallery/2022Q1/20220317.jpg', 'images/gallery/2022Q1/20220318.jpg', 'images/gallery/2022Q1/20220319.jpg', 'images/gallery/2022Q1/20220320.jpg', 'images/gallery/2022Q1/20220321.jpg', 'images/gallery/2022Q1/20220322.jpg', 'images/gallery/2022Q1/20220323.jpg', 'images/gallery/2022Q1/20220324.jpg', 'images/gallery/2022Q1/20220325.jpg', 'images/gallery/2022Q1/20220326.jpg', 'images/gallery/2022Q1/20220326‗1.jpg', 'images/gallery/2022Q1/20220327.jpg', 'images/gallery/2022Q1/20220328.jpg', 'images/gallery/2022Q1/20220329.jpg', 'images/gallery/2022Q1/20220330.jpg', 'images/gallery/2022Q1/20220331.jpg'],
+};
+
+
+// アコーディオンを開いたとき初めて写真を読み込む
+function loadGallery(quarter) {
+  var grid = document.getElementById('grid-' + quarter);
+  if (grid.dataset.loaded) return;
+  grid.dataset.loaded = '1';
+  var imgs = galleryData[quarter] || [];
+  var html = '';
+  imgs.forEach(function(src) {
+    html += '<img src="' + src + '" loading="lazy" alt="' + quarter + '" onclick="openModal(\'' + src + '\')">';
+  });
+  grid.innerHTML = html;
+}
+
+function toggleAccordion(btn) {
+  var item = btn.parentElement;
+  var wasOpen = item.classList.contains('open');
+  // 他を全部閉じる
+  document.querySelectorAll('.accordion-item').forEach(function(el) {
+    el.classList.remove('open');
+  });
+  if (!wasOpen) {
+    item.classList.add('open');
+    loadGallery(item.dataset.quarter);
+  }
+}
+
+// 最初から開いているものを読み込む
+document.querySelectorAll('.accordion-item.open').forEach(function(item) {
+  loadGallery(item.dataset.quarter);
+});
+
+function openModal(src) {
+  document.getElementById('lightbox-img').src = src;
+  document.getElementById('lightbox-modal').style.display = 'flex';
 }
 function closeModal() {
   document.getElementById('lightbox-modal').style.display = 'none';
+  document.getElementById('lightbox-img').src = '';
 }
-document.getElementById('lightbox-modal').addEventListener('click', function(e) {
-  if (e.target === this) closeModal();
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeModal();
 });
 </script>
 
