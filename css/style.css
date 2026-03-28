@@ -17,13 +17,16 @@ body {
   font-family: 'Hiragino Kaku Gothic ProN', 'Meiryo', 'MS PGothic', sans-serif;
   font-size: 14px;
   line-height: 1.8;
-  color: #333;
+  color: #222;
   background-color: #1a0800;
   background-image: url('../images/bg.PNG');
   background-attachment: fixed;
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
 /* =====================
@@ -80,10 +83,12 @@ body {
   display: block;
   padding: 10px 13px;
   font-size: 13px;
-  color: #333;
+  font-weight: 500;
+  color: #111;
   text-decoration: none;
   white-space: nowrap;
   transition: background 0.2s;
+  -webkit-font-smoothing: antialiased;
 }
 
 .site-nav ul li a:hover,
@@ -109,10 +114,12 @@ main {
 
 .section h2 {
   font-size: 18px;
-  color: #003399;
-  border-bottom: 1px solid #ccc;
+  font-weight: 700;
+  color: #002299;
+  border-bottom: 2px solid #bbb;
   padding-bottom: 6px;
   margin-bottom: 14px;
+  letter-spacing: 0.04em;
 }
 
 .section h3 {
@@ -615,14 +622,16 @@ a:hover {
   border: none;
   padding: 12px 16px;
   text-align: left;
-  font-size: 14px;
-  font-weight: bold;
-  color: #8B1A1A;
+  font-size: 15px;
+  font-weight: 700;
+  color: #7a1212;
+  letter-spacing: 0.03em;
   cursor: pointer;
   display: flex;
   justify-content: space-between;
   align-items: center;
   transition: background 0.2s;
+  -webkit-font-smoothing: antialiased;
 }
 
 .accordion-btn:hover {
