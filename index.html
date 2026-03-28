@@ -68,12 +68,101 @@
     <section class="section">
       <h2>お知らせ</h2>
       <ul class="news-list">
-        <li><a href="blog.html">お休みのお知らせ 10月</a></li>
         <li><a href="blog.html">しごとぎや「たまゆら」さんのYoutubeで紹介いただきました</a></li>
         <li><a href="blog.html">なるみ・岡村の過ぎるTVで紹介頂きました 🍊</a></li>
         <li><a href="blog.html">北京の新型コロナウイルス対策について</a></li>
       </ul>
     </section>
+
+    <!-- 今月・来月の休み カレンダー -->
+    <section class="section">
+      <h2>今月・来月の休み</h2>
+      <p style="font-size:12px; color:#666; margin-bottom:12px;">毎週火曜日が定休日です。臨時休業は赤字で表示されます。</p>
+      <div id="calendar-area" style="display:flex; flex-wrap:wrap; gap:16px; justify-content:center;"></div>
+    </section>
+
+    <script>
+    // =============================================
+    // 臨時休業日の設定（必要に応じて追加してください）
+    // 形式: 'YYYY-MM-DD': '理由'
+    // =============================================
+    var EXTRA_CLOSED = {
+      // 例: '2026-05-03': 'GW休業',
+      //     '2026-08-13': 'お盆休み',
+    };
+
+    (function() {
+      var MONTHS_JA = ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'];
+      var MONTHS_EN = ['JANUARY','FEBRUARY','MARCH','APRIL','MAY','JUNE','JULY','AUGUST','SEPTEMBER','OCTOBER','NOVEMBER','DECEMBER'];
+      var DAYS = ['sun','mon','tue','wed','thu','fri','sat'];
+
+      function pad(n){ return n < 10 ? '0'+n : ''+n; }
+
+      function buildCalendar(year, month) {
+        // month: 0-indexed
+        var firstDay = new Date(year, month, 1).getDay(); // 0=Sun
+        var lastDate = new Date(year, month+1, 0).getDate();
+
+        var cells = '';
+        // 曜日ヘッダー
+        var headerCells = '';
+        DAYS.forEach(function(d,i){
+          var cls = i===0 ? 'cal-sun' : (i===6 ? 'cal-sat' : '');
+          headerCells += '<div class="cal-dow '+cls+'">'+d+'</div>';
+        });
+
+        // 空白セル（月初の曜日まで）
+        var dayCells = '';
+        for(var b=0; b<firstDay; b++){
+          dayCells += '<div class="cal-day cal-empty"></div>';
+        }
+
+        // 日付セル
+        for(var d=1; d<=lastDate; d++){
+          var dateObj = new Date(year, month, d);
+          var dow = dateObj.getDay();
+          var key = year+'-'+pad(month+1)+'-'+pad(d);
+          var isTue = (dow === 2);
+          var isExtra = EXTRA_CLOSED[key] !== undefined;
+          var isSun = (dow === 0);
+          var isSat = (dow === 6);
+
+          var cls = 'cal-day';
+          if(isSun) cls += ' cal-sun';
+          if(isSat) cls += ' cal-sat';
+          if(isTue || isExtra) cls += ' cal-closed';
+
+          var inner = '<span class="cal-num">'+d+'</span>';
+          if(isTue){
+            inner += '<span class="cal-rest">休</span>';
+          } else if(isExtra){
+            inner += '<span class="cal-rest cal-extra">'+EXTRA_CLOSED[key]+'</span>';
+          }
+
+          dayCells += '<div class="'+cls+'">'+inner+'</div>';
+        }
+
+        return '<div class="cal-box">'
+          + '<div class="cal-header">'
+          + '<span class="cal-month-num">'+(month+1)+'</span>'
+          + '<span class="cal-month-info"><span class="cal-month-en">'+MONTHS_EN[month]+'</span>'
+          + '<span class="cal-year">'+year+'</span></span>'
+          + '</div>'
+          + '<div class="cal-grid">'
+          + headerCells
+          + dayCells
+          + '</div>'
+          + '</div>';
+      }
+
+      var now = new Date();
+      var y = now.getFullYear(), m = now.getMonth();
+      var next = m === 11 ? {y: y+1, m: 0} : {y: y, m: m+1};
+
+      var area = document.getElementById('calendar-area');
+      area.innerHTML = buildCalendar(y, m) + buildCalendar(next.y, next.m);
+    })();
+    </script>
 
     <!-- いらっしゃいませ -->
     <section class="section">
