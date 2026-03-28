@@ -35,7 +35,7 @@ body {
 .site-wrapper {
   max-width: 860px;
   margin: 0 auto;
-  background: rgba(255, 255, 255, 0.88);
+  background: rgba(255, 255, 255, 0.6);
   box-shadow: 0 0 28px rgba(0,0,0,0.55);
   min-height: 100vh;
   backdrop-filter: blur(2px);
