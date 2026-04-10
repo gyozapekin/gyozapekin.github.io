@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>海鮮餃子ペキン — スタッフログイン</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Helvetica Neue','Hiragino Sans','Yu Gothic UI',Arial,sans-serif;
+  background:linear-gradient(145deg,#1a0a09 0%,#3d1010 50%,#1a0a09 100%);
+  min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+.card{background:#fff;border-radius:16px;width:100%;max-width:400px;
+  box-shadow:0 20px 60px rgba(0,0,0,.5);overflow:hidden}
+.card-head{background:linear-gradient(135deg,#a93226,#c0392b,#e74c3c);
+  padding:32px 28px;text-align:center;color:#fff}
+.logo{font-size:2.5em;margin-bottom:8px}
+.card-head h1{font-size:1.3em;font-weight:800;letter-spacing:.08em;margin-bottom:4px}
+.card-head p{font-size:.75em;opacity:.8;letter-spacing:.06em}
+.card-body{padding:32px 28px}
+.form-group{margin-bottom:18px}
+.form-group label{display:block;font-size:.78em;font-weight:700;color:#475569;
+  margin-bottom:6px;letter-spacing:.05em;text-transform:uppercase}
+.form-group input{width:100%;border:1.5px solid #e2e8f0;border-radius:8px;
+  padding:11px 14px;font-size:.95em;outline:none;transition:border-color .15s;color:#1a202c}
+.form-group input:focus{border-color:#c0392b;box-shadow:0 0 0 3px rgba(192,57,43,.1)}
+.login-btn{width:100%;background:linear-gradient(135deg,#c0392b,#e74c3c);
+  color:#fff;border:none;border-radius:8px;padding:12px;font-size:1em;
+  font-weight:700;cursor:pointer;letter-spacing:.05em;transition:opacity .15s;margin-top:6px}
+.login-btn:hover{opacity:.88}
+.error-msg{background:#fee2e2;border:1px solid #fca5a5;border-radius:6px;
+  padding:10px 14px;font-size:.82em;color:#991b1b;margin-bottom:16px;display:none}
+.hint{font-size:.72em;color:#94a3b8;text-align:center;margin-top:16px;line-height:1.6}
+.hint strong{color:#64748b}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="card-head">
+    <div class="logo">🐟</div>
+    <h1>海鮮餃子ペキン</h1>
+    <p>STAFF SCHEDULE SYSTEM</p>
+  </div>
+  <div class="card-body">
+    <div class="error-msg" id="errMsg">IDまたはパスワードが違います。</div>
+    <div class="form-group">
+      <label>スタッフID</label>
+      <input type="text" id="loginId" placeholder="例：fusa" autocomplete="username">
+    </div>
+    <div class="form-group">
+      <label>パスワード</label>
+      <input type="password" id="loginPw" placeholder="パスワードを入力" autocomplete="current-password">
+    </div>
+    <button class="login-btn" onclick="doLogin()">ログイン</button>
+    <div class="hint">
+      <strong>初期アカウント</strong><br>
+      管理者 ID: <strong>admin</strong> / PW: <strong>pekin2026</strong><br>
+      ※ログイン後に変更してください
+    </div>
+  </div>
+</div>
+
+<script>
+/* ── AUTH HELPERS ── */
+function getUsers(){
+  const def=[{id:'admin',name:'管理者',username:'admin',password:'pekin2026',role:'admin',type:'admin'}];
+  return JSON.parse(localStorage.getItem('pekin_users')||JSON.stringify(def));
+}
+function setSession(u){
+  const exp=Date.now()+8*60*60*1000; // 8h
+  sessionStorage.setItem('pekin_session',JSON.stringify({
+    userId:u.id,username:u.username,name:u.name,role:u.role,expires:exp
+  }));
+}
+function doLogin(){
+  const id=document.getElementById('loginId').value.trim();
+  const pw=document.getElementById('loginPw').value;
+  const users=getUsers();
+  const u=users.find(x=>x.username===id&&x.password===pw);
+  if(!u){
+    document.getElementById('errMsg').style.display='block';
+    document.getElementById('loginPw').value='';
+    return;
+  }
+  setSession(u);
+  location.href=u.role==='admin'?'admin.html':'staff.html';
+}
+document.getElementById('loginPw').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
+document.getElementById('loginId').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
+
+// already logged in?
+(function(){
+  const s=sessionStorage.getItem('pekin_session');
+  if(!s)return;
+  const sess=JSON.parse(s);
+  if(sess.expires>Date.now())
+    location.href=sess.role==='admin'?'admin.html':'staff.html';
+})();
+</script>
+</body>
+</html>

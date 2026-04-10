@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>ペキン 管理者ページ</title>
+<style>
+:root{--red:#c0392b;--bg:#f0f2f5;--card:#fff;--border:#e2e8f0;--text:#1a202c;--muted:#718096}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Helvetica Neue','Hiragino Sans','Yu Gothic UI',Arial,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+
+/* NAV */
+.topnav{background:linear-gradient(135deg,#a93226,#c0392b);color:#fff;
+  padding:0 24px;display:flex;align-items:center;justify-content:space-between;
+  box-shadow:0 2px 12px rgba(0,0,0,.2);flex-wrap:wrap;gap:8px;min-height:54px}
+.nav-left{display:flex;align-items:center;gap:12px}
+.nav-logo{font-size:1.4em}
+.nav-title{font-size:.95em;font-weight:800;letter-spacing:.05em}
+.nav-right{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.nav-user{font-size:.78em;opacity:.85}
+.nbtn{border:none;border-radius:6px;padding:6px 13px;font-size:.78em;font-weight:700;cursor:pointer}
+.nbtn-ghost{background:rgba(255,255,255,.18);color:#fff;border:1px solid rgba(255,255,255,.4)}
+.nbtn-ghost:hover{background:rgba(255,255,255,.3)}
+.nbtn-green{background:#27ae60;color:#fff}
+.nbtn-red{background:#922b21;color:#fff}
+
+/* TABS */
+.tab-bar{background:#fff;border-bottom:2px solid var(--border);padding:0 24px;display:flex;gap:0;overflow-x:auto}
+.tab{padding:12px 20px;font-size:.82em;font-weight:700;color:var(--muted);cursor:pointer;
+  border:none;background:none;border-bottom:3px solid transparent;white-space:nowrap;transition:all .15s}
+.tab.active{color:var(--red);border-bottom-color:var(--red)}
+.tab:hover:not(.active){color:#374151}
+
+/* PANELS */
+.panel{display:none;padding:20px 24px;max-width:1280px;margin:0 auto}
+.panel.active{display:block}
+
+/* CALENDAR */
+.cal-controls{display:flex;align-items:center;gap:10px;margin-bottom:16px;flex-wrap:wrap}
+.month-nav{display:flex;align-items:center;background:#fff;border:1px solid var(--border);
+  border-radius:8px;overflow:hidden}
+.month-nav button{background:none;border:none;padding:7px 14px;cursor:pointer;font-size:1em;color:#374151}
+.month-nav button:hover{background:#f1f5f9}
+.month-label{padding:7px 16px;font-weight:700;font-size:.95em;min-width:110px;text-align:center;
+  border-left:1px solid var(--border);border-right:1px solid var(--border)}
+.cbtn{border:none;border-radius:6px;padding:7px 14px;font-size:.8em;font-weight:600;cursor:pointer}
+.cbtn-outline{background:#fff;border:1px solid var(--border);color:#374151}
+.cbtn-outline:hover{background:#f1f5f9}
+.cbtn-red{background:var(--red);color:#fff}
+.cbtn-blue{background:#1d4ed8;color:#fff}
+
+.cal-head{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-bottom:3px}
+.cal-head-cell{text-align:center;font-size:.72em;font-weight:700;padding:5px 0;color:var(--muted);letter-spacing:.06em}
+.cal-head-cell.sun{color:var(--red)}.cal-head-cell.sat{color:#1d4ed8}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px}
+
+.day-cell{background:#fff;border-radius:8px;border:1px solid var(--border);
+  min-height:130px;padding:6px;display:flex;flex-direction:column;gap:3px;transition:box-shadow .12s}
+.day-cell:not(.closed):not(.other-month):hover{box-shadow:0 2px 10px rgba(0,0,0,.1)}
+.day-cell.other-month{opacity:.3;pointer-events:none}
+.day-cell.closed{background:#f3f4f6;border-color:#e5e7eb}
+.day-cell.today{border:2px solid var(--red)}
+.day-num{font-size:1em;font-weight:700;width:26px;height:26px;display:flex;
+  align-items:center;justify-content:center;border-radius:50%;align-self:flex-end}
+.day-cell.sun .day-num{color:var(--red)}.day-cell.sat .day-num{color:#1d4ed8}
+.day-cell.today .day-num{background:var(--red);color:#fff}
+.closed-label{flex:1;display:flex;align-items:center;justify-content:center;
+  font-size:.72em;color:#adb5bd;letter-spacing:.12em}
+
+.shift-block{border-radius:6px;padding:4px 6px;cursor:pointer;transition:filter .1s;flex:1}
+.shift-block:hover{filter:brightness(.95)}
+.shift-block.lunch{background:#eff6ff;border:1px solid #bfdbfe}
+.shift-block.dinner{background:#fffbeb;border:1px solid #fde68a}
+.shift-label{font-size:.6em;font-weight:700;color:#94a3b8;margin-bottom:2px}
+.shift-block.lunch .shift-label{color:#1d4ed8}
+.shift-block.dinner .shift-label{color:#92400e}
+.name-row{display:flex;flex-wrap:wrap;gap:2px;min-height:16px}
+.ntag{font-size:.68em;font-weight:600;padding:1px 6px;border-radius:12px;white-space:nowrap}
+.lunch .ntag{background:#dbeafe;color:#1e40af;border:1px solid #93c5fd}
+.dinner .ntag{background:#fef3c7;color:#92400e;border:1px solid #fcd34d}
+.nempty{font-size:.68em;color:#aaa}
+.ext-tag{font-size:.6em;background:#fee2e2;color:#b91c1c;border-radius:3px;padding:1px 4px;font-weight:700}
+.avail-row{display:flex;flex-wrap:wrap;gap:2px;margin-top:1px}
+.adot{width:6px;height:6px;border-radius:50%}
+.dot-ok{background:#10b981}.dot-off{background:#ef4444}.dot-maybe{background:#f59e0b}
+
+/* AVAILABILITY TABLE */
+.avail-table-wrap{overflow-x:auto}
+.avail-table{width:100%;border-collapse:collapse;font-size:.8em;min-width:600px}
+.avail-table th{background:#2c3e50;color:#fff;padding:8px 10px;text-align:center;font-weight:600;white-space:nowrap}
+.avail-table td{padding:6px 8px;border-bottom:1px solid #f1f5f9;text-align:center;vertical-align:middle}
+.avail-table tr:nth-child(even) td{background:#fafafa}
+.avail-table tr:hover td{background:#f0f7ff}
+.atag{font-size:.72em;padding:2px 7px;border-radius:10px;font-weight:600}
+.atag-ok{background:#d1fae5;color:#065f46}.atag-off{background:#fee2e2;color:#991b1b}
+.atag-maybe{background:#fef9c3;color:#854d0e}.atag-none{background:#f1f5f9;color:#94a3b8}
+.published-badge{background:#d1fae5;color:#065f46;padding:3px 10px;border-radius:12px;
+  font-size:.72em;font-weight:700;display:inline-flex;align-items:center;gap:4px}
+.draft-badge{background:#fef9c3;color:#92400e;padding:3px 10px;border-radius:12px;
+  font-size:.72em;font-weight:700}
+
+/* STAFF MANAGEMENT */
+.staff-card{background:#fff;border-radius:10px;border:1px solid var(--border);overflow:hidden;margin-bottom:12px}
+.staff-card-head{background:#2c3e50;color:#fff;padding:10px 16px;display:flex;align-items:center;justify-content:space-between}
+.staff-card-head span{font-size:.85em;font-weight:700}
+.staff-list{padding:0}
+.staff-row2{display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:10px;align-items:center;
+  padding:10px 16px;border-bottom:1px solid #f1f5f9;font-size:.82em}
+.staff-row2:last-child{border-bottom:none}
+.staff-row2:hover{background:#f8fafc}
+.sbadge2{font-size:.68em;padding:2px 7px;border-radius:10px;font-weight:600}
+.sb-admin{background:#fee2e2;color:#991b1b}.sb-part{background:#dbeafe;color:#1d4ed8}
+.sb-fixed{background:#d1fae5;color:#065f46}.sb-free{background:#fef3c7;color:#92400e}
+.sb-alt{background:#f3e8ff;color:#6b21a8}
+.act-btns{display:flex;gap:6px}
+.act-btn{border:1px solid var(--border);border-radius:5px;padding:3px 9px;
+  font-size:.72em;cursor:pointer;background:#fff;color:#475569}
+.act-btn:hover{background:#f1f5f9}
+.act-btn.del{border-color:#fca5a5;color:#991b1b}
+.act-btn.del:hover{background:#fee2e2}
+
+/* MODAL */
+.overlay{position:fixed;inset:0;background:rgba(15,23,42,.5);z-index:300;
+  display:none;align-items:center;justify-content:center;backdrop-filter:blur(2px)}
+.overlay.open{display:flex}
+.modal{background:#fff;border-radius:14px;padding:24px;width:380px;max-width:96vw;
+  box-shadow:0 20px 60px rgba(0,0,0,.25);animation:pop .18s ease}
+@keyframes pop{from{transform:scale(.94);opacity:0}to{transform:scale(1);opacity:1}}
+.modal-head{font-size:1em;font-weight:700;margin-bottom:16px}
+.fg{margin-bottom:14px}
+.fg label{display:block;font-size:.75em;font-weight:700;color:var(--muted);margin-bottom:5px;text-transform:uppercase;letter-spacing:.05em}
+.fg input,.fg select{width:100%;border:1.5px solid var(--border);border-radius:7px;
+  padding:8px 11px;font-size:.88em;outline:none;transition:border-color .12s}
+.fg input:focus,.fg select:focus{border-color:#94a3b8}
+.modal-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:18px}
+.mbtn{border:none;border-radius:7px;padding:8px 18px;font-size:.85em;font-weight:600;cursor:pointer}
+.mbtn-cancel{background:#f1f5f9;color:#475569}
+.mbtn-save{background:var(--red);color:#fff}
+.mbtn-blue{background:#1d4ed8;color:#fff}
+.mbtn:hover{opacity:.88}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{display:flex;align-items:center;gap:4px;border:1.5px solid var(--border);
+  border-radius:20px;padding:4px 11px;cursor:pointer;font-size:.82em;user-select:none}
+.chip:hover{border-color:#94a3b8;background:#f8fafc}
+.chip.sel-lunch{border-color:#3b82f6;background:#eff6ff;color:#1d4ed8}
+.chip.sel-dinner{border-color:#f59e0b;background:#fffbeb;color:#92400e}
+.chip input{display:none}
+
+/* SECTION CARD */
+.sec{background:#fff;border-radius:10px;border:1px solid var(--border);
+  overflow:hidden;margin-bottom:16px}
+.sec-head{background:#2c3e50;color:#fff;padding:11px 18px;font-size:.85em;font-weight:700;
+  display:flex;align-items:center;justify-content:space-between}
+.sec-body{padding:16px 18px}
+.empty-state{text-align:center;color:#94a3b8;padding:30px;font-size:.85em}
+
+@media print{
+  .topnav,.tab-bar,.cal-controls,.no-print{display:none!important}
+  .panel.active{padding:0}
+  .day-cell{min-height:90px;page-break-inside:avoid}
+  .shift-block.lunch,.shift-block.dinner,.day-cell.closed{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .ntag{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="topnav">
+  <div class="nav-left">
+    <span class="nav-logo">🐟</span>
+    <span class="nav-title">海鮮餃子ペキン — 管理画面</span>
+  </div>
+  <div class="nav-right">
+    <span class="nav-user" id="navUser"></span>
+    <button class="nbtn nbtn-green no-print" onclick="window.print()">🖨 印刷</button>
+    <button class="nbtn nbtn-red no-print" onclick="logout()">ログアウト</button>
+  </div>
+</nav>
+
+<!-- TABS -->
+<div class="tab-bar no-print">
+  <button class="tab active" onclick="switchTab('shift')">📅 シフト管理</button>
+  <button class="tab" onclick="switchTab('avail')">📝 希望一覧</button>
+  <button class="tab" onclick="switchTab('staff')">👥 スタッフ管理</button>
+</div>
+
+<!-- PANEL: SHIFT -->
+<div class="panel active" id="panel-shift">
+  <div class="cal-controls no-print">
+    <div class="month-nav">
+      <button onclick="changeMonth(-1)">◀</button>
+      <span class="month-label" id="monthLabel"></span>
+      <button onclick="changeMonth(1)">▶</button>
+    </div>
+    <button class="cbtn cbtn-outline" onclick="resetToDefault()">↺ デフォルト</button>
+    <button class="cbtn cbtn-blue"    onclick="publishShift()">✔ 公開する</button>
+    <span id="publishStatus"></span>
+  </div>
+  <div class="cal-head">
+    <div class="cal-head-cell sun">日</div>
+    <div class="cal-head-cell">月</div>
+    <div class="cal-head-cell">火</div>
+    <div class="cal-head-cell">水</div>
+    <div class="cal-head-cell">木</div>
+    <div class="cal-head-cell sat">金</div>
+    <div class="cal-head-cell sat">土</div>
+  </div>
+  <div class="cal-grid" id="calGrid"></div>
+</div>
+
+<!-- PANEL: AVAILABILITY -->
+<div class="panel" id="panel-avail">
+  <div class="sec">
+    <div class="sec-head">
+      <span>📝 スタッフ希望一覧</span>
+      <div class="month-nav" style="background:rgba(255,255,255,.1)">
+        <button onclick="changeMonth(-1)" style="color:#fff">◀</button>
+        <span class="month-label" id="availMonthLabel" style="color:#fff;border-color:rgba(255,255,255,.2)"></span>
+        <button onclick="changeMonth(1)" style="color:#fff">▶</button>
+      </div>
+    </div>
+    <div class="sec-body" id="availBody">
+      <div class="empty-state">データを読み込んでいます…</div>
+    </div>
+  </div>
+</div>
+
+<!-- PANEL: STAFF -->
+<div class="panel" id="panel-staff">
+  <div style="margin-bottom:14px;display:flex;gap:8px;align-items:center" class="no-print">
+    <span style="font-size:.85em;font-weight:700;color:#374151">スタッフアカウント一覧</span>
+    <button class="cbtn cbtn-red" onclick="openAddStaff()">＋ 新規追加</button>
+  </div>
+  <div class="staff-card">
+    <div class="staff-card-head"><span>登録スタッフ</span><span id="staffCount" style="font-size:.75em;opacity:.8"></span></div>
+    <div id="staffListBody"></div>
+  </div>
+</div>
+
+<!-- Edit Shift Modal -->
+<div class="overlay" id="editOverlay">
+  <div class="modal">
+    <div style="font-size:.78em;color:var(--muted);margin-bottom:4px" id="modalSub"></div>
+    <div class="modal-head" id="modalHead"></div>
+    <div class="fg">
+      <label>担当スタッフ（最大4名）</label>
+      <div class="chips" id="modalChips"></div>
+    </div>
+    <div class="fg">
+      <label class="ext-row" style="display:flex;align-items:center;gap:7px;font-size:.85em;cursor:pointer;text-transform:none;letter-spacing:0">
+        <input type="checkbox" id="extCheck" style="width:15px;height:15px;cursor:pointer"> 延長の可能性あり
+      </label>
+    </div>
+    <div class="modal-actions">
+      <button class="mbtn mbtn-cancel" onclick="closeEdit()">キャンセル</button>
+      <button class="mbtn mbtn-save"   onclick="saveShiftEdit()">保存</button>
+    </div>
+  </div>
+</div>
+
+<!-- Add/Edit Staff Modal -->
+<div class="overlay" id="staffOverlay">
+  <div class="modal">
+    <div class="modal-head" id="staffModalHead">スタッフを追加</div>
+    <div class="fg"><label>名前</label><input type="text" id="sName" placeholder="例：田中さん"></div>
+    <div class="fg"><label>スタッフID（ログインID）</label><input type="text" id="sUsername" placeholder="例：tanaka"></div>
+    <div class="fg"><label>パスワード</label><input type="password" id="sPassword" placeholder="6文字以上"></div>
+    <div class="fg">
+      <label>種別</label>
+      <select id="sType">
+        <option value="part">パート</option>
+        <option value="fixed">固定メンバー</option>
+        <option value="free">フリーロール</option>
+        <option value="alt">アルバイト</option>
+      </select>
+    </div>
+    <div class="modal-actions">
+      <button class="mbtn mbtn-cancel" onclick="closeStaffModal()">キャンセル</button>
+      <button class="mbtn mbtn-save"   onclick="saveStaffMember()">保存</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ── AUTH CHECK ── */
+function getSession(){
+  const s=sessionStorage.getItem('pekin_session');
+  if(!s)return null;
+  const sess=JSON.parse(s);
+  if(sess.expires<Date.now()){sessionStorage.removeItem('pekin_session');return null;}
+  return sess;
+}
+function logout(){sessionStorage.removeItem('pekin_session');location.href='index.html';}
+const sess=getSession();
+if(!sess||sess.role!=='admin'){location.href='index.html';}
+else document.getElementById('navUser').textContent=sess.name+' (管理者)';
+
+/* ── USERS ── */
+function getUsers(){
+  const def=[{id:'admin',name:'管理者',username:'admin',password:'pekin2026',role:'admin',type:'admin'}];
+  return JSON.parse(localStorage.getItem('pekin_users')||JSON.stringify(def));
+}
+function saveUsers(u){localStorage.setItem('pekin_users',JSON.stringify(u));}
+function getStaffList(){return getUsers().filter(u=>u.role==='staff');}
+
+/* ── SHIFT DATA ── */
+let Y=new Date().getFullYear(),M=new Date().getMonth();
+let shiftData={};
+const shiftKey=()=>`pekin_shift_${Y}-${String(M+1).padStart(2,'0')}`;
+const dKey=(y,m,d)=>`${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+
+function loadShift(){
+  const s=localStorage.getItem(shiftKey());
+  shiftData=s?JSON.parse(s):buildDefault(Y,M);
+  if(!s)saveShift();
+}
+function saveShift(){localStorage.setItem(shiftKey(),JSON.stringify(shiftData));}
+
+const LUNCH_MAP={0:'tsan',3:'tsan',4:'fusa',5:'fusa',6:'fusa'};
+const pyWdMap={0:6,1:0,2:1,3:2,4:3,5:4,6:5};
+
+function buildDefault(y,m){
+  const out={},days=new Date(y,m+1,0).getDate();
+  const users=getUsers();
+  const find=(id)=>(users.find(u=>u.id===id)||{}).name||'';
+  for(let d=1;d<=days;d++){
+    const dow=new Date(y,m,d).getDay();
+    if(dow===2||dow===3)continue;
+    const k=dKey(y,m,d),pw=pyWdMap[dow];
+    const lId=LUNCH_MAP[pw];
+    const ln=lId?[find(lId)].filter(Boolean):[];
+    const dn=[find('asan'),find('bsan')].filter(Boolean);
+    out[k]={lunch:{names:ln,ext:false},dinner:{names:dn,ext:false}};
+  }
+  return out;
+}
+
+/* ── PUBLISH STATUS ── */
+function getPublishKey(){return `pekin_published_${Y}-${String(M+1).padStart(2,'0')}`;}
+function isPublished(){return localStorage.getItem(getPublishKey())==='1';}
+function publishShift(){
+  if(!confirm('このシフトをスタッフに公開しますか？')) return;
+  localStorage.setItem(getPublishKey(),'1');
+  saveShift();
+  updatePublishStatus();
+  alert('公開しました！スタッフが確認できます。');
+}
+function updatePublishStatus(){
+  const el=document.getElementById('publishStatus');
+  el.innerHTML=isPublished()
+    ?'<span class="published-badge">✓ 公開済み</span>'
+    :'<span class="draft-badge">下書き</span>';
+}
+
+/* ── AVAILABILITY DATA ── */
+const availKey=(y,m)=>`pekin_avail_${y}-${String(m+1).padStart(2,'0')}`;
+function loadAvail(y,m){return JSON.parse(localStorage.getItem(availKey(y,m))||'{}');}
+
+/* ── RENDER CALENDAR ── */
+const DOW_STR=['日','月','火','水','木','金','土'];
+const DOW_CLS=['sun','mon','tue','wed','thu','fri','sat'];
+
+function render(){
+  document.getElementById('monthLabel').textContent=`${Y}年 ${M+1}月`;
+  updatePublishStatus();
+  const grid=document.getElementById('calGrid');
+  grid.innerHTML='';
+  const first=new Date(Y,M,1).getDay(),total=new Date(Y,M+1,0).getDate();
+  const prev=new Date(Y,M,0).getDate(),today=new Date();
+  for(let i=0;i<first;i++)grid.appendChild(makeCell(Y,M-1,prev-first+i+1,true));
+  for(let d=1;d<=total;d++){
+    const it=today.getFullYear()===Y&&today.getMonth()===M&&today.getDate()===d;
+    grid.appendChild(makeCell(Y,M,d,false,it));
+  }
+  const filled=first+total,rows=Math.ceil(filled/7);
+  for(let i=1;i<=rows*7-filled;i++)grid.appendChild(makeCell(Y,M+1,i,true));
+}
+
+function makeCell(y,m,d,other,isToday){
+  const dow=new Date(y,m,d).getDay();
+  const closed=(dow===2||dow===3);
+  const k=dKey(y,m,d);
+  const e=shiftData[k]||{lunch:{names:[],ext:false},dinner:{names:[],ext:false}};
+  const cell=document.createElement('div');
+  cell.className='day-cell '+DOW_CLS[dow]+(closed?' closed':'')+(other?' other-month':'')+(isToday?' today':'');
+  const num=document.createElement('div');
+  num.className='day-num';num.textContent=d;cell.appendChild(num);
+  if(closed){const cl=document.createElement('div');cl.className='closed-label';cl.textContent='定 休 日';cell.appendChild(cl);return cell;}
+  if(other)return cell;
+  cell.appendChild(shiftBlock(k,'lunch',e.lunch,'☀ 昼'));
+  cell.appendChild(shiftBlock(k,'dinner',e.dinner,'🌙 夜'));
+  const dots=availDots(k);
+  if(dots.childElementCount>0)cell.appendChild(dots);
+  return cell;
+}
+
+function shiftBlock(k,type,se,label){
+  const bl=document.createElement('div');
+  bl.className=`shift-block ${type}`;
+  bl.onclick=()=>openEdit(k,type);
+  const lbl=document.createElement('div');lbl.className='shift-label';lbl.textContent=label;bl.appendChild(lbl);
+  const row=document.createElement('div');row.className='name-row';
+  const names=(se.names||[]).filter(n=>n&&n.trim());
+  if(names.length){
+    names.forEach(n=>{const t=document.createElement('span');t.className='ntag';t.textContent=n;row.appendChild(t);});
+    if(se.ext){const e=document.createElement('span');e.className='ext-tag';e.textContent='延長';row.appendChild(e);}
+  }else{const e=document.createElement('span');e.className='nempty';e.textContent='未定';row.appendChild(e);}
+  bl.appendChild(row);return bl;
+}
+
+function availDots(dk){
+  const row=document.createElement('div');row.className='avail-row';
+  const av=loadAvail(Y,M);
+  getStaffList().forEach(s=>{
+    const v=av[s.id]&&av[s.id][dk];
+    if(!v)return;
+    const dot=document.createElement('span');
+    dot.className=`adot ${v==='ok'?'dot-ok':v==='off'?'dot-off':'dot-maybe'}`;
+    dot.title=`${s.name}：${v==='ok'?'出勤可':v==='off'?'休み希望':'調整可'}`;
+    row.appendChild(dot);
+  });
+  return row;
+}
+
+/* ── EDIT MODAL ── */
+let editKey=null,editType=null;
+function openEdit(k,type){
+  editKey=k;editType=type;
+  const [ey,em,ed]=k.split('-').map(Number);
+  const dow=new Date(ey,em-1,ed).getDay();
+  document.getElementById('modalSub').textContent=`${ey}年${em}月${ed}日（${DOW_STR[dow]}）`;
+  document.getElementById('modalHead').textContent=type==='lunch'?'☀ 昼の部（11:00〜14:00）':'🌙 夜の部（18:00〜21:00）';
+  const e=(shiftData[k]&&shiftData[k][type])||{names:[],ext:false};
+  document.getElementById('extCheck').checked=e.ext||false;
+  const chips=document.getElementById('modalChips');chips.innerHTML='';
+  getUsers().filter(u=>u.name&&u.name.trim()).forEach(u=>{
+    const lbl=document.createElement('label');
+    const sel=(e.names||[]).includes(u.name);
+    lbl.className='chip'+(sel?` sel-${type}`:'');
+    const cb=document.createElement('input');cb.type='checkbox';cb.value=u.name;cb.checked=sel;
+    cb.onchange=()=>lbl.className='chip'+(cb.checked?` sel-${type}`:'');
+    lbl.appendChild(cb);lbl.appendChild(document.createTextNode(u.name));
+    chips.appendChild(lbl);
+  });
+  document.getElementById('editOverlay').classList.add('open');
+}
+function closeEdit(){document.getElementById('editOverlay').classList.remove('open');}
+function saveShiftEdit(){
+  const names=Array.from(document.querySelectorAll('#modalChips input:checked')).map(c=>c.value).slice(0,4);
+  const ext=document.getElementById('extCheck').checked;
+  if(!shiftData[editKey])shiftData[editKey]={lunch:{names:[],ext:false},dinner:{names:[],ext:false}};
+  shiftData[editKey][editType]={names,ext};
+  saveShift();closeEdit();render();
+}
+
+/* ── AVAILABILITY TABLE ── */
+function renderAvailPanel(){
+  document.getElementById('availMonthLabel').textContent=`${Y}年 ${M+1}月`;
+  const body=document.getElementById('availBody');
+  const avail=loadAvail(Y,M);
+  const staffList=getStaffList();
+  if(staffList.length===0){body.innerHTML='<div class="empty-state">スタッフが登録されていません</div>';return;}
+  const days=new Date(Y,M+1,0).getDate();
+  let html=`<div class="avail-table-wrap"><table class="avail-table"><thead><tr>
+    <th>スタッフ</th><th>種別</th>`;
+  for(let d=1;d<=days;d++){
+    const dow=new Date(Y,M,d).getDay();
+    if(dow===2||dow===3)continue;
+    html+=`<th style="${dow===0?'color:#fca5a5':dow===6||dow===5?'color:#93c5fd':''}">${d}<br><span style="font-size:.8em">${DOW_STR[dow]}</span></th>`;
+  }
+  html+='</tr></thead><tbody>';
+  staffList.forEach(s=>{
+    const sav=avail[s.id]||{};
+    const typeLabel={part:'パート',fixed:'固定',free:'フリー',alt:'アルバイト'}[s.type]||'';
+    const badgeCls={part:'sb-part',fixed:'sb-fixed',free:'sb-free',alt:'sb-alt'}[s.type]||'';
+    html+=`<tr><td style="text-align:left;font-weight:600">${s.name}</td>
+      <td><span class="sbadge2 ${badgeCls}">${typeLabel}</span></td>`;
+    for(let d=1;d<=days;d++){
+      const dow=new Date(Y,M,d).getDay();
+      if(dow===2||dow===3)continue;
+      const k=dKey(Y,M,d);
+      const v=sav[k];
+      if(v==='ok')    html+=`<td><span class="atag atag-ok">○</span></td>`;
+      else if(v==='off')  html+=`<td><span class="atag atag-off">×</span></td>`;
+      else if(v==='maybe')html+=`<td><span class="atag atag-maybe">△</span></td>`;
+      else html+=`<td><span class="atag atag-none">—</span></td>`;
+    }
+    html+='</tr>';
+  });
+  html+='</tbody></table></div>';
+  body.innerHTML=html;
+}
+
+/* ── STAFF MANAGEMENT ── */
+function renderStaffPanel(){
+  const users=getUsers();
+  document.getElementById('staffCount').textContent=`${users.length}名`;
+  const body=document.getElementById('staffListBody');
+  const typeLabel={admin:'管理者',part:'パート',fixed:'固定',free:'フリー',alt:'アルバイト'};
+  const badgeCls={admin:'sb-admin',part:'sb-part',fixed:'sb-fixed',free:'sb-free',alt:'sb-alt'};
+  body.innerHTML='<div class="staff-row2" style="font-weight:700;font-size:.75em;color:var(--muted);background:#f8fafc"><span>名前</span><span>ID</span><span>種別</span><span>操作</span></div>'
+    +users.map(u=>`
+    <div class="staff-row2">
+      <span style="font-weight:600">${u.name}</span>
+      <span style="color:var(--muted);font-family:monospace">${u.username}</span>
+      <span><span class="sbadge2 ${badgeCls[u.type]||''}">${typeLabel[u.type]||u.type}</span></span>
+      <div class="act-btns">
+        ${u.id!=='admin'?`<button class="act-btn" onclick="openEditStaff('${u.id}')">編集</button>
+        <button class="act-btn del" onclick="deleteStaff('${u.id}')">削除</button>`:'<span style="font-size:.72em;color:#aaa">変更不可</span>'}
+      </div>
+    </div>`).join('');
+}
+
+let editingStaffId=null;
+function openAddStaff(){
+  editingStaffId=null;
+  document.getElementById('staffModalHead').textContent='スタッフを追加';
+  ['sName','sUsername','sPassword'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('sType').value='alt';
+  document.getElementById('staffOverlay').classList.add('open');
+}
+function openEditStaff(id){
+  const u=getUsers().find(x=>x.id===id);if(!u)return;
+  editingStaffId=id;
+  document.getElementById('staffModalHead').textContent='スタッフを編集';
+  document.getElementById('sName').value=u.name;
+  document.getElementById('sUsername').value=u.username;
+  document.getElementById('sPassword').value='';
+  document.getElementById('sType').value=u.type;
+  document.getElementById('staffOverlay').classList.add('open');
+}
+function closeStaffModal(){document.getElementById('staffOverlay').classList.remove('open');}
+function saveStaffMember(){
+  const name=document.getElementById('sName').value.trim();
+  const username=document.getElementById('sUsername').value.trim();
+  const password=document.getElementById('sPassword').value;
+  const type=document.getElementById('sType').value;
+  if(!name||!username){alert('名前とIDは必須です');return;}
+  let users=getUsers();
+  if(editingStaffId){
+    const idx=users.findIndex(u=>u.id===editingStaffId);
+    if(idx>-1){
+      users[idx].name=name;users[idx].username=username;users[idx].type=type;
+      if(password)users[idx].password=password;
+    }
+  }else{
+    if(password.length<6){alert('パスワードは6文字以上にしてください');return;}
+    if(users.find(u=>u.username===username)){alert('このIDは既に使用されています');return;}
+    users.push({id:'s_'+Date.now(),name,username,password,role:'staff',type});
+  }
+  saveUsers(users);closeStaffModal();renderStaffPanel();
+}
+function deleteStaff(id){
+  if(!confirm('このスタッフを削除しますか？'))return;
+  let users=getUsers().filter(u=>u.id!==id);
+  saveUsers(users);renderStaffPanel();
+}
+
+/* ── NAV ── */
+function changeMonth(d){
+  M+=d;if(M>11){M=0;Y++;}if(M<0){M=11;Y--;}
+  loadShift();render();renderAvailPanel();
+}
+function resetToDefault(){
+  if(!confirm('この月のシフトをデフォルトに戻しますか？'))return;
+  shiftData=buildDefault(Y,M);saveShift();render();
+}
+
+/* ── TABS ── */
+function switchTab(name){
+  document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active',['shift','avail','staff'][i]===name));
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('panel-'+name).classList.add('active');
+  if(name==='avail')renderAvailPanel();
+  if(name==='staff')renderStaffPanel();
+}
+
+/* backdrop close */
+['editOverlay','staffOverlay'].forEach(id=>{
+  document.getElementById(id).addEventListener('click',function(e){if(e.target===this)this.classList.remove('open');});
+});
+
+/* ── INIT ── */
+Y=2026;M=0;
+loadShift();render();
+</script>
+</body>
+</html>
