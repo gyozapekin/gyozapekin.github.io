@@ -57,21 +57,33 @@ body{font-family:'Helvetica Neue','Hiragino Sans','Yu Gothic UI',Arial,sans-seri
 /* per-day availability card */
 .day-avail-list{display:flex;flex-direction:column;gap:6px}
 .day-avail-row{background:#fff;border:1px solid var(--border);border-radius:8px;
-  padding:10px 14px;display:grid;grid-template-columns:80px 1fr auto;align-items:center;gap:10px}
+  padding:10px 14px;display:grid;grid-template-columns:72px 1fr auto;align-items:center;gap:10px}
 .day-avail-row.closed-day{background:#f3f4f6;border-color:#e5e7eb}
 .day-avail-row:hover:not(.closed-day){box-shadow:0 1px 6px rgba(0,0,0,.08)}
 .day-label{font-size:.88em;font-weight:700}
 .day-label.sun{color:var(--red)}.day-label.sat,.day-label.fri{color:#1d4ed8}
 .day-label .dow{font-size:.78em;color:var(--muted);margin-left:4px}
 .closed-text{font-size:.8em;color:#adb5bd;letter-spacing:.1em;grid-column:2/-1}
-.avail-btns{display:flex;gap:6px}
-.avail-btn{border:1.5px solid var(--border);border-radius:6px;padding:5px 14px;
-  font-size:.8em;font-weight:700;cursor:pointer;background:#f8fafc;color:#94a3b8;
-  transition:all .12s;min-width:56px;text-align:center}
-.avail-btn:hover{opacity:.8}
+/* 北京の希望バッジ */
+.pekin-wish-col{display:flex;align-items:center;flex-wrap:wrap;gap:4px}
+.pekin-wish{font-size:.74em;font-weight:700;padding:3px 9px;border-radius:12px;
+  display:inline-flex;align-items:center;gap:3px;white-space:nowrap}
+.pekin-wish.lunch{background:#dbeafe;color:#1e40af;border:1px solid #93c5fd}
+.pekin-wish.dinner{background:#fef3c7;color:#92400e;border:1px solid #fcd34d}
+.pekin-wish.both{background:#f3e8ff;color:#6b21a8;border:1px solid #d8b4fe}
+.pekin-wish.none{background:#f1f5f9;color:#94a3b8;font-size:.72em;font-weight:400}
+/* ボタン */
+.avail-btns{display:flex;gap:6px;flex-wrap:wrap}
+.avail-btn{border:1.5px solid var(--border);border-radius:6px;padding:5px 12px;
+  font-size:.8em;font-weight:700;cursor:pointer;background:#f1f5f9;color:#94a3b8;
+  transition:all .15s;min-width:52px;text-align:center}
+.avail-btn:hover{filter:brightness(.96)}
+/* 選択状態 — 選択されたボタン */
 .avail-btn.sel-ok{background:#d1fae5;border-color:#34d399;color:#065f46}
 .avail-btn.sel-off{background:#fee2e2;border-color:#fca5a5;color:#991b1b}
 .avail-btn.sel-maybe{background:#fef9c3;border-color:#fde047;color:#854d0e}
+/* 非選択状態 — 他が選択されている時、このボタンを薄く */
+.avail-btn.unsel{opacity:.45}
 
 /* ── SHIFT VIEW PANEL ── */
 .shift-view-notice{background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;
@@ -234,7 +246,10 @@ function getSettings(){
 function isClosedDay(y,m,d){
   const s=getSettings();
   const k=`${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
-  if(s.specialDates&&s.specialDates[k])return true;
+  if(s.specialDates&&s.specialDates[k]){
+    if(s.specialDates[k].type==='open')return false; // 定休日の営業例外
+    return true;
+  }
   return (s.defaultClosedDays||[2,3]).includes(new Date(y,m,d).getDay());
 }
 function getClosedLabel(y,m,d){
@@ -275,54 +290,84 @@ function updateDeadlineUI(){
   document.getElementById('reqDeadline').textContent=`${now.getMonth()+1}月20日`;
 }
 
-/* ── RENDER REQUEST LIST ── */
+/* ── RENDER REQUEST LIST ──
+   ★ loadMyAvail() は呼ばない（呼ぶと未送信の選択がリセットされる）
+     月変更やinitでのみ呼ぶこと */
 function renderRequestList(){
   document.getElementById('reqMonthLabel').textContent=`${reqY}年 ${reqM+1}月`;
   document.getElementById('reqTarget').textContent=`${reqY}年 ${reqM+1}月`;
   updateDeadlineUI();
-  loadMyAvail();
   const list=document.getElementById('dayAvailList');
   list.innerHTML='';
   const days=new Date(reqY,reqM+1,0).getDate();
+  /* 北京の希望データ */
+  const shiftData=JSON.parse(localStorage.getItem(shiftKey(reqY,reqM))||'{}');
+  const myName=sess.name;
+
   for(let d=1;d<=days;d++){
     const dow=new Date(reqY,reqM,d).getDay();
     const closed=isClosedDay(reqY,reqM,d);
     const k=dKey(reqY,reqM,d);
     const row=document.createElement('div');
     row.className='day-avail-row'+(closed?' closed-day':'');
+
+    /* 日付ラベル */
     const lbl=document.createElement('div');
     lbl.className='day-label '+(['sun','mon','tue','wed','thu','fri','sat'][dow]);
     lbl.innerHTML=`${d}日<span class="dow">${DOW_STR[dow]}</span>`;
     row.appendChild(lbl);
+
     if(closed){
       const cl=document.createElement('div');
       cl.className='closed-text';cl.textContent=getClosedLabel(reqY,reqM,d);
       row.appendChild(cl);
     }else{
+      /* 北京の希望バッジ */
+      const se=shiftData[k]||{lunch:{names:[],ext:false},dinner:{names:[],ext:false}};
+      const inLunch=(se.lunch.names||[]).includes(myName);
+      const inDinner=(se.dinner.names||[]).includes(myName);
+      const wishDiv=document.createElement('div');
+      wishDiv.className='pekin-wish-col';
+      if(inLunch&&inDinner){
+        wishDiv.innerHTML='<span class="pekin-wish both">☀🌙 昼・夜お願いしたい</span>';
+      }else if(inLunch){
+        wishDiv.innerHTML='<span class="pekin-wish lunch">☀ 昼にお願いしたい</span>';
+      }else if(inDinner){
+        wishDiv.innerHTML='<span class="pekin-wish dinner">🌙 夜にお願いしたい</span>';
+      }else{
+        wishDiv.innerHTML='<span class="pekin-wish none">北京の希望：未定</span>';
+      }
+      row.appendChild(wishDiv);
+
+      /* 選択状態に応じてボタンクラスを計算 */
+      const cur=myAvail[k]||'';
       const btns=document.createElement('div');
       btns.className='avail-btns';
-      const cur=myAvail[k]||'';
-      [{val:'ok',label:'○ 出勤可',cls:'sel-ok'},
-       {val:'off',label:'× 休み',cls:'sel-off'},
-       {val:'maybe',label:'△ 調整可',cls:'sel-maybe'}].forEach(b=>{
+
+      /* ラベルを北京希望があればOK系、なければ通常系に */
+      const isWanted=inLunch||inDinner;
+      const btnDefs=[
+        {val:'ok',  label: isWanted?'✓ OK出勤':'○ 出勤可', cls:'sel-ok'},
+        {val:'off', label: isWanted?'✕ 休み希望':'× 休み',  cls:'sel-off'},
+        {val:'maybe',label:'△ 調整可',                      cls:'sel-maybe'}
+      ];
+      btnDefs.forEach(b=>{
         const btn=document.createElement('button');
-        btn.className='avail-btn'+(cur===b.val?' '+b.cls:'');
+        /* 選択: このボタンが選ばれている / 非選択: 他が選ばれている */
+        let btnCls='avail-btn';
+        if(cur===b.val) btnCls+=' '+b.cls;
+        else if(cur&&cur!==b.val) btnCls+=' unsel';
+        btn.className=btnCls;
         btn.textContent=b.label;
         btn.onclick=()=>{
+          /* トグル：同じボタンを再クリックで解除 */
           if(myAvail[k]===b.val)delete myAvail[k];
           else myAvail[k]=b.val;
-          renderRequestList();
+          renderRequestList(); // ★ loadMyAvail は呼ばない
         };
         btns.appendChild(btn);
       });
       row.appendChild(btns);
-      const cur2=myAvail[k];
-      const info=document.createElement('div');
-      info.style.cssText='font-size:.72em;color:var(--muted);min-width:60px;text-align:right';
-      if(cur2==='ok')info.innerHTML='<span style="color:#065f46;font-weight:700">出勤可</span>';
-      else if(cur2==='off')info.innerHTML='<span style="color:#991b1b;font-weight:700">休み希望</span>';
-      else if(cur2==='maybe')info.innerHTML='<span style="color:#854d0e;font-weight:700">調整可</span>';
-      row.appendChild(info);
     }
     list.appendChild(row);
   }
@@ -330,6 +375,7 @@ function renderRequestList(){
 
 function changeReqMonth(d){
   reqM+=d;if(reqM>11){reqM=0;reqY++;}if(reqM<0){reqM=11;reqY--;}
+  loadMyAvail(); // ★ 月が変わるたびにその月の保存データをロード
   renderRequestList();
 }
 

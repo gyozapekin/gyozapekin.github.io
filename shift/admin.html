@@ -97,6 +97,20 @@ body{font-family:'Helvetica Neue','Hiragino Sans','Yu Gothic UI',Arial,sans-seri
   transition:all .12s;font-weight:600}
 .close-toggle:hover{background:#fee2e2;border-color:#fca5a5;color:#c0392b}
 .close-toggle.is-special{background:#fee2e2;border-color:#fca5a5;color:#c0392b}
+/* 定休日 → 営業にする（緑系） */
+.close-toggle.is-open-able{background:#f0fdf4;border-color:#86efac;color:#166534}
+.close-toggle.is-open-able:hover{background:#dcfce7;border-color:#4ade80;color:#14532d}
+/* 営業例外日 → 定休に戻す（青系） */
+.close-toggle.is-open-override{background:#eff6ff;border-color:#93c5fd;color:#1d4ed8}
+.close-toggle.is-open-override:hover{background:#dbeafe;border-color:#60a5fa;color:#1e3a8a}
+/* 営業例外日セルの枠 */
+.day-cell.is-open-override{border:1.5px dashed #93c5fd!important;background:#f8fbff!important}
+.open-exception-badge{font-size:.6em;background:#dbeafe;color:#1d4ed8;border-radius:3px;
+  padding:1px 5px;font-weight:700;margin-bottom:2px;display:inline-block}
+/* 設定パネル 営業例外リスト */
+.open-ex-list{display:flex;flex-direction:column;gap:8px}
+.open-ex-row{display:flex;align-items:center;justify-content:space-between;
+  background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:10px 14px;font-size:.84em}
 .adot{width:7px;height:7px;border-radius:50%;cursor:default}
 .dot-ok{background:#10b981}.dot-off{background:#ef4444}.dot-maybe{background:#f59e0b}
 
@@ -336,6 +350,17 @@ body{font-family:'Helvetica Neue','Hiragino Sans','Yu Gothic UI',Arial,sans-seri
       <div class="special-list" id="specialDateList"></div>
     </div>
   </div>
+
+  <div class="sec">
+    <div class="sec-head" style="background:#1e40af">📆 定休日の営業例外日</div>
+    <div class="sec-body">
+      <p style="font-size:.83em;color:#475569;margin-bottom:14px">
+        カレンダーで「営業にする」を押した定休日の一覧です。削除すると定休日に戻ります。
+      </p>
+      <div id="openExEmpty" class="empty-state" style="display:none">営業例外日の登録はありません</div>
+      <div class="open-ex-list" id="openExList"></div>
+    </div>
+  </div>
 </div>
 
 <!-- MODAL: Edit Shift -->
@@ -479,19 +504,33 @@ function saveSettings(s){localStorage.setItem(SETTINGS_KEY,JSON.stringify(s));}
 
 const dKey=(y,m,d)=>`${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
 
-/* Returns true if the given date is a closed day (regular or special) */
+/* Returns true if the given date is a closed day (regular or special)
+   type:'open' in specialDates = force-open exception, NOT closed */
 function isClosedDay(y,m,d){
   const s=getSettings();
   const k=dKey(y,m,d);
-  if(s.specialDates&&s.specialDates[k])return true;
+  if(s.specialDates&&s.specialDates[k]){
+    if(s.specialDates[k].type==='open')return false; // 営業例外
+    return true;
+  }
   return (s.defaultClosedDays||[2,3]).includes(new Date(y,m,d).getDay());
+}
+
+/* Returns true if this day is a forced-open exception */
+function isOpenOverride(y,m,d){
+  const s=getSettings();
+  const k=dKey(y,m,d);
+  return !!(s.specialDates&&s.specialDates[k]&&s.specialDates[k].type==='open');
 }
 
 /* Returns closed info object or null */
 function getClosedInfo(y,m,d){
   const s=getSettings();
   const k=dKey(y,m,d);
-  if(s.specialDates&&s.specialDates[k])return s.specialDates[k];
+  if(s.specialDates&&s.specialDates[k]){
+    if(s.specialDates[k].type==='open')return null; // 営業例外 → closed扱いしない
+    return s.specialDates[k];
+  }
   if((s.defaultClosedDays||[2,3]).includes(new Date(y,m,d).getDay()))
     return {type:'regular',label:'定 休 日'};
   return null;
@@ -626,17 +665,29 @@ function makeShiftCell(y,m,d,other,isToday){
       hdr.appendChild(ubtn);
       hdr.appendChild(num);
     }
-    /* 曜日定休 → 「休業追加」ボタン（例外的に営業日にはできないが特別日を上書き追加は可） */
+    /* 曜日定休 → 「営業にする」ボタン */
     else if(closed && ci.type==='regular'){
-      const lbtn=document.createElement('button');
-      lbtn.className='close-toggle';
-      lbtn.textContent='+休業';
-      lbtn.title='この日に特別休業を追加設定する';
-      lbtn.onclick=(ev)=>{ev.stopPropagation();toggleQuickClose(y,m,d);};
-      hdr.appendChild(lbtn);
+      const gbtn=document.createElement('button');
+      gbtn.className='close-toggle is-open-able';
+      gbtn.textContent='営業にする';
+      gbtn.title='この定休日を営業日に変更する';
+      gbtn.onclick=(ev)=>{ev.stopPropagation();toggleQuickClose(y,m,d);};
+      hdr.appendChild(gbtn);
       hdr.appendChild(num);
     }
-    /* 営業日 → 「+休業」ボタン */
+    /* 営業例外日（定休日を営業にした日）→ 「定休に戻す」ボタン */
+    else if(!closed && isOpenOverride(y,m,d)){
+      const rbtn=document.createElement('button');
+      rbtn.className='close-toggle is-open-override';
+      rbtn.textContent='定休に戻す';
+      rbtn.title='この日を定休日に戻す';
+      rbtn.onclick=(ev)=>{ev.stopPropagation();toggleQuickClose(y,m,d);};
+      hdr.appendChild(rbtn);
+      hdr.appendChild(num);
+      if(!other)cls+=' is-open-override'; // セルに青破線枠を適用
+      cell.className=cls; // update class before appending
+    }
+    /* 通常営業日 → 「+休業」ボタン */
     else{
       const cbtn=document.createElement('button');
       cbtn.className='close-toggle';
@@ -659,6 +710,13 @@ function makeShiftCell(y,m,d,other,isToday){
     return cell;
   }
   if(other)return cell;
+
+  /* 営業例外日バッジ */
+  if(isOpenOverride(y,m,d)&&!other){
+    const badge=document.createElement('div');
+    badge.className='open-exception-badge';badge.textContent='★ 定休日特別営業';
+    cell.appendChild(badge);
+  }
 
   cell.appendChild(makeShiftBlock(k,'lunch',e.lunch,'☀ 昼'));
   cell.appendChild(makeShiftBlock(k,'dinner',e.dinner,'🌙 夜'));
@@ -897,6 +955,7 @@ function renderSettingsPanel(){
   });
 
   renderSpecialDateList();
+  renderOpenExceptionList();
 }
 
 function saveClosedDays(){
@@ -960,6 +1019,41 @@ function deleteSpecialDate(k){
   delete s.specialDates[k];
   saveSettings(s);
   renderSpecialDateList();
+  renderOpenExceptionList();
+  loadShift();render();
+}
+
+/* 営業例外日リスト */
+function renderOpenExceptionList(){
+  const s=getSettings();
+  const entries=Object.entries(s.specialDates||{})
+    .filter(([,v])=>v.type==='open')
+    .sort(([a],[b])=>a.localeCompare(b));
+  const empty=document.getElementById('openExEmpty');
+  const list=document.getElementById('openExList');
+  if(!empty||!list)return;
+  if(entries.length===0){empty.style.display='block';list.innerHTML='';return;}
+  empty.style.display='none';
+  list.innerHTML=entries.map(([k])=>{
+    const [y,m,d]=k.split('-').map(Number);
+    const dow=new Date(y,m-1,d).getDay();
+    return `<div class="open-ex-row">
+      <div>
+        <span style="background:#dbeafe;color:#1d4ed8;font-size:.72em;padding:2px 8px;border-radius:10px;font-weight:600;margin-right:6px">営業</span>
+        <strong>${y}年${m}月${d}日（${DOW_NAMES[dow]}）</strong>
+        <span style="font-size:.8em;color:#94a3b8;margin-left:6px">本来は定休日</span>
+      </div>
+      <button class="act-btn del" onclick="deleteOpenException('${k}')">定休に戻す</button>
+    </div>`;
+  }).join('');
+}
+
+function deleteOpenException(k){
+  if(!confirm('この日を定休日に戻しますか？'))return;
+  const s=getSettings();
+  delete s.specialDates[k];
+  saveSettings(s);
+  renderSettingsPanel();
   loadShift();render();
 }
 
@@ -1065,18 +1159,43 @@ function switchTab(name){
 function toggleQuickClose(y,m,d){
   const k=dKey(y,m,d);
   const s=getSettings();
-  if(s.specialDates&&s.specialDates[k]){
-    /* 解除 */
-    if(confirm(`${y}年${m+1}月${d}日の休業設定を解除しますか？`)){
-      delete s.specialDates[k];
-      saveSettings(s);loadShift();render();
+  const special=s.specialDates&&s.specialDates[k];
+
+  if(special){
+    const stype=special.type;
+    if(stype==='open'){
+      /* 営業例外 → 定休に戻す */
+      if(confirm(`${y}年${m+1}月${d}日の「営業日設定」を解除し、定休日に戻しますか？`)){
+        delete s.specialDates[k];
+        saveSettings(s);loadShift();render();
+        if(document.getElementById('panel-settings').classList.contains('active'))renderSettingsPanel();
+      }
+    }else{
+      /* 特別休日 → 解除 */
+      if(confirm(`${y}年${m+1}月${d}日の休業設定を解除しますか？`)){
+        delete s.specialDates[k];
+        saveSettings(s);loadShift();render();
+        if(document.getElementById('panel-settings').classList.contains('active'))renderSettingsPanel();
+      }
     }
   }else{
-    /* 休業設定モーダルをその日付で開く */
-    document.getElementById('sdDate').value=k;
-    document.getElementById('sdType').value='closed';
-    document.getElementById('sdLabel').value='';
-    document.getElementById('specialDateOverlay').classList.add('open');
+    const dow=new Date(y,m,d).getDay();
+    const isRegular=(s.defaultClosedDays||[2,3]).includes(dow);
+    if(isRegular){
+      /* 定休日 → 営業にする */
+      if(confirm(`${y}年${m+1}月${d}日（定休日）を営業日に変更しますか？`)){
+        if(!s.specialDates)s.specialDates={};
+        s.specialDates[k]={type:'open',label:'営業'};
+        saveSettings(s);loadShift();render();
+        if(document.getElementById('panel-settings').classList.contains('active'))renderSettingsPanel();
+      }
+    }else{
+      /* 通常営業日 → 休業設定モーダルをその日付で開く */
+      document.getElementById('sdDate').value=k;
+      document.getElementById('sdType').value='closed';
+      document.getElementById('sdLabel').value='';
+      document.getElementById('specialDateOverlay').classList.add('open');
+    }
   }
 }
 
