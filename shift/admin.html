@@ -57,7 +57,7 @@ body{font-family:'Helvetica Neue','Hiragino Sans','Yu Gothic UI',Arial,sans-seri
 .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px}
 
 /* SHIFT CALENDAR CELLS */
-.day-cell{position:relative;background:#fff;border-radius:8px;border:1px solid var(--border);
+.day-cell{background:#fff;border-radius:8px;border:1px solid var(--border);
   min-height:130px;padding:6px;display:flex;flex-direction:column;gap:3px;transition:box-shadow .12s}
 .day-cell:not(.is-closed):not(.other-month):hover{box-shadow:0 2px 10px rgba(0,0,0,.1)}
 .day-cell.other-month{opacity:.3;pointer-events:none}
@@ -66,8 +66,9 @@ body{font-family:'Helvetica Neue','Hiragino Sans','Yu Gothic UI',Arial,sans-seri
 .day-cell.is-temp{background:#fce4e4;border-color:#ef9a9a}
 .day-cell.is-other{background:#f3e5f5;border-color:#ce93d8}
 .day-cell.today{border:2px solid var(--red)}
+.cell-header{display:flex;align-items:center;justify-content:space-between;gap:3px;margin-bottom:1px}
 .day-num{font-size:1em;font-weight:700;width:26px;height:26px;display:flex;
-  align-items:center;justify-content:center;border-radius:50%;align-self:flex-end}
+  align-items:center;justify-content:center;border-radius:50%;flex-shrink:0}
 .day-cell.sun .day-num{color:var(--red)}.day-cell.sat .day-num{color:#1d4ed8}
 .day-cell.today .day-num{background:var(--red);color:#fff}
 .closed-label{flex:1;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:3px}
@@ -91,14 +92,11 @@ body{font-family:'Helvetica Neue','Hiragino Sans','Yu Gothic UI',Arial,sans-seri
 .nempty{font-size:.68em;color:#aaa}
 .ext-tag{font-size:.6em;background:#fee2e2;color:#b91c1c;border-radius:3px;padding:1px 4px;font-weight:700}
 .avail-row{display:flex;flex-wrap:wrap;gap:2px;margin-top:2px}
-.quick-close-btn{position:absolute;bottom:4px;right:4px;background:rgba(192,57,43,.09);
-  border:1px dashed #fca5a5;border-radius:4px;padding:2px 6px;font-size:.55em;color:#b91c1c;
-  cursor:pointer;opacity:0;transition:opacity .15s;z-index:2;font-weight:600;line-height:1.4}
-.day-cell:hover .quick-close-btn{opacity:1}
-.quick-unclose-btn{position:absolute;bottom:4px;right:4px;background:rgba(0,0,0,.07);
-  border:1px solid #d1d5db;border-radius:4px;padding:2px 6px;font-size:.55em;color:#374151;
-  cursor:pointer;opacity:0;transition:opacity .15s;z-index:2;line-height:1.4}
-.day-cell:hover .quick-unclose-btn{opacity:1}
+.close-toggle{font-size:.58em;padding:2px 6px;border-radius:4px;border:1px solid #e2e8f0;
+  cursor:pointer;background:#f8fafc;color:#94a3b8;line-height:1.4;white-space:nowrap;
+  transition:all .12s;font-weight:600}
+.close-toggle:hover{background:#fee2e2;border-color:#fca5a5;color:#c0392b}
+.close-toggle.is-special{background:#fee2e2;border-color:#fca5a5;color:#c0392b}
 .adot{width:7px;height:7px;border-radius:50%;cursor:default}
 .dot-ok{background:#10b981}.dot-off{background:#ef4444}.dot-maybe{background:#f59e0b}
 
@@ -610,21 +608,54 @@ function makeShiftCell(y,m,d,other,isToday){
   if(isToday)cls+=' today';
   cell.className=cls;
 
+  /* ── ヘッダー行：日付番号 ＋ 休業トグルボタン ── */
+  const hdr=document.createElement('div');
+  hdr.className='cell-header';
+
   const num=document.createElement('div');
-  num.className='day-num';num.textContent=d;cell.appendChild(num);
+  num.className='day-num';num.textContent=d;
+
+  if(!other){
+    /* 特別休日（曜日定休でない）→ 解除ボタン */
+    if(closed && ci.type!=='regular'){
+      const ubtn=document.createElement('button');
+      ubtn.className='close-toggle is-special';
+      ubtn.textContent='解除';
+      ubtn.title='この休業設定を解除する';
+      ubtn.onclick=(ev)=>{ev.stopPropagation();toggleQuickClose(y,m,d);};
+      hdr.appendChild(ubtn);
+      hdr.appendChild(num);
+    }
+    /* 曜日定休 → 「休業追加」ボタン（例外的に営業日にはできないが特別日を上書き追加は可） */
+    else if(closed && ci.type==='regular'){
+      const lbtn=document.createElement('button');
+      lbtn.className='close-toggle';
+      lbtn.textContent='+休業';
+      lbtn.title='この日に特別休業を追加設定する';
+      lbtn.onclick=(ev)=>{ev.stopPropagation();toggleQuickClose(y,m,d);};
+      hdr.appendChild(lbtn);
+      hdr.appendChild(num);
+    }
+    /* 営業日 → 「+休業」ボタン */
+    else{
+      const cbtn=document.createElement('button');
+      cbtn.className='close-toggle';
+      cbtn.textContent='+休業';
+      cbtn.title='この日を休業日に設定する';
+      cbtn.onclick=(ev)=>{ev.stopPropagation();toggleQuickClose(y,m,d);};
+      hdr.appendChild(cbtn);
+      hdr.appendChild(num);
+    }
+  }else{
+    hdr.appendChild(num);
+  }
+  cell.appendChild(hdr);
 
   if(closed){
     const cl=document.createElement('div');cl.className='closed-label';
     const typeCls=ci.type==='regular'?'regular':ci.type==='holiday'?'holiday':ci.type==='closed'?'temp':'other';
     cl.innerHTML=`<span class="closed-text ${typeCls}">${closedLabel(ci)}</span>`;
     cell.appendChild(cl);
-    /* 特別休日（曜日定休以外）は解除ボタンを表示 */
-    if(!other && ci.type!=='regular'){
-      const ubtn=document.createElement('button');
-      ubtn.className='quick-unclose-btn';ubtn.textContent='🔓 解除';
-      ubtn.onclick=(e)=>{e.stopPropagation();toggleQuickClose(y,m,d);};
-      cell.appendChild(ubtn);
-    }
     return cell;
   }
   if(other)return cell;
@@ -634,12 +665,6 @@ function makeShiftCell(y,m,d,other,isToday){
 
   const dots=makeAvailDots(k);
   if(dots.childElementCount>0)cell.appendChild(dots);
-
-  /* 休業設定ボタン（ホバーで表示） */
-  const cbtn2=document.createElement('button');
-  cbtn2.className='quick-close-btn';cbtn2.textContent='🔒 休業設定';
-  cbtn2.onclick=(e)=>{e.stopPropagation();toggleQuickClose(y,m,d);};
-  cell.appendChild(cbtn2);
   return cell;
 }
 
