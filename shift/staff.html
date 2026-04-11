@@ -224,6 +224,29 @@ const target=getRequestTarget();
 reqY=target.y; reqM=target.m;
 viewY=now.getFullYear(); viewM=now.getMonth();
 
+/* ── SETTINGS (shared with admin.html via localStorage) ── */
+const SETTINGS_KEY='pekin_settings';
+function getSettings(){
+  const def={defaultClosedDays:[2,3],specialDates:{}};
+  try{return Object.assign({},def,JSON.parse(localStorage.getItem(SETTINGS_KEY)||'{}'));}
+  catch(e){return def;}
+}
+function isClosedDay(y,m,d){
+  const s=getSettings();
+  const k=`${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+  if(s.specialDates&&s.specialDates[k])return true;
+  return (s.defaultClosedDays||[2,3]).includes(new Date(y,m,d).getDay());
+}
+function getClosedLabel(y,m,d){
+  const s=getSettings();
+  const k=`${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+  if(s.specialDates&&s.specialDates[k]){
+    const v=s.specialDates[k];
+    return v.label||({holiday:'振替休日',closed:'臨時休業',other:'その他'}[v.type]||'休業');
+  }
+  return '定休日';
+}
+
 /* ── AVAIL DATA ── */
 const availKey=(y,m)=>`pekin_avail_${y}-${String(m+1).padStart(2,'0')}`;
 function loadAvail(y,m){return JSON.parse(localStorage.getItem(availKey(y,m))||'{}');}
@@ -263,7 +286,7 @@ function renderRequestList(){
   const days=new Date(reqY,reqM+1,0).getDate();
   for(let d=1;d<=days;d++){
     const dow=new Date(reqY,reqM,d).getDay();
-    const closed=(dow===2||dow===3);
+    const closed=isClosedDay(reqY,reqM,d);
     const k=dKey(reqY,reqM,d);
     const row=document.createElement('div');
     row.className='day-avail-row'+(closed?' closed-day':'');
@@ -273,7 +296,7 @@ function renderRequestList(){
     row.appendChild(lbl);
     if(closed){
       const cl=document.createElement('div');
-      cl.className='closed-text';cl.textContent='定休日';
+      cl.className='closed-text';cl.textContent=getClosedLabel(reqY,reqM,d);
       row.appendChild(cl);
     }else{
       const btns=document.createElement('div');
@@ -370,7 +393,7 @@ function renderShiftView(){
 
 function makeViewCell(y,m,d,other,shiftData,isToday){
   const dow=new Date(y,m,d).getDay();
-  const closed=(dow===2||dow===3);
+  const closed=isClosedDay(y,m,d);
   const k=dKey(y,m,d);
   const e=shiftData[k]||{lunch:{names:[],ext:false},dinner:{names:[],ext:false}};
   const myName=sess.name;
@@ -382,7 +405,7 @@ function makeViewCell(y,m,d,other,shiftData,isToday){
     +(isToday?' today':'')+(hasMe&&!other?' has-my-shift':'');
   const num=document.createElement('div');
   num.className='day-num';num.textContent=d;cell.appendChild(num);
-  if(closed){const cl=document.createElement('div');cl.className='closed-label';cl.textContent='定休日';cell.appendChild(cl);return cell;}
+  if(closed){const cl=document.createElement('div');cl.className='closed-label';cl.textContent=getClosedLabel(y,m,d);cell.appendChild(cl);return cell;}
   if(other)return cell;
   if(hasMe){const b=document.createElement('div');b.className='my-badge';b.textContent='▶ 出勤';cell.appendChild(b);}
   [{type:'lunch',se:e.lunch,label:'☀'},{type:'dinner',se:e.dinner,label:'🌙'}].forEach(({type,se,label})=>{
