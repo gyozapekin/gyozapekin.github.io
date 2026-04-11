@@ -57,7 +57,7 @@ body{font-family:'Helvetica Neue','Hiragino Sans','Yu Gothic UI',Arial,sans-seri
 .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px}
 
 /* SHIFT CALENDAR CELLS */
-.day-cell{background:#fff;border-radius:8px;border:1px solid var(--border);
+.day-cell{position:relative;background:#fff;border-radius:8px;border:1px solid var(--border);
   min-height:130px;padding:6px;display:flex;flex-direction:column;gap:3px;transition:box-shadow .12s}
 .day-cell:not(.is-closed):not(.other-month):hover{box-shadow:0 2px 10px rgba(0,0,0,.1)}
 .day-cell.other-month{opacity:.3;pointer-events:none}
@@ -91,6 +91,14 @@ body{font-family:'Helvetica Neue','Hiragino Sans','Yu Gothic UI',Arial,sans-seri
 .nempty{font-size:.68em;color:#aaa}
 .ext-tag{font-size:.6em;background:#fee2e2;color:#b91c1c;border-radius:3px;padding:1px 4px;font-weight:700}
 .avail-row{display:flex;flex-wrap:wrap;gap:2px;margin-top:2px}
+.quick-close-btn{position:absolute;bottom:4px;right:4px;background:rgba(192,57,43,.09);
+  border:1px dashed #fca5a5;border-radius:4px;padding:2px 6px;font-size:.55em;color:#b91c1c;
+  cursor:pointer;opacity:0;transition:opacity .15s;z-index:2;font-weight:600;line-height:1.4}
+.day-cell:hover .quick-close-btn{opacity:1}
+.quick-unclose-btn{position:absolute;bottom:4px;right:4px;background:rgba(0,0,0,.07);
+  border:1px solid #d1d5db;border-radius:4px;padding:2px 6px;font-size:.55em;color:#374151;
+  cursor:pointer;opacity:0;transition:opacity .15s;z-index:2;line-height:1.4}
+.day-cell:hover .quick-unclose-btn{opacity:1}
 .adot{width:7px;height:7px;border-radius:50%;cursor:default}
 .dot-ok{background:#10b981}.dot-off{background:#ef4444}.dot-maybe{background:#f59e0b}
 
@@ -200,13 +208,14 @@ body{font-family:'Helvetica Neue','Hiragino Sans','Yu Gothic UI',Arial,sans-seri
   .ntag{-webkit-print-color-adjust:exact;print-color-adjust:exact}
 }
 </style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 </head>
 <body>
 
 <!-- NAV -->
 <nav class="topnav">
   <div class="nav-left">
-    <span class="nav-logo">🐟</span>
+    <span class="nav-logo">🥟</span>
     <span class="nav-title">海鮮餃子ペキン — 管理画面</span>
   </div>
   <div class="nav-right">
@@ -235,6 +244,7 @@ body{font-family:'Helvetica Neue','Hiragino Sans','Yu Gothic UI',Arial,sans-seri
     </div>
     <button class="cbtn cbtn-outline" onclick="resetToDefault()">↺ デフォルト</button>
     <button class="cbtn cbtn-blue"    onclick="publishShift()">✔ 公開する</button>
+    <button class="cbtn cbtn-green"   onclick="openExcelModal()">📊 Excel出力</button>
     <span id="publishStatus"></span>
   </div>
   <div class="cal-head">
@@ -401,6 +411,35 @@ body{font-family:'Helvetica Neue','Hiragino Sans','Yu Gothic UI',Arial,sans-seri
   </div>
 </div>
 
+<!-- MODAL: Excel Export -->
+<div class="overlay" id="excelOverlay">
+  <div class="modal">
+    <div class="modal-head">📊 北京の希望 Excel出力</div>
+    <div class="fg">
+      <label>開始年月</label>
+      <div style="display:flex;gap:8px;align-items:center">
+        <input type="number" id="xlStartY" style="width:78px" min="2020" max="2035">
+        <span>年</span>
+        <input type="number" id="xlStartM" style="width:60px" min="1" max="12">
+        <span>月</span>
+      </div>
+    </div>
+    <div class="fg">
+      <label>出力範囲</label>
+      <select id="xlRange">
+        <option value="1">この月のみ（1シート）</option>
+        <option value="3">3ヶ月分（3シート）</option>
+        <option value="6">6ヶ月分（6シート）</option>
+        <option value="12">1年分（12シート）</option>
+      </select>
+    </div>
+    <div class="modal-actions">
+      <button class="mbtn mbtn-cancel" onclick="closeExcelModal()">キャンセル</button>
+      <button class="mbtn mbtn-save"   onclick="doExcelExport()">📥 ダウンロード</button>
+    </div>
+  </div>
+</div>
+
 <script>
 /* ════════════════════════════════════════
    AUTH
@@ -483,22 +522,26 @@ function loadShift(){
 }
 function saveShift(){localStorage.setItem(shiftKey(),JSON.stringify(shiftData));}
 
-/* Default shift staffing (using user IDs for lookup) */
-const LUNCH_MAP={0:'tsan',3:'tsan',4:'fusa',5:'fusa',6:'fusa'};
+/* Default shift staffing (by username)
+   pyWdMap converts JS day (Sun=0) to Mon-origin index:
+   Sun→6, Mon→0, Tue→1, Wed→2, Thu→3, Fri→4, Sat→5
+   LUNCH_USERS maps pyWd index → username:
+     ふさちゃん(fusa): 金(4) 土(5) 日(6)
+     みきちゃん(miki): 月(0) 木(3)                    */
 const pyWdMap={0:6,1:0,2:1,3:2,4:3,5:4,6:5};
+const LUNCH_USERS={0:'miki',3:'miki',4:'fusa',5:'fusa',6:'fusa'};
 
 function buildDefault(y,m){
   const out={},days=new Date(y,m+1,0).getDate();
   const users=getUsers();
-  const find=(id)=>(users.find(u=>u.id===id)||{}).name||'';
+  const findByUsername=(uname)=>(users.find(u=>u.username===uname)||{}).name||'';
   for(let d=1;d<=days;d++){
     if(isClosedDay(y,m,d))continue;
     const dow=new Date(y,m,d).getDay(),pw=pyWdMap[dow];
     const k=dKey(y,m,d);
-    const lId=LUNCH_MAP[pw];
-    const ln=lId?[find(lId)].filter(Boolean):[];
-    const dn=[find('asan'),find('bsan')].filter(Boolean);
-    out[k]={lunch:{names:ln,ext:false},dinner:{names:dn,ext:false}};
+    const lUsername=LUNCH_USERS[pw];
+    const ln=lUsername?[findByUsername(lUsername)].filter(Boolean):[];
+    out[k]={lunch:{names:ln,ext:false},dinner:{names:[],ext:false}};
   }
   return out;
 }
@@ -575,6 +618,13 @@ function makeShiftCell(y,m,d,other,isToday){
     const typeCls=ci.type==='regular'?'regular':ci.type==='holiday'?'holiday':ci.type==='closed'?'temp':'other';
     cl.innerHTML=`<span class="closed-text ${typeCls}">${closedLabel(ci)}</span>`;
     cell.appendChild(cl);
+    /* 特別休日（曜日定休以外）は解除ボタンを表示 */
+    if(!other && ci.type!=='regular'){
+      const ubtn=document.createElement('button');
+      ubtn.className='quick-unclose-btn';ubtn.textContent='🔓 解除';
+      ubtn.onclick=(e)=>{e.stopPropagation();toggleQuickClose(y,m,d);};
+      cell.appendChild(ubtn);
+    }
     return cell;
   }
   if(other)return cell;
@@ -584,6 +634,12 @@ function makeShiftCell(y,m,d,other,isToday){
 
   const dots=makeAvailDots(k);
   if(dots.childElementCount>0)cell.appendChild(dots);
+
+  /* 休業設定ボタン（ホバーで表示） */
+  const cbtn2=document.createElement('button');
+  cbtn2.className='quick-close-btn';cbtn2.textContent='🔒 休業設定';
+  cbtn2.onclick=(e)=>{e.stopPropagation();toggleQuickClose(y,m,d);};
+  cell.appendChild(cbtn2);
   return cell;
 }
 
@@ -978,8 +1034,96 @@ function switchTab(name){
   if(name==='overview')renderOverview();
 }
 
+/* ════════════════════════════════════════
+   QUICK-CLOSE TOGGLE
+════════════════════════════════════════ */
+function toggleQuickClose(y,m,d){
+  const k=dKey(y,m,d);
+  const s=getSettings();
+  if(s.specialDates&&s.specialDates[k]){
+    /* 解除 */
+    if(confirm(`${y}年${m+1}月${d}日の休業設定を解除しますか？`)){
+      delete s.specialDates[k];
+      saveSettings(s);loadShift();render();
+    }
+  }else{
+    /* 休業設定モーダルをその日付で開く */
+    document.getElementById('sdDate').value=k;
+    document.getElementById('sdType').value='closed';
+    document.getElementById('sdLabel').value='';
+    document.getElementById('specialDateOverlay').classList.add('open');
+  }
+}
+
+/* ════════════════════════════════════════
+   EXCEL EXPORT (SheetJS)
+════════════════════════════════════════ */
+function openExcelModal(){
+  document.getElementById('xlStartY').value=Y;
+  document.getElementById('xlStartM').value=M+1;
+  document.getElementById('xlRange').value='1';
+  document.getElementById('excelOverlay').classList.add('open');
+}
+function closeExcelModal(){document.getElementById('excelOverlay').classList.remove('open');}
+
+function doExcelExport(){
+  if(typeof XLSX==='undefined'){alert('SheetJSライブラリが読み込まれていません。ページを再読み込みしてください。');return;}
+  const sy=parseInt(document.getElementById('xlStartY').value)||Y;
+  const sm=parseInt(document.getElementById('xlStartM').value)-1;
+  const months=parseInt(document.getElementById('xlRange').value)||1;
+  const wb=XLSX.utils.book_new();
+  const DOW_JP=['日','月','火','水','木','金','土'];
+  const SECTION_LABEL={regular:'定休日',holiday:'振替休日',closed:'臨時休業',other:'その他'};
+
+  for(let i=0;i<months;i++){
+    let ey=sy,em=sm+i;
+    while(em>11){em-=12;ey++;}
+    const sheetName=`${ey}年${em+1}月`;
+    const days=new Date(ey,em+1,0).getDate();
+    const shKey=`pekin_shift_${ey}-${String(em+1).padStart(2,'0')}`;
+    const sd=JSON.parse(localStorage.getItem(shKey)||'{}');
+
+    const rows=[['日付','曜日','区分','昼の部','昼予備','夜の部','夜予備','備考']];
+    for(let d=1;d<=days;d++){
+      const dow=new Date(ey,em,d).getDay();
+      const k=dKey(ey,em,d);
+      const ci=getClosedInfo(ey,em,d);
+      const dateStr=`${em+1}/${d}`;
+      const dowStr=DOW_JP[dow];
+      if(ci){
+        const section=SECTION_LABEL[ci.type]||ci.type;
+        const note=ci.label&&ci.label!==section?ci.label:'';
+        rows.push([dateStr,dowStr,section,'','','','',note]);
+      }else{
+        const entry=sd[k]||{lunch:{names:[],ext:false},dinner:{names:[],ext:false}};
+        const ln=(entry.lunch.names||[]).filter(n=>n);
+        const dn=(entry.dinner.names||[]).filter(n=>n);
+        const section=dow===0?'日曜':dow===6?'土曜':dow===5?'金曜':'平日';
+        const extNote=(entry.lunch.ext?'昼延長 ':'')+(entry.dinner.ext?'夜延長':'');
+        rows.push([dateStr,dowStr,section,
+          ln[0]||'',ln.slice(1).join(' '),
+          dn[0]||'',dn.slice(1).join(' '),
+          extNote.trim()]);
+      }
+    }
+    const ws=XLSX.utils.aoa_to_sheet(rows);
+    ws['!cols']=[{wch:8},{wch:5},{wch:8},{wch:12},{wch:12},{wch:12},{wch:12},{wch:14}];
+    /* ヘッダー行スタイル（背景色） */
+    const range=XLSX.utils.decode_range(ws['!ref']);
+    for(let C=range.s.c;C<=range.e.c;C++){
+      const addr=XLSX.utils.encode_cell({r:0,c:C});
+      if(!ws[addr])continue;
+      ws[addr].s={fill:{fgColor:{rgb:'2C3E50'}},font:{bold:true,color:{rgb:'FFFFFF'}},alignment:{horizontal:'center'}};
+    }
+    XLSX.utils.book_append_sheet(wb,ws,sheetName);
+  }
+  const fname=months===1?`北京の希望_${sy}年${sm+1}月.xlsx`:`北京の希望_${sy}年${sm+1}月〜${months}ヶ月.xlsx`;
+  XLSX.writeFile(wb,fname);
+  closeExcelModal();
+}
+
 /* Backdrop close */
-['editOverlay','staffOverlay','specialDateOverlay'].forEach(id=>{
+['editOverlay','staffOverlay','specialDateOverlay','excelOverlay'].forEach(id=>{
   document.getElementById(id).addEventListener('click',function(e){
     if(e.target===this)this.classList.remove('open');
   });
