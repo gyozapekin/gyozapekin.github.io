@@ -114,6 +114,22 @@ body{font-family:'Helvetica Neue','Hiragino Sans','Yu Gothic UI',Arial,sans-seri
 .adot{width:7px;height:7px;border-radius:50%;cursor:default}
 .dot-ok{background:#10b981}.dot-off{background:#ef4444}.dot-maybe{background:#f59e0b}
 
+/* AVAILABILITY SUGGESTION TAGS in shift cells */
+.ntag-assigned{cursor:pointer;transition:opacity .12s}
+.ntag-assigned:hover{opacity:.6;text-decoration:line-through}
+.avail-suggest-row{display:flex;flex-wrap:wrap;gap:2px;margin-top:4px;
+  padding-top:4px;border-top:1px dashed #e2e8f0}
+.ntag-suggest-ok{background:#d1fae5!important;color:#065f46!important;
+  border:1px dashed #6ee7b7!important;cursor:pointer;transition:all .12s}
+.ntag-suggest-ok:hover{background:#a7f3d0!important;border-style:solid!important}
+.ntag-suggest-maybe{background:#fef9c3!important;color:#854d0e!important;
+  border:1px dashed #fde047!important;cursor:pointer;transition:all .12s}
+.ntag-suggest-maybe:hover{background:#fef08a!important;border-style:solid!important}
+.ntag-off{background:#fee2e2!important;color:#991b1b!important;
+  border:1px solid #fca5a5!important;opacity:.6;font-size:.58em!important;cursor:default}
+.avail-suggest-label{font-size:.58em;color:#94a3b8;letter-spacing:.04em;width:100%;
+  margin-bottom:1px;display:block}
+
 /* OVERVIEW CALENDAR */
 .ov-cell{background:#fff;border-radius:8px;border:1px solid var(--border);
   min-height:110px;padding:5px;display:flex;flex-direction:column;gap:2px;font-size:.78em}
@@ -731,16 +747,75 @@ function makeShiftBlock(k,type,se,label){
   const bl=document.createElement('div');
   bl.className=`shift-block ${type}`;
   bl.onclick=()=>openEdit(k,type);
+
   const lbl=document.createElement('div');lbl.className='shift-label';lbl.textContent=label;bl.appendChild(lbl);
+
+  /* ── 割当済みスタッフ ── */
   const row=document.createElement('div');row.className='name-row';
   const names=(se.names||[]).filter(n=>n&&n.trim());
   if(names.length){
-    names.forEach(n=>{const t=document.createElement('span');t.className='ntag';t.textContent=n;row.appendChild(t);});
+    names.forEach(n=>{
+      const t=document.createElement('span');
+      t.className='ntag ntag-assigned';
+      t.textContent=n;
+      t.title='クリックでシフトから外す';
+      t.onclick=(ev)=>{ev.stopPropagation();toggleStaffInShift(k,type,n,false);};
+      row.appendChild(t);
+    });
     if(se.ext){const ex=document.createElement('span');ex.className='ext-tag';ex.textContent='延長';row.appendChild(ex);}
   }else{
     const em=document.createElement('span');em.className='nempty';em.textContent='未定';row.appendChild(em);
   }
-  bl.appendChild(row);return bl;
+  bl.appendChild(row);
+
+  /* ── スタッフ希望：採用候補バッジ ── */
+  const av=loadAvail(Y,M);
+  const staffList=getStaffList();
+  const okList=[],maybeList=[],offList=[];
+  staffList.forEach(s=>{
+    const entry=av[s.id]&&av[s.id][k];
+    if(!entry)return;
+    const val=type==='lunch'
+      ?(typeof entry==='string'?entry:(entry.lunch||''))
+      :(typeof entry==='string'?'':(entry.dinner||''));
+    if(!val)return;
+    if(names.includes(s.name))return; // 既に割当済み
+    if(val==='ok')okList.push(s.name);
+    else if(val==='maybe')maybeList.push(s.name);
+    else if(val==='off')offList.push(s.name);
+  });
+
+  if(okList.length||maybeList.length||offList.length){
+    const sr=document.createElement('div');sr.className='avail-suggest-row';
+    sr.onclick=(ev)=>ev.stopPropagation(); // ブロック全体クリック防止
+
+    okList.forEach(n=>{
+      const t=document.createElement('span');
+      t.className='ntag ntag-suggest-ok';
+      t.textContent='+'+n;
+      t.title=`${n}（出勤可）→ クリックでシフトに追加`;
+      t.onclick=(ev)=>{ev.stopPropagation();toggleStaffInShift(k,type,n,true);};
+      sr.appendChild(t);
+    });
+    maybeList.forEach(n=>{
+      const t=document.createElement('span');
+      t.className='ntag ntag-suggest-maybe';
+      t.textContent='+'+n;
+      t.title=`${n}（調整可）→ クリックでシフトに追加`;
+      t.onclick=(ev)=>{ev.stopPropagation();toggleStaffInShift(k,type,n,true);};
+      sr.appendChild(t);
+    });
+    offList.forEach(n=>{
+      const t=document.createElement('span');
+      t.className='ntag ntag-off';
+      t.textContent='×'+n;
+      t.title=`${n}：休み希望`;
+      sr.appendChild(t);
+    });
+    bl.appendChild(sr);
+  }
+
+  return bl;
 }
 
 function makeAvailDots(dk){
@@ -910,6 +985,21 @@ function saveShiftEdit(){
   if(!shiftData[editKey])shiftData[editKey]={lunch:{names:[],ext:false},dinner:{names:[],ext:false}};
   shiftData[editKey][editType]={names,ext};
   saveShift();closeEdit();render();
+}
+
+/* ════════════════════════════════════════
+   TOGGLE STAFF IN SHIFT (inline approval)
+════════════════════════════════════════ */
+function toggleStaffInShift(k,type,name,add){
+  if(!shiftData[k])shiftData[k]={lunch:{names:[],ext:false},dinner:{names:[],ext:false}};
+  const se=shiftData[k][type];
+  if(!se.names)se.names=[];
+  if(add){
+    if(!se.names.includes(name)&&se.names.length<4)se.names.push(name);
+  }else{
+    se.names=se.names.filter(n=>n!==name);
+  }
+  saveShift();render();
 }
 
 /* ════════════════════════════════════════
