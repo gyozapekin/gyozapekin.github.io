@@ -257,6 +257,7 @@ body{font-family:'Helvetica Neue','Hiragino Sans','Yu Gothic UI',Arial,sans-seri
     <button class="cbtn cbtn-outline" onclick="resetToDefault()">↺ デフォルト</button>
     <button class="cbtn cbtn-blue"    onclick="publishShift()">✔ 公開する</button>
     <button class="cbtn cbtn-green"   onclick="openExcelModal()">📊 Excel出力</button>
+    <button class="cbtn cbtn-outline" onclick="refreshAll();showUpdateToast('🔄 データを更新しました');" title="スタッフ希望など最新データを再読み込み">🔄 更新</button>
     <span id="publishStatus"></span>
   </div>
   <div class="cal-head">
@@ -1271,6 +1272,63 @@ function doExcelExport(){
   document.getElementById(id).addEventListener('click',function(e){
     if(e.target===this)this.classList.remove('open');
   });
+});
+
+/* ════════════════════════════════════════
+   REAL-TIME SYNC
+   storage イベントで他タブ（staff.html）の変更を検知して自動再描画
+════════════════════════════════════════ */
+function showUpdateToast(msg){
+  let t=document.getElementById('updateToast');
+  if(!t){
+    t=document.createElement('div');t.id='updateToast';
+    t.style.cssText='position:fixed;bottom:24px;right:24px;background:#1d4ed8;color:#fff;'
+      +'padding:10px 20px;border-radius:10px;font-size:.82em;font-weight:700;'
+      +'z-index:9999;opacity:0;transition:opacity .35s;pointer-events:none;'
+      +'box-shadow:0 4px 20px rgba(0,0,0,.22);display:flex;align-items:center;gap:7px';
+    document.body.appendChild(t);
+  }
+  t.textContent=msg;
+  t.style.opacity='1';
+  clearTimeout(t._timer);
+  t._timer=setTimeout(()=>{t.style.opacity='0';},3500);
+}
+
+function refreshAll(){
+  loadShift();render();
+  const panels={overview:renderOverview,avail:renderAvailPanel,settings:renderSettingsPanel};
+  Object.entries(panels).forEach(([id,fn])=>{
+    if(document.getElementById('panel-'+id).classList.contains('active'))fn();
+  });
+}
+
+window.addEventListener('storage',function(e){
+  if(!e.key)return;
+  if(e.key.startsWith('pekin_avail_')){
+    render();
+    if(document.getElementById('panel-overview').classList.contains('active'))renderOverview();
+    if(document.getElementById('panel-avail').classList.contains('active'))renderAvailPanel();
+    showUpdateToast('📝 スタッフの希望が更新されました');
+  }
+  if(e.key==='pekin_settings'){
+    loadShift();render();
+    if(document.getElementById('panel-overview').classList.contains('active'))renderOverview();
+    if(document.getElementById('panel-avail').classList.contains('active'))renderAvailPanel();
+    showUpdateToast('⚙ 設定が更新されました');
+  }
+  if(e.key.startsWith('pekin_shift_')){
+    loadShift();render();
+    if(document.getElementById('panel-overview').classList.contains('active'))renderOverview();
+    showUpdateToast('📅 シフトデータが更新されました');
+  }
+  if(e.key.startsWith('pekin_published_')){
+    updatePublishStatus();
+    showUpdateToast('✅ 公開ステータスが変更されました');
+  }
+  if(e.key==='pekin_users'){
+    if(document.getElementById('panel-staff').classList.contains('active'))renderStaffPanel();
+    showUpdateToast('👥 スタッフ情報が更新されました');
+  }
 });
 
 /* ════════════════════════════════════════

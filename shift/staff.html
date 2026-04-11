@@ -483,6 +483,48 @@ function switchTab(name){
 
 document.getElementById('confirmOverlay').addEventListener('click',function(e){if(e.target===this)this.classList.remove('open');});
 
+/* ── REAL-TIME SYNC ──
+   storage イベントで他タブ（admin.html）の変更を検知して自動再描画 */
+function showUpdateToast(msg){
+  let t=document.getElementById('updateToast');
+  if(!t){
+    t=document.createElement('div');t.id='updateToast';
+    t.style.cssText='position:fixed;bottom:24px;right:24px;background:#27ae60;color:#fff;'
+      +'padding:10px 20px;border-radius:10px;font-size:.82em;font-weight:700;'
+      +'z-index:9999;opacity:0;transition:opacity .35s;pointer-events:none;'
+      +'box-shadow:0 4px 20px rgba(0,0,0,.22)';
+    document.body.appendChild(t);
+  }
+  t.textContent=msg;
+  t.style.opacity='1';
+  clearTimeout(t._timer);
+  t._timer=setTimeout(()=>{t.style.opacity='0';},3500);
+}
+
+window.addEventListener('storage',function(e){
+  if(!e.key)return;
+  /* 管理者がシフト更新 or 公開 → シフト確認タブに反映 */
+  const curShiftKey2=shiftKey(viewY,viewM);
+  const curPubKey=publishKey(viewY,viewM);
+  if(e.key===curShiftKey2||e.key===curPubKey){
+    if(document.getElementById('panel-shift').classList.contains('active'))
+      renderShiftView();
+    showUpdateToast('📅 シフトが更新されました');
+  }
+  /* 管理者が希望入力対象月のシフト変更 → 北京の希望バッジを再描画 */
+  if(e.key===shiftKey(reqY,reqM)){
+    renderRequestList();
+    showUpdateToast('📋 北京の希望が更新されました');
+  }
+  /* 設定変更 → 定休日の表示を更新 */
+  if(e.key==='pekin_settings'){
+    renderRequestList();
+    if(document.getElementById('panel-shift').classList.contains('active'))
+      renderShiftView();
+    showUpdateToast('⚙ 設定が更新されました');
+  }
+});
+
 /* ── INIT ── */
 loadMyAvail();
 renderRequestList();
