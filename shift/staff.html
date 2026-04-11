@@ -57,13 +57,18 @@ body{font-family:'Helvetica Neue','Hiragino Sans','Yu Gothic UI',Arial,sans-seri
 /* per-day availability card */
 .day-avail-list{display:flex;flex-direction:column;gap:6px}
 .day-avail-row{background:#fff;border:1px solid var(--border);border-radius:8px;
-  padding:10px 14px;display:grid;grid-template-columns:72px 1fr auto;align-items:center;gap:10px}
+  padding:10px 14px;display:flex;flex-direction:column;gap:7px}
 .day-avail-row.closed-day{background:#f3f4f6;border-color:#e5e7eb}
 .day-avail-row:hover:not(.closed-day){box-shadow:0 1px 6px rgba(0,0,0,.08)}
+.day-row-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
 .day-label{font-size:.88em;font-weight:700}
 .day-label.sun{color:var(--red)}.day-label.sat,.day-label.fri{color:#1d4ed8}
 .day-label .dow{font-size:.78em;color:var(--muted);margin-left:4px}
-.closed-text{font-size:.8em;color:#adb5bd;letter-spacing:.1em;grid-column:2/-1}
+.closed-text{font-size:.8em;color:#adb5bd;letter-spacing:.1em}
+.session-row{display:flex;align-items:center;gap:8px;padding-left:2px}
+.session-label{font-size:.74em;font-weight:700;min-width:48px;flex-shrink:0;white-space:nowrap}
+.session-label.lunch-lbl{color:#1d4ed8}
+.session-label.dinner-lbl{color:#92400e}
 /* 北京の希望バッジ */
 .pekin-wish-col{display:flex;align-items:center;flex-wrap:wrap;gap:4px}
 .pekin-wish{font-size:.74em;font-weight:700;padding:3px 9px;border-radius:12px;
@@ -270,7 +275,15 @@ let myAvail={};
 
 function loadMyAvail(){
   const all=loadAvail(reqY,reqM);
-  myAvail=JSON.parse(JSON.stringify(all[sess.userId]||{}));
+  const raw=all[sess.userId]||{};
+  myAvail={};
+  Object.entries(raw).forEach(([k,v])=>{
+    if(typeof v==='string'){
+      myAvail[k]={lunch:v,dinner:v}; // 旧フォーマット互換：文字列→昼夜同値
+    }else{
+      myAvail[k]={lunch:v.lunch||'',dinner:v.dinner||''};
+    }
+  });
 }
 
 /* ── SHIFT DATA ── */
@@ -292,7 +305,8 @@ function updateDeadlineUI(){
 
 /* ── RENDER REQUEST LIST ──
    ★ loadMyAvail() は呼ばない（呼ぶと未送信の選択がリセットされる）
-     月変更やinitでのみ呼ぶこと */
+     月変更やinitでのみ呼ぶこと
+   ★ 昼の部・夜の部それぞれ独立してボタン選択可能 */
 function renderRequestList(){
   document.getElementById('reqMonthLabel').textContent=`${reqY}年 ${reqM+1}月`;
   document.getElementById('reqTarget').textContent=`${reqY}年 ${reqM+1}月`;
@@ -300,7 +314,6 @@ function renderRequestList(){
   const list=document.getElementById('dayAvailList');
   list.innerHTML='';
   const days=new Date(reqY,reqM+1,0).getDate();
-  /* 北京の希望データ */
   const shiftData=JSON.parse(localStorage.getItem(shiftKey(reqY,reqM))||'{}');
   const myName=sess.name;
 
@@ -311,16 +324,20 @@ function renderRequestList(){
     const row=document.createElement('div');
     row.className='day-avail-row'+(closed?' closed-day':'');
 
-    /* 日付ラベル */
+    /* ── ヘッダー行：日付 ＋ 北京の希望バッジ ── */
+    const head=document.createElement('div');
+    head.className='day-row-head';
+
     const lbl=document.createElement('div');
     lbl.className='day-label '+(['sun','mon','tue','wed','thu','fri','sat'][dow]);
     lbl.innerHTML=`${d}日<span class="dow">${DOW_STR[dow]}</span>`;
-    row.appendChild(lbl);
+    head.appendChild(lbl);
 
     if(closed){
       const cl=document.createElement('div');
       cl.className='closed-text';cl.textContent=getClosedLabel(reqY,reqM,d);
-      row.appendChild(cl);
+      head.appendChild(cl);
+      row.appendChild(head);
     }else{
       /* 北京の希望バッジ */
       const se=shiftData[k]||{lunch:{names:[],ext:false},dinner:{names:[],ext:false}};
@@ -329,45 +346,58 @@ function renderRequestList(){
       const wishDiv=document.createElement('div');
       wishDiv.className='pekin-wish-col';
       if(inLunch&&inDinner){
-        wishDiv.innerHTML='<span class="pekin-wish both">☀🌙 昼・夜お願いしたい</span>';
+        wishDiv.innerHTML='<span class="pekin-wish both">☀🌙 昼・夜</span>';
       }else if(inLunch){
-        wishDiv.innerHTML='<span class="pekin-wish lunch">☀ 昼にお願いしたい</span>';
+        wishDiv.innerHTML='<span class="pekin-wish lunch">☀ 昼</span>';
       }else if(inDinner){
-        wishDiv.innerHTML='<span class="pekin-wish dinner">🌙 夜にお願いしたい</span>';
+        wishDiv.innerHTML='<span class="pekin-wish dinner">🌙 夜</span>';
       }else{
-        wishDiv.innerHTML='<span class="pekin-wish none">北京の希望：未定</span>';
+        wishDiv.innerHTML='<span class="pekin-wish none">北京：未定</span>';
       }
-      row.appendChild(wishDiv);
+      head.appendChild(wishDiv);
+      row.appendChild(head);
 
-      /* 選択状態に応じてボタンクラスを計算 */
-      const cur=myAvail[k]||'';
-      const btns=document.createElement('div');
-      btns.className='avail-btns';
+      /* ── 昼の部・夜の部 それぞれボタン行 ── */
+      const entry=myAvail[k]||{lunch:'',dinner:''};
+      [
+        {part:'lunch', icon:'☀', label:'昼の部', isWanted:inLunch,  labelCls:'lunch-lbl'},
+        {part:'dinner',icon:'🌙',label:'夜の部', isWanted:inDinner, labelCls:'dinner-lbl'}
+      ].forEach(({part,icon,label,isWanted,labelCls})=>{
+        const srow=document.createElement('div');
+        srow.className='session-row';
 
-      /* ラベルを北京希望があればOK系、なければ通常系に */
-      const isWanted=inLunch||inDinner;
-      const btnDefs=[
-        {val:'ok',  label: isWanted?'✓ OK出勤':'○ 出勤可', cls:'sel-ok'},
-        {val:'off', label: isWanted?'✕ 休み希望':'× 休み',  cls:'sel-off'},
-        {val:'maybe',label:'△ 調整可',                      cls:'sel-maybe'}
-      ];
-      btnDefs.forEach(b=>{
-        const btn=document.createElement('button');
-        /* 選択: このボタンが選ばれている / 非選択: 他が選ばれている */
-        let btnCls='avail-btn';
-        if(cur===b.val) btnCls+=' '+b.cls;
-        else if(cur&&cur!==b.val) btnCls+=' unsel';
-        btn.className=btnCls;
-        btn.textContent=b.label;
-        btn.onclick=()=>{
-          /* トグル：同じボタンを再クリックで解除 */
-          if(myAvail[k]===b.val)delete myAvail[k];
-          else myAvail[k]=b.val;
-          renderRequestList(); // ★ loadMyAvail は呼ばない
-        };
-        btns.appendChild(btn);
+        const slbl=document.createElement('span');
+        slbl.className=`session-label ${labelCls}`;
+        slbl.textContent=`${icon} ${label}`;
+        srow.appendChild(slbl);
+
+        const cur=entry[part]||'';
+        const btns=document.createElement('div');
+        btns.className='avail-btns';
+
+        const btnDefs=[
+          {val:'ok',   label:isWanted?'✓ OK出勤':'○ 出勤可', cls:'sel-ok'},
+          {val:'off',  label:isWanted?'✕ 休み希望':'× 休み',  cls:'sel-off'},
+          {val:'maybe',label:'△ 調整可',                       cls:'sel-maybe'}
+        ];
+        btnDefs.forEach(b=>{
+          const btn=document.createElement('button');
+          let btnCls='avail-btn';
+          if(cur===b.val) btnCls+=' '+b.cls;
+          else if(cur&&cur!==b.val) btnCls+=' unsel';
+          btn.className=btnCls;
+          btn.textContent=b.label;
+          btn.onclick=()=>{
+            if(!myAvail[k])myAvail[k]={lunch:'',dinner:''};
+            if(myAvail[k][part]===b.val) myAvail[k][part]=''; // トグル解除
+            else myAvail[k][part]=b.val;
+            renderRequestList(); // ★ loadMyAvail は呼ばない
+          };
+          btns.appendChild(btn);
+        });
+        srow.appendChild(btns);
+        row.appendChild(srow);
       });
-      row.appendChild(btns);
     }
     list.appendChild(row);
   }
@@ -384,17 +414,23 @@ function openConfirm(){
   document.getElementById('confirmName').textContent=`${sess.name}さんの希望（${reqY}年${reqM+1}月）`;
   const list=document.getElementById('confirmList');
   list.innerHTML='';
-  const entries=Object.entries(myAvail).filter(([,v])=>v).sort(([a],[b])=>a.localeCompare(b));
+  const entries=Object.entries(myAvail)
+    .filter(([,v])=>v&&(v.lunch||v.dinner))
+    .sort(([a],[b])=>a.localeCompare(b));
   if(entries.length===0){
     list.innerHTML='<li style="color:#aaa">入力なし — 全日出勤可として扱われます</li>';
   }else{
+    const fmt=(val)=>val==='ok'?'出勤可':val==='off'?'休み希望':val==='maybe'?'調整可':'—';
+    const ico=(val)=>val==='ok'?'✅':val==='off'?'❌':val==='maybe'?'🔄':'　';
     entries.forEach(([k,v])=>{
       const [,m2,d]=k.split('-');
       const dow=new Date(parseInt(k.split('-')[0]),parseInt(m2)-1,parseInt(d)).getDay();
       const li=document.createElement('li');
-      const icon=v==='ok'?'✅':v==='off'?'❌':'🔄';
-      const label=v==='ok'?'出勤可':v==='off'?'休み希望':'調整可';
-      li.innerHTML=`${icon} <strong>${parseInt(m2)}月${parseInt(d)}日（${DOW_STR[dow]}）</strong> — ${label}`;
+      li.innerHTML=`<strong>${parseInt(m2)}月${parseInt(d)}日（${DOW_STR[dow]}）</strong>
+        <span style="font-size:.85em;margin-left:6px;display:inline-flex;gap:8px">
+          <span>☀${ico(v.lunch)}${fmt(v.lunch)}</span>
+          <span>🌙${ico(v.dinner)}${fmt(v.dinner)}</span>
+        </span>`;
       list.appendChild(li);
     });
   }

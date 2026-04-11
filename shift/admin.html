@@ -747,11 +747,18 @@ function makeAvailDots(dk){
   const row=document.createElement('div');row.className='avail-row';
   const av=loadAvail(Y,M);
   getStaffList().forEach(s=>{
-    const v=av[s.id]&&av[s.id][dk];if(!v)return;
-    const dot=document.createElement('span');
-    dot.className=`adot ${v==='ok'?'dot-ok':v==='off'?'dot-off':'dot-maybe'}`;
-    dot.title=`${s.name}：${v==='ok'?'出勤可':v==='off'?'休み希望':'調整可'}`;
-    row.appendChild(dot);
+    const entry=av[s.id]&&av[s.id][dk];if(!entry)return;
+    const lv=typeof entry==='string'?entry:(entry.lunch||'');
+    const dv=typeof entry==='string'?'':(entry.dinner||'');
+    const mkDot=(v,sfx)=>{
+      if(!v)return;
+      const dot=document.createElement('span');
+      dot.className=`adot ${v==='ok'?'dot-ok':v==='off'?'dot-off':'dot-maybe'}`;
+      dot.title=`${s.name}${sfx}：${v==='ok'?'出勤可':v==='off'?'休み希望':'調整可'}`;
+      row.appendChild(dot);
+    };
+    mkDot(lv,' ☀');
+    mkDot(dv,' 🌙');
   });
   return row;
 }
@@ -796,24 +803,40 @@ function renderOverview(){
       cl.innerHTML=`<span class="closed-text ${typeCls}" style="font-size:.68em">${closedLabel(ci)}</span>`;
       cell.appendChild(cl);
     } else {
-      /* Staff availability */
-      const ok=[],off=[],maybe=[];
+      /* Staff availability — 昼夜別 */
+      const lOk=[],lOff=[],lMaybe=[],dOk=[],dOff=[],dMaybe=[];
+      let anyInput=false;
       staffList.forEach(s=>{
-        const v=av[s.id]&&av[s.id][k];
-        if(v==='ok')ok.push(s.name);
-        else if(v==='off')off.push(s.name);
-        else if(v==='maybe')maybe.push(s.name);
+        const entry=av[s.id]&&av[s.id][k];if(!entry)return;
+        anyInput=true;
+        const lv=typeof entry==='string'?entry:(entry.lunch||'');
+        const dv=typeof entry==='string'?entry:(entry.dinner||'');
+        if(lv==='ok')lOk.push(s.name);
+        else if(lv==='off')lOff.push(s.name);
+        else if(lv==='maybe')lMaybe.push(s.name);
+        if(dv==='ok')dOk.push(s.name);
+        else if(dv==='off')dOff.push(s.name);
+        else if(dv==='maybe')dMaybe.push(s.name);
       });
 
       if(staffList.length>0){
         const sec=document.createElement('div');sec.className='ov-section';sec.textContent='スタッフ希望';
         cell.appendChild(sec);
-        if(ok.length||off.length||maybe.length){
-          const wrap=document.createElement('div');wrap.className='ov-avail-wrap';
-          ok.forEach(n=>{const b=document.createElement('span');b.className='ov-badge ov-ok';b.textContent='○'+n;wrap.appendChild(b);});
-          off.forEach(n=>{const b=document.createElement('span');b.className='ov-badge ov-off';b.textContent='×'+n;wrap.appendChild(b);});
-          maybe.forEach(n=>{const b=document.createElement('span');b.className='ov-badge ov-maybe';b.textContent='△'+n;wrap.appendChild(b);});
-          cell.appendChild(wrap);
+        if(anyInput){
+          const mkRow=(icon,color,okArr,offArr,maybeArr)=>{
+            if(!okArr.length&&!offArr.length&&!maybeArr.length)return;
+            const rowEl=document.createElement('div');
+            rowEl.style.cssText='display:flex;flex-wrap:wrap;align-items:center;gap:2px;margin-bottom:1px';
+            const ic=document.createElement('span');
+            ic.style.cssText=`color:${color};font-weight:700;font-size:.6em;flex-shrink:0`;
+            ic.textContent=icon;rowEl.appendChild(ic);
+            okArr.forEach(n=>{const b=document.createElement('span');b.className='ov-badge ov-ok';b.textContent='○'+n;rowEl.appendChild(b);});
+            offArr.forEach(n=>{const b=document.createElement('span');b.className='ov-badge ov-off';b.textContent='×'+n;rowEl.appendChild(b);});
+            maybeArr.forEach(n=>{const b=document.createElement('span');b.className='ov-badge ov-maybe';b.textContent='△'+n;rowEl.appendChild(b);});
+            cell.appendChild(rowEl);
+          };
+          mkRow('☀','#1d4ed8',lOk,lOff,lMaybe);
+          mkRow('🌙','#92400e',dOk,dOff,dMaybe);
         } else {
           const no=document.createElement('div');no.className='ov-no-avail';no.textContent='希望未入力';
           cell.appendChild(no);
@@ -917,10 +940,15 @@ function renderAvailPanel(){
     for(let d=1;d<=days;d++){
       if(isClosedDay(Y,M,d))continue;
       const k=dKey(Y,M,d);const v=sav[k];
-      if(v==='ok')    html+=`<td><span class="atag atag-ok">○</span></td>`;
-      else if(v==='off')  html+=`<td><span class="atag atag-off">×</span></td>`;
-      else if(v==='maybe')html+=`<td><span class="atag atag-maybe">△</span></td>`;
-      else html+=`<td><span class="atag atag-none">—</span></td>`;
+      if(!v){html+=`<td><span class="atag atag-none" style="font-size:.65em">—</span></td>`;continue;}
+      const lv=typeof v==='string'?v:(v.lunch||'');
+      const dv=typeof v==='string'?v:(v.dinner||'');
+      const sym=(x)=>x==='ok'?'○':x==='off'?'×':x==='maybe'?'△':'—';
+      const cls=(x)=>x==='ok'?'atag-ok':x==='off'?'atag-off':x==='maybe'?'atag-maybe':'atag-none';
+      html+=`<td style="white-space:nowrap;padding:4px 2px">
+        <span class="atag ${cls(lv)}" style="font-size:.6em;padding:1px 3px" title="昼">☀${sym(lv)}</span>
+        <span class="atag ${cls(dv)}" style="font-size:.6em;padding:1px 3px;margin-left:1px" title="夜">🌙${sym(dv)}</span>
+      </td>`;
     }
     html+='</tr>';
   });
