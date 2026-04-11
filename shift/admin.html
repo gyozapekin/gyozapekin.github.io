@@ -87,8 +87,13 @@ body{font-family:'Helvetica Neue','Hiragino Sans','Yu Gothic UI',Arial,sans-seri
 .shift-block.dinner .shift-label{color:#92400e}
 .name-row{display:flex;flex-wrap:wrap;gap:2px;min-height:16px}
 .ntag{font-size:.68em;font-weight:600;padding:1px 6px;border-radius:12px;white-space:nowrap}
-.lunch .ntag{background:#dbeafe;color:#1e40af;border:1px solid #93c5fd}
-.dinner .ntag{background:#fef3c7;color:#92400e;border:1px solid #fcd34d}
+/* 昼・夜とも同じ青ベース（店からの要望・未回答） */
+.lunch .ntag,.dinner .ntag{background:#dbeafe;color:#1e40af;border:1px solid #93c5fd}
+/* スタッフ希望と照合した状態別カラー */
+.ntag.ntag-pending{background:#dbeafe!important;color:#1e40af!important;border:1px solid #93c5fd!important}
+.ntag.ntag-ok-confirmed{background:#d1fae5!important;color:#065f46!important;border:1px solid #6ee7b7!important;font-weight:700!important}
+.ntag.ntag-maybe{background:#fef9c3!important;color:#854d0e!important;border:1px solid #fde047!important;font-weight:700!important}
+.ntag.ntag-conflict{background:#fee2e2!important;color:#991b1b!important;border:1px solid #fca5a5!important;font-weight:700!important}
 .nempty{font-size:.68em;color:#aaa}
 .ext-tag{font-size:.6em;background:#fee2e2;color:#b91c1c;border-radius:3px;padding:1px 4px;font-weight:700}
 .avail-row{display:flex;flex-wrap:wrap;gap:2px;margin-top:2px}
@@ -260,6 +265,7 @@ body{font-family:'Helvetica Neue','Hiragino Sans','Yu Gothic UI',Arial,sans-seri
   <button class="tab" onclick="switchTab('avail')">📝 希望一覧</button>
   <button class="tab" onclick="switchTab('staff')">👥 スタッフ管理</button>
   <button class="tab" onclick="switchTab('settings')">⚙ 設定</button>
+  <button class="tab" onclick="switchTab('template')">📋 テンプレート</button>
 </div>
 
 <!-- PANEL: SHIFT MANAGEMENT -->
@@ -378,6 +384,19 @@ body{font-family:'Helvetica Neue','Hiragino Sans','Yu Gothic UI',Arial,sans-seri
       <div class="open-ex-list" id="openExList"></div>
     </div>
   </div>
+</div>
+
+<!-- PANEL: SHIFT TEMPLATE -->
+<div class="panel" id="panel-template">
+  <div class="cal-controls no-print" style="margin-bottom:8px">
+    <span style="font-size:.9em;font-weight:700;color:#374151">📋 シフトテンプレート（2週ローテーション）</span>
+    <button class="cbtn cbtn-blue" onclick="applyTemplateToMonth()">📅 今月に反映</button>
+  </div>
+  <p style="font-size:.82em;color:#718096;margin-bottom:16px;padding:0 2px">
+    Aパターン（1・3・5週目）とBパターン（2・4週目）の2週ローテーションで店の希望を設定します。<br>
+    「今月に反映」ボタンで <strong style="color:#374151">シフト管理</strong> タブにテンプレートが下書きとして反映されます。
+  </p>
+  <div id="templatePanelBody"></div>
 </div>
 
 <!-- MODAL: Edit Shift -->
@@ -576,26 +595,11 @@ function loadShift(){
 }
 function saveShift(){localStorage.setItem(shiftKey(),JSON.stringify(shiftData));}
 
-/* Default shift staffing (by username)
-   pyWdMap converts JS day (Sun=0) to Mon-origin index:
-   Sun→6, Mon→0, Tue→1, Wed→2, Thu→3, Fri→4, Sat→5
-   LUNCH_USERS maps pyWd index → username:
-     ふさちゃん(fusa): 金(4) 土(5) 日(6)
-     みきちゃん(miki): 月(0) 木(3)                    */
-const pyWdMap={0:6,1:0,2:1,3:2,4:3,5:4,6:5};
-const LUNCH_USERS={0:'miki',3:'miki',4:'fusa',5:'fusa',6:'fusa'};
-
 function buildDefault(y,m){
   const out={},days=new Date(y,m+1,0).getDate();
-  const users=getUsers();
-  const findByUsername=(uname)=>(users.find(u=>u.username===uname)||{}).name||'';
   for(let d=1;d<=days;d++){
     if(isClosedDay(y,m,d))continue;
-    const dow=new Date(y,m,d).getDay(),pw=pyWdMap[dow];
-    const k=dKey(y,m,d);
-    const lUsername=LUNCH_USERS[pw];
-    const ln=lUsername?[findByUsername(lUsername)].filter(Boolean):[];
-    out[k]={lunch:{names:ln,ext:false},dinner:{names:[],ext:false}};
+    out[dKey(y,m,d)]={lunch:{names:[],ext:false},dinner:{names:[],ext:false}};
   }
   return out;
 }
@@ -748,17 +752,66 @@ function makeShiftBlock(k,type,se,label){
   bl.className=`shift-block ${type}`;
   bl.onclick=()=>openEdit(k,type);
 
-  const lbl=document.createElement('div');lbl.className='shift-label';lbl.textContent=label;bl.appendChild(lbl);
-
-  /* ── 割当済みスタッフ ── */
-  const row=document.createElement('div');row.className='name-row';
+  const av=loadAvail(Y,M);
+  const staffList=getStaffList();
   const names=(se.names||[]).filter(n=>n&&n.trim());
+
+  /* ═══════════════════════════════════════
+     STEP 1: 全スタッフを一気に走査して
+       ① 割当済みの状態マップ  (希望カレンダーと同じパターン)
+       ② 未割当の採用候補リスト
+     ※ staffList.find() は使わず、希望一覧と全く同じ方法で
+  ═══════════════════════════════════════ */
+  const assignedStatus={};  // name → 'confirmed'|'conflict'|'pending'
+  const okList=[],maybeList=[],offList=[];
+  let hasConflict=false;
+
+  staffList.forEach(s=>{
+    const entry=av[s.id]&&av[s.id][k];
+    // entry の形式: 新形式 {lunch,dinner} or 旧形式 文字列
+    const lunchVal=typeof entry==='string'?entry:(entry&&entry.lunch)||'';
+    const dinnerVal=typeof entry==='string'?'':(entry&&entry.dinner)||'';
+    const val=type==='lunch'?lunchVal:dinnerVal;
+
+    if(names.includes(s.name)){
+      /* 割当済みスタッフ → 状態マップに記録 */
+      if(val==='ok') assignedStatus[s.name]='confirmed';
+      else if(val==='maybe') assignedStatus[s.name]='maybe';
+      else if(val==='off'){assignedStatus[s.name]='conflict';hasConflict=true;}
+      else assignedStatus[s.name]='pending';
+    }else{
+      /* 未割当スタッフ → 採用候補リスト */
+      if(val==='ok')okList.push(s.name);
+      else if(val==='maybe')maybeList.push(s.name);
+      else if(val==='off')offList.push(s.name);
+    }
+  });
+
+  /* ═══════════════════════════════════════
+     STEP 2: ラベル（コンフリクト時に⚠）
+  ═══════════════════════════════════════ */
+  const lbl=document.createElement('div');lbl.className='shift-label';
+  if(hasConflict){
+    lbl.innerHTML=`${label} <span style="color:#dc2626;font-size:.9em;font-weight:800">⚠</span>`;
+    bl.style.borderColor='#fca5a5';
+  }else{
+    lbl.textContent=label;
+  }
+  bl.appendChild(lbl);
+
+  /* ═══════════════════════════════════════
+     STEP 3: 割当済みスタッフタグ（3色）
+  ═══════════════════════════════════════ */
+  const row=document.createElement('div');row.className='name-row';
   if(names.length){
     names.forEach(n=>{
+      const st=assignedStatus[n]||'pending';
+      const cls=st==='confirmed'?'ntag-ok-confirmed':st==='maybe'?'ntag-maybe':st==='conflict'?'ntag-conflict':'ntag-pending';
+      const tip=st==='confirmed'?'出勤可 ✓':st==='maybe'?'調整可 △':st==='conflict'?'休み希望 ⚠ 要確認':'希望未入力';
       const t=document.createElement('span');
-      t.className='ntag ntag-assigned';
+      t.className=`ntag ntag-assigned ${cls}`;
       t.textContent=n;
-      t.title='クリックでシフトから外す';
+      t.title=`${n}：${tip}（クリックでシフトから外す）`;
       t.onclick=(ev)=>{ev.stopPropagation();toggleStaffInShift(k,type,n,false);};
       row.appendChild(t);
     });
@@ -768,27 +821,12 @@ function makeShiftBlock(k,type,se,label){
   }
   bl.appendChild(row);
 
-  /* ── スタッフ希望：採用候補バッジ ── */
-  const av=loadAvail(Y,M);
-  const staffList=getStaffList();
-  const okList=[],maybeList=[],offList=[];
-  staffList.forEach(s=>{
-    const entry=av[s.id]&&av[s.id][k];
-    if(!entry)return;
-    const val=type==='lunch'
-      ?(typeof entry==='string'?entry:(entry.lunch||''))
-      :(typeof entry==='string'?'':(entry.dinner||''));
-    if(!val)return;
-    if(names.includes(s.name))return; // 既に割当済み
-    if(val==='ok')okList.push(s.name);
-    else if(val==='maybe')maybeList.push(s.name);
-    else if(val==='off')offList.push(s.name);
-  });
-
+  /* ═══════════════════════════════════════
+     STEP 4: 採用候補バッジ（未割当スタッフ）
+  ═══════════════════════════════════════ */
   if(okList.length||maybeList.length||offList.length){
     const sr=document.createElement('div');sr.className='avail-suggest-row';
-    sr.onclick=(ev)=>ev.stopPropagation(); // ブロック全体クリック防止
-
+    sr.onclick=(ev)=>ev.stopPropagation();
     okList.forEach(n=>{
       const t=document.createElement('span');
       t.className='ntag ntag-suggest-ok';
@@ -1257,19 +1295,249 @@ function changeMonth(d){
 }
 
 function resetToDefault(){
-  if(!confirm('この月のシフトをデフォルトに戻しますか？'))return;
-  shiftData=buildDefault(Y,M);saveShift();render();
+  if(!confirm('この月のシフトにテンプレートを反映しますか？\n（現在のシフトデータは上書きされます）'))return;
+  shiftData=applyTemplate(Y,M);saveShift();render();
 }
 
-const TAB_NAMES=['shift','overview','avail','staff','settings'];
+const TAB_NAMES=['shift','overview','avail','staff','settings','template'];
 function switchTab(name){
   document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active',TAB_NAMES[i]===name));
   document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
   document.getElementById('panel-'+name).classList.add('active');
+  if(name==='shift'){loadShift();render();}
+  if(name==='overview')renderOverview();
   if(name==='avail')renderAvailPanel();
   if(name==='staff')renderStaffPanel();
   if(name==='settings')renderSettingsPanel();
-  if(name==='overview')renderOverview();
+  if(name==='template')renderTemplatePanel();
+}
+
+/* ════════════════════════════════════════
+   SHIFT TEMPLATE (2-week rotation)
+   Storage: pekin_shift_template
+   Structure: {
+     weekA: {0:{lunch:[],dinner:[]}, 1:{...}, ..., 6:{...}},
+     weekB: same
+   }
+   0=Sun,1=Mon,...,6=Sat (JS getDay())
+   weekIdx = Math.floor((d-1+firstDow)/7)
+   weekIdx%2===0 → weekA, weekIdx%2===1 → weekB
+════════════════════════════════════════ */
+const TEMPLATE_KEY='pekin_shift_template';
+const TPL_DAYS=[1,2,3,4,5,6,0]; // Mon first, then Sun last for display
+
+function getTemplate(){
+  const def={weekA:{},weekB:{}};
+  TPL_DAYS.forEach(d=>{
+    def.weekA[d]={lunch:[],dinner:[]};
+    def.weekB[d]={lunch:[],dinner:[]};
+  });
+  try{
+    const stored=JSON.parse(localStorage.getItem(TEMPLATE_KEY)||'null');
+    if(!stored)return def;
+    const out={weekA:{},weekB:{}};
+    TPL_DAYS.forEach(d=>{
+      out.weekA[d]={
+        lunch:(stored.weekA&&stored.weekA[d]&&stored.weekA[d].lunch)||[],
+        dinner:(stored.weekA&&stored.weekA[d]&&stored.weekA[d].dinner)||[]
+      };
+      out.weekB[d]={
+        lunch:(stored.weekB&&stored.weekB[d]&&stored.weekB[d].lunch)||[],
+        dinner:(stored.weekB&&stored.weekB[d]&&stored.weekB[d].dinner)||[]
+      };
+    });
+    return out;
+  }catch(e){return def;}
+}
+
+function saveTemplateData(t){localStorage.setItem(TEMPLATE_KEY,JSON.stringify(t));}
+
+/* Week index (0-based) within the month, week starts on Sunday */
+function getWeekInMonth(y,m,d){
+  const firstDow=new Date(y,m,1).getDay();
+  return Math.floor((d-1+firstDow)/7);
+}
+
+/* Apply template to a month → returns new shiftData */
+function applyTemplate(y,m){
+  const tpl=getTemplate();
+  const out={};
+  const days=new Date(y,m+1,0).getDate();
+  for(let d=1;d<=days;d++){
+    if(isClosedDay(y,m,d))continue;
+    const k=dKey(y,m,d);
+    const dow=new Date(y,m,d).getDay();
+    const weekIdx=getWeekInMonth(y,m,d);
+    const week=weekIdx%2===0?'weekA':'weekB';
+    const td=tpl[week][dow]||{lunch:[],dinner:[]};
+    out[k]={
+      lunch:{names:[...(td.lunch||[])],ext:false},
+      dinner:{names:[...(td.dinner||[])],ext:false}
+    };
+  }
+  return out;
+}
+
+function applyTemplateToMonth(){
+  if(!confirm(`${Y}年${M+1}月のシフトにテンプレートを反映しますか？\n（現在のシフトデータは上書きされます）`))return;
+  shiftData=applyTemplate(Y,M);
+  saveShift();
+  showUpdateToast('📋 テンプレートをシフトに反映しました');
+  switchTab('shift');
+}
+
+/* ── Template panel renderer ── */
+function renderTemplatePanel(){
+  const tpl=getTemplate();
+  const staffList=getStaffList();
+  const closedDows=(getSettings().defaultClosedDays||[2,3]);
+  const container=document.getElementById('templatePanelBody');
+  if(!container)return;
+  container.innerHTML='';
+
+  const DOW_NAMES=['日','月','火','水','木','金','土'];
+
+  ['weekA','weekB'].forEach(week=>{
+    const label=week==='weekA'?'🅐 Aパターン（1・3・5週目）':'🅑 Bパターン（2・4週目）';
+    const sec=document.createElement('div');
+    sec.className='sec';
+    sec.style.marginBottom='20px';
+
+    const head=document.createElement('div');
+    head.className='sec-head';
+    head.textContent=label;
+    sec.appendChild(head);
+
+    const body=document.createElement('div');
+    body.className='sec-body';
+    body.style.padding='12px 14px';
+
+    const table=document.createElement('table');
+    table.style.cssText='width:100%;border-collapse:collapse;font-size:.82em';
+
+    const thead=document.createElement('thead');
+    thead.innerHTML=`<tr style="background:#f8fafc">
+      <th style="width:44px;padding:7px 10px;text-align:left;color:#94a3b8;font-size:.8em;font-weight:700;border-bottom:2px solid #e2e8f0">曜日</th>
+      <th style="padding:7px 10px;text-align:left;color:#1d4ed8;font-size:.8em;font-weight:700;border-bottom:2px solid #e2e8f0">☀ 昼</th>
+      <th style="padding:7px 10px;text-align:left;color:#92400e;font-size:.8em;font-weight:700;border-bottom:2px solid #e2e8f0">🌙 夜</th>
+    </tr>`;
+    table.appendChild(thead);
+
+    const tbody=document.createElement('tbody');
+    TPL_DAYS.forEach(dow=>{
+      const isClosed=closedDows.includes(dow);
+      const tr=document.createElement('tr');
+      tr.style.cssText='border-bottom:1px solid #f1f5f9;'+(isClosed?'opacity:.4':'');
+
+      const tdDow=document.createElement('td');
+      tdDow.style.cssText='padding:6px 10px;font-weight:700;white-space:nowrap;vertical-align:middle;';
+      tdDow.style.color=dow===0?'#c0392b':dow===6?'#1d4ed8':'#374151';
+      tdDow.textContent=DOW_NAMES[dow];
+      if(isClosed){
+        const cl=document.createElement('span');
+        cl.style.cssText='display:block;font-size:.65em;color:#adb5bd;font-weight:400';
+        cl.textContent='定休';
+        tdDow.appendChild(cl);
+      }
+      tr.appendChild(tdDow);
+
+      ['lunch','dinner'].forEach(type=>{
+        const td=document.createElement('td');
+        td.style.cssText='padding:4px 8px;vertical-align:middle;';
+        td.id=`tpl-${week}-${dow}-${type}`;
+        _renderTplCell(td,week,dow,type,tpl,staffList);
+        tr.appendChild(td);
+      });
+      tbody.appendChild(tr);
+    });
+    table.appendChild(tbody);
+    body.appendChild(table);
+    sec.appendChild(body);
+    container.appendChild(sec);
+  });
+}
+
+function _renderTplCell(td,week,dow,type,tpl,staffList){
+  td.innerHTML='';
+  const wrap=document.createElement('div');
+  wrap.style.cssText='display:flex;flex-wrap:wrap;gap:3px;align-items:center;min-height:28px;padding:2px 0';
+  const assigned=(tpl[week]&&tpl[week][dow]&&tpl[week][dow][type])||[];
+
+  assigned.forEach(n=>{
+    const t=document.createElement('span');
+    t.className='ntag ntag-assigned ntag-pending';
+    t.textContent=n;
+    t.title=`${n} — クリックで外す`;
+    t.style.cursor='pointer';
+    t.onclick=(e)=>{e.stopPropagation();_removeTplStaff(week,dow,type,n);};
+    wrap.appendChild(t);
+  });
+
+  const remaining=staffList.filter(s=>!assigned.includes(s.name));
+  if(remaining.length>0){
+    const btn=document.createElement('button');
+    btn.className='cbtn cbtn-outline';
+    btn.style.cssText='font-size:.62em;padding:2px 8px;border-radius:10px;';
+    btn.textContent='＋';
+    btn.title='スタッフを追加';
+    btn.onclick=(ev)=>{ev.stopPropagation();_showTplPicker(ev,week,dow,type,remaining);};
+    wrap.appendChild(btn);
+  }
+  td.appendChild(wrap);
+}
+
+let _tplPickerCleanup=null;
+function _showTplPicker(ev,week,dow,type,options){
+  if(_tplPickerCleanup)_tplPickerCleanup();
+  const picker=document.createElement('div');
+  picker.style.cssText='position:fixed;z-index:600;background:#fff;border:1px solid #e2e8f0;'
+    +'border-radius:10px;box-shadow:0 8px 30px rgba(0,0,0,.18);padding:6px;'
+    +'display:flex;flex-direction:column;gap:2px;min-width:110px;max-height:280px;overflow-y:auto';
+  const rect=ev.target.getBoundingClientRect();
+  let top=rect.bottom+4,left=rect.left;
+  // Keep within viewport
+  if(top+200>window.innerHeight)top=rect.top-200;
+  if(left+130>window.innerWidth)left=window.innerWidth-140;
+  picker.style.top=top+'px';
+  picker.style.left=left+'px';
+
+  options.forEach(s=>{
+    const btn=document.createElement('button');
+    btn.style.cssText='border:none;background:none;padding:6px 12px;text-align:left;cursor:pointer;'
+      +'border-radius:6px;font-size:.83em;color:#374151;white-space:nowrap;width:100%';
+    btn.textContent=s.name;
+    btn.onmouseenter=()=>{btn.style.background='#eff6ff';};
+    btn.onmouseleave=()=>{btn.style.background='';};
+    btn.onclick=()=>{_addTplStaff(week,dow,type,s.name);_tplPickerCleanup();};
+    picker.appendChild(btn);
+  });
+
+  document.body.appendChild(picker);
+  const outsideClick=(e)=>{if(!picker.contains(e.target))_tplPickerCleanup();};
+  _tplPickerCleanup=()=>{
+    picker.remove();
+    document.removeEventListener('click',outsideClick);
+    _tplPickerCleanup=null;
+  };
+  setTimeout(()=>document.addEventListener('click',outsideClick),0);
+}
+
+function _addTplStaff(week,dow,type,name){
+  const tpl=getTemplate();
+  if(!tpl[week][dow])tpl[week][dow]={lunch:[],dinner:[]};
+  if(!tpl[week][dow][type].includes(name))tpl[week][dow][type].push(name);
+  saveTemplateData(tpl);
+  const td=document.getElementById(`tpl-${week}-${dow}-${type}`);
+  if(td)_renderTplCell(td,week,dow,type,tpl,getStaffList());
+}
+
+function _removeTplStaff(week,dow,type,name){
+  const tpl=getTemplate();
+  if(tpl[week]&&tpl[week][dow])
+    tpl[week][dow][type]=(tpl[week][dow][type]||[]).filter(n=>n!==name);
+  saveTemplateData(tpl);
+  const td=document.getElementById(`tpl-${week}-${dow}-${type}`);
+  if(td)_renderTplCell(td,week,dow,type,tpl,getStaffList());
 }
 
 /* ════════════════════════════════════════
