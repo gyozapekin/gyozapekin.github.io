@@ -532,12 +532,14 @@ body{font-family:'Helvetica Neue','Hiragino Sans','Yu Gothic UI',Arial,sans-seri
   </div>
 </div>
 
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
 <script>
 /* ── REMOTE SYNC ── */
 async function loadFromRemote(){
   try{
     const res=await fetch('/shift/db.json?_='+Date.now(),{cache:'no-store'});
-    if(\!res.ok)return;
+    if(!res.ok)return;
     const db=await res.json();
     const remoteV=db._v||0;
     const localV=parseInt(localStorage.getItem('pekin_db_v')||'0');
@@ -556,6 +558,33 @@ async function loadFromRemote(){
   }catch(e){}
 }
 loadFromRemote();
+
+/* ── FIREBASE INIT ── */
+const _fbCfg={apiKey:"AIzaSyBygnsi6cByYRZigxlhR7d0ydVfpFGx8FQ",databaseURL:"https://pekin-shift-default-rtdb.asia-southeast1.firebasedatabase.app",projectId:"pekin-shift",appId:"1:600393805417:web:126fb18e1c5b64fc677cf8"};
+if(!firebase.apps.length)firebase.initializeApp(_fbCfg);
+const _fbDb=firebase.database();
+async function loadFromFirebase(){
+  try{
+    const snap=await _fbDb.ref('pekin/db').get();
+    if(!snap.exists())return;
+    const db=snap.val();
+    const remoteV=db._v||0;
+    const localV=parseInt(localStorage.getItem('pekin_db_v')||'0');
+    if(remoteV<=localV)return;
+    const STATIC=['pekin_shift_template','pekin_settings','pekin_users','pekin_master_pw'];
+    STATIC.forEach(k=>{
+      if(db[k]===undefined)return;
+      localStorage.setItem(k,typeof db[k]==='string'?db[k]:JSON.stringify(db[k]));
+    });
+    Object.entries(db).forEach(([k,v])=>{
+      if(k.startsWith('_')||STATIC.includes(k))return;
+      localStorage.setItem(k,typeof v==='string'?v:JSON.stringify(v));
+    });
+    localStorage.setItem('pekin_db_v',String(remoteV));
+    console.log('Firebase sync: loaded v'+remoteV);
+  }catch(e){console.warn('Firebase load error:',e);}
+}
+loadFromFirebase();
 
 /* ════════════════════════════════════════
    AUTH
@@ -2015,7 +2044,8 @@ async function publishToGitHub(){
     const r=await fetch(API,{method:'PUT',headers:HDRS,body:JSON.stringify(body)});
     if(r.ok){
       localStorage.setItem('pekin_db_v',String(data._v));
-      showUpdateToast('✅ モバイルに公開しました！（反映まで約1分）');
+      try{await _fbDb.ref('pekin/db').set(data);console.log('Firebase write OK');}catch(fe){console.warn('Firebase write error:',fe);}
+      showUpdateToast('✅ モバイルに公開しました！（即時反映）');
     }else{
       const err=await r.json();
       if(err.message&&err.message.includes('credentials'))localStorage.removeItem('pekin_github_token');
