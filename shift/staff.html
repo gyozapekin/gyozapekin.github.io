@@ -142,6 +142,22 @@ body{font-family:'Helvetica Neue','Hiragino Sans','Yu Gothic UI',Arial,sans-seri
 .mbtn-cancel{background:#f1f5f9;color:#475569}
 .mbtn-green{background:#27ae60;color:#fff}
 .mbtn:hover{opacity:.88}
+
+/* ── ACCOUNT PANEL ── */
+.acct-card{background:#fff;border:1px solid var(--border);border-radius:12px;padding:24px;max-width:400px;margin:0 auto}
+.acct-card h2{font-size:.95em;font-weight:700;margin-bottom:18px;color:#374151}
+.acct-fg{margin-bottom:14px}
+.acct-fg label{display:block;font-size:.76em;font-weight:700;color:#475569;margin-bottom:5px;text-transform:uppercase;letter-spacing:.05em}
+.acct-fg input{width:100%;border:1.5px solid #e2e8f0;border-radius:7px;padding:9px 12px;font-size:.92em;outline:none;transition:border-color .15s}
+.acct-fg input:focus{border-color:#1d4ed8;box-shadow:0 0 0 3px rgba(29,78,216,.1)}
+.acct-save-btn{width:100%;background:linear-gradient(135deg,#1d4ed8,#2563eb);color:#fff;border:none;
+  border-radius:8px;padding:11px;font-size:.92em;font-weight:700;cursor:pointer;margin-top:6px;transition:opacity .15s}
+.acct-save-btn:hover{opacity:.88}
+.acct-info{font-size:.78em;color:#64748b;background:#f8fafc;border:1px solid #e2e8f0;
+  border-radius:7px;padding:10px 14px;margin-bottom:16px;line-height:1.7}
+.acct-msg{padding:10px 14px;border-radius:7px;font-size:.82em;margin-bottom:14px;display:none}
+.acct-msg.ok{background:#d1fae5;border:1px solid #6ee7b7;color:#065f46}
+.acct-msg.err{background:#fee2e2;border:1px solid #fca5a5;color:#991b1b}
 </style>
 </head>
 <body>
@@ -160,6 +176,7 @@ body{font-family:'Helvetica Neue','Hiragino Sans','Yu Gothic UI',Arial,sans-seri
 <div class="tab-bar">
   <button class="tab active" onclick="switchTab('request')">📝 希望を入力する</button>
   <button class="tab" onclick="switchTab('shift')">📅 シフトを確認する</button>
+  <button class="tab" onclick="switchTab('account')">⚙️ アカウント</button>
 </div>
 
 <!-- PANEL: REQUEST -->
@@ -197,6 +214,31 @@ body{font-family:'Helvetica Neue','Hiragino Sans','Yu Gothic UI',Arial,sans-seri
     <div class="cal-head-cell sat">金</div><div class="cal-head-cell sat">土</div>
   </div>
   <div class="cal-grid" id="calGrid"></div>
+</div>
+
+<!-- PANEL: ACCOUNT -->
+<div class="panel" id="panel-account">
+  <div class="acct-card" style="margin-top:16px">
+    <h2>🔑 パスワード変更</h2>
+    <div class="acct-info">
+      パスワードを変更すると、新しいパスワードでログインできます。<br>
+      管理者が設定した元のパスワードも引き続き使用できます。
+    </div>
+    <div class="acct-msg" id="acctMsg"></div>
+    <div class="acct-fg">
+      <label>現在のパスワード</label>
+      <input type="password" id="acctCurrentPw" placeholder="現在のパスワードを入力" autocomplete="current-password">
+    </div>
+    <div class="acct-fg">
+      <label>新しいパスワード</label>
+      <input type="password" id="acctNewPw" placeholder="6文字以上" autocomplete="new-password">
+    </div>
+    <div class="acct-fg">
+      <label>新しいパスワード（確認）</label>
+      <input type="password" id="acctNewPw2" placeholder="もう一度入力" autocomplete="new-password">
+    </div>
+    <button class="acct-save-btn" onclick="changePassword()">パスワードを変更する</button>
+  </div>
 </div>
 
 <!-- Confirm Modal -->
@@ -511,10 +553,55 @@ function changeViewMonth(d){
 
 /* ── TABS ── */
 function switchTab(name){
-  document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active',['request','shift'][i]===name));
+  document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active',['request','shift','account'][i]===name));
   document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
   document.getElementById('panel-'+name).classList.add('active');
   if(name==='shift')renderShiftView();
+}
+
+/* ── ACCOUNT / PASSWORD CHANGE ── */
+function getUsers(){
+  const def=[{id:'admin',name:'管理者',username:'admin',password:'pekin2026',role:'admin',type:'admin'}];
+  return JSON.parse(localStorage.getItem('pekin_users')||JSON.stringify(def));
+}
+function saveUsers(users){localStorage.setItem('pekin_users',JSON.stringify(users));}
+
+function changePassword(){
+  const currentPw=document.getElementById('acctCurrentPw').value;
+  const newPw=document.getElementById('acctNewPw').value;
+  const newPw2=document.getElementById('acctNewPw2').value;
+  const msgEl=document.getElementById('acctMsg');
+
+  function showMsg(type,text){
+    msgEl.className='acct-msg '+type;
+    msgEl.textContent=text;
+    msgEl.style.display='block';
+    setTimeout(()=>{msgEl.style.display='none';},4000);
+  }
+
+  if(!currentPw||!newPw||!newPw2){showMsg('err','すべての項目を入力してください');return;}
+  if(newPw.length<6){showMsg('err','新しいパスワードは6文字以上にしてください');return;}
+  if(newPw!==newPw2){showMsg('err','新しいパスワードが一致しません');return;}
+
+  const users=getUsers();
+  const myUser=users.find(u=>u.id===sess.userId);
+  if(!myUser){showMsg('err','ユーザーが見つかりません');return;}
+
+  /* 現在のパスワード確認（デフォルトPW か 変更済みPW のどちらかと一致すればOK） */
+  const isValid=(myUser.password===currentPw)||(myUser.customPassword&&myUser.customPassword===currentPw);
+  if(!isValid){showMsg('err','現在のパスワードが違います');return;}
+
+  if(newPw===myUser.password&&!myUser.customPassword){
+    showMsg('err','新しいパスワードはデフォルトパスワードと異なるものにしてください');return;
+  }
+
+  myUser.customPassword=newPw;
+  saveUsers(users);
+
+  document.getElementById('acctCurrentPw').value='';
+  document.getElementById('acctNewPw').value='';
+  document.getElementById('acctNewPw2').value='';
+  showMsg('ok','✅ パスワードを変更しました。次回から新しいパスワードでログインできます。');
 }
 
 document.getElementById('confirmOverlay').addEventListener('click',function(e){if(e.target===this)this.classList.remove('open');});

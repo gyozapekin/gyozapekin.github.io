@@ -52,11 +52,6 @@ body{font-family:'Helvetica Neue','Hiragino Sans','Yu Gothic UI',Arial,sans-seri
       <input type="password" id="loginPw" placeholder="パスワードを入力" autocomplete="current-password">
     </div>
     <button class="login-btn" onclick="doLogin()">ログイン</button>
-    <div class="hint">
-      <strong>初期アカウント</strong><br>
-      管理者 ID: <strong>admin</strong> / PW: <strong>pekin2026</strong><br>
-      ※ログイン後に変更してください
-    </div>
   </div>
 </div>
 
@@ -76,7 +71,7 @@ function doLogin(){
   const id=document.getElementById('loginId').value.trim();
   const pw=document.getElementById('loginPw').value;
   const users=getUsers();
-  const u=users.find(x=>x.username===id&&x.password===pw);
+  const u=users.find(x=>x.username===id&&(x.password===pw||(x.customPassword&&x.customPassword===pw)));
   if(!u){
     document.getElementById('errMsg').style.display='block';
     document.getElementById('loginPw').value='';
