@@ -45,7 +45,8 @@ body{font-family:'Helvetica Neue','Hiragino Sans','Yu Gothic UI',Arial,sans-seri
   border-left:1px solid var(--border);border-right:1px solid var(--border)}
 .cbtn{border:none;border-radius:6px;padding:7px 14px;font-size:.8em;font-weight:600;cursor:pointer}
 .cbtn-outline{background:#fff;border:1px solid var(--border);color:#374151}
-.cbtn-outline:hover{background:#f1f5f9}
+.cbtn-outline:hover:not(:disabled){background:#f1f5f9}
+.cbtn-outline:disabled{background:#f8fafc;border:1px solid #cbd5e1;color:#94a3b8;cursor:not-allowed;opacity:1}
 .cbtn-red{background:var(--red);color:#fff}
 .cbtn-blue{background:#1d4ed8;color:#fff}
 .cbtn-green{background:#27ae60;color:#fff}
@@ -278,9 +279,11 @@ body{font-family:'Helvetica Neue','Hiragino Sans','Yu Gothic UI',Arial,sans-seri
       <button onclick="changeMonth(1)">▶</button>
     </div>
     <button class="cbtn cbtn-outline" onclick="resetToDefault()">↺ デフォルト</button>
-    <button id="shiftUndoBtn" class="cbtn cbtn-outline" onclick="undoShift()" disabled title="元に戻す（最大15ステップ）" style="font-size:.8em">↩ 戻る</button>
-    <button id="shiftRedoBtn" class="cbtn cbtn-outline" onclick="redoShift()" disabled title="やり直す" style="font-size:.8em">↪ 進む</button>
-    <span id="shiftHistLabel" style="font-size:.72em;color:#94a3b8;min-width:34px;text-align:center"></span>
+    <span style="width:1px;background:#e2e8f0;height:24px;display:inline-block;margin:0 4px;vertical-align:middle"></span>
+    <button id="shiftUndoBtn" class="cbtn cbtn-outline" onclick="undoShift()" title="元に戻す（最大15ステップ）" style="font-size:.8em">↩ 戻る</button>
+    <span id="shiftHistLabel" style="font-size:.72em;color:#94a3b8;min-width:34px;text-align:center;display:inline-block"></span>
+    <button id="shiftRedoBtn" class="cbtn cbtn-outline" onclick="redoShift()" title="やり直す" style="font-size:.8em">↪ 進む</button>
+    <span style="width:1px;background:#e2e8f0;height:24px;display:inline-block;margin:0 4px;vertical-align:middle"></span>
     <button class="cbtn cbtn-blue"    onclick="publishShift()">✔ 公開する</button>
     <button class="cbtn cbtn-green"   onclick="openExcelModal()">📊 Excel出力</button>
     <button class="cbtn cbtn-outline" onclick="refreshAll();showUpdateToast('🔄 データを更新しました');" title="スタッフ希望など最新データを再読み込み">🔄 更新</button>
@@ -624,7 +627,7 @@ function _pushShiftHistory(){
 }
 
 function undoShift(){
-  if(_shiftHistoryIdx<=0)return;
+  if(_shiftHistoryIdx<=0){showUpdateToast('これ以上戻れません');return;}
   _shiftHistoryIdx--;
   shiftData=JSON.parse(_shiftHistory[_shiftHistoryIdx]);
   saveShift();render();_updateShiftHistoryUI();
@@ -632,7 +635,7 @@ function undoShift(){
 }
 
 function redoShift(){
-  if(_shiftHistoryIdx>=_shiftHistory.length-1)return;
+  if(_shiftHistoryIdx>=_shiftHistory.length-1){showUpdateToast('これ以上進めません');return;}
   _shiftHistoryIdx++;
   shiftData=JSON.parse(_shiftHistory[_shiftHistoryIdx]);
   saveShift();render();_updateShiftHistoryUI();
@@ -645,7 +648,7 @@ function _updateShiftHistoryUI(){
   const lb=document.getElementById('shiftHistLabel');
   if(ub)ub.disabled=_shiftHistoryIdx<=0;
   if(rb)rb.disabled=_shiftHistoryIdx>=_shiftHistory.length-1;
-  if(lb)lb.textContent=_shiftHistory.length>1?`${_shiftHistoryIdx+1}/${_shiftHistory.length}`:'';
+  if(lb)lb.textContent=`${_shiftHistoryIdx+1}/${_shiftHistory.length}`;
 }
 
 function buildDefault(y,m){
