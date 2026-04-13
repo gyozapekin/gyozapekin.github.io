@@ -206,6 +206,7 @@ body{font-family:'Helvetica Neue','Hiragino Sans','Yu Gothic UI',Arial,sans-seri
 .modal{background:#fff;border-radius:14px;padding:24px;width:400px;max-width:96vw;
   box-shadow:0 20px 60px rgba(0,0,0,.25);animation:pop .18s ease}
 @keyframes pop{from{transform:scale(.94);opacity:0}to{transform:scale(1);opacity:1}}
+@keyframes slideUp{from{transform:translateX(-50%) translateY(20px);opacity:0}to{transform:translateX(-50%) translateY(0);opacity:1}}
 .modal-head{font-size:1em;font-weight:700;margin-bottom:16px}
 .fg{margin-bottom:14px}
 .fg label{display:block;font-size:.75em;font-weight:700;color:var(--muted);margin-bottom:5px;text-transform:uppercase;letter-spacing:.05em}
@@ -1277,9 +1278,85 @@ function saveStaffMember(){
   }
   saveUsers(users);closeStaffModal();renderStaffPanel();
 }
+/* ── 削除 Undo バッファ ── */
+let _deletedStaff=null;
+let _deleteUndoTimer=null;
+
 function deleteStaff(id){
   if(!confirm('このスタッフを削除しますか？'))return;
-  saveUsers(getUsers().filter(u=>u.id!==id));renderStaffPanel();
+  const users=getUsers();
+  _deletedStaff=users.find(u=>u.id===id);
+  if(!_deletedStaff)return;
+  saveUsers(users.filter(u=>u.id!==id));
+  renderStaffPanel();
+  /* シフト管理・希望カレンダーも即時更新 */
+  render();
+  if(document.getElementById('panel-overview').classList.contains('active'))renderOverview();
+  if(document.getElementById('panel-avail').classList.contains('active'))renderAvailPanel();
+  _showUndoDeleteToast(_deletedStaff.name);
+}
+
+function _showUndoDeleteToast(name){
+  /* 既存のUndoトーストを消す */
+  const old=document.getElementById('undoDeleteToast');
+  if(old)old.remove();
+  clearTimeout(_deleteUndoTimer);
+
+  const toast=document.createElement('div');
+  toast.id='undoDeleteToast';
+  toast.style.cssText='position:fixed;bottom:24px;left:50%;transform:translateX(-50%);'
+    +'background:#1e293b;color:#fff;padding:13px 20px;border-radius:14px;'
+    +'font-size:.84em;font-weight:600;z-index:9999;display:flex;align-items:center;'
+    +'gap:14px;box-shadow:0 6px 24px rgba(0,0,0,.35);animation:slideUp .25s ease;white-space:nowrap';
+
+  const msg=document.createElement('span');
+  msg.textContent=`「${name}」を削除しました`;
+  toast.appendChild(msg);
+
+  const bar=document.createElement('div');
+  bar.style.cssText='position:absolute;bottom:0;left:0;height:3px;background:#3b82f6;'
+    +'border-radius:0 0 14px 14px;width:100%;transition:width 10s linear';
+  toast.appendChild(bar);
+
+  const btn=document.createElement('button');
+  btn.textContent='↩ 元に戻す';
+  btn.style.cssText='background:#3b82f6;color:#fff;border:none;border-radius:8px;'
+    +'padding:6px 15px;font-size:.82em;font-weight:700;cursor:pointer;flex-shrink:0';
+  btn.onclick=_undoDeleteStaff;
+  toast.appendChild(btn);
+
+  document.body.appendChild(toast);
+  /* アニメーション開始（1フレーム後に幅を0にする）*/
+  requestAnimationFrame(()=>{requestAnimationFrame(()=>{bar.style.width='0%';});});
+
+  _deleteUndoTimer=setTimeout(()=>{
+    toast.style.opacity='0';
+    toast.style.transition='opacity .35s';
+    setTimeout(()=>{toast.remove();_deletedStaff=null;},400);
+  },10000);
+}
+
+function _undoDeleteStaff(){
+  if(!_deletedStaff)return;
+  clearTimeout(_deleteUndoTimer);
+  const restored=_deletedStaff;
+  _deletedStaff=null;
+
+  /* ユーザーリストに戻す */
+  const users=getUsers();
+  users.push(restored);
+  saveUsers(users);
+
+  /* 全タブを再描画（希望データはlocalStorageに残っているのでそのまま復元） */
+  renderStaffPanel();
+  render();
+  if(document.getElementById('panel-overview').classList.contains('active'))renderOverview();
+  if(document.getElementById('panel-avail').classList.contains('active'))renderAvailPanel();
+
+  /* Undoトーストを閉じて成功トースト表示 */
+  const undo=document.getElementById('undoDeleteToast');
+  if(undo){undo.style.opacity='0';setTimeout(()=>undo.remove(),350);}
+  showUpdateToast(`↩ 「${restored.name}」を復元しました`);
 }
 
 /* ════════════════════════════════════════
