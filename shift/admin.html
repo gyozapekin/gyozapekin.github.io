@@ -258,6 +258,7 @@ body{font-family:'Helvetica Neue','Hiragino Sans','Yu Gothic UI',Arial,sans-seri
   </div>
   <div class="nav-right">
     <span class="nav-user" id="navUser"></span>
+    <button class="nbtn nbtn-green no-print" onclick="publishToGitHub()" id="publishBtn">📱 公開</button>
     <button class="nbtn nbtn-green no-print" onclick="window.print()">🖨 印刷</button>
     <button class="nbtn nbtn-red no-print" onclick="logout()">ログアウト</button>
   </div>
@@ -532,6 +533,30 @@ body{font-family:'Helvetica Neue','Hiragino Sans','Yu Gothic UI',Arial,sans-seri
 </div>
 
 <script>
+/* ── REMOTE SYNC ── */
+async function loadFromRemote(){
+  try{
+    const res=await fetch('/shift/db.json?_='+Date.now(),{cache:'no-store'});
+    if(\!res.ok)return;
+    const db=await res.json();
+    const remoteV=db._v||0;
+    const localV=parseInt(localStorage.getItem('pekin_db_v')||'0');
+    const STATIC=['pekin_shift_template','pekin_settings','pekin_users','pekin_master_pw'];
+    STATIC.forEach(k=>{
+      if(db[k]===undefined)return;
+      localStorage.setItem(k,typeof db[k]==='string'?db[k]:JSON.stringify(db[k]));
+    });
+    if(remoteV>localV){
+      Object.entries(db).forEach(([k,v])=>{
+        if(k.startsWith('_')||STATIC.includes(k))return;
+        localStorage.setItem(k,typeof v==='string'?v:JSON.stringify(v));
+      });
+      localStorage.setItem('pekin_db_v',String(remoteV));
+    }
+  }catch(e){}
+}
+loadFromRemote();
+
 /* ════════════════════════════════════════
    AUTH
 ════════════════════════════════════════ */
@@ -1953,19 +1978,52 @@ window.addEventListener('storage',function(e){
   }
   if(e.key.startsWith('pekin_shift_')){
     loadShift();render();
-    if(document.getElementById('panel-overview').classList.contains('active'))renderOverview();
-    showUpdateToast('📅 シフトデータが更新されました');
-  }
-  if(e.key.startsWith('pekin_published_')){
-    updatePublishStatus();
-    showUpdateToast('✅ 公開ステータスが変更されました');
-  }
-  if(e.key==='pekin_users'){
-    if(document.getElementById('panel-staff').classList.contains('active'))renderStaffPanel();
+    if(document.getElementById('panel-overview').classList.contains('active'))renderStaffPanel();
     showUpdateToast('👥 スタッフ情報が更新されました');
   }
 });
 
+
+/* ════════════════════════════════════════
+   PUBLISH TO GITHUB
+════════════════════════════════════════ */
+async function publishToGitHub(){
+  const btn=document.getElementById('publishBtn');
+  if(btn){btn.disabled=true;btn.textContent='📤 公開中...';}
+  let token=localStorage.getItem('pekin_github_token');
+  if(\!token){
+    token=prompt('GitHub Personal Access Tokenを入力してください
+(Contents権限が必要です)');
+    if(\!token){if(btn){btn.disabled=false;btn.textContent='📱 公開';}return;}
+    localStorage.setItem('pekin_github_token',token);
+  }
+  const data={};
+  Object.keys(localStorage).filter(k=>k.startsWith('pekin')).forEach(k=>{
+    const raw=localStorage.getItem(k);
+    try{data[k]=JSON.parse(raw);}catch(e){data[k]=raw;}
+  });
+  data._v=Date.now();
+  const json=JSON.stringify(data);
+  const content=btoa(unescape(encodeURIComponent(json)));
+  const API='https://api.github.com/repos/gyozapekin/gyozapekin.github.io/contents/shift/db.json';
+  const HDRS={'Authorization':'token '+token,'Content-Type':'application/json','Accept':'application/vnd.github.v3+json'};
+  let sha;
+  try{const g=await fetch(API,{headers:HDRS});if(g.ok){const f=await g.json();sha=f.sha;}}catch(e){}
+  const body={message:'shift sync '+new Date().toLocaleString('ja-JP'),content};
+  if(sha)body.sha=sha;
+  try{
+    const r=await fetch(API,{method:'PUT',headers:HDRS,body:JSON.stringify(body)});
+    if(r.ok){
+      localStorage.setItem('pekin_db_v',String(data._v));
+      showUpdateToast('✅ モバイルに公開しました！（反映まで約1分）');
+    }else{
+      const err=await r.json();
+      if(err.message&&err.message.includes('credentials'))localStorage.removeItem('pekin_github_token');
+      alert('エラー: '+(err.message||JSON.stringify(err)));
+    }
+  }catch(e){alert('通信エラー: '+e.message);}
+  if(btn){btn.disabled=false;btn.textContent='📱 公開';}
+}
 /* ════════════════════════════════════════
    INIT
 ════════════════════════════════════════ */

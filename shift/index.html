@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<\!DOCTYPE html>
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
@@ -56,7 +56,31 @@ body{font-family:'Helvetica Neue','Hiragino Sans','Yu Gothic UI',Arial,sans-seri
 </div>
 
 <script>
-/* ── AUTH HELPERS ── */
+/* -- REMOTE SYNC -- */
+async function loadFromRemote(){
+  try{
+    const ts=Date.now();
+    const res=await fetch('/shift/db.json?_='+ts,{cache:'no-store'});
+    if(\!res.ok)return;
+    const db=await res.json();
+    const remoteV=db._v||0;
+    const localV=parseInt(localStorage.getItem('pekin_db_v')||'0');
+    const STATIC=['pekin_shift_template','pekin_settings','pekin_users','pekin_master_pw'];
+    STATIC.forEach(k=>{
+      if(db[k]===undefined)return;
+      localStorage.setItem(k,typeof db[k]==='string'?db[k]:JSON.stringify(db[k]));
+    });
+    if(remoteV>localV){
+      Object.entries(db).forEach(([k,v])=>{
+        if(k.startsWith('_')||STATIC.includes(k))return;
+        localStorage.setItem(k,typeof v==='string'?v:JSON.stringify(v));
+      });
+      localStorage.setItem('pekin_db_v',String(remoteV));
+    }
+  }catch(e){}
+}
+
+/* -- AUTH HELPERS -- */
 function getUsers(){
   const def=[
     {id:'admin',name:'管理者',username:'admin',password:'pekin2026',role:'admin',type:'admin'},
@@ -71,7 +95,7 @@ function getUsers(){
   return JSON.parse(localStorage.getItem('pekin_users')||JSON.stringify(def));
 }
 function setSession(u){
-  const exp=Date.now()+8*60*60*1000; // 8h
+  const exp=Date.now()+8*60*60*1000;
   sessionStorage.setItem('pekin_session',JSON.stringify({
     userId:u.id,username:u.username,name:u.name,role:u.role,expires:exp
   }));
@@ -81,18 +105,13 @@ function doLogin(){
   const pw=document.getElementById('loginPw').value;
   const users=getUsers();
   const masterPw=localStorage.getItem('pekin_master_pw')||'';
-
   const u=users.find(x=>{
-    if(x.username!==id)return false;
-    /* 管理者はadminパスワードのみ有効（マスターPW対象外） */
+    if(x.username\!==id)return false;
     if(x.role==='admin')return x.password===pw;
-    /* スタッフが自分のパスワードを変更済みの場合：変更後パスワード OR マスターPWのみ有効 */
     if(x.customPassword)return pw===x.customPassword||(masterPw&&pw===masterPw);
-    /* 未変更の場合：デフォルトパスワード OR マスターPWで有効 */
     return pw===x.password||(masterPw&&pw===masterPw);
   });
-
-  if(!u){
+  if(\!u){
     document.getElementById('errMsg').style.display='block';
     document.getElementById('loginPw').value='';
     return;
@@ -103,14 +122,13 @@ function doLogin(){
 document.getElementById('loginPw').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
 document.getElementById('loginId').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
 
-// already logged in?
-(function(){
+loadFromRemote().then(()=>{
   const s=sessionStorage.getItem('pekin_session');
-  if(!s)return;
+  if(\!s)return;
   const sess=JSON.parse(s);
   if(sess.expires>Date.now())
     location.href=sess.role==='admin'?'admin.html':'staff.html';
-})();
+});
 </script>
 </body>
 </html>

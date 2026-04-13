@@ -256,6 +256,30 @@ body{font-family:'Helvetica Neue','Hiragino Sans','Yu Gothic UI',Arial,sans-seri
 </div>
 
 <script>
+/* ── REMOTE SYNC ── */
+async function loadFromRemote(){
+  try{
+    const res=await fetch('/shift/db.json?_='+Date.now(),{cache:'no-store'});
+    if(\!res.ok)return;
+    const db=await res.json();
+    const remoteV=db._v||0;
+    const localV=parseInt(localStorage.getItem('pekin_db_v')||'0');
+    const STATIC=['pekin_shift_template','pekin_settings','pekin_users','pekin_master_pw'];
+    STATIC.forEach(k=>{
+      if(db[k]===undefined)return;
+      localStorage.setItem(k,typeof db[k]==='string'?db[k]:JSON.stringify(db[k]));
+    });
+    if(remoteV>localV){
+      Object.entries(db).forEach(([k,v])=>{
+        if(k.startsWith('_')||STATIC.includes(k))return;
+        localStorage.setItem(k,typeof v==='string'?v:JSON.stringify(v));
+      });
+      localStorage.setItem('pekin_db_v',String(remoteV));
+    }
+  }catch(e){}
+}
+loadFromRemote();
+
 /* ── AUTH ── */
 function getSession(){
   const s=sessionStorage.getItem('pekin_session');if(!s)return null;
@@ -634,31 +658,27 @@ function changePassword(){
   const isValid=(myUser.password===currentPw)||(myUser.customPassword&&myUser.customPassword===currentPw);
   if(!isValid){showMsg('err','現在のパスワードが違います');return;}
 
-  if(newPw===myUser.password&&!myUser.customPassword){
+  if(newPw===myUser.password&&!myUser.customPass  if(\!isValid){showMsg('err','現在のパスワードが違います');return;}
+  if(newPw===myUser.password&&\!myUser.customPassword){
     showMsg('err','新しいパスワードはデフォルトパスワードと異なるものにしてください');return;
   }
-
   myUser.customPassword=newPw;
   saveUsers(users);
-
   document.getElementById('acctCurrentPw').value='';
   document.getElementById('acctNewPw').value='';
   document.getElementById('acctNewPw2').value='';
   showMsg('ok','✅ パスワードを変更しました。次回から新しいパスワードでのみログインできます。');
 }
-
 document.getElementById('confirmOverlay').addEventListener('click',function(e){if(e.target===this)this.classList.remove('open');});
-
-/* ── REAL-TIME SYNC ──
-   storage イベントで他タブ（admin.html）の変更を検知して自動再描画 */
+/* ── REAL-TIME SYNC ── storage イベントで他タブ（admin.html）の変更を検知して自動再描画 */
 function showUpdateToast(msg){
   let t=document.getElementById('updateToast');
-  if(!t){
+  if(\!t){
     t=document.createElement('div');t.id='updateToast';
     t.style.cssText='position:fixed;bottom:24px;right:24px;background:#27ae60;color:#fff;'
-      +'padding:10px 20px;border-radius:10px;font-size:.82em;font-weight:700;'
-      +'z-index:9999;opacity:0;transition:opacity .35s;pointer-events:none;'
-      +'box-shadow:0 4px 20px rgba(0,0,0,.22)';
+    +'padding:10px 20px;border-radius:10px;font-size:.82em;font-weight:700;'
+    +'z-index:9999;opacity:0;transition:opacity .35s;pointer-events:none;'
+    +'box-shadow:0 4px 20px rgba(0,0,0,.22)';
     document.body.appendChild(t);
   }
   t.textContent=msg;
@@ -666,10 +686,8 @@ function showUpdateToast(msg){
   clearTimeout(t._timer);
   t._timer=setTimeout(()=>{t.style.opacity='0';},3500);
 }
-
 window.addEventListener('storage',function(e){
-  if(!e.key)return;
-  /* 管理者がシフト更新 or 公開 → シフト確認タブに反映 */
+  if(\!e.key)return;
   const curShiftKey2=shiftKey(viewY,viewM);
   const curPubKey=publishKey(viewY,viewM);
   if(e.key===curShiftKey2||e.key===curPubKey){
@@ -677,12 +695,10 @@ window.addEventListener('storage',function(e){
       renderShiftView();
     showUpdateToast('📅 シフトが更新されました');
   }
-  /* 管理者が希望入力対象月のシフト変更 → 北京の希望バッジを再描画 */
   if(e.key===shiftKey(reqY,reqM)){
     renderRequestList();
     showUpdateToast('📋 北京の希望が更新されました');
   }
-  /* 設定変更 → 定休日の表示を更新 */
   if(e.key==='pekin_settings'){
     renderRequestList();
     if(document.getElementById('panel-shift').classList.contains('active'))
@@ -690,7 +706,6 @@ window.addEventListener('storage',function(e){
     showUpdateToast('⚙ 設定が更新されました');
   }
 });
-
 /* ── INIT ── */
 loadMyAvail();
 renderRequestList();
