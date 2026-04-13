@@ -388,13 +388,13 @@ function renderRequestList(){
       const wishDiv=document.createElement('div');
       wishDiv.className='pekin-wish-col';
       if(inLunch&&inDinner){
-        wishDiv.innerHTML='<span class="pekin-wish both">☀🌙 昼・夜</span>';
+        wishDiv.innerHTML='<span class="pekin-wish both"><span style="font-weight:400;opacity:.7">北京の希望：</span>昼・夜</span>';
       }else if(inLunch){
-        wishDiv.innerHTML='<span class="pekin-wish lunch">☀ 昼</span>';
+        wishDiv.innerHTML='<span class="pekin-wish lunch"><span style="font-weight:400;opacity:.7">北京の希望：</span>昼</span>';
       }else if(inDinner){
-        wishDiv.innerHTML='<span class="pekin-wish dinner">🌙 夜</span>';
+        wishDiv.innerHTML='<span class="pekin-wish dinner"><span style="font-weight:400;opacity:.7">北京の希望：</span>夜</span>';
       }else{
-        wishDiv.innerHTML='<span class="pekin-wish none">北京：未定</span>';
+        wishDiv.innerHTML='<span class="pekin-wish none">北京の希望：未定</span>';
       }
       head.appendChild(wishDiv);
       row.appendChild(head);
