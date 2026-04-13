@@ -413,7 +413,7 @@ function renderRequestList(){
         slbl.textContent=`${icon} ${label}`;
         srow.appendChild(slbl);
 
-        const cur=entry[part]||'';
+        const cur=entry[part]||(isWanted?'ok':'');
         const btns=document.createElement('div');
         btns.className='avail-btns';
 
@@ -456,9 +456,28 @@ function openConfirm(){
   document.getElementById('confirmName').textContent=`${sess.name}さんの希望（${reqY}年${reqM+1}月）`;
   const list=document.getElementById('confirmList');
   list.innerHTML='';
-  const entries=Object.entries(myAvail)
-    .filter(([,v])=>v&&(v.lunch||v.dinner))
-    .sort(([a],[b])=>a.localeCompare(b));
+
+  /* 北京の希望がある日の未選択分を 'ok' として確認リストに含める */
+  const shiftDataCfm=JSON.parse(localStorage.getItem(shiftKey(reqY,reqM))||'{}');
+  const days3=new Date(reqY,reqM+1,0).getDate();
+  const merged={};
+  for(let d=1;d<=days3;d++){
+    if(isClosedDay(reqY,reqM,d))continue;
+    const k=dKey(reqY,reqM,d);
+    const se=shiftDataCfm[k]||{lunch:{names:[],ext:false},dinner:{names:[],ext:false}};
+    const inL=(se.lunch.names||[]).includes(sess.name);
+    const inD=(se.dinner.names||[]).includes(sess.name);
+    const saved=myAvail[k]||{lunch:'',dinner:''};
+    const lVal=saved.lunch||(inL?'ok':'');
+    const dVal=saved.dinner||(inD?'ok':'');
+    if(lVal||dVal)merged[k]={lunch:lVal,dinner:dVal};
+  }
+  /* myAvail にある（北京の希望に無い）日も含める */
+  Object.entries(myAvail).forEach(([k,v])=>{
+    if(!merged[k]&&v&&(v.lunch||v.dinner))merged[k]=v;
+  });
+
+  const entries=Object.entries(merged).sort(([a],[b])=>a.localeCompare(b));
   if(entries.length===0){
     list.innerHTML='<li style="color:#aaa">入力なし — 全日出勤可として扱われます</li>';
   }else{
@@ -480,6 +499,21 @@ function openConfirm(){
 }
 function closeConfirm(){document.getElementById('confirmOverlay').classList.remove('open');}
 function submitRequest(){
+  /* 北京の希望があるのに未選択のシフトは 'ok' として自動設定 */
+  const shiftDataSub=JSON.parse(localStorage.getItem(shiftKey(reqY,reqM))||'{}');
+  const days2=new Date(reqY,reqM+1,0).getDate();
+  for(let d=1;d<=days2;d++){
+    if(isClosedDay(reqY,reqM,d))continue;
+    const k=dKey(reqY,reqM,d);
+    const se=shiftDataSub[k]||{lunch:{names:[],ext:false},dinner:{names:[],ext:false}};
+    const inL=(se.lunch.names||[]).includes(sess.name);
+    const inD=(se.dinner.names||[]).includes(sess.name);
+    if(inL||inD){
+      if(!myAvail[k])myAvail[k]={lunch:'',dinner:''};
+      if(inL&&!myAvail[k].lunch) myAvail[k].lunch='ok';
+      if(inD&&!myAvail[k].dinner)myAvail[k].dinner='ok';
+    }
+  }
   const all=loadAvail(reqY,reqM);
   all[sess.userId]=myAvail;
   saveAvail(reqY,reqM,all);
