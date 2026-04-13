@@ -554,10 +554,27 @@ async function loadFromRemote(){
         localStorage.setItem(k,typeof v==='string'?v:JSON.stringify(v));
       });
       localStorage.setItem('pekin_db_v',String(remoteV));
+      /* db.jsonの方が新しければ再描画 */
+      _reRenderAllPanels();
     }
   }catch(e){}
 }
 loadFromRemote();
+
+/* ── 全パネル再描画（リモート同期後に呼ぶ） ── */
+function _reRenderAllPanels(){
+  try{
+    loadShift();
+    if(typeof render==='function')render();
+    const active=document.querySelector('.panel.active');
+    if(!active)return;
+    const id=active.id.replace('panel-','');
+    if(id==='overview'&&typeof renderOverview==='function')renderOverview();
+    else if(id==='avail'&&typeof renderAvailPanel==='function')renderAvailPanel();
+    else if(id==='staff'&&typeof renderStaffPanel==='function')renderStaffPanel();
+    else if(id==='settings'&&typeof renderSettingsPanel==='function')renderSettingsPanel();
+  }catch(e){console.warn('reRender error:',e);}
+}
 
 /* ── FIREBASE INIT ── */
 const _fbCfg={apiKey:"AIzaSyBygnsi6cByYRZigxlhR7d0ydVfpFGx8FQ",databaseURL:"https://pekin-shift-default-rtdb.asia-southeast1.firebasedatabase.app",projectId:"pekin-shift",appId:"1:600393805417:web:126fb18e1c5b64fc677cf8"};
@@ -582,6 +599,8 @@ async function loadFromFirebase(){
     });
     localStorage.setItem('pekin_db_v',String(remoteV));
     console.log('Firebase sync: loaded v'+remoteV);
+    /* 新しいデータを取得したら全パネルを再描画 */
+    _reRenderAllPanels();
   }catch(e){console.warn('Firebase load error:',e);}
 }
 loadFromFirebase();
