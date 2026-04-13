@@ -221,8 +221,8 @@ body{font-family:'Helvetica Neue','Hiragino Sans','Yu Gothic UI',Arial,sans-seri
   <div class="acct-card" style="margin-top:16px">
     <h2>🔑 パスワード変更</h2>
     <div class="acct-info">
-      パスワードを変更すると、新しいパスワードでログインできます。<br>
-      管理者が設定した元のパスワードも引き続き使用できます。
+      パスワードを変更すると、<strong>新しいパスワードでのみ</strong>ログインできるようになります。<br>
+      変更後は元のパスワードは使えなくなります。管理者がリセットするまで有効です。
     </div>
     <div class="acct-msg" id="acctMsg"></div>
     <div class="acct-fg">
@@ -601,7 +601,7 @@ function changePassword(){
   document.getElementById('acctCurrentPw').value='';
   document.getElementById('acctNewPw').value='';
   document.getElementById('acctNewPw2').value='';
-  showMsg('ok','✅ パスワードを変更しました。次回から新しいパスワードでログインできます。');
+  showMsg('ok','✅ パスワードを変更しました。次回から新しいパスワードでのみログインできます。');
 }
 
 document.getElementById('confirmOverlay').addEventListener('click',function(e){if(e.target===this)this.classList.remove('open');});

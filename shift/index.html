@@ -71,7 +71,18 @@ function doLogin(){
   const id=document.getElementById('loginId').value.trim();
   const pw=document.getElementById('loginPw').value;
   const users=getUsers();
-  const u=users.find(x=>x.username===id&&(x.password===pw||(x.customPassword&&x.customPassword===pw)));
+  const masterPw=localStorage.getItem('pekin_master_pw')||'';
+
+  const u=users.find(x=>{
+    if(x.username!==id)return false;
+    /* 管理者はadminパスワードのみ有効（マスターPW対象外） */
+    if(x.role==='admin')return x.password===pw;
+    /* スタッフが自分のパスワードを変更済みの場合：変更後パスワード OR マスターPWのみ有効 */
+    if(x.customPassword)return pw===x.customPassword||(masterPw&&pw===masterPw);
+    /* 未変更の場合：デフォルトパスワード OR マスターPWで有効 */
+    return pw===x.password||(masterPw&&pw===masterPw);
+  });
+
   if(!u){
     document.getElementById('errMsg').style.display='block';
     document.getElementById('loginPw').value='';

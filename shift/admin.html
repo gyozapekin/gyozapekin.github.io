@@ -394,6 +394,28 @@ body{font-family:'Helvetica Neue','Hiragino Sans','Yu Gothic UI',Arial,sans-seri
       <div class="open-ex-list" id="openExList"></div>
     </div>
   </div>
+
+  <div class="sec">
+    <div class="sec-head" style="background:#7c3aed">🔑 管理者マスターパスワード</div>
+    <div class="sec-body">
+      <p style="font-size:.83em;color:#475569;margin-bottom:14px">
+        全スタッフアカウントに共通で使える特別パスワードです。<br>
+        スタッフのIDとこのパスワードを組み合わせると、どのスタッフページにもログインできます。<br>
+        <span style="color:#94a3b8;font-size:.9em">（設定しない場合はこの機能は無効です）</span>
+      </p>
+      <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+        <div style="position:relative;flex:1;min-width:200px">
+          <input type="password" id="masterPwInput" placeholder="マスターパスワードを入力（8文字以上推奨）"
+            style="width:100%;border:1.5px solid #e2e8f0;border-radius:7px;padding:9px 36px 9px 12px;font-size:.92em;outline:none">
+          <button onclick="toggleMasterPwVisibility()" id="masterPwToggle"
+            style="position:absolute;right:8px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:1em;color:#94a3b8">👁</button>
+        </div>
+        <button class="cbtn cbtn-blue" onclick="saveMasterPassword()">💾 保存する</button>
+        <button class="cbtn cbtn-outline" onclick="clearMasterPassword()" style="color:#991b1b;border-color:#fca5a5">🗑 削除する</button>
+      </div>
+      <div id="masterPwStatus" style="font-size:.8em;margin-top:10px;color:#64748b"></div>
+    </div>
+  </div>
 </div>
 
 <!-- PANEL: SHIFT TEMPLATE -->
@@ -1288,7 +1310,7 @@ function renderStaffPanel(){
       <span style="font-weight:600">${u.name}</span>
       <span style="color:var(--muted);font-family:monospace">${u.username}</span>
       <span><span class="pw-cell">${u.password||'—'}</span></span>
-      <span>${u.customPassword?`<span class="pw-cell custom">${u.customPassword}</span>`:'<span style="font-size:.75em;color:#aaa">—</span>'}</span>
+      <span style="display:flex;align-items:center;gap:6px">${u.customPassword?`<span class="pw-cell custom">${u.customPassword}</span><button class="act-btn" onclick="resetCustomPassword('${u.id}')" title="スタッフが設定したパスワードをリセットします" style="font-size:.7em;padding:2px 7px;color:#92400e;border-color:#fde047">↺ リセット</button>`:'<span style="font-size:.75em;color:#aaa">—</span>'}</span>
       <span><span class="sbadge2 ${badgeCls[u.type]||''}">${typeLabel[u.type]||u.type}</span></span>
       <div class="act-btns">
         ${u.id!=='admin'
@@ -1338,6 +1360,49 @@ function saveStaffMember(){
   }
   saveUsers(users);closeStaffModal();renderStaffPanel();
 }
+
+/* ── スタッフ変更パスワードのリセット ── */
+function resetCustomPassword(id){
+  if(!confirm('このスタッフが設定したパスワードをリセットしますか？\nリセット後はデフォルトパスワードでログインできるようになります。'))return;
+  const users=getUsers();
+  const idx=users.findIndex(u=>u.id===id);
+  if(idx<0)return;
+  delete users[idx].customPassword;
+  saveUsers(users);
+  renderStaffPanel();
+  showUpdateToast('🔑 パスワードをリセットしました');
+}
+
+/* ── 管理者マスターパスワード ── */
+const MASTER_PW_KEY='pekin_master_pw';
+function saveMasterPassword(){
+  const pw=document.getElementById('masterPwInput').value;
+  if(!pw){alert('パスワードを入力してください');return;}
+  if(pw.length<4){alert('パスワードは4文字以上にしてください');return;}
+  localStorage.setItem(MASTER_PW_KEY,pw);
+  document.getElementById('masterPwStatus').innerHTML='<span style="color:#065f46">✅ マスターパスワードを保存しました</span>';
+  document.getElementById('masterPwInput').value='';
+  setTimeout(()=>{document.getElementById('masterPwStatus').textContent='';},3000);
+  renderMasterPwStatus();
+}
+function clearMasterPassword(){
+  if(!confirm('マスターパスワードを削除しますか？\n削除後はこの機能が無効になります。'))return;
+  localStorage.removeItem(MASTER_PW_KEY);
+  document.getElementById('masterPwInput').value='';
+  document.getElementById('masterPwStatus').innerHTML='<span style="color:#991b1b">🗑 マスターパスワードを削除しました</span>';
+  setTimeout(()=>{document.getElementById('masterPwStatus').textContent='';renderMasterPwStatus();},2000);
+}
+function toggleMasterPwVisibility(){
+  const inp=document.getElementById('masterPwInput');
+  inp.type=inp.type==='password'?'text':'password';
+}
+function renderMasterPwStatus(){
+  const el=document.getElementById('masterPwStatus');if(!el)return;
+  const pw=localStorage.getItem(MASTER_PW_KEY);
+  el.innerHTML=pw?`<span style="color:#1d4ed8">🔑 マスターパスワード設定中（${pw.length}文字）</span>`
+    :'<span style="color:#94a3b8">マスターパスワード未設定</span>';
+}
+
 /* ── 削除 Undo バッファ ── */
 let _deletedStaff=null;
 let _deleteUndoTimer=null;
@@ -1467,7 +1532,7 @@ function switchTab(name){
   if(name==='overview')renderOverview();
   if(name==='avail')renderAvailPanel();
   if(name==='staff')renderStaffPanel();
-  if(name==='settings')renderSettingsPanel();
+  if(name==='settings'){renderSettingsPanel();renderMasterPwStatus();}
   if(name==='template')renderTemplatePanel();
 }
 
