@@ -278,6 +278,9 @@ body{font-family:'Helvetica Neue','Hiragino Sans','Yu Gothic UI',Arial,sans-seri
       <button onclick="changeMonth(1)">▶</button>
     </div>
     <button class="cbtn cbtn-outline" onclick="resetToDefault()">↺ デフォルト</button>
+    <button id="shiftUndoBtn" class="cbtn cbtn-outline" onclick="undoShift()" disabled title="元に戻す（最大15ステップ）" style="font-size:.8em">↩ 戻る</button>
+    <button id="shiftRedoBtn" class="cbtn cbtn-outline" onclick="redoShift()" disabled title="やり直す" style="font-size:.8em">↪ 進む</button>
+    <span id="shiftHistLabel" style="font-size:.72em;color:#94a3b8;min-width:34px;text-align:center"></span>
     <button class="cbtn cbtn-blue"    onclick="publishShift()">✔ 公開する</button>
     <button class="cbtn cbtn-green"   onclick="openExcelModal()">📊 Excel出力</button>
     <button class="cbtn cbtn-outline" onclick="refreshAll();showUpdateToast('🔄 データを更新しました');" title="スタッフ希望など最新データを再読み込み">🔄 更新</button>
@@ -595,6 +598,55 @@ function loadShift(){
   if(!s)saveShift();
 }
 function saveShift(){localStorage.setItem(shiftKey(),JSON.stringify(shiftData));}
+
+/* ════════════════════════════════════════
+   SHIFT UNDO / REDO HISTORY（最大15ステップ）
+   _initShiftHistory() → 月切替・タブ復帰時にリセット
+   _pushShiftHistory() → スタッフ割当など各操作後に記録
+════════════════════════════════════════ */
+let _shiftHistory=[];
+let _shiftHistoryIdx=-1;
+const SHIFT_HISTORY_MAX=15;
+
+function _initShiftHistory(){
+  _shiftHistory=[JSON.stringify(shiftData)];
+  _shiftHistoryIdx=0;
+  _updateShiftHistoryUI();
+}
+
+function _pushShiftHistory(){
+  /* 未来（redo）のスタックを削除して現在の状態を積む */
+  _shiftHistory.splice(_shiftHistoryIdx+1);
+  _shiftHistory.push(JSON.stringify(shiftData));
+  while(_shiftHistory.length>SHIFT_HISTORY_MAX)_shiftHistory.shift();
+  _shiftHistoryIdx=_shiftHistory.length-1;
+  _updateShiftHistoryUI();
+}
+
+function undoShift(){
+  if(_shiftHistoryIdx<=0)return;
+  _shiftHistoryIdx--;
+  shiftData=JSON.parse(_shiftHistory[_shiftHistoryIdx]);
+  saveShift();render();_updateShiftHistoryUI();
+  showUpdateToast('↩ 元に戻しました');
+}
+
+function redoShift(){
+  if(_shiftHistoryIdx>=_shiftHistory.length-1)return;
+  _shiftHistoryIdx++;
+  shiftData=JSON.parse(_shiftHistory[_shiftHistoryIdx]);
+  saveShift();render();_updateShiftHistoryUI();
+  showUpdateToast('↪ やり直しました');
+}
+
+function _updateShiftHistoryUI(){
+  const ub=document.getElementById('shiftUndoBtn');
+  const rb=document.getElementById('shiftRedoBtn');
+  const lb=document.getElementById('shiftHistLabel');
+  if(ub)ub.disabled=_shiftHistoryIdx<=0;
+  if(rb)rb.disabled=_shiftHistoryIdx>=_shiftHistory.length-1;
+  if(lb)lb.textContent=_shiftHistory.length>1?`${_shiftHistoryIdx+1}/${_shiftHistory.length}`:'';
+}
 
 function buildDefault(y,m){
   const out={},days=new Date(y,m+1,0).getDate();
@@ -1023,7 +1075,7 @@ function saveShiftEdit(){
   const ext=document.getElementById('extCheck').checked;
   if(!shiftData[editKey])shiftData[editKey]={lunch:{names:[],ext:false},dinner:{names:[],ext:false}};
   shiftData[editKey][editType]={names,ext};
-  saveShift();closeEdit();render();
+  _pushShiftHistory();saveShift();closeEdit();render();
 }
 
 /* ════════════════════════════════════════
@@ -1038,7 +1090,7 @@ function toggleStaffInShift(k,type,name,add){
   }else{
     se.names=se.names.filter(n=>n!==name);
   }
-  saveShift();render();
+  _pushShiftHistory();saveShift();render();
 }
 
 /* ════════════════════════════════════════
@@ -1305,35 +1357,57 @@ function _showUndoDeleteToast(name){
   const toast=document.createElement('div');
   toast.id='undoDeleteToast';
   toast.style.cssText='position:fixed;bottom:24px;left:50%;transform:translateX(-50%);'
-    +'background:#1e293b;color:#fff;padding:13px 20px;border-radius:14px;'
+    +'background:#1e293b;color:#fff;padding:14px 22px;border-radius:14px;'
     +'font-size:.84em;font-weight:600;z-index:9999;display:flex;align-items:center;'
-    +'gap:14px;box-shadow:0 6px 24px rgba(0,0,0,.35);animation:slideUp .25s ease;white-space:nowrap';
+    +'gap:14px;box-shadow:0 6px 28px rgba(0,0,0,.38);animation:slideUp .25s ease;white-space:nowrap';
 
   const msg=document.createElement('span');
   msg.textContent=`「${name}」を削除しました`;
   toast.appendChild(msg);
 
-  const bar=document.createElement('div');
-  bar.style.cssText='position:absolute;bottom:0;left:0;height:3px;background:#3b82f6;'
-    +'border-radius:0 0 14px 14px;width:100%;transition:width 10s linear';
-  toast.appendChild(bar);
-
   const btn=document.createElement('button');
   btn.textContent='↩ 元に戻す';
   btn.style.cssText='background:#3b82f6;color:#fff;border:none;border-radius:8px;'
-    +'padding:6px 15px;font-size:.82em;font-weight:700;cursor:pointer;flex-shrink:0';
-  btn.onclick=_undoDeleteStaff;
+    +'padding:7px 16px;font-size:.82em;font-weight:700;cursor:pointer;flex-shrink:0;'
+    +'transition:background .12s';
+  btn.onmouseenter=()=>{btn.style.background='#2563eb';};
+  btn.onmouseleave=()=>{btn.style.background='#3b82f6';};
+  /* クリックで確認ダイアログ → OK なら復元 */
+  btn.onclick=()=>{
+    if(confirm(`「${name}」の削除を取り消して復元しますか？\n（希望カレンダー・シフト管理のデータもすべて戻ります）`)){
+      _undoDeleteStaff();
+    }
+  };
   toast.appendChild(btn);
-
   document.body.appendChild(toast);
-  /* アニメーション開始（1フレーム後に幅を0にする）*/
-  requestAnimationFrame(()=>{requestAnimationFrame(()=>{bar.style.width='0%';});});
 
+  /* 30秒後: トーストを消してウォーニングを出す */
   _deleteUndoTimer=setTimeout(()=>{
+    /* Undoトースト閉じる */
     toast.style.opacity='0';
     toast.style.transition='opacity .35s';
-    setTimeout(()=>{toast.remove();_deletedStaff=null;},400);
-  },10000);
+    setTimeout(()=>{
+      toast.remove();
+      _deletedStaff=null;
+      /* ⚠ 復元期限切れウォーニング */
+      _showDeleteExpiredWarning(name);
+    },380);
+  },30000);
+}
+
+function _showDeleteExpiredWarning(name){
+  const warn=document.createElement('div');
+  warn.style.cssText='position:fixed;bottom:24px;left:50%;transform:translateX(-50%);'
+    +'background:#dc2626;color:#fff;padding:13px 22px;border-radius:14px;'
+    +'font-size:.84em;font-weight:700;z-index:9999;display:flex;align-items:center;gap:9px;'
+    +'box-shadow:0 6px 28px rgba(0,0,0,.38);animation:slideUp .25s ease;white-space:nowrap';
+  warn.innerHTML='⚠ 復元できる時間が切れました。「'+name+'」の削除が確定しました。';
+  document.body.appendChild(warn);
+  /* 5秒後に消える */
+  setTimeout(()=>{
+    warn.style.opacity='0';warn.style.transition='opacity .4s';
+    setTimeout(()=>warn.remove(),420);
+  },5000);
 }
 
 function _undoDeleteStaff(){
@@ -1342,12 +1416,12 @@ function _undoDeleteStaff(){
   const restored=_deletedStaff;
   _deletedStaff=null;
 
-  /* ユーザーリストに戻す */
+  /* ユーザーリストに戻す（希望データはlocalStorageに残っているのでそのまま復元） */
   const users=getUsers();
   users.push(restored);
   saveUsers(users);
 
-  /* 全タブを再描画（希望データはlocalStorageに残っているのでそのまま復元） */
+  /* 全タブを再描画 */
   renderStaffPanel();
   render();
   if(document.getElementById('panel-overview').classList.contains('active'))renderOverview();
@@ -1364,7 +1438,7 @@ function _undoDeleteStaff(){
 ════════════════════════════════════════ */
 function changeMonth(d){
   M+=d;if(M>11){M=0;Y++;}if(M<0){M=11;Y--;}
-  loadShift();render();
+  loadShift();_initShiftHistory();render();
   const ap=document.getElementById('panel-avail');
   const op=document.getElementById('panel-overview');
   if(ap.classList.contains('active'))renderAvailPanel();
@@ -1373,7 +1447,7 @@ function changeMonth(d){
 
 function resetToDefault(){
   if(!confirm('この月のシフトにテンプレートを反映しますか？\n（現在のシフトデータは上書きされます）'))return;
-  shiftData=applyTemplate(Y,M);saveShift();render();
+  shiftData=applyTemplate(Y,M);_pushShiftHistory();saveShift();render();
 }
 
 const TAB_NAMES=['shift','overview','avail','staff','settings','template'];
@@ -1381,7 +1455,7 @@ function switchTab(name){
   document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active',TAB_NAMES[i]===name));
   document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
   document.getElementById('panel-'+name).classList.add('active');
-  if(name==='shift'){loadShift();render();}
+  if(name==='shift'){loadShift();_initShiftHistory();render();}
   if(name==='overview')renderOverview();
   if(name==='avail')renderAvailPanel();
   if(name==='staff')renderStaffPanel();
@@ -1797,7 +1871,7 @@ window.addEventListener('storage',function(e){
 /* ════════════════════════════════════════
    INIT
 ════════════════════════════════════════ */
-loadShift();render();
+loadShift();_initShiftHistory();render();
 </script>
 </body>
 </html>
