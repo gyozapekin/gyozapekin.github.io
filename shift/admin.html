@@ -332,16 +332,10 @@ body{font-family:'Helvetica Neue','Hiragino Sans','Yu Gothic UI',Arial,sans-seri
   <div class="sec">
     <div class="sec-head">
       <span>📝 スタッフ希望一覧</span>
-      <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
-        <div class="month-nav" style="background:rgba(255,255,255,.1)">
-          <button onclick="changeMonth(-1)" style="color:#fff">◀</button>
-          <span class="month-label" id="availMonthLabel" style="color:#fff;border-color:rgba(255,255,255,.2)"></span>
-          <button onclick="changeMonth(1)" style="color:#fff">▶</button>
-        </div>
-        <button class="cbtn" onclick="deleteMonthAvail()" id="deleteAvailBtn"
-          style="background:rgba(220,38,38,.85);color:#fff;border:1px solid rgba(255,255,255,.3);font-size:.78em;padding:6px 13px">
-          🗑 この月の希望を一括削除
-        </button>
+      <div class="month-nav" style="background:rgba(255,255,255,.1)">
+        <button onclick="changeMonth(-1)" style="color:#fff">◀</button>
+        <span class="month-label" id="availMonthLabel" style="color:#fff;border-color:rgba(255,255,255,.2)"></span>
+        <button onclick="changeMonth(1)" style="color:#fff">▶</button>
       </div>
     </div>
     <div class="sec-body" id="availBody">
@@ -1139,7 +1133,7 @@ function renderAvailPanel(){
   const days=new Date(Y,M+1,0).getDate();
 
   let html=`<div class="avail-table-wrap"><table class="avail-table"><thead><tr>
-    <th>スタッフ</th><th>種別</th>`;
+    <th>スタッフ</th><th>種別</th><th style="min-width:64px">削除</th>`;
   for(let d=1;d<=days;d++){
     if(isClosedDay(Y,M,d))continue;
     const dow=new Date(Y,M,d).getDay();
@@ -1150,8 +1144,14 @@ function renderAvailPanel(){
     const sav=avail[s.id]||{};
     const typeLabel={part:'パート',fixed:'固定',free:'フリー',alt:'アルバイト'}[s.type]||'';
     const badgeCls={part:'sb-part',fixed:'sb-fixed',free:'sb-free',alt:'sb-alt'}[s.type]||'';
+    const hasEntry=Object.keys(sav).length>0;
     html+=`<tr><td style="text-align:left;font-weight:600">${s.name}</td>
-      <td><span class="sbadge2 ${badgeCls}">${typeLabel}</span></td>`;
+      <td><span class="sbadge2 ${badgeCls}">${typeLabel}</span></td>
+      <td style="text-align:center">${hasEntry
+        ?`<button onclick="deleteStaffAvail('${s.id}','${s.name}')" title="${M+1}月の${s.name}さんの希望を削除"
+            style="background:none;border:1px solid #fca5a5;border-radius:4px;padding:2px 7px;font-size:.72em;color:#991b1b;cursor:pointer">🗑</button>`
+        :'<span style="font-size:.7em;color:#cbd5e1">—</span>'
+      }</td>`;
     for(let d=1;d<=days;d++){
       if(isClosedDay(Y,M,d))continue;
       const k=dKey(Y,M,d);const v=sav[k];
@@ -1171,18 +1171,14 @@ function renderAvailPanel(){
   body.innerHTML=html;
 }
 
-function deleteMonthAvail(){
+function deleteStaffAvail(staffId, staffName){
   const label=`${Y}年${M+1}月`;
+  if(!confirm(`【${label}】の ${staffName} さんの希望を削除します。\nこの操作は取り消せません。よろしいですか？`))return;
   const avail=loadAvail(Y,M);
-  const hasData=Object.keys(avail).length>0;
-  if(!hasData){
-    alert(`${label}の希望データはありません。`);
-    return;
-  }
-  if(!confirm(`【${label}】のスタッフ全員分の希望を削除します。\nこの操作は取り消せません。よろしいですか？`))return;
-  localStorage.removeItem(availKey(Y,M));
+  delete avail[staffId];
+  localStorage.setItem(availKey(Y,M),JSON.stringify(avail));
   renderAvailPanel();
-  showUpdateToast(`🗑 ${label}の希望データを削除しました`);
+  showUpdateToast(`🗑 ${staffName}さんの${label}の希望を削除しました`);
 }
 
 /* ════════════════════════════════════════
