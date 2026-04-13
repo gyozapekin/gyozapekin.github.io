@@ -332,10 +332,16 @@ body{font-family:'Helvetica Neue','Hiragino Sans','Yu Gothic UI',Arial,sans-seri
   <div class="sec">
     <div class="sec-head">
       <span>📝 スタッフ希望一覧</span>
-      <div class="month-nav" style="background:rgba(255,255,255,.1)">
-        <button onclick="changeMonth(-1)" style="color:#fff">◀</button>
-        <span class="month-label" id="availMonthLabel" style="color:#fff;border-color:rgba(255,255,255,.2)"></span>
-        <button onclick="changeMonth(1)" style="color:#fff">▶</button>
+      <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+        <div class="month-nav" style="background:rgba(255,255,255,.1)">
+          <button onclick="changeMonth(-1)" style="color:#fff">◀</button>
+          <span class="month-label" id="availMonthLabel" style="color:#fff;border-color:rgba(255,255,255,.2)"></span>
+          <button onclick="changeMonth(1)" style="color:#fff">▶</button>
+        </div>
+        <button class="cbtn" onclick="deleteMonthAvail()" id="deleteAvailBtn"
+          style="background:rgba(220,38,38,.85);color:#fff;border:1px solid rgba(255,255,255,.3);font-size:.78em;padding:6px 13px">
+          🗑 この月の希望を一括削除
+        </button>
       </div>
     </div>
     <div class="sec-body" id="availBody">
@@ -1163,6 +1169,20 @@ function renderAvailPanel(){
   });
   html+='</tbody></table></div>';
   body.innerHTML=html;
+}
+
+function deleteMonthAvail(){
+  const label=`${Y}年${M+1}月`;
+  const avail=loadAvail(Y,M);
+  const hasData=Object.keys(avail).length>0;
+  if(!hasData){
+    alert(`${label}の希望データはありません。`);
+    return;
+  }
+  if(!confirm(`【${label}】のスタッフ全員分の希望を削除します。\nこの操作は取り消せません。よろしいですか？`))return;
+  localStorage.removeItem(availKey(Y,M));
+  renderAvailPanel();
+  showUpdateToast(`🗑 ${label}の希望データを削除しました`);
 }
 
 /* ════════════════════════════════════════
