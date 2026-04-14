@@ -562,23 +562,22 @@ function _applyDb(db, force=false){
   const remoteV=db._v||0;
   const localV=parseInt(localStorage.getItem('pekin_db_v')||'0');
 
-  /* pekin_users：ローカルとFirebaseを比較してユーザー数が多い方を採用 */
+  /* pekin_users：管理者PCのローカルを正規ソースとして扱う
+     ローカルにデータがある場合は常にローカル優先でFirebaseを更新。
+     ローカルが空の場合のみFirebaseから取得する（初回アクセス時） */
   if(db['pekin_users']!==undefined){
     try{
       const fbVal=db['pekin_users'];
-      const fbUsers=JSON.parse(typeof fbVal==='string'?fbVal:JSON.stringify(fbVal));
       const localRaw=localStorage.getItem('pekin_users');
-      const localUsers=localRaw?JSON.parse(localRaw):[];
-      /* ローカルにFirebaseにいないIDのユーザーが存在する → ローカル優先 */
-      const fbIds=new Set(fbUsers.map(u=>u.id));
-      const localHasExtra=localUsers.some(u=>!fbIds.has(u.id));
-      if(localHasExtra&&localUsers.length>0){
-        /* ローカルを保持しFirebaseを最新で上書き */
-        _fbDb.ref('pekin/db').update({'pekin_users':JSON.stringify(localUsers)});
-        console.log('pekin_users: local wins, Firebase updated');
+      if(localRaw){
+        /* ローカルにデータあり → ローカル優先（名前変更・削除も反映） */
+        _fbDb.ref('pekin/db').update({'pekin_users':localRaw});
+        console.log('pekin_users: local authoritative, Firebase updated with local data');
+        /* localStorageは変更しない */
       }else{
+        /* ローカルが空（初回/キャッシュクリア後）→ Firebaseから取得 */
         localStorage.setItem('pekin_users',typeof fbVal==='string'?fbVal:JSON.stringify(fbVal));
-        console.log('pekin_users: Firebase wins');
+        console.log('pekin_users: local empty, loaded from Firebase');
       }
     }catch(e){console.warn('pekin_users merge error:',e);}
   }
