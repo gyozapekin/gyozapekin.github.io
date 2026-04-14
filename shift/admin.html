@@ -635,6 +635,29 @@ setTimeout(_finishSync,6000);
 
 _doInitialSync();
 
+/* リアルタイムリスナー：スタッフが希望を送信したら管理画面に即反映 */
+let _adminListenerReady=false;
+_fbDb.ref('pekin/db').on('value',snap=>{
+  if(!snap||!snap.exists())return;
+  if(!_adminListenerReady){_adminListenerReady=true;return;} /* 初回はinitialSyncで処理済み */
+  const db=snap.val();
+  /* availデータのみ更新（ページ上のシフト編集中データは上書きしない） */
+  let updated=false;
+  Object.entries(db).forEach(([k,v])=>{
+    if(!k.startsWith('pekin_avail_'))return;
+    const cur=localStorage.getItem(k);
+    const nxt=typeof v==='string'?v:JSON.stringify(v);
+    if(cur!==nxt){localStorage.setItem(k,nxt);updated=true;}
+  });
+  if(!updated)return;
+  /* 希望一覧・希望カレンダーを再描画 */
+  const ap=document.getElementById('panel-avail');
+  const op=document.getElementById('panel-overview');
+  if(ap&&ap.classList.contains('active')&&typeof renderAvailPanel==='function')renderAvailPanel();
+  if(op&&op.classList.contains('active')&&typeof renderOverview==='function')renderOverview();
+  if(typeof showUpdateToast==='function')showUpdateToast('📬 スタッフの希望が更新されました');
+});
+
 /* ════════════════════════════════════════
    AUTH
 ════════════════════════════════════════ */
