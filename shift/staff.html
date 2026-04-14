@@ -740,7 +740,6 @@ function changePassword(){
   const isValid=(myUser.password===currentPw)||(myUser.customPassword&&myUser.customPassword===currentPw);
   if(!isValid){showMsg('err','現在のパスワードが違います');return;}
 
-  if(newPw===myUser.password&&!myUser.customPass  if(!isValid){showMsg('err','現在のパスワードが違います');return;}
   if(newPw===myUser.password&&!myUser.customPassword){
     showMsg('err','新しいパスワードはデフォルトパスワードと異なるものにしてください');return;
   }
@@ -749,4 +748,12 @@ function changePassword(){
   document.getElementById('acctCurrentPw').value='';
   document.getElementById('acctNewPw').value='';
   document.getElementById('acctNewPw2').value='';
-  showMsg('ok','✅ パスワードを変更しました�
+  showMsg('ok','✅ パスワードを変更しました');
+}
+
+/* ── INIT ── */
+loadMyAvail();
+renderRequestList();
+</script>
+</body>
+</html>�
