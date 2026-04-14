@@ -251,6 +251,14 @@ body{font-family:'Helvetica Neue','Hiragino Sans','Yu Gothic UI',Arial,sans-seri
 <body>
 
 <!-- NAV -->
+<!-- ローディングオーバーレイ（データ同期中に表示） -->
+<div id="loadOverlay" style="position:fixed;inset:0;background:rgba(255,255,255,.95);z-index:99999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px">
+  <div style="font-size:2em;animation:spin 1s linear infinite">🔄</div>
+  <div style="font-size:.95em;color:#475569;font-weight:600">データを読み込んでいます…</div>
+  <div style="font-size:.78em;color:#94a3b8">しばらくお待ちください</div>
+</div>
+<style>@keyframes spin{to{transform:rotate(360deg)}}</style>
+
 <nav class="topnav">
   <div class="nav-left">
     <span class="nav-logo">🥟</span>
@@ -535,33 +543,41 @@ body{font-family:'Helvetica Neue','Hiragino Sans','Yu Gothic UI',Arial,sans-seri
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
 <script>
-/* ── REMOTE SYNC ── */
-async function loadFromRemote(){
-  try{
-    const res=await fetch('/shift/db.json?_='+Date.now(),{cache:'no-store'});
-    if(!res.ok)return;
-    const db=await res.json();
-    const remoteV=db._v||0;
-    const localV=parseInt(localStorage.getItem('pekin_db_v')||'0');
-    const STATIC=['pekin_shift_template','pekin_settings','pekin_users','pekin_master_pw'];
-    STATIC.forEach(k=>{
-      if(db[k]===undefined)return;
-      localStorage.setItem(k,typeof db[k]==='string'?db[k]:JSON.stringify(db[k]));
-    });
-    if(remoteV>localV){
-      Object.entries(db).forEach(([k,v])=>{
-        if(k.startsWith('_')||STATIC.includes(k))return;
-        localStorage.setItem(k,typeof v==='string'?v:JSON.stringify(v));
-      });
-      localStorage.setItem('pekin_db_v',String(remoteV));
-      /* db.jsonの方が新しければ再描画 */
-      _reRenderAllPanels();
-    }
-  }catch(e){}
-}
-loadFromRemote();
+/* ════════════════════════════════════════
+   DATA SYNC  — Firebase優先・db.jsonフォールバック
+   ①Firebaseから取得 → ②失敗時はdb.jsonから取得
+   → ③オーバーレイ非表示 → ④全パネル再描画
+════════════════════════════════════════ */
+const _STATIC_KEYS=['pekin_shift_template','pekin_settings','pekin_users','pekin_master_pw'];
 
-/* ── 全パネル再描画（リモート同期後に呼ぶ） ── */
+/* Firebase設定 & 初期化 */
+const _fbCfg={apiKey:"AIzaSyBygnsi6cByYRZigxlhR7d0ydVfpFGx8FQ",databaseURL:"https://pekin-shift-default-rtdb.asia-southeast1.firebasedatabase.app",projectId:"pekin-shift",appId:"1:600393805417:web:126fb18e1c5b64fc677cf8"};
+if(!firebase.apps.length)firebase.initializeApp(_fbCfg);
+const _fbDb=firebase.database();
+
+/* dbオブジェクトをlocalStorageに書き込む
+   force=true → バージョン問わず全データ上書き（初回同期用） */
+function _applyDb(db, force=false){
+  const remoteV=db._v||0;
+  const localV=parseInt(localStorage.getItem('pekin_db_v')||'0');
+  /* STATICキーは常に上書き（ユーザー・設定など） */
+  _STATIC_KEYS.forEach(k=>{
+    if(db[k]!==undefined)
+      localStorage.setItem(k,typeof db[k]==='string'?db[k]:JSON.stringify(db[k]));
+  });
+  /* 動的データ：forceまたはFirebaseバージョンがローカル以上の時に上書き */
+  if(force||remoteV>=localV){
+    Object.entries(db).forEach(([k,v])=>{
+      if(k.startsWith('_')||_STATIC_KEYS.includes(k))return;
+      localStorage.setItem(k,typeof v==='string'?v:JSON.stringify(v));
+    });
+    localStorage.setItem('pekin_db_v',String(remoteV));
+    return true;
+  }
+  return false;
+}
+
+/* 全パネル再描画 */
 function _reRenderAllPanels(){
   try{
     loadShift();
@@ -572,38 +588,52 @@ function _reRenderAllPanels(){
     if(id==='overview'&&typeof renderOverview==='function')renderOverview();
     else if(id==='avail'&&typeof renderAvailPanel==='function')renderAvailPanel();
     else if(id==='staff'&&typeof renderStaffPanel==='function')renderStaffPanel();
-    else if(id==='settings'&&typeof renderSettingsPanel==='function')renderSettingsPanel();
-  }catch(e){console.warn('reRender error:',e);}
+    else if(id==='settings'&&typeof renderSettingsPanel==='function'){renderSettingsPanel();renderMasterPwStatus();}
+  }catch(e){console.warn('reRender:',e);}
 }
 
-/* ── FIREBASE INIT ── */
-const _fbCfg={apiKey:"AIzaSyBygnsi6cByYRZigxlhR7d0ydVfpFGx8FQ",databaseURL:"https://pekin-shift-default-rtdb.asia-southeast1.firebasedatabase.app",projectId:"pekin-shift",appId:"1:600393805417:web:126fb18e1c5b64fc677cf8"};
-if(!firebase.apps.length)firebase.initializeApp(_fbCfg);
-const _fbDb=firebase.database();
-async function loadFromFirebase(){
-  try{
-    const snap=await _fbDb.ref('pekin/db').get();
-    if(!snap.exists())return;
-    const db=snap.val();
-    const remoteV=db._v||0;
-    const localV=parseInt(localStorage.getItem('pekin_db_v')||'0');
-    if(remoteV<=localV)return;
-    const STATIC=['pekin_shift_template','pekin_settings','pekin_users','pekin_master_pw'];
-    STATIC.forEach(k=>{
-      if(db[k]===undefined)return;
-      localStorage.setItem(k,typeof db[k]==='string'?db[k]:JSON.stringify(db[k]));
-    });
-    Object.entries(db).forEach(([k,v])=>{
-      if(k.startsWith('_')||STATIC.includes(k))return;
-      localStorage.setItem(k,typeof v==='string'?v:JSON.stringify(v));
-    });
-    localStorage.setItem('pekin_db_v',String(remoteV));
-    console.log('Firebase sync: loaded v'+remoteV);
-    /* 新しいデータを取得したら全パネルを再描画 */
-    _reRenderAllPanels();
-  }catch(e){console.warn('Firebase load error:',e);}
+/* オーバーレイを閉じて再描画（1回だけ実行） */
+let _overlayHidden=false;
+function _finishSync(){
+  if(_overlayHidden)return;
+  _overlayHidden=true;
+  const ov=document.getElementById('loadOverlay');
+  if(ov)ov.style.display='none';
+  _reRenderAllPanels();
 }
-loadFromFirebase();
+
+/* 初回同期：Firebase→db.jsonの順で試みる */
+async function _doInitialSync(){
+  let synced=false;
+  /* ① Firebase（最大5秒タイムアウト） */
+  try{
+    const snap=await Promise.race([
+      _fbDb.ref('pekin/db').get(),
+      new Promise((_,rej)=>setTimeout(()=>rej(new Error('timeout')),5000))
+    ]);
+    if(snap&&snap.exists()){
+      _applyDb(snap.val(),true);  /* force=true: バージョン問わず全データ取得 */
+      synced=true;
+      console.log('Synced from Firebase ✓');
+    }
+  }catch(e){console.warn('Firebase sync:',e.message);}
+
+  /* ② Firebaseが失敗した場合のみdb.jsonを試みる */
+  if(!synced){
+    try{
+      const res=await fetch('/shift/db.json?_='+Date.now(),{cache:'no-store'});
+      if(res.ok){_applyDb(await res.json());console.log('Synced from db.json ✓');}
+    }catch(e){console.warn('db.json sync failed');}
+  }
+
+  /* ③ 完了 → オーバーレイ非表示・描画 */
+  _finishSync();
+}
+
+/* 安全網：何があっても6秒後には表示する */
+setTimeout(_finishSync,6000);
+
+_doInitialSync();
 
 /* ════════════════════════════════════════
    AUTH
@@ -1982,101 +2012,6 @@ function doExcelExport(){
   });
 });
 
-/* ════════════════════════════════════════
-   REAL-TIME SYNC
-   storage イベントで他タブ（staff.html）の変更を検知して自動再描画
-════════════════════════════════════════ */
-function showUpdateToast(msg){
-  let t=document.getElementById('updateToast');
-  if(!t){
-    t=document.createElement('div');t.id='updateToast';
-    t.style.cssText='position:fixed;bottom:24px;right:24px;background:#1d4ed8;color:#fff;'
-      +'padding:10px 20px;border-radius:10px;font-size:.82em;font-weight:700;'
-      +'z-index:9999;opacity:0;transition:opacity .35s;pointer-events:none;'
-      +'box-shadow:0 4px 20px rgba(0,0,0,.22);display:flex;align-items:center;gap:7px';
-    document.body.appendChild(t);
-  }
-  t.textContent=msg;
-  t.style.opacity='1';
-  clearTimeout(t._timer);
-  t._timer=setTimeout(()=>{t.style.opacity='0';},3500);
-}
-
-function refreshAll(){
-  loadShift();render();
-  const panels={overview:renderOverview,avail:renderAvailPanel,settings:renderSettingsPanel};
-  Object.entries(panels).forEach(([id,fn])=>{
-    if(document.getElementById('panel-'+id).classList.contains('active'))fn();
-  });
-}
-
-window.addEventListener('storage',function(e){
-  if(!e.key)return;
-  if(e.key.startsWith('pekin_avail_')){
-    render();
-    if(document.getElementById('panel-overview').classList.contains('active'))renderOverview();
-    if(document.getElementById('panel-avail').classList.contains('active'))renderAvailPanel();
-    showUpdateToast('📝 スタッフの希望が更新されました');
-  }
-  if(e.key==='pekin_settings'){
-    loadShift();render();
-    if(document.getElementById('panel-overview').classList.contains('active'))renderOverview();
-    if(document.getElementById('panel-avail').classList.contains('active'))renderAvailPanel();
-    showUpdateToast('⚙ 設定が更新されました');
-  }
-  if(e.key.startsWith('pekin_shift_')){
-    loadShift();render();
-    if(document.getElementById('panel-overview').classList.contains('active'))renderStaffPanel();
-    showUpdateToast('👥 スタッフ情報が更新されました');
-  }
-});
-
-
-/* ════════════════════════════════════════
-   PUBLISH TO GITHUB
-════════════════════════════════════════ */
-async function publishToGitHub(){
-  const btn=document.getElementById('publishBtn');
-  if(btn){btn.disabled=true;btn.textContent='📤 公開中...';}
-  let token=localStorage.getItem('pekin_github_token');
-  if(\!token){
-    token=prompt('GitHub Personal Access Tokenを入力してください
-(Contents権限が必要です)');
-    if(\!token){if(btn){btn.disabled=false;btn.textContent='📱 公開';}return;}
-    localStorage.setItem('pekin_github_token',token);
-  }
-  const data={};
-  Object.keys(localStorage).filter(k=>k.startsWith('pekin')).forEach(k=>{
-    const raw=localStorage.getItem(k);
-    try{data[k]=JSON.parse(raw);}catch(e){data[k]=raw;}
-  });
-  data._v=Date.now();
-  const json=JSON.stringify(data);
-  const content=btoa(unescape(encodeURIComponent(json)));
-  const API='https://api.github.com/repos/gyozapekin/gyozapekin.github.io/contents/shift/db.json';
-  const HDRS={'Authorization':'token '+token,'Content-Type':'application/json','Accept':'application/vnd.github.v3+json'};
-  let sha;
-  try{const g=await fetch(API,{headers:HDRS});if(g.ok){const f=await g.json();sha=f.sha;}}catch(e){}
-  const body={message:'shift sync '+new Date().toLocaleString('ja-JP'),content};
-  if(sha)body.sha=sha;
-  try{
-    const r=await fetch(API,{method:'PUT',headers:HDRS,body:JSON.stringify(body)});
-    if(r.ok){
-      localStorage.setItem('pekin_db_v',String(data._v));
-      try{await _fbDb.ref('pekin/db').set(data);console.log('Firebase write OK');}catch(fe){console.warn('Firebase write error:',fe);}
-      showUpdateToast('✅ モバイルに公開しました！（即時反映）');
-    }else{
-      const err=await r.json();
-      if(err.message&&err.message.includes('credentials'))localStorage.removeItem('pekin_github_token');
-      alert('エラー: '+(err.message||JSON.stringify(err)));
-    }
-  }catch(e){alert('通信エラー: '+e.message);}
-  if(btn){btn.disabled=false;btn.textContent='📱 公開';}
-}
-/* ════════════════════════════════════════
-   INIT
-════════════════════════════════════════ */
-loadShift();_initShiftHistory();render();
 </script>
 </body>
 </html>

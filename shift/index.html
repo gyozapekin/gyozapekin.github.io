@@ -1,4 +1,4 @@
-<\!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
@@ -30,8 +30,6 @@ body{font-family:'Helvetica Neue','Hiragino Sans','Yu Gothic UI',Arial,sans-seri
 .login-btn:hover{opacity:.88}
 .error-msg{background:#fee2e2;border:1px solid #fca5a5;border-radius:6px;
   padding:10px 14px;font-size:.82em;color:#991b1b;margin-bottom:16px;display:none}
-.hint{font-size:.72em;color:#94a3b8;text-align:center;margin-top:16px;line-height:1.6}
-.hint strong{color:#64748b}
 </style>
 </head>
 <body>
@@ -51,36 +49,58 @@ body{font-family:'Helvetica Neue','Hiragino Sans','Yu Gothic UI',Arial,sans-seri
       <label>パスワード</label>
       <input type="password" id="loginPw" placeholder="パスワードを入力" autocomplete="current-password">
     </div>
-    <button class="login-btn" id="loginBtn" onclick="doLogin()" disabled style="opacity:.6;cursor:not-allowed">読み込み中…</button>
+    <button class="login-btn" id="loginBtn" onclick="doLogin()">ログイン</button>
   </div>
 </div>
 
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
 <script>
-/* -- REMOTE SYNC -- */
-async function loadFromRemote(){
-  try{
-    const ts=Date.now();
-    const res=await fetch('/shift/db.json?_='+ts,{cache:'no-store'});
-    if(\!res.ok)return;
-    const db=await res.json();
-    const remoteV=db._v||0;
-    const localV=parseInt(localStorage.getItem('pekin_db_v')||'0');
-    const STATIC=['pekin_shift_template','pekin_settings','pekin_users','pekin_master_pw'];
-    STATIC.forEach(k=>{
-      if(db[k]===undefined)return;
-      localStorage.setItem(k,typeof db[k]==='string'?db[k]:JSON.stringify(db[k]));
-    });
-    if(remoteV>localV){
-      Object.entries(db).forEach(([k,v])=>{
-        if(k.startsWith('_')||STATIC.includes(k))return;
-        localStorage.setItem(k,typeof v==='string'?v:JSON.stringify(v));
-      });
-      localStorage.setItem('pekin_db_v',String(remoteV));
-    }
-  }catch(e){}
+/* -- FIREBASE 設定 -- */
+const _fbCfg={
+  apiKey:"AIzaSyBygnsi6cByYRZigxlhR7d0ydVfpFGx8FQ",
+  databaseURL:"https://pekin-shift-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId:"pekin-shift",
+  appId:"1:600393805417:web:126fb18e1c5b64fc677cf8"
+};
+if(!firebase.apps.length)firebase.initializeApp(_fbCfg);
+const _fbDb=firebase.database();
+
+/* Firebaseのデータを全てlocalStorageに書き込む */
+function _applyDb(db){
+  Object.entries(db).forEach(([k,v])=>{
+    if(k.startsWith('_'))return;
+    localStorage.setItem(k,typeof v==='string'?v:JSON.stringify(v));
+  });
+  if(db._v)localStorage.setItem('pekin_db_v',String(db._v));
 }
 
-/* -- AUTH HELPERS -- */
+/* バックグラウンド同期 + セッション残存時は自動リダイレクト */
+(async function syncAndRedirect(){
+  try{
+    const snap=await Promise.race([
+      _fbDb.ref('pekin/db').get(),
+      new Promise((_,rej)=>setTimeout(()=>rej(new Error('timeout')),5000))
+    ]);
+    if(snap&&snap.exists())_applyDb(snap.val());
+  }catch(e){
+    /* Firebase失敗 → db.jsonで試みる */
+    try{
+      const res=await fetch('/shift/db.json?_='+Date.now(),{cache:'no-store'});
+      if(res.ok)_applyDb(await res.json());
+    }catch(e2){}
+  }
+  /* 有効なセッションが残っていれば自動リダイレクト */
+  const s=sessionStorage.getItem('pekin_session');
+  if(!s)return;
+  try{
+    const sess=JSON.parse(s);
+    if(sess.expires>Date.now())
+      location.href=sess.role==='admin'?'admin.html':'staff.html';
+  }catch(e){}
+})();
+
+/* -- 認証ヘルパー -- */
 function getUsers(){
   const def=[
     {id:'admin',name:'管理者',username:'admin',password:'pekin2026',role:'admin',type:'admin'},
@@ -94,24 +114,26 @@ function getUsers(){
   ];
   return JSON.parse(localStorage.getItem('pekin_users')||JSON.stringify(def));
 }
+
 function setSession(u){
   const exp=Date.now()+8*60*60*1000;
   sessionStorage.setItem('pekin_session',JSON.stringify({
     userId:u.id,username:u.username,name:u.name,role:u.role,expires:exp
   }));
 }
+
 function doLogin(){
   const id=document.getElementById('loginId').value.trim();
   const pw=document.getElementById('loginPw').value;
   const users=getUsers();
   const masterPw=localStorage.getItem('pekin_master_pw')||'';
   const u=users.find(x=>{
-    if(x.username\!==id)return false;
+    if(x.username!==id)return false;
     if(x.role==='admin')return x.password===pw;
     if(x.customPassword)return pw===x.customPassword||(masterPw&&pw===masterPw);
     return pw===x.password||(masterPw&&pw===masterPw);
   });
-  if(\!u){
+  if(!u){
     document.getElementById('errMsg').style.display='block';
     document.getElementById('loginPw').value='';
     return;
@@ -119,24 +141,9 @@ function doLogin(){
   setSession(u);
   location.href=u.role==='admin'?'admin.html':'staff.html';
 }
+
 document.getElementById('loginPw').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
 document.getElementById('loginId').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
-
-function _enableLogin(){
-  const btn=document.getElementById('loginBtn');
-  if(!btn||!btn.disabled)return;
-  btn.disabled=false;btn.style.opacity='';btn.style.cursor='';btn.textContent='ログイン';
-}
-/* 最大3秒でタイムアウト保険 */
-const _loginTimeout=setTimeout(_enableLogin,3000);
-loadFromRemote().then(()=>{
-  clearTimeout(_loginTimeout);_enableLogin();
-  const s=sessionStorage.getItem('pekin_session');
-  if(\!s)return;
-  const sess=JSON.parse(s);
-  if(sess.expires>Date.now())
-    location.href=sess.role==='admin'?'admin.html':'staff.html';
-}).catch(()=>{clearTimeout(_loginTimeout);_enableLogin();});
 </script>
 </body>
 </html>
