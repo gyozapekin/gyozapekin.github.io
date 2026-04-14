@@ -832,7 +832,12 @@ function loadShift(){
   shiftData=s?JSON.parse(s):buildDefault(Y,M);
   if(!s)saveShift();
 }
-function saveShift(){localStorage.setItem(shiftKey(),JSON.stringify(shiftData));}
+function saveShift(){
+  const json=JSON.stringify(shiftData);
+  const k=shiftKey();
+  localStorage.setItem(k,json);
+  _syncKeyToFirebase(k,json);  /* ← Firebaseに即同期（再ログインで消えないように） */
+}
 
 /* ════════════════════════════════════════
    SHIFT UNDO / REDO HISTORY（最大15ステップ）
@@ -899,7 +904,11 @@ function getPublishKey(){return `pekin_published_${Y}-${String(M+1).padStart(2,'
 function isPublished(){return localStorage.getItem(getPublishKey())==='1';}
 function publishShift(){
   if(!confirm('このシフトをスタッフに公開しますか？'))return;
-  localStorage.setItem(getPublishKey(),'1');saveShift();updatePublishStatus();
+  const pk=getPublishKey();
+  localStorage.setItem(pk,'1');
+  _syncKeyToFirebase(pk,'1');  /* ← 公開フラグもFirebaseへ */
+  saveShift();
+  updatePublishStatus();
   alert('公開しました！スタッフが確認できます。');
 }
 function updatePublishStatus(){
@@ -1383,7 +1392,10 @@ function deleteStaffAvail(staffId, staffName){
   if(!confirm(`【${label}】の ${staffName} さんの希望を削除します。\nこの操作は取り消せません。よろしいですか？`))return;
   const avail=loadAvail(Y,M);
   delete avail[staffId];
-  localStorage.setItem(availKey(Y,M),JSON.stringify(avail));
+  const ak=availKey(Y,M);
+  const json=JSON.stringify(avail);
+  localStorage.setItem(ak,json);
+  _syncKeyToFirebase(ak,json);  /* ← Firebaseにも反映 */
   renderAvailPanel();
   showUpdateToast(`🗑 ${staffName}さんの${label}の希望を削除しました`);
 }
@@ -1603,6 +1615,7 @@ function saveMasterPassword(){
   if(!pw){alert('パスワードを入力してください');return;}
   if(pw.length<4){alert('パスワードは4文字以上にしてください');return;}
   localStorage.setItem(MASTER_PW_KEY,pw);
+  _syncKeyToFirebase(MASTER_PW_KEY,pw);  /* ← Firebaseにも反映 */
   document.getElementById('masterPwStatus').innerHTML='<span style="color:#065f46">✅ マスターパスワードを保存しました</span>';
   document.getElementById('masterPwInput').value='';
   setTimeout(()=>{document.getElementById('masterPwStatus').textContent='';},3000);
@@ -1611,6 +1624,8 @@ function saveMasterPassword(){
 function clearMasterPassword(){
   if(!confirm('マスターパスワードを削除しますか？\n削除後はこの機能が無効になります。'))return;
   localStorage.removeItem(MASTER_PW_KEY);
+  /* Firebaseからも削除 */
+  try{_fbDb.ref('pekin/db').update({[MASTER_PW_KEY]:null,_v:Date.now()});}catch(e){console.warn('fb rm master pw:',e);}
   document.getElementById('masterPwInput').value='';
   document.getElementById('masterPwStatus').innerHTML='<span style="color:#991b1b">🗑 マスターパスワードを削除しました</span>';
   setTimeout(()=>{document.getElementById('masterPwStatus').textContent='';renderMasterPwStatus();},2000);
@@ -1797,7 +1812,11 @@ function getTemplate(){
   }catch(e){return def;}
 }
 
-function saveTemplateData(t){localStorage.setItem(TEMPLATE_KEY,JSON.stringify(t));}
+function saveTemplateData(t){
+  const json=JSON.stringify(t);
+  localStorage.setItem(TEMPLATE_KEY,json);
+  _syncKeyToFirebase(TEMPLATE_KEY,json);  /* ← テンプレもFirebaseへ */
+}
 
 /* Week index (0-based) within the month, week starts on Sunday */
 function getWeekInMonth(y,m,d){
