@@ -624,6 +624,8 @@ function _finishSync(){
   const ov=document.getElementById('loadOverlay');
   if(ov)ov.style.display='none';
   _reRenderAllPanels();
+  /* PCの最新データをFirebaseへ一括プッシュ（モバイルが古いデータを見ないよう） */
+  setTimeout(_pushAllToFirebase,800);
 }
 
 /* 初回同期：Firebase→db.jsonの順で試みる */
@@ -662,9 +664,40 @@ _doInitialSync();
 /* Firebaseの指定キーを1件更新（save系関数から呼ぶ） */
 function _syncKeyToFirebase(key,value){
   try{
-    if(typeof _fbDb!=='undefined')
-      _fbDb.ref('pekin/db').update({[key]:value});
+    if(typeof _fbDb!=='undefined'){
+      const newV=Date.now();
+      _fbDb.ref('pekin/db').update({[key]:value,_v:newV});
+      localStorage.setItem('pekin_db_v',String(newV));
+    }
   }catch(e){console.warn('Firebase key sync failed:',key,e);}
+}
+
+/* PCの全管理データをFirebaseへ一括プッシュ（モバイル等が最新を取得できるよう） */
+function _pushAllToFirebase(){
+  try{
+    if(typeof _fbDb==='undefined')return;
+    const payload={};
+    /* 静的キー（users/settings/pw/template）*/
+    ['pekin_users','pekin_settings','pekin_master_pw','pekin_shift_template'].forEach(k=>{
+      const v=localStorage.getItem(k);
+      if(v!==null)payload[k]=v;
+    });
+    /* シフトデータ・公開フラグ（pekin_shift_*, pekin_published_*）*/
+    for(let i=0;i<localStorage.length;i++){
+      const k=localStorage.key(i);
+      if(!k)continue;
+      if(k.startsWith('pekin_shift_')||k.startsWith('pekin_published_')){
+        payload[k]=localStorage.getItem(k);
+      }
+    }
+    /* バージョンを現在時刻で更新（他端末が新しいデータを検知できるよう） */
+    const newV=Date.now();
+    payload._v=newV;
+    localStorage.setItem('pekin_db_v',String(newV));
+    _fbDb.ref('pekin/db').update(payload)
+      .then(()=>console.log('Full push to Firebase ✓',Object.keys(payload).length,'keys'))
+      .catch(e=>console.warn('Full push failed:',e));
+  }catch(e){console.warn('_pushAllToFirebase error:',e);}
 }
 
 /* リアルタイムリスナー：スタッフが希望を送信したら管理画面に即反映 */
