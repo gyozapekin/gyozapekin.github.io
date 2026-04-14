@@ -66,13 +66,24 @@ const _fbCfg={
 if(!firebase.apps.length)firebase.initializeApp(_fbCfg);
 const _fbDb=firebase.database();
 
-/* Firebaseのデータを全てlocalStorageに書き込む */
+/* ★バージョン優先方式：
+   - 初回ロード、またはFirebaseの_vがローカル以上 → Firebaseを採用
+   - ローカルが新しい（管理画面の未同期編集が残っている）→ ローカル温存
+   - ローカルに無いキーは常にFirebaseから補完 */
 function _applyDb(db){
+  const remoteV=db._v||0;
+  const localRawV=localStorage.getItem('pekin_db_v');
+  const localV=parseInt(localRawV||'0');
+  const isFirstLoad=localRawV===null;
+  const useFirebase=isFirstLoad||remoteV>=localV;
   Object.entries(db).forEach(([k,v])=>{
     if(k.startsWith('_'))return;
-    localStorage.setItem(k,typeof v==='string'?v:JSON.stringify(v));
+    const localHas=localStorage.getItem(k)!==null;
+    if(useFirebase||!localHas){
+      localStorage.setItem(k,typeof v==='string'?v:JSON.stringify(v));
+    }
   });
-  if(db._v)localStorage.setItem('pekin_db_v',String(db._v));
+  if(useFirebase&&db._v)localStorage.setItem('pekin_db_v',String(Math.max(remoteV,localV)));
 }
 
 /* バックグラウンド同期 + セッション残存時は自動リダイレクト */

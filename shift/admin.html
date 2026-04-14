@@ -556,11 +556,18 @@ if(!firebase.apps.length)firebase.initializeApp(_fbCfg);
 const _fbDb=firebase.database();
 
 /* dbオブジェクトをlocalStorageに書き込む
-   force=true → バージョン問わず全データ上書き（初回同期用）
+   ★バージョン優先方式：
+     - Firebaseのバージョン(_v)がローカル以上 → Firebaseを採用
+     - ローカルが新しい（未同期の編集が残っている）→ ローカル温存
+     - ローカルに無いキーは常にFirebaseから補完（他端末で追加された月など）
    pekin_users は賢いマージ：ローカルが多ければローカル優先＆Firebaseを更新 */
 function _applyDb(db, force=false){
   const remoteV=db._v||0;
-  const localV=parseInt(localStorage.getItem('pekin_db_v')||'0');
+  const localRawV=localStorage.getItem('pekin_db_v');
+  const localV=parseInt(localRawV||'0');
+  const isFirstLoad=localRawV===null;
+  /* Firebaseを全面採用するかの判定 */
+  const useFirebase=force||isFirstLoad||remoteV>=localV;
 
   /* pekin_users：管理者PCのローカルを正規ソースとして扱う
      ローカルにデータがある場合は常にローカル優先でFirebaseを更新。
@@ -582,22 +589,30 @@ function _applyDb(db, force=false){
     }catch(e){console.warn('pekin_users merge error:',e);}
   }
 
-  /* その他のSTATICキーは通常通り上書き */
+  /* その他のSTATICキー：Firebaseが新しい時 OR ローカルに無い時のみ上書き */
   _STATIC_KEYS.filter(k=>k!=='pekin_users').forEach(k=>{
-    if(db[k]!==undefined)
+    if(db[k]===undefined)return;
+    const localHas=localStorage.getItem(k)!==null;
+    if(useFirebase||!localHas)
       localStorage.setItem(k,typeof db[k]==='string'?db[k]:JSON.stringify(db[k]));
   });
 
-  /* 動的データ：forceまたはFirebaseバージョンがローカル以上の時に上書き */
-  if(force||remoteV>=localV){
-    Object.entries(db).forEach(([k,v])=>{
-      if(k.startsWith('_')||_STATIC_KEYS.includes(k))return;
+  /* 動的データ（pekin_shift_*, pekin_published_*, pekin_avail_* 等）
+     Firebaseが新しい → 全面上書き
+     ローカルが新しい → ローカル温存、ただしローカルに存在しないキーは補完 */
+  Object.entries(db).forEach(([k,v])=>{
+    if(k.startsWith('_')||_STATIC_KEYS.includes(k))return;
+    const localHas=localStorage.getItem(k)!==null;
+    if(useFirebase||!localHas)
       localStorage.setItem(k,typeof v==='string'?v:JSON.stringify(v));
-    });
-    localStorage.setItem('pekin_db_v',String(remoteV));
-    return true;
+  });
+
+  /* 動的キーのうち、Firebaseを全面採用した場合はバージョンもFirebase値に合わせる。
+     ローカルを温存した場合は localV を維持（直後の_pushAllToFirebaseで Firebase が追いつく） */
+  if(useFirebase){
+    localStorage.setItem('pekin_db_v',String(Math.max(remoteV,localV)));
   }
-  return false;
+  return true;
 }
 
 /* 全パネル再描画 */
@@ -637,7 +652,7 @@ async function _doInitialSync(){
       new Promise((_,rej)=>setTimeout(()=>rej(new Error('timeout')),5000))
     ]);
     if(snap&&snap.exists()){
-      _applyDb(snap.val(),true);  /* force=true: バージョン問わず全データ取得 */
+      _applyDb(snap.val());  /* バージョン比較：ローカルの未同期編集を守る */
       synced=true;
       console.log('Synced from Firebase ✓');
     }
@@ -671,10 +686,11 @@ function _syncKeyToFirebase(key,value){
   }catch(e){console.warn('Firebase key sync failed:',key,e);}
 }
 
-/* PCの全管理データをFirebaseへ一括プッシュ（モバイル等が最新を取得できるよう） */
+/* PCの全管理データをFirebaseへ一括プッシュ（モバイル等が最新を取得できるよう）
+   ★Promiseを返すのでlogout時にawaitで書き込み完了を待てる */
 function _pushAllToFirebase(){
   try{
-    if(typeof _fbDb==='undefined')return;
+    if(typeof _fbDb==='undefined')return Promise.resolve();
     const payload={};
     /* 静的キー（users/settings/pw/template）*/
     ['pekin_users','pekin_settings','pekin_master_pw','pekin_shift_template'].forEach(k=>{
@@ -693,11 +709,21 @@ function _pushAllToFirebase(){
     const newV=Date.now();
     payload._v=newV;
     localStorage.setItem('pekin_db_v',String(newV));
-    _fbDb.ref('pekin/db').update(payload)
-      .then(()=>console.log('Full push to Firebase ✓',Object.keys(payload).length,'keys'))
-      .catch(e=>console.warn('Full push failed:',e));
-  }catch(e){console.warn('_pushAllToFirebase error:',e);}
+    const p=_fbDb.ref('pekin/db').update(payload);
+    p.then(()=>console.log('Full push to Firebase ✓',Object.keys(payload).length,'keys'))
+     .catch(e=>console.warn('Full push failed:',e));
+    return p;
+  }catch(e){console.warn('_pushAllToFirebase error:',e);return Promise.resolve();}
 }
+
+/* ★ページ離脱時に未送信のデータをFirebaseへ最終フラッシュ
+   （ブラウザ閉じ・リロード・戻るボタン対策） */
+window.addEventListener('beforeunload',()=>{
+  try{_pushAllToFirebase();}catch(e){}
+});
+window.addEventListener('pagehide',()=>{
+  try{_pushAllToFirebase();}catch(e){}
+});
 
 /* リアルタイムリスナー：スタッフが希望を送信したら管理画面に即反映 */
 let _adminListenerReady=false;
@@ -732,7 +758,19 @@ function getSession(){
   if(sess.expires<Date.now()){sessionStorage.removeItem('pekin_session');return null;}
   return sess;
 }
-function logout(){sessionStorage.removeItem('pekin_session');location.href='index.html';}
+/* ★ログアウト時は必ずFirebaseへフラッシュしてから遷移
+   （saveShiftの非同期書き込みが未完了のまま画面遷移してデータが消えるのを防止） */
+async function logout(){
+  try{
+    /* 最大3秒待つ（遅くても必ず遷移） */
+    await Promise.race([
+      _pushAllToFirebase(),
+      new Promise(r=>setTimeout(r,3000))
+    ]);
+  }catch(e){console.warn('logout flush:',e);}
+  sessionStorage.removeItem('pekin_session');
+  location.href='index.html';
+}
 const sess=getSession();
 if(!sess||sess.role!=='admin'){location.href='index.html';}
 else document.getElementById('navUser').textContent=sess.name+' (管理者)';
