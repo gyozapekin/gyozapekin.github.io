@@ -14,6 +14,7 @@
    基本設定
    ===================== */
 body {
+  font-weight: 500;
   font-family: 'Hiragino Kaku Gothic ProN', 'Meiryo', 'MS PGothic', sans-serif;
   font-size: 14px;
   line-height: 1.8;
@@ -303,6 +304,15 @@ a:hover {
 
 .menu-table tr:nth-child(even) td {
   background: #fafafa;
+}
+
+/* メニュー価格列を右揃え・縦に統一 */
+.menu-table td:last-child,
+.menu-table th:last-child {
+  text-align: right;
+  white-space: nowrap;
+  width: 80px;
+  min-width: 80px;
 }
 
 .menu-img {
