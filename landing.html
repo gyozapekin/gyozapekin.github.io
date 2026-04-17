@@ -1,1 +1,538 @@
-test
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>海鮮餃子 北京 | 枚方にうまい店あり</title>
+<style>
+  *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+  body {
+    font-family: "Hiragino Kaku Gothic ProN","Noto Sans JP",sans-serif;
+    color: #1a1a1a;
+    background: #faf8f5;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    overflow: hidden;
+    background: linear-gradient(160deg, #1a0a00 0%, #3d1a08 40%, #5c2810 70%, #1a0a00 100%);
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 50% 80%, rgba(212,160,80,0.15) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    padding: 2rem 1.5rem;
+    max-width: 640px;
+  }
+  .hero-badge {
+    display: inline-block;
+    background: rgba(212,160,80,0.18);
+    border: 1px solid rgba(212,160,80,0.5);
+    border-radius: 999px;
+    padding: 0.35rem 1.2rem;
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    color: #d4a050;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+  }
+  .hero h1 {
+    font-size: clamp(2rem, 7vw, 3.6rem);
+    font-weight: 800;
+    color: #fff;
+    line-height: 1.25;
+    margin-bottom: 0.5rem;
+  }
+  .hero h1 span {
+    display: block;
+    background: linear-gradient(90deg, #d4a050, #f0d080);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .hero-sub {
+    font-size: 1.05rem;
+    color: rgba(255,255,255,0.75);
+    margin-bottom: 2rem;
+    line-height: 1.8;
+  }
+  .hero-cta {
+    display: inline-block;
+    background: linear-gradient(135deg, #c0392b, #e74c3c);
+    color: #fff;
+    font-size: 1.1rem;
+    font-weight: 700;
+    padding: 1rem 2.8rem;
+    border-radius: 999px;
+    text-decoration: none;
+    letter-spacing: 0.05em;
+    box-shadow: 0 8px 30px rgba(199,57,43,0.35);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .hero-cta:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(199,57,43,0.45); }
+  .media-strip {
+    background: #fff;
+    padding: 1.5rem 1rem;
+    text-align: center;
+    border-bottom: 1px solid #eee;
+  }
+  .media-strip p {
+    font-size: 0.75rem;
+    color: #999;
+    letter-spacing: 0.12em;
+    margin-bottom: 0.8rem;
+  }
+  .media-logos {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1.5rem 2.5rem;
+    align-items: center;
+  }
+  .media-logos span {
+    font-size: 0.85rem;
+    color: #666;
+    font-weight: 600;
+    white-space: nowrap;
+    padding: 0.4rem 1rem;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    background: #fafafa;
+  }
+  section { padding: 4rem 1.5rem; }
+  .section-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    color: #b08840;
+    text-transform: uppercase;
+    text-align: center;
+    margin-bottom: 0.5rem;
+  }
+  .section-title {
+    font-size: clamp(1.5rem, 5vw, 2.2rem);
+    font-weight: 800;
+    text-align: center;
+    margin-bottom: 0.8rem;
+    line-height: 1.3;
+  }
+  .section-desc {
+    text-align: center;
+    color: #666;
+    max-width: 560px;
+    margin: 0 auto 2.5rem;
+    font-size: 0.95rem;
+  }
+  .features { background: #fff; }
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 2rem;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .feature-card {
+    text-align: center;
+    padding: 2rem 1.5rem;
+    border-radius: 16px;
+    background: #faf8f5;
+    border: 1px solid #f0ebe3;
+  }
+  .feature-icon {
+    width: 56px; height: 56px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #d4a050, #f0d080);
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 1rem;
+    font-size: 1.5rem;
+  }
+  .feature-card h3 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+  .feature-card p {
+    font-size: 0.88rem;
+    color: #777;
+    line-height: 1.7;
+  }
+  .products { background: #faf8f5; }
+  .products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .product-card {
+    background: #fff;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+    transition: transform 0.2s;
+    position: relative;
+  }
+  .product-card:hover { transform: translateY(-4px); }
+  .product-card.featured { border: 2px solid #d4a050; }
+  .product-badge {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    background: linear-gradient(135deg, #d4a050, #c0392b);
+    color: #fff;
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 0.3rem 0.8rem;
+    border-radius: 999px;
+    letter-spacing: 0.05em;
+    z-index: 2;
+  }
+  .product-img {
+    width: 100%;
+    height: 200px;
+    background: linear-gradient(135deg, #f5ede0, #e8ddd0);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #bbb;
+    font-size: 0.85rem;
+  }
+  .product-body { padding: 1.5rem; }
+  .product-name {
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin-bottom: 0.3rem;
+  }
+  .product-desc {
+    font-size: 0.82rem;
+    color: #888;
+    margin-bottom: 1rem;
+    line-height: 1.6;
+  }
+  .product-price {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: #c0392b;
+  }
+  .product-price small {
+    font-size: 0.75rem;
+    font-weight: 400;
+    color: #999;
+  }
+  .product-btn {
+    display: block;
+    width: 100%;
+    margin-top: 1rem;
+    padding: 0.85rem;
+    text-align: center;
+    background: linear-gradient(135deg, #c0392b, #e74c3c);
+    color: #fff;
+    font-size: 0.95rem;
+    font-weight: 700;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: opacity 0.2s;
+  }
+  .product-btn:hover { opacity: 0.9; }
+  .product-btn.secondary {
+    background: linear-gradient(135deg, #2c3e50, #34495e);
+  }
+  .reviews { background: #fff; }
+  .reviews-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .review-card {
+    padding: 1.5rem;
+    border-radius: 12px;
+    background: #faf8f5;
+    border: 1px solid #f0ebe3;
+  }
+  .review-stars { color: #d4a050; font-size: 0.9rem; margin-bottom: 0.5rem; }
+  .review-text {
+    font-size: 0.9rem;
+    color: #555;
+    line-height: 1.7;
+    margin-bottom: 0.8rem;
+    font-style: italic;
+  }
+  .review-author { font-size: 0.8rem; color: #aaa; }
+  .line-cta {
+    background: linear-gradient(160deg, #1a0a00, #3d1a08);
+    text-align: center;
+    padding: 4rem 1.5rem;
+  }
+  .line-cta .section-label { color: #f0d080; }
+  .line-cta .section-title { color: #fff; }
+  .line-offer {
+    display: inline-block;
+    background: rgba(212,160,80,0.15);
+    border: 1px solid rgba(212,160,80,0.4);
+    border-radius: 12px;
+    padding: 1.5rem 2rem;
+    margin-bottom: 2rem;
+    max-width: 480px;
+  }
+  .line-offer p {
+    color: rgba(255,255,255,0.85);
+    font-size: 0.95rem;
+    line-height: 1.7;
+  }
+  .line-offer strong {
+    color: #f0d080;
+    font-size: 1.3rem;
+  }
+  .line-btn {
+    display: inline-block;
+    background: #06C755;
+    color: #fff;
+    font-size: 1.1rem;
+    font-weight: 700;
+    padding: 1rem 2.8rem;
+    border-radius: 999px;
+    text-decoration: none;
+    letter-spacing: 0.05em;
+    box-shadow: 0 8px 30px rgba(6,199,85,0.3);
+    transition: transform 0.2s;
+  }
+  .line-btn:hover { transform: translateY(-2px); }
+  .shop-info {
+    background: #faf8f5;
+    text-align: center;
+  }
+  .shop-details {
+    max-width: 560px;
+    margin: 0 auto;
+    font-size: 0.9rem;
+    color: #666;
+    line-height: 2;
+  }
+  .shop-details strong { color: #1a1a1a; }
+  footer {
+    background: #1a1a1a;
+    color: rgba(255,255,255,0.5);
+    text-align: center;
+    padding: 2rem 1rem;
+    font-size: 0.75rem;
+  }
+  .floating-cta {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(255,255,255,0.95);
+    backdrop-filter: blur(10px);
+    padding: 0.8rem 1rem;
+    display: flex;
+    gap: 0.6rem;
+    z-index: 100;
+    box-shadow: 0 -4px 20px rgba(0,0,0,0.1);
+  }
+  .floating-cta a {
+    flex: 1;
+    text-align: center;
+    padding: 0.75rem;
+    border-radius: 10px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: opacity 0.2s;
+  }
+  .floating-cta .btn-order {
+    background: linear-gradient(135deg, #c0392b, #e74c3c);
+    color: #fff;
+  }
+  .floating-cta .btn-line {
+    background: #06C755;
+    color: #fff;
+  }
+  @media (min-width: 768px) {
+    .floating-cta { display: none; }
+  }
+  .fade-in {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>
+</head>
+<body>
+<section class="hero">
+  <div class="hero-content fade-in">
+    <div class="hero-badge">📺 テレビ・メディアで話題</div>
+    <h1>
+      枚方にうまい店あり
+      <span>海鮮餃子 北京</span>
+    </h1>
+    <p class="hero-sub">
+      新鮮な海の幸を包んだ、ここにしかない餃子。<br>
+      テレビや雑誌で紹介された"枚方の味"を<br>
+      ご自宅までお届けします。
+    </p>
+    <a href="https://gyozapekin.official.ec/" class="hero-cta">
+      🥟 お取り寄せ注文はこちら
+    </a>
+  </div>
+</section>
+<div class="media-strip fade-in">
+  <p>— MEDIA —</p>
+  <div class="media-logos">
+    <span>📺 なるみ・岡村の過ぎるTV</span>
+    <span>📰 枚方市広報誌</span>
+    <span>🎥 YouTube多数紹介</span>
+    <span>📱 枚方つーしん</span>
+  </div>
+</div>
+<section class="features fade-in">
+  <p class="section-label">Why PEKIN?</p>
+  <h2 class="section-title">選ばれる3つの理由</h2>
+  <p class="section-desc">
+    創業以来、素材と手作りにこだわり続ける海鮮餃子の専門店。
+  </p>
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="feature-icon">🦐</div>
+      <h3>海の幸をまるごと</h3>
+      <p>海老・たこ・貝柱など、新鮮な海鮮素材をふんだんに使用。普通の餃子では味わえない贅沢な一口です。</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🥬</div>
+      <h3>減農薬野菜 × 新鮮豚肉</h3>
+      <p>安心・安全な減農薬野菜と新鮮な豚肉を使用。素材の力が味の違いを生みます。</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🤲</div>
+      <h3>すべて手包み</h3>
+      <p>一つひとつ職人が手で包む、昔ながらのスタイル。機械では出せないモチモチ食感をお届けします。</p>
+    </div>
+  </div>
+</section>
+<section class="products fade-in">
+  <p class="section-label">Products</p>
+  <h2 class="section-title">お取り寄せ餃子</h2>
+  <p class="section-desc">
+    冷凍でお届け、全国発送対応。ご家庭で焼きたての味をお楽しみください。
+  </p>
+  <div class="products-grid">
+    <div class="product-card featured">
+      <div class="product-badge">⭐ 一番人気</div>
+      <div class="product-img">［海鮮餃子セットの写真］</div>
+      <div class="product-body">
+        <p class="product-name">海鮮餃子セット</p>
+        <p class="product-desc">海老・たこ・しそ入り貝柱・肉餃子の4種が楽しめる欲張りセット。9個入り×5段の計45個。餃子のタレ付き。</p>
+        <p class="product-price">¥5,300 <small>（税込・送料別）</small></p>
+        <a href="https://gyozapekin.official.ec/" class="product-btn">このセットを注文する</a>
+      </div>
+    </div>
+    <div class="product-card">
+      <div class="product-badge" style="background:linear-gradient(135deg,#d4a050,#b08840);">👑 プレミアム</div>
+      <div class="product-img">［海王餃子セットの写真］</div>
+      <div class="product-body">
+        <p class="product-name">海王餃子セット</p>
+        <p class="product-desc">大ぶりの海王餃子をはじめ、海老・たこ・貝柱・肉餃子を詰め合わせた最上級セット。贈り物にも。</p>
+        <p class="product-price">¥6,650 <small>（税込・送料別）</small></p>
+        <a href="https://gyozapekin.official.ec/" class="product-btn secondary">このセットを注文する</a>
+      </div>
+    </div>
+    <div class="product-card">
+      <div class="product-img">［肉餃子セットの写真］</div>
+      <div class="product-body">
+        <p class="product-name">肉餃子セット</p>
+        <p class="product-desc">王道の肉餃子をたっぷり45個。まずはここから試したい方におすすめ。餃子のタレ付き。</p>
+        <p class="product-price">¥3,050 <small>（税込・送料別）</small></p>
+        <a href="https://gyozapekin.official.ec/" class="product-btn secondary">このセットを注文する</a>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="reviews fade-in">
+  <p class="section-label">Voice</p>
+  <h2 class="section-title">お客様の声</h2>
+  <p class="section-desc">全国からお取り寄せいただいたお客様の感想です。</p>
+  <div class="reviews-grid">
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">「海老餃子のプリプリ感がすごい！冷凍とは思えないクオリティで、家族全員大絶賛でした。」</p>
+      <p class="review-author">— 大阪府 M.K 様</p>
+    </div>
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">「テレビで見て即注文。届いて焼いたら本当に美味しくて、リピート確定です。」</p>
+      <p class="review-author">— 東京都 S.T 様</p>
+    </div>
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">「贈り物に海王餃子セットを送ったら、すごく喜ばれました。自分用にもまた頼みます。」</p>
+      <p class="review-author">— 兵庫県 A.Y 様</p>
+    </div>
+  </div>
+</section>
+<section class="line-cta fade-in">
+  <p class="section-label">Special Offer</p>
+  <h2 class="section-title">LINE登録で初回特典</h2>
+  <div class="line-offer">
+    <p>
+      LINEお友だち登録で<br>
+      ご来店時<br>
+      <strong>ドリンク1杯 無料🍺</strong>
+    </p>
+  </div>
+  <br>
+  <a href="#" class="line-btn">LINEで友だち追加する</a>
+</section>
+<section class="shop-info fade-in">
+  <p class="section-label">Shop</p>
+  <h2 class="section-title">店舗情報</h2>
+  <div class="shop-details">
+    <strong>海鮮餃子 北京</strong><br>
+    〒573-0022 大阪府枚方市宮之阪1-19-2<br>
+    京阪電車「宮之阪駅」徒歩約2分<br>
+    TEL: 072-849-0433<br>
+    営業時間: 11:30〜22:00（L.O. 21:45）<br>
+    定休日: 火曜日<br>
+    駐車場: 4台（満車時は隣のコインパーキング）
+  </div>
+</section>
+<footer>
+  <p>&copy; 2009 - 2026 海鮮餃子 北京（Kaisen Gyoza PEKIN）</p>
+</footer>
+<div class="floating-cta">
+  <a href="https://gyozapekin.official.ec/" class="btn-order">🥟 注文する</a>
+  <a href="#" class="btn-line">💬 LINE登録</a>
+</div>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          obs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.15 });
+    document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
+  });
+</script>
+</body>
+</html>
