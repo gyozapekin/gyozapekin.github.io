@@ -25,10 +25,10 @@
     .link-item:hover { background: #eee; transform: translateY(-1px); }
     .link-item i { font-size: 22px; width: 28px; text-align: center; flex-shrink: 0; }
     .icon-base { color: #c0392b; } .icon-x { color: #000; } .icon-instagram { color: #E1306C; } .icon-threads { color: #000; } .icon-tiktok { color: #000; } .icon-home { color: #c0392b; } .icon-youtube { color: #FF0000; } .icon-mixi { color: #d35400; }
-    .characters { display: flex; justify-content: center; gap: 16px; margin-top: 24px; padding-top: 20px; border-top: 1px solid #ddd; }
-    .character { text-align: center; }
-    .character img { width: 100px; height: auto; border-radius: 8px; }
-    .character-name { font-size: 12px; color: #666; margin-top: 4px; }
+    .characters { display: flex; justify-content: space-around; align-items: flex-end; margin: 12px 0 16px; gap: 4px; }
+    .character { flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; }
+    .character img { width: 100%; max-width: 110px; height: 140px; object-fit: contain; object-position: center bottom; display: block; }
+    .character-name { margin-top: 6px; font-size: 13px; text-align: center; color: #444; }
     .copyright { font-size: 11px; color: #999; margin-top: 16px; }
     @media (max-width: 560px) { .card { margin: 16px 12px; padding: 24px 16px; } .caricature { width: 240px; } .character img { width: 80px; } }
   </style>
