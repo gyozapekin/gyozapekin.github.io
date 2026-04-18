@@ -828,3 +828,19 @@ a:hover {
     max-width: 340px;
   }
 }
+
+/* =====================
+   言語切替ボタン（ナビ末尾）
+   ===================== */
+.site-nav ul li a.lang-switch {
+  background: #c0392b;
+  color: #ffffff;
+  font-weight: bold;
+  border-radius: 4px;
+  margin: 4px;
+  padding: 6px 14px;
+}
+.site-nav ul li a.lang-switch:hover {
+  background: #e74c3c;
+  color: #ffffff;
+}
