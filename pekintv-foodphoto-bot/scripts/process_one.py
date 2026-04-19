@@ -19,6 +19,20 @@ from pekintv_bot.logging_setup import setup_logging  # noqa: E402
 from pekintv_bot.pipeline import process  # noqa: E402
 
 
+_ALT_EXTS = [".jpg", ".jpeg", ".JPG", ".JPEG", ".png", ".PNG", ".heic", ".HEIC", ".webp", ".WEBP"]
+
+
+def resolve_image_path(p: Path) -> Path:
+    if p.exists():
+        return p
+    base = p.with_suffix("")
+    for ext in _ALT_EXTS:
+        candidate = base.with_suffix(ext)
+        if candidate.exists():
+            return candidate
+    raise FileNotFoundError(f"Image not found: {p} (also tried {_ALT_EXTS})")
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("image", type=Path)
@@ -26,6 +40,7 @@ def main(argv: list[str] | None = None) -> int:
                         help="Force one style: wood | overhead | backlight | custom <prompt>")
     args = parser.parse_args(argv)
 
+    args.image = resolve_image_path(args.image)
     cfg = load_config()
     cfg.ensure_dirs()
     setup_logging(cfg.log_dir)
