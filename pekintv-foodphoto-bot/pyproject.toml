@@ -1,0 +1,36 @@
+[project]
+name = "pekintv-foodphoto-bot"
+version = "0.1.0"
+description = "Auto-enhance food photos from Box Sync into SNS-ready drafts for PekinTV (北京)."
+requires-python = ">=3.11"
+dependencies = [
+    "google-genai>=1.0.0",
+    "watchdog>=4.0.0",
+    "Pillow>=10.0.0",
+    "pillow-heif>=0.18.0",
+    "python-dotenv>=1.0.0",
+    "loguru>=0.7.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0.0",
+    "pytest-mock>=3.12.0",
+]
+
+[project.scripts]
+pekintv-process = "pekintv_bot.cli:process_one_main"
+pekintv-watch = "pekintv_bot.cli:watch_main"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+markers = [
+    "visual: uses real Gemini API; run with -m visual",
+]
+testpaths = ["tests"]
