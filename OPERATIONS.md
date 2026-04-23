@@ -25,7 +25,7 @@
 layout: post
 title: "ここに記事のタイトル"
 date: 2026-05-01 12:00:00 +0900
-category: oshirase
+news_category: oshirase
 description: "検索結果やSNSシェアに表示される短い説明文（120文字以内推奨）"
 ---
 

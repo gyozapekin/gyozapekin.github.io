@@ -2,7 +2,7 @@
 layout: post
 title: "公式サイトをリニューアルしました"
 date: 2026-04-23 22:00:00 +0900
-category: oshirase
+news_category: oshirase
 description: "海鮮餃子 北京 の公式サイトをリニューアルしました。これからはこちらで最新情報をお届けします。"
 ---
 

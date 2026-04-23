@@ -15,7 +15,7 @@ permalink: /news/
 <!-- カテゴリフィルタ -->
 <nav class="category-filter" aria-label="カテゴリ絞り込み">
   <button class="active" data-cat="all">すべて</button>
-  {% for category in site.categories %}
+  {% for category in site.news_categories %}
     <button data-cat="{{ category.id }}" style="border-color: {{ category.color }};">
       {{ category.name }}
     </button>
@@ -25,16 +25,16 @@ permalink: /news/
 <!-- 記事一覧 -->
 <ul class="news-list">
   {% for post in site.posts %}
-    {% assign cat = site.categories | where: 'id', post.category | first %}
-    <li class="news-item" data-cat="{{ post.category }}">
+    {% assign cat = site.news_categories | where: 'id', post.news_category | first %}
+    <li class="news-item" data-cat="{{ post.news_category }}">
       <span class="news-date">
         <time datetime="{{ post.date | date_to_xmlschema }}">
           {{ post.date | date: "%Y.%m.%d" }}
         </time>
       </span>
-      {% if post.category %}
+      {% if post.news_category %}
         <span class="news-category" style="background-color: {{ cat.color | default: '#999' }};">
-          {{ cat.name | default: post.category }}
+          {{ cat.name | default: post.news_category }}
         </span>
       {% endif %}
       <span class="news-title">

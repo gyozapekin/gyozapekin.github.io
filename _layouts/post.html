@@ -14,10 +14,10 @@ layout: default
 
   <!-- 記事ヘッダー -->
   <header class="post-header">
-    {% if page.category %}
-      {% assign cat = site.categories | where: 'id', page.category | first %}
+    {% if page.news_category %}
+      {% assign cat = site.news_categories | where: 'id', page.news_category | first %}
       <span class="post-category" style="background-color: {{ cat.color | default: '#ccc' }};">
-        {{ cat.name | default: page.category }}
+        {{ cat.name | default: page.news_category }}
       </span>
     {% endif %}
 

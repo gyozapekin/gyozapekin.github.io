@@ -60,8 +60,8 @@ social:
   line_official: https://line.me/R/
   ec: https://thebase.in/
 
-# 記事カテゴリ（blog.htmlに準拠）
-categories:
+# 記事カテゴリ（news_categoriesという名前にしてJekyllの予約変数categoriesとの衝突を回避）
+news_categories:
   - id: media
     name: メディア情報
     color: "#7DCEA0"

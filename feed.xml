@@ -18,7 +18,7 @@ permalink: /feed.xml
       <link>{{ site.url }}{{ post.url }}</link>
       <guid isPermaLink="true">{{ site.url }}{{ post.url }}</guid>
       <pubDate>{{ post.date | date_to_rfc822 }}</pubDate>
-      {% if post.category %}<category>{{ post.category }}</category>{% endif %}
+      {% if post.news_category %}<category>{{ post.news_category }}</category>{% endif %}
     </item>
     {% endfor %}
   </channel>
