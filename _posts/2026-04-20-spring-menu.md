@@ -4,6 +4,7 @@ title: "春の新メニューが始まりました"
 date: 2026-04-20 12:00:00 +0900
 news_category: oryori
 description: "春らしい季節の食材を使った新メニューが登場。期間限定の海鮮餃子もご用意しました。"
+published: false
 ---
 
 春の新メニューが始まりました。
