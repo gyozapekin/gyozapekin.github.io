@@ -1,0 +1,85 @@
+---
+layout: default
+---
+<article class="post" itemscope itemtype="https://schema.org/Article">
+
+  <!-- パンくずリスト -->
+  <nav class="breadcrumb" aria-label="パンくず">
+    <a href="/">ホーム</a>
+    <span class="sep">&gt;</span>
+    <a href="/news/">お知らせ</a>
+    <span class="sep">&gt;</span>
+    <span>{{ page.title }}</span>
+  </nav>
+
+  <!-- 記事ヘッダー -->
+  <header class="post-header">
+    {% if page.category %}
+      {% assign cat = site.categories | where: 'id', page.category | first %}
+      <span class="post-category" style="background-color: {{ cat.color | default: '#ccc' }};">
+        {{ cat.name | default: page.category }}
+      </span>
+    {% endif %}
+
+    <h1 class="post-title" itemprop="headline">{{ page.title }}</h1>
+
+    <div class="post-meta">
+      <time datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished">
+        {{ page.date | date: "%Y年%-m月%-d日" }}
+      </time>
+      {% if page.author %}
+        <span itemprop="author" itemscope itemtype="https://schema.org/Person">
+          <span itemprop="name">{{ page.author }}</span>
+        </span>
+      {% endif %}
+    </div>
+  </header>
+
+  <!-- アイキャッチ画像 -->
+  {% if page.image %}
+    <figure class="post-eyecatch">
+      <img src="{{ page.image }}" alt="{{ page.title }}" itemprop="image">
+      {% if page.image_caption %}
+        <figcaption>{{ page.image_caption }}</figcaption>
+      {% endif %}
+    </figure>
+  {% endif %}
+
+  <!-- 本文 -->
+  <div class="post-content" itemprop="articleBody">
+    {{ content }}
+  </div>
+
+  <!-- シェアボタン -->
+  <div class="post-share">
+    <span class="share-label">この記事をシェア:</span>
+    <a href="https://x.com/intent/tweet?url={{ site.url }}{{ page.url | url_encode }}&text={{ page.title | url_encode }}"
+       target="_blank" rel="noopener" aria-label="Xでシェア" class="share-x">X</a>
+    <a href="https://www.facebook.com/sharer/sharer.php?u={{ site.url }}{{ page.url | url_encode }}"
+       target="_blank" rel="noopener" aria-label="Facebookでシェア" class="share-fb">Facebook</a>
+    <a href="https://social-plugins.line.me/lineit/share?url={{ site.url }}{{ page.url | url_encode }}"
+       target="_blank" rel="noopener" aria-label="LINEでシェア" class="share-line">LINE</a>
+  </div>
+
+  <!-- 前後の記事 -->
+  <nav class="post-navigation" aria-label="前後の記事">
+    {% if page.previous %}
+      <a href="{{ page.previous.url }}" class="prev">
+        <span class="label">前の記事</span>
+        <span class="title">{{ page.previous.title }}</span>
+      </a>
+    {% endif %}
+    {% if page.next %}
+      <a href="{{ page.next.url }}" class="next">
+        <span class="label">次の記事</span>
+        <span class="title">{{ page.next.title }}</span>
+      </a>
+    {% endif %}
+  </nav>
+
+  <!-- 一覧に戻る -->
+  <div class="back-to-list">
+    <a href="/news/">&laquo; お知らせ一覧へ戻る</a>
+  </div>
+
+</article>

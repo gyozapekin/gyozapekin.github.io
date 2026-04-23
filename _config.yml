@@ -1,0 +1,76 @@
+# Jekyll サイト設定
+# 海鮮餃子 北京 公式サイト
+
+title: 海鮮餃子 北京
+title_en: Gyoza Pekin
+description: 大阪府枚方市の中華料理店。手作りの海鮮餃子が名物。テレビ番組でも紹介された地元で愛される餃子専門店です。
+url: "https://gyozapekin.github.io"
+lang: ja
+timezone: Asia/Tokyo
+
+# パーマリンク（記事URL）の形式
+# 例: /news/2026/04/23/first-post/
+permalink: /news/:year/:month/:day/:title/
+
+# Markdown処理エンジン
+markdown: kramdown
+kramdown:
+  input: GFM
+  hard_wrap: false
+
+# デフォルトレイアウト
+defaults:
+  - scope:
+      path: ""
+      type: posts
+    values:
+      layout: post
+      lang: ja
+
+# Jekyll処理対象外のファイル
+exclude:
+  - README.md
+  - .gitignore
+  - CNAME
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor
+  - OPERATIONS.md
+
+# 既存HTMLファイルはそのまま配信（Jekyll処理せず）
+keep_files:
+  - css
+  - images
+  - en
+  - shift
+
+# ソーシャル / 店舗情報（記事やOGPタグで使用）
+restaurant:
+  name: 海鮮餃子 北京
+  address: 〒573-0022 大阪府枚方市宮之阪 1-19-2
+  phone: 072-849-0433
+  fax: 072-849-0606
+  email: kaisen.gyoza.pekin@gmail.com
+  hours: 火曜・水曜定休（臨時変更あり）
+
+social:
+  instagram: https://www.instagram.com/
+  x: https://x.com/
+  line_official: https://line.me/R/
+  ec: https://thebase.in/
+
+# 記事カテゴリ（blog.htmlに準拠）
+categories:
+  - id: media
+    name: メディア情報
+    color: "#7DCEA0"
+  - id: oshirase
+    name: お知らせ
+    color: "#F1948A"
+  - id: oyasumi
+    name: お休みのお知らせ
+    color: "#F8C471"
+  - id: oryori
+    name: つぶやき・お料理
+    color: "#85C1E9"

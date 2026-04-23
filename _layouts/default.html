@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="{{ page.lang | default: site.lang | default: 'ja' }}">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="format-detection" content="telephone=no">
+
+<!-- 基本メタ情報 -->
+<title>{% if page.title %}{{ page.title }} | {{ site.title }}{% else %}{{ site.title }}{% endif %}</title>
+<meta name="description" content="{{ page.description | default: site.description }}">
+<meta name="author" content="{{ site.title }}">
+
+<!-- OGP / Twitter Card -->
+<meta property="og:site_name" content="{{ site.title }}">
+<meta property="og:title" content="{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}">
+<meta property="og:description" content="{{ page.description | default: site.description }}">
+<meta property="og:type" content="{% if page.layout == 'post' %}article{% else %}website{% endif %}">
+<meta property="og:url" content="{{ site.url }}{{ page.url }}">
+<meta property="og:image" content="{% if page.image %}{{ site.url }}{{ page.image }}{% else %}{{ site.url }}/images/ogp-default.jpg{% endif %}">
+<meta property="og:locale" content="ja_JP">
+<meta name="twitter:card" content="summary_large_image">
+
+<!-- 構造化データ: LocalBusiness（飲食店） -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Restaurant",
+  "name": "{{ site.restaurant.name }}",
+  "url": "{{ site.url }}",
+  "telephone": "{{ site.restaurant.phone }}",
+  "email": "{{ site.restaurant.email }}",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "宮之阪 1-19-2",
+    "addressLocality": "枚方市",
+    "addressRegion": "大阪府",
+    "postalCode": "573-0022",
+    "addressCountry": "JP"
+  },
+  "servesCuisine": ["中華料理", "餃子", "海鮮餃子"]
+}
+</script>
+
+<!-- スタイル -->
+<link rel="stylesheet" href="/css/news.css">
+
+<!-- Favicon -->
+<link rel="icon" type="image/png" href="/images/favicon.png">
+
+<!-- RSSフィード -->
+<link rel="alternate" type="application/rss+xml" title="{{ site.title }} お知らせ" href="/feed.xml">
+</head>
+
+<body>
+
+<!-- ヘッダー（既存サイトと統一） -->
+<header class="site-header">
+  <a href="/" class="logo-link" aria-label="海鮮餃子 北京 ホーム">
+    <img src="/images/logo-banner.jpg" alt="海鮮餃子 北京" class="logo-banner"
+         onerror="this.style.display='none'; this.parentElement.innerHTML='<h1 style=\'margin:0;color:#c0392b;font-size:2rem;\'>海鮮餃子 北京</h1>';">
+  </a>
+</header>
+
+<!-- メインナビゲーション -->
+<nav class="main-nav" aria-label="メインメニュー">
+  <ul>
+    <li><a href="/">ホーム</a></li>
+    <li><a href="/order.html">ネットショップ</a></li>
+    <li><a href="/menu.html">メニュー</a></li>
+    <li><a href="/about.html">店舗紹介</a></li>
+    <li><a href="/howto.html">餃子の焼き方</a></li>
+    <li><a href="/news/" class="current">お知らせ</a></li>
+    <li><a href="/gallery.html">ギャラリー</a></li>
+    <li><a href="/contact.html">お問合わせ</a></li>
+    <li><a href="/en/" class="lang-switch">English</a></li>
+  </ul>
+</nav>
+
+<!-- メインコンテンツ -->
+<main class="site-main">
+  {{ content }}
+</main>
+
+<!-- フッター -->
+<footer class="site-footer">
+  <nav class="footer-nav">
+    <a href="/">ホーム</a>
+    <a href="/menu.html">メニュー</a>
+    <a href="/about.html">店舗紹介</a>
+    <a href="/contact.html">お問合わせ</a>
+    <a href="/news/">お知らせ</a>
+  </nav>
+  <p class="copyright">&copy; 海鮮餃子 北京 All Rights Reserved.</p>
+  <p class="address">{{ site.restaurant.address }}　電話: <a href="tel:{{ site.restaurant.phone }}">{{ site.restaurant.phone }}</a></p>
+</footer>
+
+</body>
+</html>

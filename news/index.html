@@ -1,0 +1,76 @@
+---
+layout: default
+title: お知らせ
+description: 海鮮餃子 北京の最新のお知らせ、メディア情報、イベント情報、お休み情報をお届けします。
+permalink: /news/
+---
+
+<!-- 導入セクション -->
+<section class="news-intro">
+  <h1>お知らせ</h1>
+  <p>海鮮餃子 北京 の最新情報をお届けします。<br>
+  メディア掲載情報、臨時休業のご案内、キャンペーン情報など。</p>
+</section>
+
+<!-- カテゴリフィルタ -->
+<nav class="category-filter" aria-label="カテゴリ絞り込み">
+  <button class="active" data-cat="all">すべて</button>
+  {% for category in site.categories %}
+    <button data-cat="{{ category.id }}" style="border-color: {{ category.color }};">
+      {{ category.name }}
+    </button>
+  {% endfor %}
+</nav>
+
+<!-- 記事一覧 -->
+<ul class="news-list">
+  {% for post in site.posts %}
+    {% assign cat = site.categories | where: 'id', post.category | first %}
+    <li class="news-item" data-cat="{{ post.category }}">
+      <span class="news-date">
+        <time datetime="{{ post.date | date_to_xmlschema }}">
+          {{ post.date | date: "%Y.%m.%d" }}
+        </time>
+      </span>
+      {% if post.category %}
+        <span class="news-category" style="background-color: {{ cat.color | default: '#999' }};">
+          {{ cat.name | default: post.category }}
+        </span>
+      {% endif %}
+      <span class="news-title">
+        <a href="{{ post.url }}">{{ post.title }}</a>
+      </span>
+    </li>
+  {% endfor %}
+</ul>
+
+{% if site.posts.size == 0 %}
+  <p style="text-align:center; padding: 2em; color: #888;">
+    まだお知らせはありません。もうすぐ最初の記事を投稿します。
+  </p>
+{% endif %}
+
+<!-- カテゴリフィルタのJavaScript -->
+<script>
+(function() {
+  var buttons = document.querySelectorAll('.category-filter button');
+  var items = document.querySelectorAll('.news-item');
+
+  buttons.forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var cat = btn.getAttribute('data-cat');
+
+      buttons.forEach(function(b) { b.classList.remove('active'); });
+      btn.classList.add('active');
+
+      items.forEach(function(item) {
+        if (cat === 'all' || item.getAttribute('data-cat') === cat) {
+          item.style.display = '';
+        } else {
+          item.style.display = 'none';
+        }
+      });
+    });
+  });
+})();
+</script>
