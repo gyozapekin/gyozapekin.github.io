@@ -1,0 +1,568 @@
+---
+permalink: /hirakata-preview/
+sitemap: false
+---
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>[PREVIEW] 海鮮餃子 北京 | 大阪・枚方の手作り海鮮餃子</title>
+<meta name="description" content="大阪府枚方市の中華料理店「海鮮餃子 北京」公式サイト。テレビ・YouTubeで紹介された看板の海鮮餃子。お取り寄せ全国発送対応。">
+<meta name="robots" content="noindex, nofollow">
+
+<!-- OGP -->
+<meta property="og:title" content="海鮮餃子 北京 | 大阪・枚方の手作り海鮮餃子">
+<meta property="og:description" content="テレビ・YouTube・雑誌で紹介された、地元枚方で愛される手作り海鮮餃子のお店。お取り寄せ全国発送あり。">
+<meta property="og:image" content="https://gyozapekin.com/images/food_photo1.jpg">
+<meta property="og:type" content="restaurant">
+<meta property="og:url" content="https://gyozapekin.com/hirakata-preview/">
+
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;500;700;900&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+  body {
+    font-family: "Noto Sans JP", "Hiragino Kaku Gothic ProN", sans-serif;
+    color: #222;
+    background: #fff;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+  img { max-width: 100%; height: auto; display: block; }
+  a { color: inherit; text-decoration: none; }
+  .serif { font-family: "Noto Serif JP", "Hiragino Mincho ProN", "Yu Mincho", serif; }
+
+  /* プレビューバナー */
+  .preview-banner {
+    position: fixed; top: 0; left: 0; right: 0;
+    background: linear-gradient(90deg, #f1c40f, #f39c12);
+    color: #000; padding: 8px 16px;
+    font-size: 12px; font-weight: 700; text-align: center;
+    z-index: 200;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  }
+  .preview-banner a { color: #c0392b; text-decoration: underline; }
+
+  /* 言語切替バー */
+  .lang-bar {
+    position: fixed; top: 32px; left: 0; right: 0;
+    z-index: 100;
+    display: flex; justify-content: flex-end;
+    padding: 12px 16px;
+    background: linear-gradient(180deg, rgba(0,0,0,0.6), rgba(0,0,0,0));
+    pointer-events: none;
+  }
+  .lang-bar a {
+    pointer-events: auto;
+    background: rgba(192,57,43,0.95);
+    color: #fff;
+    padding: 6px 18px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 700;
+    backdrop-filter: blur(8px);
+  }
+
+  /* ヒーロー */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
+    padding: 100px 20px 40px;
+    text-align: center;
+    color: #fff;
+    background-image: linear-gradient(rgba(0,0,0,0.55), rgba(20,0,0,0.65)), url('/images/food_photo1.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+  }
+  .hero-logo {
+    width: 280px; max-width: 70vw;
+    margin: 0 auto 24px;
+    filter: drop-shadow(0 4px 12px rgba(0,0,0,0.4));
+  }
+  .hero-catchphrase {
+    font-size: clamp(18px, 4vw, 28px);
+    font-weight: 500; letter-spacing: 0.15em;
+    margin-bottom: 12px;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.6);
+    opacity: 0; animation: fadeUp 0.8s 0.3s forwards;
+  }
+  .hero-title {
+    font-size: clamp(36px, 8vw, 64px);
+    font-weight: 900; letter-spacing: 0.1em;
+    margin-bottom: 16px;
+    text-shadow: 0 4px 12px rgba(0,0,0,0.7);
+    opacity: 0; animation: fadeUp 0.8s 0.5s forwards;
+  }
+  .hero-title .accent { color: #f1c40f; }
+  .hero-sub {
+    font-size: clamp(14px, 2.5vw, 17px);
+    font-weight: 400; line-height: 2;
+    margin-bottom: 32px;
+    text-shadow: 0 2px 6px rgba(0,0,0,0.5);
+    opacity: 0; animation: fadeUp 0.8s 0.7s forwards;
+  }
+  .hero-cta {
+    display: flex; gap: 16px; flex-wrap: wrap; justify-content: center;
+    opacity: 0; animation: fadeUp 0.8s 0.9s forwards;
+  }
+  .btn-primary, .btn-secondary {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 14px 32px; border-radius: 999px;
+    font-weight: 700; font-size: 15px;
+    transition: transform 0.2s, box-shadow 0.2s;
+    border: 2px solid transparent;
+  }
+  .btn-primary {
+    background: #c0392b; color: #fff;
+    box-shadow: 0 6px 20px rgba(192,57,43,0.5);
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(192,57,43,0.7); }
+  .btn-secondary {
+    background: rgba(255,255,255,0.15); color: #fff;
+    border-color: rgba(255,255,255,0.5);
+    backdrop-filter: blur(6px);
+  }
+  .btn-secondary:hover { background: rgba(255,255,255,0.25); transform: translateY(-2px); }
+
+  .scroll-hint {
+    position: absolute; bottom: 24px; left: 50%; transform: translateX(-50%);
+    color: #fff; font-size: 12px; opacity: 0.85;
+    animation: bounce 2s infinite;
+  }
+  .scroll-hint i { display: block; margin-top: 4px; font-size: 18px; }
+
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: none; } }
+  @keyframes bounce { 0%,100%{ transform: translate(-50%,0); } 50% { transform: translate(-50%,8px); } }
+
+  /* セクション */
+  section { padding: 64px 20px; }
+  .container { max-width: 960px; margin: 0 auto; }
+  .section-title {
+    text-align: center;
+    font-size: clamp(24px, 5vw, 34px);
+    font-weight: 700; margin-bottom: 12px;
+    letter-spacing: 0.05em;
+  }
+  .section-title::after {
+    content: ""; display: block; width: 60px; height: 3px;
+    background: linear-gradient(90deg, #c0392b, #f1c40f);
+    margin: 16px auto 0;
+  }
+  .section-subtitle {
+    text-align: center; color: #888;
+    font-size: 13px; letter-spacing: 0.3em;
+    text-transform: uppercase; margin-bottom: 8px;
+  }
+
+  /* こだわり */
+  .story {
+    background: #fdfaf5;
+    background-image: radial-gradient(circle at 10% 10%, #fef9e7 0%, #fdfaf5 50%);
+  }
+  .story-text {
+    max-width: 720px; margin: 32px auto 0;
+    font-size: 16px; text-align: center; line-height: 2.2;
+  }
+  .story-features {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 24px; margin-top: 40px;
+  }
+  .feature-card {
+    text-align: center; padding: 28px 16px;
+    background: #fff; border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.05);
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  .feature-card:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(0,0,0,0.1); }
+  .feature-icon {
+    width: 60px; height: 60px; margin: 0 auto 16px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #c0392b, #e74c3c);
+    color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 26px;
+    box-shadow: 0 4px 12px rgba(192,57,43,0.3);
+  }
+  .feature-title { font-size: 17px; font-weight: 700; margin-bottom: 8px; }
+  .feature-desc { font-size: 13px; color: #555; line-height: 1.7; }
+
+  /* 看板メニュー */
+  .menu-highlight { background: #1a1a1a; color: #fff; }
+  .menu-highlight .section-title { color: #fff; }
+  .menu-highlight .section-subtitle { color: #f1c40f; }
+  .menu-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px; margin-top: 40px;
+  }
+  .menu-card {
+    background: #2a2a2a;
+    border-radius: 12px; overflow: hidden;
+    transition: transform 0.3s;
+  }
+  .menu-card:hover { transform: translateY(-4px); }
+  .menu-card-img {
+    width: 100%; height: 180px;
+    background-size: cover; background-position: center;
+    background-color: #444;
+  }
+  .menu-card-body { padding: 20px; }
+  .menu-card-title { font-size: 18px; font-weight: 700; margin-bottom: 6px; color: #f1c40f; }
+  .menu-card-desc { font-size: 13px; color: #ccc; line-height: 1.6; }
+  .menu-cta { text-align: center; margin-top: 40px; }
+
+  /* メディア */
+  .media { background: #fff; }
+  .media-list {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px; margin-top: 32px;
+  }
+  .media-item {
+    padding: 20px 24px;
+    border: 2px solid #f1c40f; border-radius: 12px;
+    background: #fff; text-align: left;
+    display: flex; gap: 16px; align-items: flex-start;
+    transition: transform 0.2s, border-color 0.2s;
+  }
+  .media-item:hover { transform: translateY(-2px); border-color: #c0392b; }
+  .media-item i { font-size: 28px; color: #c0392b; flex-shrink: 0; }
+  .media-item-content { flex: 1; }
+  .media-item-label { font-size: 11px; color: #c0392b; font-weight: 700; letter-spacing: 0.1em; }
+  .media-item-title { font-size: 15px; font-weight: 700; margin: 4px 0; }
+  .media-item-desc { font-size: 12px; color: #666; }
+
+  /* チーム */
+  .team { background: linear-gradient(135deg, #fef9e7 0%, #fff 100%); }
+  .team-grid {
+    display: flex; justify-content: center; gap: 24px; flex-wrap: wrap;
+    margin-top: 40px;
+  }
+  .team-member { text-align: center; max-width: 160px; }
+  .team-member-photo {
+    width: 140px; height: 180px; margin: 0 auto 12px;
+    object-fit: contain; object-position: center bottom;
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.15));
+  }
+  .team-member-name { font-size: 16px; font-weight: 700; color: #c0392b; }
+
+  /* アクセス */
+  .access { background: #f8f8f8; }
+  .access-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 32px; margin-top: 40px;
+  }
+  .access-info { padding: 8px; }
+  .access-info dl { display: grid; grid-template-columns: 100px 1fr; gap: 8px 16px; font-size: 14px; }
+  .access-info dt { font-weight: 700; color: #c0392b; }
+  .access-info dd { line-height: 1.7; }
+  .access-info a { color: #2c3e50; text-decoration: underline; word-break: break-all; }
+  .map-wrapper {
+    border-radius: 12px; overflow: hidden;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+    aspect-ratio: 4/3;
+  }
+  .map-wrapper iframe { width: 100%; height: 100%; border: 0; }
+  @media (max-width: 720px) {
+    .access-grid { grid-template-columns: 1fr; }
+  }
+
+  /* リンク集 */
+  .links { background: #1a1a1a; color: #fff; }
+  .links .section-title { color: #fff; }
+  .links .section-subtitle { color: #f1c40f; }
+  .links-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 12px; margin-top: 32px;
+  }
+  .link-card {
+    display: flex; align-items: center; gap: 12px;
+    padding: 16px 20px;
+    background: #2a2a2a; border-radius: 10px;
+    transition: background 0.2s, transform 0.2s;
+    color: #fff;
+  }
+  .link-card:hover { background: #3a3a3a; transform: translateX(4px); }
+  .link-card i { font-size: 22px; width: 28px; text-align: center; flex-shrink: 0; }
+  .link-card .label { font-size: 14px; font-weight: 600; }
+  .icon-store { color: #c0392b; }
+  .icon-x { color: #fff; }
+  .icon-instagram { color: #E1306C; }
+  .icon-threads { color: #fff; }
+  .icon-tiktok { color: #69C9D0; }
+  .icon-youtube { color: #FF0000; }
+  .icon-mixi { color: #d35400; }
+  .icon-home { color: #f1c40f; }
+
+  footer {
+    background: #0d0d0d; color: #888;
+    padding: 32px 20px; text-align: center; font-size: 12px;
+  }
+  footer a { color: #f1c40f; }
+  footer .footer-links {
+    margin-bottom: 12px;
+    display: flex; justify-content: center; gap: 16px; flex-wrap: wrap;
+  }
+  footer .footer-links a { color: #aaa; font-size: 13px; }
+  footer .footer-links a:hover { color: #f1c40f; }
+
+  .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
+  .reveal.visible { opacity: 1; transform: none; }
+</style>
+</head>
+<body>
+
+<div class="preview-banner">
+  プレビュー版です（検索エンジン非公開） — 本番URL: <a href="/hirakata/">/hirakata/</a>
+</div>
+
+<div class="lang-bar">
+  <a href="/hirakataeng.html" aria-label="English">English</a>
+</div>
+
+<!-- ヒーロー -->
+<section class="hero">
+  <img src="/images/Teampekin.png" alt="海鮮餃子 北京 ファミリー" class="hero-logo">
+  <p class="hero-catchphrase serif">枚方に、うまい店あり</p>
+  <h1 class="hero-title serif">海鮮餃子 <span class="accent">北京</span></h1>
+  <p class="hero-sub">
+    地元枚方で長く愛されてきた、手作り海鮮餃子の街中華<br>
+    テレビ・YouTube・雑誌でも紹介された、こだわりの一品をどうぞ
+  </p>
+  <div class="hero-cta">
+    <a href="https://gyozapekin.official.ec/" target="_blank" rel="noopener" class="btn-primary">
+      <i class="fas fa-store"></i> お取り寄せはこちら
+    </a>
+    <a href="#access" class="btn-secondary">
+      <i class="fas fa-map-marker-alt"></i> アクセス・営業情報
+    </a>
+  </div>
+  <div class="scroll-hint">
+    SCROLL
+    <i class="fas fa-chevron-down"></i>
+  </div>
+</section>
+
+<!-- こだわり -->
+<section class="story reveal">
+  <div class="container">
+    <p class="section-subtitle">Our Story</p>
+    <h2 class="section-title serif">北京のこだわり</h2>
+    <p class="story-text">
+      毎日手作りにこだわった皮で包む、新鮮な海鮮の旨味。<br>
+      看板の海鮮餃子は、海老・たこ・貝柱を贅沢に使った当店の自慢の逸品です。<br>
+      地元のお客様にも、遠方からお越しの方にも、本当においしい餃子を。
+    </p>
+    <div class="story-features">
+      <div class="feature-card">
+        <div class="feature-icon"><i class="fas fa-hands"></i></div>
+        <div class="feature-title">皮から手作り</div>
+        <div class="feature-desc">毎朝仕込む手作りの皮で、海鮮の旨味をしっかり包み込みます。</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon"><i class="fas fa-fish"></i></div>
+        <div class="feature-title">新鮮な海鮮</div>
+        <div class="feature-desc">海老・たこ・貝柱を贅沢に使用した、看板「海鮮トリオ餃子」。</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon"><i class="fas fa-truck"></i></div>
+        <div class="feature-title">全国お取り寄せ</div>
+        <div class="feature-desc">遠方のお客様にも、ご自宅で本格的な海鮮餃子をお楽しみいただけます。</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon"><i class="fas fa-tv"></i></div>
+        <div class="feature-title">メディア実績</div>
+        <div class="feature-desc">関西テレビ「なるみ・岡村の過ぎるTV」など、数々の番組で紹介。</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 看板メニュー -->
+<section class="menu-highlight reveal">
+  <div class="container">
+    <p class="section-subtitle">Signature Menu</p>
+    <h2 class="section-title serif">看板メニュー</h2>
+    <div class="menu-grid">
+      <div class="menu-card">
+        <div class="menu-card-img" style="background-image: url('/images/food_photo1.jpg');"></div>
+        <div class="menu-card-body">
+          <div class="menu-card-title">海鮮トリオ餃子</div>
+          <div class="menu-card-desc">海老2・たこ2・貝柱2の贅沢な組み合わせ。お店の看板メニュー。</div>
+        </div>
+      </div>
+      <div class="menu-card">
+        <div class="menu-card-img" style="background-image: url('/images/char_mama.jpg');"></div>
+        <div class="menu-card-body">
+          <div class="menu-card-title">海老餃子</div>
+          <div class="menu-card-desc">プリプリの海老の食感がクセになる人気メニュー。</div>
+        </div>
+      </div>
+      <div class="menu-card">
+        <div class="menu-card-img" style="background-image: url('/images/food_photo1.jpg');"></div>
+        <div class="menu-card-body">
+          <div class="menu-card-title">海王餃子（22cm特大）</div>
+          <div class="menu-card-desc">驚きの22cm！シェアして楽しむ大型餃子。インパクト抜群。</div>
+        </div>
+      </div>
+    </div>
+    <div class="menu-cta">
+      <a href="/menu.html" class="btn-primary"><i class="fas fa-utensils"></i> メニュー全部を見る</a>
+    </div>
+  </div>
+</section>
+
+<!-- メディア -->
+<section class="media reveal">
+  <div class="container">
+    <p class="section-subtitle">As Featured In</p>
+    <h2 class="section-title serif">メディア掲載</h2>
+    <div class="media-list">
+      <a href="https://youtu.be/m1BMpTX0Vm8?si=7iV66_mL-d-z9qnA" target="_blank" rel="noopener" class="media-item">
+        <i class="fas fa-tv"></i>
+        <div class="media-item-content">
+          <div class="media-item-label">TV</div>
+          <div class="media-item-title">なるみ・岡村の過ぎるTV</div>
+          <div class="media-item-desc">関西テレビの人気番組で紹介されました</div>
+        </div>
+      </a>
+      <a href="https://youtu.be/m1BMpTX0Vm8?si=7iV66_mL-d-z9qnA" target="_blank" rel="noopener" class="media-item">
+        <i class="fa-brands fa-youtube"></i>
+        <div class="media-item-content">
+          <div class="media-item-label">YOUTUBE</div>
+          <div class="media-item-title">しごとぎや たまゆら</div>
+          <div class="media-item-desc">YouTubeで店舗紹介をしていただきました</div>
+        </div>
+      </a>
+      <div class="media-item">
+        <i class="fas fa-newspaper"></i>
+        <div class="media-item-content">
+          <div class="media-item-label">MAGAZINE</div>
+          <div class="media-item-title">枚方ローカルメディア</div>
+          <div class="media-item-desc">地元情報誌で複数回掲載</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- チーム -->
+<section class="team reveal">
+  <div class="container">
+    <p class="section-subtitle">Our Team</p>
+    <h2 class="section-title serif">北京ファミリー</h2>
+    <div class="team-grid">
+      <div class="team-member">
+        <img src="/images/Mama.png" alt="ママさん" class="team-member-photo">
+        <div class="team-member-name">ママさん</div>
+      </div>
+      <div class="team-member">
+        <img src="/images/Hiro.png" alt="ひろ" class="team-member-photo">
+        <div class="team-member-name">ひろ</div>
+      </div>
+      <div class="team-member">
+        <img src="/images/Chie.png" alt="ちえちゃん" class="team-member-photo">
+        <div class="team-member-name">ちえちゃん</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- アクセス -->
+<section id="access" class="access reveal">
+  <div class="container">
+    <p class="section-subtitle">Access & Hours</p>
+    <h2 class="section-title serif">店舗情報・アクセス</h2>
+    <div class="access-grid">
+      <div class="access-info">
+        <dl>
+          <dt>住所</dt><dd>〒573-0022<br>大阪府枚方市宮之阪 1-19-2</dd>
+          <dt>電話</dt><dd><a href="tel:072-849-0433">072-849-0433</a></dd>
+          <dt>FAX</dt><dd><a href="tel:072-849-0606">072-849-0606</a></dd>
+          <dt>メール</dt><dd><a href="mailto:kaisen.gyoza.pekin@gmail.com">kaisen.gyoza.pekin@gmail.com</a></dd>
+          <dt>定休日</dt><dd>毎週火曜日・水曜日<br><span style="color:#888;font-size:12px;">※臨時変更あり</span></dd>
+          <dt>支払い</dt><dd>現金 / 各種キャッシュレス</dd>
+        </dl>
+      </div>
+      <div class="map-wrapper">
+        <iframe
+          src="https://maps.google.com/maps?q=%E6%B5%B7%E9%AE%AE%E9%A4%83%E5%AD%90%E5%8C%97%E4%BA%AC%20%E6%9E%9A%E6%96%B9%E5%AE%AE%E4%B9%8B%E9%98%AA&t=m&z=16&output=embed"
+          loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen
+          title="海鮮餃子 北京 - Google Map">
+        </iframe>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- リンク -->
+<section class="links reveal">
+  <div class="container">
+    <p class="section-subtitle">Follow Us</p>
+    <h2 class="section-title serif">SNS・各種リンク</h2>
+    <div class="links-grid">
+      <a href="https://gyozapekin.official.ec/" target="_blank" rel="noopener" class="link-card">
+        <i class="fas fa-store icon-store"></i><span class="label">BASEネットショップ</span>
+      </a>
+      <a href="https://twitter.com/Gyozapekin" target="_blank" rel="noopener" class="link-card">
+        <i class="fa-brands fa-x-twitter icon-x"></i><span class="label">X / Gyozapekin</span>
+      </a>
+      <a href="https://www.instagram.com/gyozapekin/" target="_blank" rel="noopener" class="link-card">
+        <i class="fa-brands fa-instagram icon-instagram"></i><span class="label">Instagram</span>
+      </a>
+      <a href="https://www.threads.net/@gyozapekin" target="_blank" rel="noopener" class="link-card">
+        <i class="fa-brands fa-threads icon-threads"></i><span class="label">Threads</span>
+      </a>
+      <a href="https://www.tiktok.com/@kaisen_gyoza_pekin" target="_blank" rel="noopener" class="link-card">
+        <i class="fa-brands fa-tiktok icon-tiktok"></i><span class="label">TikTok</span>
+      </a>
+      <a href="https://youtu.be/m1BMpTX0Vm8?si=7iV66_mL-d-z9qnA" target="_blank" rel="noopener" class="link-card">
+        <i class="fa-brands fa-youtube icon-youtube"></i><span class="label">YouTube動画</span>
+      </a>
+      <a href="https://mixi.social/@gyozapekin" target="_blank" rel="noopener" class="link-card">
+        <i class="fas fa-comment-dots icon-mixi"></i><span class="label">Mixi2</span>
+      </a>
+      <a href="/" class="link-card">
+        <i class="fas fa-home icon-home"></i><span class="label">公式ホームページ</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-links">
+    <a href="/">ホーム</a>
+    <a href="/menu.html">メニュー</a>
+    <a href="/news/">お知らせ</a>
+    <a href="/contact.html">お問合わせ</a>
+    <a href="/hirakataeng.html">English</a>
+  </div>
+  <p>&copy; 海鮮餃子 北京 All Rights Reserved.</p>
+  <p style="margin-top:6px; font-size:11px;">〒573-0022 大阪府枚方市宮之阪 1-19-2 / Tel: 072-849-0433</p>
+</footer>
+
+<script>
+(function(){
+  const targets = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+  targets.forEach(el => io.observe(el));
+})();
+</script>
+
+</body>
+</html>
