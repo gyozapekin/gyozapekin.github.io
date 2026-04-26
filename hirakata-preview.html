@@ -211,9 +211,23 @@ sitemap: false
   }
   .menu-card:hover { transform: translateY(-4px); }
   .menu-card-img {
-    width: 100%; height: 180px;
+    width: 100%; height: 220px;
     background-size: cover; background-position: center;
     background-color: #444;
+    /* シズル感を出すフィルター：暖色寄り・コントラスト・彩度強め */
+    filter: saturate(1.25) contrast(1.10) brightness(1.05) sepia(0.05);
+    transition: filter 0.3s, transform 0.3s;
+    position: relative;
+  }
+  .menu-card-img::after {
+    /* 微かなビネット（端を暗く）で立体感を演出 */
+    content: ""; position: absolute; inset: 0;
+    background: radial-gradient(ellipse at center, rgba(0,0,0,0) 55%, rgba(0,0,0,0.35) 100%);
+    pointer-events: none;
+  }
+  .menu-card:hover .menu-card-img {
+    filter: saturate(1.35) contrast(1.15) brightness(1.08) sepia(0.05);
+    transform: scale(1.02);
   }
   .menu-card-body { padding: 20px; }
   .menu-card-title { font-size: 18px; font-weight: 700; margin-bottom: 6px; color: #f1c40f; }
@@ -392,25 +406,28 @@ sitemap: false
     <p class="section-subtitle">Signature Menu</p>
     <h2 class="section-title serif">看板メニュー</h2>
     <div class="menu-grid">
+      <!-- 左：海鮮トリオ餃子 -->
       <div class="menu-card">
-        <div class="menu-card-img" style="background-image: url('/images/food_photo1.jpg');"></div>
+        <div class="menu-card-img" style="background-image: url('/images/menu_torio.jpeg');"></div>
         <div class="menu-card-body">
           <div class="menu-card-title">海鮮トリオ餃子</div>
-          <div class="menu-card-desc">海老2・たこ2・貝柱2の贅沢な組み合わせ。お店の看板メニュー。</div>
+          <div class="menu-card-desc">海老・たこ・貝柱の3つの海の幸を、ひとつの特注皮にぎゅっと包み込みました。三色に染まった皮の下から海鮮の甘みと旨みが広がる、北京一番の自慢の逸品です。</div>
         </div>
       </div>
+      <!-- 中央：肉餃子 -->
       <div class="menu-card">
-        <div class="menu-card-img" style="background-image: url('/images/char_mama.jpg');"></div>
+        <div class="menu-card-img" style="background-image: url('/images/menu_niku.jpeg');"></div>
         <div class="menu-card-body">
-          <div class="menu-card-title">海老餃子</div>
-          <div class="menu-card-desc">プリプリの海老の食感がクセになる人気メニュー。</div>
+          <div class="menu-card-title">肉餃子</div>
+          <div class="menu-card-desc">毎日ひとつひとつ手包み。豚肉と国産野菜の餡を特注の皮で包み、香ばしくこんがり焼き上げた、北京の街中華の原点とも言える定番の焼き餃子です。</div>
         </div>
       </div>
+      <!-- 右：海王餃子（22cm特大） -->
       <div class="menu-card">
-        <div class="menu-card-img" style="background-image: url('/images/food_photo1.jpg');"></div>
+        <div class="menu-card-img" style="background-image: url('/images/menu_kaiou.jpeg');"></div>
         <div class="menu-card-body">
           <div class="menu-card-title">海王餃子（22cm特大）</div>
-          <div class="menu-card-desc">驚きの22cm！シェアして楽しむ大型餃子。インパクト抜群。</div>
+          <div class="menu-card-desc">驚きの全長22cm。プリッと尾を出した大ぶりの海老を、もっちり蒸し上げた皮で丸ごと包んだインパクト抜群の特大餃子。シェアして楽しむ、記念日にもぴったりの一品。</div>
         </div>
       </div>
     </div>
