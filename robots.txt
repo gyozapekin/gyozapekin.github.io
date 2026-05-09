@@ -1,8 +1,2 @@
 User-agent: *
-Allow: /
-
-# シフト管理ページはクロールさせない
 Disallow: /shift/
-Disallow: /shift.html
-
-Sitemap: https://gyozapekin.github.io/sitemap.xml
