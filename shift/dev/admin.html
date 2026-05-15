@@ -1694,7 +1694,7 @@ function renderAvailPanel(){
   const days=new Date(Y,M+1,0).getDate();
 
   let html=`<div style="margin-bottom:10px;padding:10px 12px;background:#fef3c7;border-left:3px solid #f59e0b;border-radius:6px;font-size:.85em;color:#78350f">
-    ヒント: セルをクリックするとそのスタッフ・その日の希望を代理編集できます。スタッフ名をクリックすると月単位の代理入力ページが開きます。
+    ヒント: 各セルは上段が☀昼・下段が🌙夜です。セルをクリックするとそのスタッフ・その日の希望を代理編集できます。スタッフ名をクリックすると月単位の代理入力ページが開きます。
   </div>
   <div class="avail-table-wrap"><table class="avail-table"><thead><tr>
     <th>スタッフ</th><th>種別</th><th style="min-width:64px">削除</th>`;
@@ -1724,16 +1724,20 @@ function renderAvailPanel(){
       const sym=(x)=>x==='ok'?'○':x==='off'?'×':x==='maybe'?'△':'—';
       const cls=(x)=>x==='ok'?'atag-ok':x==='off'?'atag-off':x==='maybe'?'atag-maybe':'atag-none';
       if(!v){
-        html+=`<td style="cursor:pointer" onclick="openAvailEdit('${s.id}','${sNameEsc}',${d})" title="${M+1}月${d}日 ${s.name}さんの希望を代理編集">
-          <span class="atag atag-none" style="font-size:.65em">—</span></td>`;
+        /* 未入力でも昼/夜の2行を確保（縦並び）して列幅を統一 */
+        html+=`<td style="cursor:pointer;padding:2px 3px;text-align:center" onclick="openAvailEdit('${s.id}','${sNameEsc}',${d})" title="${M+1}月${d}日 ${s.name}さんの希望を代理編集">
+          <span class="atag atag-none" style="font-size:.6em;padding:1px 3px;display:block">☀—</span>
+          <span class="atag atag-none" style="font-size:.6em;padding:1px 3px;display:block;margin-top:2px">🌙—</span>
+        </td>`;
         continue;
       }
       const lv=typeof v==='string'?v:(v.lunch||'');
       const dv=typeof v==='string'?v:(v.dinner||'');
-      html+=`<td style="white-space:nowrap;padding:4px 2px;cursor:pointer"
+      /* 昼☀を上、夜🌙を下に縦並びで表示（display:block で列幅を節約） */
+      html+=`<td style="padding:2px 3px;cursor:pointer;text-align:center"
         onclick="openAvailEdit('${s.id}','${sNameEsc}',${d})" title="${M+1}月${d}日 ${s.name}さんの希望を代理編集">
-        <span class="atag ${cls(lv)}" style="font-size:.6em;padding:1px 3px" title="昼">☀${sym(lv)}</span>
-        <span class="atag ${cls(dv)}" style="font-size:.6em;padding:1px 3px;margin-left:1px" title="夜">🌙${sym(dv)}</span>
+        <span class="atag ${cls(lv)}" style="font-size:.6em;padding:1px 3px;display:block" title="昼">☀${sym(lv)}</span>
+        <span class="atag ${cls(dv)}" style="font-size:.6em;padding:1px 3px;display:block;margin-top:2px" title="夜">🌙${sym(dv)}</span>
       </td>`;
     }
     html+='</tr>';
@@ -2735,16 +2739,4 @@ function doExcelExport(){
     /* ヘッダー行スタイル（背景色） */
     const range=XLSX.utils.decode_range(ws['!ref']);
     for(let C=range.s.c;C<=range.e.c;C++){
-      const addr=XLSX.utils.encode_cell({r:0,c:C});
-      if(!ws[addr])continue;
-      ws[addr].s={fill:{fgColor:{rgb:'2C3E50'}},font:{bold:true,color:{rgb:'FFFFFF'}},alignment:{horizontal:'center'}};
-    }
-    XLSX.utils.book_append_sheet(wb,ws,sheetName);
-  }
-  const fname=months===1?`北京の希望_${sy}年${sm+1}月.xlsx`:`北京の希望_${sy}年${sm+1}月〜${months}ヶ月.xlsx`;
-  XLSX.writeFile(wb,fname);
-  closeExcelModal();
-}
-
-/* Backdrop close */
-['editOverlay','staffOve
+      const addr=XLS
