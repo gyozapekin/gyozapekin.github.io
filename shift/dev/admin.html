@@ -597,6 +597,48 @@ OKを押すとファイル選択画面が開きます。`)) return;
     </div>
   </div>
 
+  <!-- 希望入力の締切設定 -->
+  <div class="sec">
+    <div class="sec-head" style="background:#0e7490">⏰ 希望入力の締切日</div>
+    <div class="sec-body">
+      <p style="font-size:.83em;color:#475569;margin-bottom:14px">
+        スタッフが翌月のシフト希望を入力できる締切日を設定します。<br>
+        例：「20日」の場合、6月分のシフト希望は前月（5月）の20日23:59まで入力可能になります。<br>
+        <span style="color:#94a3b8;font-size:.9em">締切後は入力ボタンが無効化されます（延長設定でスタッフ別に延長可能）</span>
+      </p>
+      <div style="display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin-bottom:12px">
+        <label style="display:flex;gap:6px;align-items:center;font-size:.92em">
+          <input type="checkbox" id="deadlineEnabledChk"> 締切機能を有効にする
+        </label>
+        <div style="display:flex;gap:6px;align-items:center;font-size:.92em">
+          <span>毎月</span>
+          <input type="number" id="deadlineDayInput" min="1" max="31" value="20"
+            style="width:60px;border:1.5px solid #e2e8f0;border-radius:7px;padding:6px 8px;text-align:center;font-size:.95em">
+          <span>日まで（前月の同日締切）</span>
+        </div>
+        <button class="cbtn cbtn-blue" onclick="saveDeadlineSettings()">💾 保存する</button>
+      </div>
+      <div id="deadlineStatus" style="font-size:.85em;color:#475569;padding:8px 12px;background:#f1f5f9;border-radius:7px"></div>
+    </div>
+  </div>
+
+  <!-- スタッフ別の延長設定 -->
+  <div class="sec">
+    <div class="sec-head" style="background:#a16207">⏳ スタッフ別の締切延長</div>
+    <div class="sec-body">
+      <p style="font-size:.83em;color:#475569;margin-bottom:14px">
+        特定のスタッフに対して、翌月分の入力締切を延長することができます。<br>
+        <span style="color:#94a3b8;font-size:.9em">延長日付の入力欄を空にして保存すると延長解除になります。</span>
+      </p>
+      <div style="margin-bottom:12px;display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+        <span style="font-size:.9em">対象月：</span>
+        <select id="extensionMonthSel" style="border:1.5px solid #e2e8f0;border-radius:7px;padding:6px 10px;font-size:.92em;background:#fff"></select>
+        <button class="cbtn cbtn-outline" onclick="renderExtensionList()">🔄 更新</button>
+      </div>
+      <div id="extensionList"></div>
+    </div>
+  </div>
+
   <div class="sec">
     <div class="sec-head" style="background:#7c3aed">🔑 管理者マスターパスワード</div>
     <div class="sec-body">
@@ -729,6 +771,46 @@ OKを押すとファイル選択画面が開きます。`)) return;
     <div class="modal-actions">
       <button class="mbtn mbtn-cancel" onclick="closeExcelModal()">キャンセル</button>
       <button class="mbtn mbtn-save"   onclick="doExcelExport()">📥 ダウンロード</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: アドミン代理編集（単日のavail編集） -->
+<div class="overlay" id="availEditOverlay">
+  <div class="modal">
+    <div style="font-size:.78em;color:var(--muted);margin-bottom:4px" id="availEditSub"></div>
+    <div class="modal-head" id="availEditHead">スタッフの希望を編集</div>
+    <div class="fg">
+      <label style="font-weight:700;color:#0e7490">☀ 昼の部（11:00〜14:00）</label>
+      <div class="chips" id="availEditLunchChips" style="margin-top:6px"></div>
+    </div>
+    <div class="fg">
+      <label style="font-weight:700;color:#7c3aed">🌙 夜の部（18:00〜21:00）</label>
+      <div class="chips" id="availEditDinnerChips" style="margin-top:6px"></div>
+    </div>
+    <div style="font-size:.78em;color:#94a3b8;margin-top:4px;padding:8px 10px;background:#f8fafc;border-radius:6px">
+      ※ 管理者による代理編集です。スタッフ自身が再送信すると上書きされます。
+    </div>
+    <div class="modal-actions">
+      <button class="mbtn mbtn-cancel" onclick="closeAvailEditModal()">キャンセル</button>
+      <button class="mbtn mbtn-save"   onclick="saveAvailEdit()">💾 保存</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: スタッフ別 月単位の代理入力ページ -->
+<div class="overlay" id="staffAvailOverlay">
+  <div class="modal" style="width:720px;max-width:96vw;max-height:90vh;overflow:auto">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+      <div>
+        <div style="font-size:.78em;color:var(--muted)" id="staffAvailSub"></div>
+        <div class="modal-head" style="margin:2px 0" id="staffAvailHead">スタッフ別 希望入力</div>
+      </div>
+      <button onclick="closeStaffAvailModal()" style="background:none;border:none;font-size:1.4em;cursor:pointer;color:#94a3b8">×</button>
+    </div>
+    <div id="staffAvailBody"></div>
+    <div class="modal-actions">
+      <button class="mbtn mbtn-cancel" onclick="closeStaffAvailModal()">閉じる</button>
     </div>
   </div>
 </div>
@@ -998,14 +1080,46 @@ function getStaffList(){return getUsers().filter(u=>u.role==='staff');}
 ════════════════════════════════════════ */
 const SETTINGS_KEY='pekin_settings';
 function getSettings(){
-  const def={defaultClosedDays:[2,3],specialDates:{}};
-  try{return Object.assign({},def,JSON.parse(localStorage.getItem(SETTINGS_KEY)||'{}'));}
-  catch(e){return def;}
+  /* deadline: スタッフ希望入力の毎月の締切日設定（enabled=true なら有効、day=1〜31） */
+  /* extensions: スタッフごとの延長設定 { [staffId]: { [yearMonth]: 'YYYY-MM-DD' } } */
+  const def={defaultClosedDays:[2,3],specialDates:{},deadline:{enabled:true,day:20},extensions:{}};
+  try{
+    const s=Object.assign({},def,JSON.parse(localStorage.getItem(SETTINGS_KEY)||'{}'));
+    /* 旧データに deadline/extensions がない場合の補完 */
+    if(!s.deadline)s.deadline={enabled:true,day:20};
+    if(!s.extensions)s.extensions={};
+    return s;
+  }catch(e){return def;}
 }
 function saveSettings(s){
   const json=JSON.stringify(s);
   localStorage.setItem(SETTINGS_KEY,json);
   _syncKeyToFirebase(SETTINGS_KEY,json);
+}
+
+/* 締切判定: targetY, targetM の月の希望入力が現在締切済みかどうか
+   通常: 毎月 settings.deadline.day までは「翌月分」を入力可能
+   延長: settings.extensions[staffId][yearMonth] が今日以降ならOK
+   返り値: {closed:boolean, deadlineDate:Date, isExtended:boolean, extendedTo:Date|null} */
+function getDeadlineStatus(targetY,targetM,staffId){
+  const s=getSettings();
+  if(!s.deadline||!s.deadline.enabled)return {closed:false,deadlineDate:null,isExtended:false,extendedTo:null};
+  const day=Math.max(1,Math.min(31,parseInt(s.deadline.day,10)||20));
+  /* 締切ロジック: 「対象月のN日まで」のシンプルなルール（前月のN日まで翌月分） */
+  /* 例: 6月分の入力は5月N日23:59まで → deadline = (targetY,targetM-1,day,23,59,59) */
+  let dy=targetY, dm=targetM-1;
+  if(dm<0){dm=11;dy--;}
+  const deadlineDate=new Date(dy,dm,day,23,59,59);
+  const now=new Date();
+  const ym=`${targetY}-${String(targetM+1).padStart(2,'0')}`;
+  const extStr=(s.extensions&&s.extensions[staffId]&&s.extensions[staffId][ym])||'';
+  let extendedTo=null;
+  if(extStr){
+    const [ey,em,ed]=extStr.split('-').map(n=>parseInt(n,10));
+    if(ey&&em&&ed)extendedTo=new Date(ey,em-1,ed,23,59,59);
+  }
+  const effective=extendedTo&&extendedTo>deadlineDate?extendedTo:deadlineDate;
+  return {closed:now>effective,deadlineDate,isExtended:!!extendedTo,extendedTo};
 }
 
 const dKey=(y,m,d)=>`${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
@@ -1579,7 +1693,10 @@ function renderAvailPanel(){
   if(staffList.length===0){body.innerHTML='<div class="empty-state">スタッフが登録されていません</div>';return;}
   const days=new Date(Y,M+1,0).getDate();
 
-  let html=`<div class="avail-table-wrap"><table class="avail-table"><thead><tr>
+  let html=`<div style="margin-bottom:10px;padding:10px 12px;background:#fef3c7;border-left:3px solid #f59e0b;border-radius:6px;font-size:.85em;color:#78350f">
+    ヒント: セルをクリックするとそのスタッフ・その日の希望を代理編集できます。スタッフ名をクリックすると月単位の代理入力ページが開きます。
+  </div>
+  <div class="avail-table-wrap"><table class="avail-table"><thead><tr>
     <th>スタッフ</th><th>種別</th><th style="min-width:64px">削除</th>`;
   for(let d=1;d<=days;d++){
     if(isClosedDay(Y,M,d))continue;
@@ -1592,22 +1709,29 @@ function renderAvailPanel(){
     const typeLabel={part:'パート',fixed:'固定',free:'フリー',alt:'アルバイト'}[s.type]||'';
     const badgeCls={part:'sb-part',fixed:'sb-fixed',free:'sb-free',alt:'sb-alt'}[s.type]||'';
     const hasEntry=Object.keys(sav).length>0;
-    html+=`<tr><td style="text-align:left;font-weight:600">${s.name}</td>
+    const sNameEsc=s.name.replace(/'/g,"\\'");
+    html+=`<tr><td style="text-align:left;font-weight:600;cursor:pointer;color:#0e7490;text-decoration:underline"
+      onclick="openStaffAvailModal('${s.id}','${sNameEsc}')" title="${s.name}さんの月単位の代理入力ページを開く">${s.name}</td>
       <td><span class="sbadge2 ${badgeCls}">${typeLabel}</span></td>
       <td style="text-align:center">${hasEntry
-        ?`<button onclick="deleteStaffAvail('${s.id}','${s.name}')" title="${M+1}月の${s.name}さんの希望を削除"
+        ?`<button onclick="deleteStaffAvail('${s.id}','${sNameEsc}')" title="${M+1}月の${s.name}さんの希望を削除"
             style="background:none;border:1px solid #fca5a5;border-radius:4px;padding:2px 7px;font-size:.72em;color:#991b1b;cursor:pointer">🗑</button>`
         :'<span style="font-size:.7em;color:#cbd5e1">—</span>'
       }</td>`;
     for(let d=1;d<=days;d++){
       if(isClosedDay(Y,M,d))continue;
       const k=dKey(Y,M,d);const v=sav[k];
-      if(!v){html+=`<td><span class="atag atag-none" style="font-size:.65em">—</span></td>`;continue;}
-      const lv=typeof v==='string'?v:(v.lunch||'');
-      const dv=typeof v==='string'?v:(v.dinner||'');
       const sym=(x)=>x==='ok'?'○':x==='off'?'×':x==='maybe'?'△':'—';
       const cls=(x)=>x==='ok'?'atag-ok':x==='off'?'atag-off':x==='maybe'?'atag-maybe':'atag-none';
-      html+=`<td style="white-space:nowrap;padding:4px 2px">
+      if(!v){
+        html+=`<td style="cursor:pointer" onclick="openAvailEdit('${s.id}','${sNameEsc}',${d})" title="${M+1}月${d}日 ${s.name}さんの希望を代理編集">
+          <span class="atag atag-none" style="font-size:.65em">—</span></td>`;
+        continue;
+      }
+      const lv=typeof v==='string'?v:(v.lunch||'');
+      const dv=typeof v==='string'?v:(v.dinner||'');
+      html+=`<td style="white-space:nowrap;padding:4px 2px;cursor:pointer"
+        onclick="openAvailEdit('${s.id}','${sNameEsc}',${d})" title="${M+1}月${d}日 ${s.name}さんの希望を代理編集">
         <span class="atag ${cls(lv)}" style="font-size:.6em;padding:1px 3px" title="昼">☀${sym(lv)}</span>
         <span class="atag ${cls(dv)}" style="font-size:.6em;padding:1px 3px;margin-left:1px" title="夜">🌙${sym(dv)}</span>
       </td>`;
@@ -1629,6 +1753,160 @@ function deleteStaffAvail(staffId, staffName){
   _syncKeyToFirebase(ak,json);  /* ← Firebaseにも反映 */
   renderAvailPanel();
   showUpdateToast(`🗑 ${staffName}さんの${label}の希望を削除しました`);
+}
+
+/* ════════════════════════════════════════
+   ADMIN: アドミン代理編集（単日のavail編集）
+════════════════════════════════════════ */
+let _availEditCtx=null;  /* {staffId, staffName, day, lunch, dinner} */
+const AVAIL_OPTIONS=[
+  {v:'ok', label:'○ 出勤可', cls:'atag-ok'},
+  {v:'maybe', label:'△ 微妙', cls:'atag-maybe'},
+  {v:'off', label:'× 不可', cls:'atag-off'},
+  {v:'', label:'— 未回答', cls:'atag-none'}
+];
+
+function openAvailEdit(staffId, staffName, day){
+  const avail=loadAvail(Y,M);
+  const sav=avail[staffId]||{};
+  const k=dKey(Y,M,day);
+  const v=sav[k];
+  const lunch=v?(typeof v==='string'?v:(v.lunch||'')):'';
+  const dinner=v?(typeof v==='string'?v:(v.dinner||'')):'';
+  _availEditCtx={staffId,staffName,day,lunch,dinner};
+  document.getElementById('availEditSub').textContent=`${Y}年${M+1}月${day}日（${DOW_STR[new Date(Y,M,day).getDay()]}）`;
+  document.getElementById('availEditHead').textContent=`${staffName} さんの希望を編集`;
+  _renderAvailEditChips();
+  document.getElementById('availEditOverlay').classList.add('show');
+}
+function _renderAvailEditChips(){
+  const make=(targetId,curVal,setKey)=>{
+    const el=document.getElementById(targetId);
+    el.innerHTML='';
+    AVAIL_OPTIONS.forEach(o=>{
+      const b=document.createElement('button');
+      b.className='atag '+o.cls;
+      b.style.cssText='font-size:.85em;padding:7px 12px;margin:2px;border:'+
+        (o.v===curVal?'2px solid #0e7490':'1px solid #e2e8f0')+
+        ';cursor:pointer;'+(o.v===curVal?'font-weight:700':'');
+      b.textContent=o.label;
+      b.onclick=()=>{_availEditCtx[setKey]=o.v;_renderAvailEditChips();};
+      el.appendChild(b);
+    });
+  };
+  make('availEditLunchChips',_availEditCtx.lunch,'lunch');
+  make('availEditDinnerChips',_availEditCtx.dinner,'dinner');
+}
+function closeAvailEditModal(){
+  document.getElementById('availEditOverlay').classList.remove('show');
+  _availEditCtx=null;
+}
+function saveAvailEdit(){
+  if(!_availEditCtx)return;
+  const {staffId,staffName,day,lunch,dinner}=_availEditCtx;
+  const avail=loadAvail(Y,M);
+  if(!avail[staffId])avail[staffId]={};
+  const k=dKey(Y,M,day);
+  if(!lunch&&!dinner){
+    /* 両方空なら削除 */
+    delete avail[staffId][k];
+    if(Object.keys(avail[staffId]).length===0)delete avail[staffId];
+  }else{
+    avail[staffId][k]={lunch,dinner};
+  }
+  const ak=availKey(Y,M);
+  const json=JSON.stringify(avail);
+  localStorage.setItem(ak,json);
+  _syncKeyToFirebase(ak,json);
+  closeAvailEditModal();
+  renderAvailPanel();
+  showUpdateToast(`✓ ${staffName}さんの${M+1}月${day}日の希望を更新しました`);
+}
+
+/* ════════════════════════════════════════
+   ADMIN: スタッフ別 月単位の代理入力ページ
+════════════════════════════════════════ */
+let _staffAvailCtx=null; /* {staffId, staffName, y, m, data} */
+
+function openStaffAvailModal(staffId, staffName){
+  const avail=loadAvail(Y,M);
+  _staffAvailCtx={
+    staffId,staffName,y:Y,m:M,
+    data:JSON.parse(JSON.stringify(avail[staffId]||{}))
+  };
+  document.getElementById('staffAvailSub').textContent=`${Y}年${M+1}月 代理入力`;
+  document.getElementById('staffAvailHead').textContent=`${staffName} さんの希望（${Y}年${M+1}月）`;
+  renderStaffAvailBody();
+  document.getElementById('staffAvailOverlay').classList.add('show');
+}
+function renderStaffAvailBody(){
+  if(!_staffAvailCtx)return;
+  const {y,m,data}=_staffAvailCtx;
+  const body=document.getElementById('staffAvailBody');
+  const days=new Date(y,m+1,0).getDate();
+  let html='<div style="font-size:.82em;color:#475569;margin-bottom:10px;padding:8px 10px;background:#eff6ff;border-radius:6px">'+
+    '各日付の昼／夜について○・△・×を選んで「保存」を押してください。空欄は「未回答」になります。</div>';
+  html+='<table style="width:100%;border-collapse:collapse;font-size:.88em">';
+  html+='<thead><tr style="background:#f8fafc"><th style="padding:6px;border-bottom:1px solid #e5e7eb;text-align:left">日付</th>'+
+    '<th style="padding:6px;border-bottom:1px solid #e5e7eb;color:#0e7490">☀ 昼</th>'+
+    '<th style="padding:6px;border-bottom:1px solid #e5e7eb;color:#7c3aed">🌙 夜</th></tr></thead><tbody>';
+  for(let d=1;d<=days;d++){
+    const closed=isClosedDay(y,m,d);
+    if(closed)continue;
+    const dow=new Date(y,m,d).getDay();
+    const dowStyle=dow===0?'color:#dc2626':(dow===6?'color:#2563eb':'');
+    const k=dKey(y,m,d);
+    const v=data[k];
+    const lunch=v?(typeof v==='string'?v:(v.lunch||'')):'';
+    const dinner=v?(typeof v==='string'?v:(v.dinner||'')):'';
+    html+=`<tr><td style="padding:5px 6px;border-bottom:1px solid #f1f5f9;${dowStyle}"><strong>${d}日</strong> (${DOW_STR[dow]})</td>`;
+    html+=`<td style="padding:5px 6px;border-bottom:1px solid #f1f5f9">${_staffAvailSelHtml(d,'lunch',lunch)}</td>`;
+    html+=`<td style="padding:5px 6px;border-bottom:1px solid #f1f5f9">${_staffAvailSelHtml(d,'dinner',dinner)}</td></tr>`;
+  }
+  html+='</tbody></table>';
+  html+='<div style="margin-top:12px;text-align:right"><button class="cbtn cbtn-red" onclick="saveStaffAvailAll()">💾 一括保存する</button></div>';
+  body.innerHTML=html;
+}
+function _staffAvailSelHtml(day,slot,cur){
+  return `<select onchange="updateStaffAvailCell(${day},'${slot}',this.value)" style="border:1.5px solid #e2e8f0;border-radius:5px;padding:4px 6px;font-size:.88em">
+    <option value=""${cur===''?' selected':''}>—</option>
+    <option value="ok"${cur==='ok'?' selected':''}>○</option>
+    <option value="maybe"${cur==='maybe'?' selected':''}>△</option>
+    <option value="off"${cur==='off'?' selected':''}>×</option>
+  </select>`;
+}
+function updateStaffAvailCell(day,slot,val){
+  if(!_staffAvailCtx)return;
+  const k=dKey(_staffAvailCtx.y,_staffAvailCtx.m,day);
+  if(!_staffAvailCtx.data[k])_staffAvailCtx.data[k]={lunch:'',dinner:''};
+  if(typeof _staffAvailCtx.data[k]==='string'){
+    /* 旧フォーマット互換 */
+    _staffAvailCtx.data[k]={lunch:_staffAvailCtx.data[k],dinner:_staffAvailCtx.data[k]};
+  }
+  _staffAvailCtx.data[k][slot]=val;
+  /* 両方空なら削除 */
+  if(!_staffAvailCtx.data[k].lunch&&!_staffAvailCtx.data[k].dinner)delete _staffAvailCtx.data[k];
+}
+function saveStaffAvailAll(){
+  if(!_staffAvailCtx)return;
+  const {staffId,staffName,y,m,data}=_staffAvailCtx;
+  const avail=loadAvail(y,m);
+  if(Object.keys(data).length===0){
+    delete avail[staffId];
+  }else{
+    avail[staffId]=data;
+  }
+  const ak=availKey(y,m);
+  const json=JSON.stringify(avail);
+  localStorage.setItem(ak,json);
+  _syncKeyToFirebase(ak,json);
+  closeStaffAvailModal();
+  renderAvailPanel();
+  showUpdateToast(`✓ ${staffName}さんの${y}年${m+1}月の希望を保存しました`);
+}
+function closeStaffAvailModal(){
+  document.getElementById('staffAvailOverlay').classList.remove('show');
+  _staffAvailCtx=null;
 }
 
 /* ════════════════════════════════════════
@@ -1660,6 +1938,117 @@ function renderSettingsPanel(){
 
   renderSpecialDateList();
   renderOpenExceptionList();
+  renderDeadlineSettings();
+  renderExtensionMonthOptions();
+  renderExtensionList();
+}
+
+/* 締切日設定の描画 */
+function renderDeadlineSettings(){
+  const s=getSettings();
+  const dl=s.deadline||{enabled:true,day:20};
+  document.getElementById('deadlineEnabledChk').checked=!!dl.enabled;
+  document.getElementById('deadlineDayInput').value=dl.day||20;
+  const stEl=document.getElementById('deadlineStatus');
+  if(!dl.enabled){
+    stEl.innerHTML='<span style="color:#94a3b8">締切機能はオフです（スタッフはいつでも入力可能）</span>';
+    return;
+  }
+  /* 次の対象月（翌月）の締切日を表示 */
+  const now=new Date();
+  let ty=now.getFullYear(), tm=now.getMonth()+1;
+  if(tm>11){tm=0;ty++;}
+  const st=getDeadlineStatus(ty,tm,'__preview__');
+  const d=st.deadlineDate;
+  const ds=`${d.getFullYear()}年${d.getMonth()+1}月${d.getDate()}日 23:59`;
+  stEl.innerHTML=`<strong>${ty}年${tm+1}月分</strong> の入力締切は <strong style="color:#0e7490">${ds}</strong> です`;
+}
+
+/* 締切設定を保存 */
+function saveDeadlineSettings(){
+  const enabled=document.getElementById('deadlineEnabledChk').checked;
+  const dayVal=parseInt(document.getElementById('deadlineDayInput').value,10);
+  if(enabled&&(isNaN(dayVal)||dayVal<1||dayVal>31)){
+    alert('締切日は 1〜31 の範囲で指定してください。');return;
+  }
+  const s=getSettings();
+  s.deadline={enabled,day:dayVal||20};
+  saveSettings(s);
+  renderDeadlineSettings();
+  showUpdateToast('⏰ 締切日設定を保存しました');
+}
+
+/* 延長設定の対象月セレクタを描画（今月〜+3ヶ月） */
+function renderExtensionMonthOptions(){
+  const sel=document.getElementById('extensionMonthSel');
+  if(!sel)return;
+  const cur=sel.value;
+  sel.innerHTML='';
+  const now=new Date();
+  for(let i=0;i<=3;i++){
+    let y=now.getFullYear(), m=now.getMonth()+i;
+    while(m>11){m-=12;y++;}
+    const ym=`${y}-${String(m+1).padStart(2,'0')}`;
+    const opt=document.createElement('option');
+    opt.value=ym;opt.textContent=`${y}年${m+1}月`;
+    if(i===1)opt.selected=true; /* デフォルトで翌月 */
+    sel.appendChild(opt);
+  }
+  if(cur)sel.value=cur;
+}
+
+/* 延長一覧の描画（スタッフ別の延長日入力） */
+function renderExtensionList(){
+  const sel=document.getElementById('extensionMonthSel');
+  const list=document.getElementById('extensionList');
+  if(!sel||!list)return;
+  const ym=sel.value;
+  if(!ym){list.innerHTML='';return;}
+  const staffList=getStaffList();
+  if(staffList.length===0){
+    list.innerHTML='<div class="empty-state">スタッフが登録されていません</div>';return;
+  }
+  const s=getSettings();
+  const exts=s.extensions||{};
+  let html='<table style="width:100%;border-collapse:collapse;font-size:.92em">';
+  html+='<thead><tr style="background:#f8fafc">'
+    +'<th style="padding:8px;border-bottom:1px solid #e5e7eb;text-align:left">スタッフ</th>'
+    +'<th style="padding:8px;border-bottom:1px solid #e5e7eb;text-align:left">延長期限（YYYY-MM-DD）</th>'
+    +'<th style="padding:8px;border-bottom:1px solid #e5e7eb;text-align:center;width:120px">操作</th>'
+    +'</tr></thead><tbody>';
+  staffList.forEach(st=>{
+    const cur=(exts[st.id]&&exts[st.id][ym])||'';
+    html+=`<tr>
+      <td style="padding:8px;border-bottom:1px solid #f1f5f9">${st.name}</td>
+      <td style="padding:8px;border-bottom:1px solid #f1f5f9">
+        <input type="date" id="ext-${st.id}" value="${cur}"
+          style="border:1.5px solid #e2e8f0;border-radius:7px;padding:6px 8px;font-size:.9em">
+      </td>
+      <td style="padding:8px;border-bottom:1px solid #f1f5f9;text-align:center">
+        <button class="cbtn cbtn-blue" style="font-size:.78em;padding:5px 10px"
+          onclick="saveExtension('${st.id}','${ym}','${st.name.replace(/'/g,"\\'")}')">保存</button>
+      </td>
+    </tr>`;
+  });
+  html+='</tbody></table>';
+  list.innerHTML=html;
+}
+
+/* 延長を保存 */
+function saveExtension(staffId,ym,staffName){
+  const val=document.getElementById('ext-'+staffId).value.trim();
+  const s=getSettings();
+  if(!s.extensions)s.extensions={};
+  if(!s.extensions[staffId])s.extensions[staffId]={};
+  if(val){
+    s.extensions[staffId][ym]=val;
+  }else{
+    delete s.extensions[staffId][ym];
+    if(Object.keys(s.extensions[staffId]).length===0)delete s.extensions[staffId];
+  }
+  saveSettings(s);
+  const action=val?`を ${val} まで延長しました`:'の延長を解除しました';
+  showUpdateToast(`⏳ ${staffName}さんの ${ym} ${action}`);
 }
 
 function saveClosedDays(){
@@ -1905,465 +2294,4 @@ function _showUndoDeleteToast(name){
 
   const toast=document.createElement('div');
   toast.id='undoDeleteToast';
-  toast.style.cssText='position:fixed;bottom:24px;left:50%;transform:translateX(-50%);'
-    +'background:#1e293b;color:#fff;padding:14px 22px;border-radius:14px;'
-    +'font-size:.84em;font-weight:600;z-index:9999;display:flex;align-items:center;'
-    +'gap:14px;box-shadow:0 6px 28px rgba(0,0,0,.38);animation:slideUp .25s ease;white-space:nowrap';
-
-  const msg=document.createElement('span');
-  msg.textContent=`「${name}」を削除しました`;
-  toast.appendChild(msg);
-
-  const btn=document.createElement('button');
-  btn.textContent='↩ 元に戻す';
-  btn.style.cssText='background:#3b82f6;color:#fff;border:none;border-radius:8px;'
-    +'padding:7px 16px;font-size:.82em;font-weight:700;cursor:pointer;flex-shrink:0;'
-    +'transition:background .12s';
-  btn.onmouseenter=()=>{btn.style.background='#2563eb';};
-  btn.onmouseleave=()=>{btn.style.background='#3b82f6';};
-  /* クリックで確認ダイアログ → OK なら復元 */
-  btn.onclick=()=>{
-    if(confirm(`「${name}」の削除を取り消して復元しますか？\n（希望カレンダー・シフト管理のデータもすべて戻ります）`)){
-      _undoDeleteStaff();
-    }
-  };
-  toast.appendChild(btn);
-  document.body.appendChild(toast);
-
-  /* 30秒後: トーストを消してウォーニングを出す */
-  _deleteUndoTimer=setTimeout(()=>{
-    /* Undoトースト閉じる */
-    toast.style.opacity='0';
-    toast.style.transition='opacity .35s';
-    setTimeout(()=>{
-      toast.remove();
-      _deletedStaff=null;
-      /* ⚠ 復元期限切れウォーニング */
-      _showDeleteExpiredWarning(name);
-    },380);
-  },30000);
-}
-
-function _showDeleteExpiredWarning(name){
-  const warn=document.createElement('div');
-  warn.style.cssText='position:fixed;bottom:24px;left:50%;transform:translateX(-50%);'
-    +'background:#dc2626;color:#fff;padding:13px 22px;border-radius:14px;'
-    +'font-size:.84em;font-weight:700;z-index:9999;display:flex;align-items:center;gap:9px;'
-    +'box-shadow:0 6px 28px rgba(0,0,0,.38);animation:slideUp .25s ease;white-space:nowrap';
-  warn.innerHTML='⚠ 復元できる時間が切れました。「'+name+'」の削除が確定しました。';
-  document.body.appendChild(warn);
-  /* 5秒後に消える */
-  setTimeout(()=>{
-    warn.style.opacity='0';warn.style.transition='opacity .4s';
-    setTimeout(()=>warn.remove(),420);
-  },5000);
-}
-
-function _undoDeleteStaff(){
-  if(!_deletedStaff)return;
-  clearTimeout(_deleteUndoTimer);
-  const restored=_deletedStaff;
-  _deletedStaff=null;
-
-  /* ユーザーリストに戻す（希望データはlocalStorageに残っているのでそのまま復元） */
-  const users=getUsers();
-  users.push(restored);
-  saveUsers(users);
-
-  /* 全タブを再描画 */
-  renderStaffPanel();
-  render();
-  if(document.getElementById('panel-overview').classList.contains('active'))renderOverview();
-  if(document.getElementById('panel-avail').classList.contains('active'))renderAvailPanel();
-
-  /* Undoトーストを閉じて成功トースト表示 */
-  const undo=document.getElementById('undoDeleteToast');
-  if(undo){undo.style.opacity='0';setTimeout(()=>undo.remove(),350);}
-  showUpdateToast(`↩ 「${restored.name}」を復元しました`);
-}
-
-/* ════════════════════════════════════════
-   NAVIGATION & TABS
-════════════════════════════════════════ */
-function changeMonth(d){
-  M+=d;if(M>11){M=0;Y++;}if(M<0){M=11;Y--;}
-  loadShift();_initShiftHistory();render();
-  const ap=document.getElementById('panel-avail');
-  const op=document.getElementById('panel-overview');
-  if(ap.classList.contains('active'))renderAvailPanel();
-  if(op.classList.contains('active'))renderOverview();
-}
-
-function resetToDefault(){
-  if(!confirm('この月のシフトにテンプレートを反映しますか？\n（現在のシフトデータは上書きされます）'))return;
-  shiftData=applyTemplate(Y,M);_pushShiftHistory();saveShift();render();
-}
-
-const TAB_NAMES=['shift','overview','avail','staff','settings','template'];
-function switchTab(name){
-  document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active',TAB_NAMES[i]===name));
-  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
-  document.getElementById('panel-'+name).classList.add('active');
-  if(name==='shift'){loadShift();_initShiftHistory();render();}
-  if(name==='overview')renderOverview();
-  if(name==='avail')renderAvailPanel();
-  if(name==='staff')renderStaffPanel();
-  if(name==='settings'){renderSettingsPanel();renderMasterPwStatus();}
-  if(name==='template')renderTemplatePanel();
-}
-
-/* ════════════════════════════════════════
-   SHIFT TEMPLATE (2-week rotation)
-   Storage: pekin_shift_template
-   Structure: {
-     weekA: {0:{lunch:[],dinner:[]}, 1:{...}, ..., 6:{...}},
-     weekB: same
-   }
-   0=Sun,1=Mon,...,6=Sat (JS getDay())
-   weekIdx = Math.floor((d-1+firstDow)/7)
-   weekIdx%2===0 → weekA, weekIdx%2===1 → weekB
-════════════════════════════════════════ */
-const TEMPLATE_KEY='pekin_shift_template';
-const TPL_DAYS=[1,2,3,4,5,6,0]; // Mon first, then Sun last for display
-
-function getTemplate(){
-  const def={weekA:{},weekB:{}};
-  TPL_DAYS.forEach(d=>{
-    def.weekA[d]={lunch:[],dinner:[]};
-    def.weekB[d]={lunch:[],dinner:[]};
-  });
-  try{
-    const stored=JSON.parse(localStorage.getItem(TEMPLATE_KEY)||'null');
-    if(!stored)return def;
-    const out={weekA:{},weekB:{}};
-    TPL_DAYS.forEach(d=>{
-      out.weekA[d]={
-        lunch:(stored.weekA&&stored.weekA[d]&&stored.weekA[d].lunch)||[],
-        dinner:(stored.weekA&&stored.weekA[d]&&stored.weekA[d].dinner)||[]
-      };
-      out.weekB[d]={
-        lunch:(stored.weekB&&stored.weekB[d]&&stored.weekB[d].lunch)||[],
-        dinner:(stored.weekB&&stored.weekB[d]&&stored.weekB[d].dinner)||[]
-      };
-    });
-    return out;
-  }catch(e){return def;}
-}
-
-function saveTemplateData(t){
-  const json=JSON.stringify(t);
-  localStorage.setItem(TEMPLATE_KEY,json);
-  _syncKeyToFirebase(TEMPLATE_KEY,json);  /* ← テンプレもFirebaseへ */
-}
-
-/* Week index (0-based) within the month, week starts on Sunday */
-function getWeekInMonth(y,m,d){
-  const firstDow=new Date(y,m,1).getDay();
-  return Math.floor((d-1+firstDow)/7);
-}
-
-/* Apply template to a month → returns new shiftData */
-function applyTemplate(y,m){
-  const tpl=getTemplate();
-  const out={};
-  const days=new Date(y,m+1,0).getDate();
-  for(let d=1;d<=days;d++){
-    if(isClosedDay(y,m,d))continue;
-    const k=dKey(y,m,d);
-    const dow=new Date(y,m,d).getDay();
-    const weekIdx=getWeekInMonth(y,m,d);
-    const week=weekIdx%2===0?'weekA':'weekB';
-    const td=tpl[week][dow]||{lunch:[],dinner:[]};
-    out[k]={
-      lunch:{names:[...(td.lunch||[])],ext:false},
-      dinner:{names:[...(td.dinner||[])],ext:false}
-    };
-  }
-  return out;
-}
-
-function applyTemplateToMonth(){
-  if(!confirm(`${Y}年${M+1}月のシフトにテンプレートを反映しますか？\n（現在のシフトデータは上書きされます）`))return;
-  shiftData=applyTemplate(Y,M);
-  saveShift();
-  showUpdateToast('📋 テンプレートをシフトに反映しました');
-  switchTab('shift');
-}
-
-/* ── Template panel renderer ── */
-function renderTemplatePanel(){
-  const tpl=getTemplate();
-  const staffList=getStaffList();
-  const closedDows=(getSettings().defaultClosedDays||[2,3]);
-  const container=document.getElementById('templatePanelBody');
-  if(!container)return;
-  container.innerHTML='';
-
-  const DOW_NAMES=['日','月','火','水','木','金','土'];
-
-  ['weekA','weekB'].forEach(week=>{
-    const label=week==='weekA'?'🅐 Aパターン（1・3・5週目）':'🅑 Bパターン（2・4週目）';
-    const sec=document.createElement('div');
-    sec.className='sec';
-    sec.style.marginBottom='20px';
-
-    const head=document.createElement('div');
-    head.className='sec-head';
-    head.textContent=label;
-    sec.appendChild(head);
-
-    const body=document.createElement('div');
-    body.className='sec-body';
-    body.style.padding='12px 14px';
-
-    const table=document.createElement('table');
-    table.style.cssText='width:100%;border-collapse:collapse;font-size:.82em';
-
-    const thead=document.createElement('thead');
-    thead.innerHTML=`<tr style="background:#f8fafc">
-      <th style="width:44px;padding:7px 10px;text-align:left;color:#94a3b8;font-size:.8em;font-weight:700;border-bottom:2px solid #e2e8f0">曜日</th>
-      <th style="padding:7px 10px;text-align:left;color:#1d4ed8;font-size:.8em;font-weight:700;border-bottom:2px solid #e2e8f0">☀ 昼</th>
-      <th style="padding:7px 10px;text-align:left;color:#92400e;font-size:.8em;font-weight:700;border-bottom:2px solid #e2e8f0">🌙 夜</th>
-    </tr>`;
-    table.appendChild(thead);
-
-    const tbody=document.createElement('tbody');
-    TPL_DAYS.forEach(dow=>{
-      const isClosed=closedDows.includes(dow);
-      const tr=document.createElement('tr');
-      tr.style.cssText='border-bottom:1px solid #f1f5f9;'+(isClosed?'opacity:.4':'');
-
-      const tdDow=document.createElement('td');
-      tdDow.style.cssText='padding:6px 10px;font-weight:700;white-space:nowrap;vertical-align:middle;';
-      tdDow.style.color=dow===0?'#c0392b':dow===6?'#1d4ed8':'#374151';
-      tdDow.textContent=DOW_NAMES[dow];
-      if(isClosed){
-        const cl=document.createElement('span');
-        cl.style.cssText='display:block;font-size:.65em;color:#adb5bd;font-weight:400';
-        cl.textContent='定休';
-        tdDow.appendChild(cl);
-      }
-      tr.appendChild(tdDow);
-
-      ['lunch','dinner'].forEach(type=>{
-        const td=document.createElement('td');
-        td.style.cssText='padding:4px 8px;vertical-align:middle;';
-        td.id=`tpl-${week}-${dow}-${type}`;
-        _renderTplCell(td,week,dow,type,tpl,staffList);
-        tr.appendChild(td);
-      });
-      tbody.appendChild(tr);
-    });
-    table.appendChild(tbody);
-    body.appendChild(table);
-    sec.appendChild(body);
-    container.appendChild(sec);
-  });
-}
-
-function _renderTplCell(td,week,dow,type,tpl,staffList){
-  td.innerHTML='';
-  const wrap=document.createElement('div');
-  wrap.style.cssText='display:flex;flex-wrap:wrap;gap:3px;align-items:center;min-height:28px;padding:2px 0';
-  const assigned=(tpl[week]&&tpl[week][dow]&&tpl[week][dow][type])||[];
-
-  assigned.forEach(n=>{
-    const t=document.createElement('span');
-    t.className='ntag ntag-assigned ntag-pending';
-    t.textContent=n;
-    t.title=`${n} — クリックで外す`;
-    t.style.cursor='pointer';
-    t.onclick=(e)=>{e.stopPropagation();_removeTplStaff(week,dow,type,n);};
-    wrap.appendChild(t);
-  });
-
-  const remaining=staffList.filter(s=>!assigned.includes(s.name));
-  if(remaining.length>0){
-    const btn=document.createElement('button');
-    btn.className='cbtn cbtn-outline';
-    btn.style.cssText='font-size:.62em;padding:2px 8px;border-radius:10px;';
-    btn.textContent='＋';
-    btn.title='スタッフを追加';
-    btn.onclick=(ev)=>{ev.stopPropagation();_showTplPicker(ev,week,dow,type,remaining);};
-    wrap.appendChild(btn);
-  }
-  td.appendChild(wrap);
-}
-
-let _tplPickerCleanup=null;
-function _showTplPicker(ev,week,dow,type,options){
-  if(_tplPickerCleanup)_tplPickerCleanup();
-  const picker=document.createElement('div');
-  picker.style.cssText='position:fixed;z-index:600;background:#fff;border:1px solid #e2e8f0;'
-    +'border-radius:10px;box-shadow:0 8px 30px rgba(0,0,0,.18);padding:6px;'
-    +'display:flex;flex-direction:column;gap:2px;min-width:110px;max-height:280px;overflow-y:auto';
-  const rect=ev.target.getBoundingClientRect();
-  let top=rect.bottom+4,left=rect.left;
-  // Keep within viewport
-  if(top+200>window.innerHeight)top=rect.top-200;
-  if(left+130>window.innerWidth)left=window.innerWidth-140;
-  picker.style.top=top+'px';
-  picker.style.left=left+'px';
-
-  options.forEach(s=>{
-    const btn=document.createElement('button');
-    btn.style.cssText='border:none;background:none;padding:6px 12px;text-align:left;cursor:pointer;'
-      +'border-radius:6px;font-size:.83em;color:#374151;white-space:nowrap;width:100%';
-    btn.textContent=s.name;
-    btn.onmouseenter=()=>{btn.style.background='#eff6ff';};
-    btn.onmouseleave=()=>{btn.style.background='';};
-    btn.onclick=()=>{_addTplStaff(week,dow,type,s.name);_tplPickerCleanup();};
-    picker.appendChild(btn);
-  });
-
-  document.body.appendChild(picker);
-  const outsideClick=(e)=>{if(!picker.contains(e.target))_tplPickerCleanup();};
-  _tplPickerCleanup=()=>{
-    picker.remove();
-    document.removeEventListener('click',outsideClick);
-    _tplPickerCleanup=null;
-  };
-  setTimeout(()=>document.addEventListener('click',outsideClick),0);
-}
-
-function _addTplStaff(week,dow,type,name){
-  const tpl=getTemplate();
-  if(!tpl[week][dow])tpl[week][dow]={lunch:[],dinner:[]};
-  if(!tpl[week][dow][type].includes(name))tpl[week][dow][type].push(name);
-  saveTemplateData(tpl);
-  const td=document.getElementById(`tpl-${week}-${dow}-${type}`);
-  if(td)_renderTplCell(td,week,dow,type,tpl,getStaffList());
-}
-
-function _removeTplStaff(week,dow,type,name){
-  const tpl=getTemplate();
-  if(tpl[week]&&tpl[week][dow])
-    tpl[week][dow][type]=(tpl[week][dow][type]||[]).filter(n=>n!==name);
-  saveTemplateData(tpl);
-  const td=document.getElementById(`tpl-${week}-${dow}-${type}`);
-  if(td)_renderTplCell(td,week,dow,type,tpl,getStaffList());
-}
-
-/* ════════════════════════════════════════
-   QUICK-CLOSE TOGGLE
-════════════════════════════════════════ */
-function toggleQuickClose(y,m,d){
-  const k=dKey(y,m,d);
-  const s=getSettings();
-  const special=s.specialDates&&s.specialDates[k];
-
-  if(special){
-    const stype=special.type;
-    if(stype==='open'){
-      /* 営業例外 → 定休に戻す */
-      if(confirm(`${y}年${m+1}月${d}日の「営業日設定」を解除し、定休日に戻しますか？`)){
-        delete s.specialDates[k];
-        saveSettings(s);loadShift();render();
-        if(document.getElementById('panel-settings').classList.contains('active'))renderSettingsPanel();
-      }
-    }else{
-      /* 特別休日 → 解除 */
-      if(confirm(`${y}年${m+1}月${d}日の休業設定を解除しますか？`)){
-        delete s.specialDates[k];
-        saveSettings(s);loadShift();render();
-        if(document.getElementById('panel-settings').classList.contains('active'))renderSettingsPanel();
-      }
-    }
-  }else{
-    const dow=new Date(y,m,d).getDay();
-    const isRegular=(s.defaultClosedDays||[2,3]).includes(dow);
-    if(isRegular){
-      /* 定休日 → 営業にする */
-      if(confirm(`${y}年${m+1}月${d}日（定休日）を営業日に変更しますか？`)){
-        if(!s.specialDates)s.specialDates={};
-        s.specialDates[k]={type:'open',label:'営業'};
-        saveSettings(s);loadShift();render();
-        if(document.getElementById('panel-settings').classList.contains('active'))renderSettingsPanel();
-      }
-    }else{
-      /* 通常営業日 → 休業設定モーダルをその日付で開く */
-      document.getElementById('sdDate').value=k;
-      document.getElementById('sdType').value='closed';
-      document.getElementById('sdLabel').value='';
-      document.getElementById('specialDateOverlay').classList.add('open');
-    }
-  }
-}
-
-/* ════════════════════════════════════════
-   EXCEL EXPORT (SheetJS)
-════════════════════════════════════════ */
-function openExcelModal(){
-  document.getElementById('xlStartY').value=Y;
-  document.getElementById('xlStartM').value=M+1;
-  document.getElementById('xlRange').value='1';
-  document.getElementById('excelOverlay').classList.add('open');
-}
-function closeExcelModal(){document.getElementById('excelOverlay').classList.remove('open');}
-
-function doExcelExport(){
-  if(typeof XLSX==='undefined'){alert('SheetJSライブラリが読み込まれていません。ページを再読み込みしてください。');return;}
-  const sy=parseInt(document.getElementById('xlStartY').value)||Y;
-  const sm=parseInt(document.getElementById('xlStartM').value)-1;
-  const months=parseInt(document.getElementById('xlRange').value)||1;
-  const wb=XLSX.utils.book_new();
-  const DOW_JP=['日','月','火','水','木','金','土'];
-  const SECTION_LABEL={regular:'定休日',holiday:'振替休日',closed:'臨時休業',other:'その他'};
-
-  for(let i=0;i<months;i++){
-    let ey=sy,em=sm+i;
-    while(em>11){em-=12;ey++;}
-    const sheetName=`${ey}年${em+1}月`;
-    const days=new Date(ey,em+1,0).getDate();
-    const shKey=`pekin_shift_${ey}-${String(em+1).padStart(2,'0')}`;
-    const sd=JSON.parse(localStorage.getItem(shKey)||'{}');
-
-    const rows=[['日付','曜日','区分','昼の部','昼予備','夜の部','夜予備','備考']];
-    for(let d=1;d<=days;d++){
-      const dow=new Date(ey,em,d).getDay();
-      const k=dKey(ey,em,d);
-      const ci=getClosedInfo(ey,em,d);
-      const dateStr=`${em+1}/${d}`;
-      const dowStr=DOW_JP[dow];
-      if(ci){
-        const section=SECTION_LABEL[ci.type]||ci.type;
-        const note=ci.label&&ci.label!==section?ci.label:'';
-        rows.push([dateStr,dowStr,section,'','','','',note]);
-      }else{
-        const entry=sd[k]||{lunch:{names:[],ext:false},dinner:{names:[],ext:false}};
-        const ln=(entry.lunch.names||[]).filter(n=>n);
-        const dn=(entry.dinner.names||[]).filter(n=>n);
-        const section=dow===0?'日曜':dow===6?'土曜':dow===5?'金曜':'平日';
-        const extNote=(entry.lunch.ext?'昼延長 ':'')+(entry.dinner.ext?'夜延長':'');
-        rows.push([dateStr,dowStr,section,
-          ln[0]||'',ln.slice(1).join(' '),
-          dn[0]||'',dn.slice(1).join(' '),
-          extNote.trim()]);
-      }
-    }
-    const ws=XLSX.utils.aoa_to_sheet(rows);
-    ws['!cols']=[{wch:8},{wch:5},{wch:8},{wch:12},{wch:12},{wch:12},{wch:12},{wch:14}];
-    /* ヘッダー行スタイル（背景色） */
-    const range=XLSX.utils.decode_range(ws['!ref']);
-    for(let C=range.s.c;C<=range.e.c;C++){
-      const addr=XLSX.utils.encode_cell({r:0,c:C});
-      if(!ws[addr])continue;
-      ws[addr].s={fill:{fgColor:{rgb:'2C3E50'}},font:{bold:true,color:{rgb:'FFFFFF'}},alignment:{horizontal:'center'}};
-    }
-    XLSX.utils.book_append_sheet(wb,ws,sheetName);
-  }
-  const fname=months===1?`北京の希望_${sy}年${sm+1}月.xlsx`:`北京の希望_${sy}年${sm+1}月〜${months}ヶ月.xlsx`;
-  XLSX.writeFile(wb,fname);
-  closeExcelModal();
-}
-
-/* Backdrop close */
-['editOverlay','staffOverlay','specialDateOverlay','excelOverlay'].forEach(id=>{
-  document.getElementById(id).addEventListener('click',function(e){
-    if(e.target===this)this.classList.remove('open');
-  });
-});
-
-</script>
-</body>
-</html>
+  toast.style.cssText='position:fixed;bottom:24px;left:50%;transfor
