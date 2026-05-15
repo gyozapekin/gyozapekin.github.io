@@ -1831,20 +1831,46 @@ function renderExtensionList(){
     /* 延長が設定済みの行は背景色を変えてバッジを表示 */
     const rowBg=cur?'background:#ecfdf5':'';
     const badge=cur?`<span style="display:inline-block;margin-left:8px;padding:2px 8px;background:#10b981;color:#fff;border-radius:10px;font-size:.7em;font-weight:700">延長中</span>`:'';
+    const sNameEsc=st.name.replace(/'/g,"\\'");
+    /* 削除ボタンは延長設定済みの行にだけ表示 */
+    const deleteBtn=cur?`<button class="cbtn" style="font-size:.78em;padding:5px 10px;background:#fff;color:#991b1b;border:1px solid #fca5a5;margin-left:6px"
+          onclick="deleteExtension('${st.id}','${ym}','${sNameEsc}')">🗑 削除</button>`:'';
     html+=`<tr id="extRow-${st.id}" style="${rowBg}">
       <td style="padding:8px;border-bottom:1px solid #f1f5f9">${st.name}${badge}</td>
       <td style="padding:8px;border-bottom:1px solid #f1f5f9">
         <input type="date" id="ext-${st.id}" value="${cur}"
           style="border:1.5px solid #e2e8f0;border-radius:7px;padding:6px 8px;font-size:.9em">
       </td>
-      <td style="padding:8px;border-bottom:1px solid #f1f5f9;text-align:center">
-        <button id="extBtn-${st.id}" class="cbtn cbtn-blue" style="font-size:.78em;padding:5px 10px;min-width:88px"
-          onclick="saveExtension('${st.id}','${ym}','${st.name.replace(/'/g,"\\'")}')">保存</button>
+      <td style="padding:8px;border-bottom:1px solid #f1f5f9;text-align:center;white-space:nowrap">
+        <button id="extBtn-${st.id}" class="cbtn cbtn-blue" style="font-size:.78em;padding:5px 10px;min-width:60px"
+          onclick="saveExtension('${st.id}','${ym}','${sNameEsc}')">保存</button>
+        ${deleteBtn}
       </td>
     </tr>`;
   });
   html+='</tbody></table>';
   list.innerHTML=html;
+}
+
+/* 延長を削除（確認ダイアログ＋視覚フィードバック付き） */
+function deleteExtension(staffId,ym,staffName){
+  const s=getSettings();
+  const cur=(s.extensions&&s.extensions[staffId]&&s.extensions[staffId][ym])||'';
+  if(!cur){return;}
+  if(!confirm(`【${ym}】の ${staffName} さんの延長設定（${cur}まで）を削除します。\nよろしいですか？`))return;
+  /* extensions から削除 */
+  delete s.extensions[staffId][ym];
+  if(Object.keys(s.extensions[staffId]).length===0)delete s.extensions[staffId];
+  saveSettings(s);
+  /* 行の視覚フィードバック */
+  const row=document.getElementById('extRow-'+staffId);
+  if(row){
+    row.style.transition='background .4s';
+    row.style.background='#fee2e2';
+    setTimeout(()=>{row.style.background='';},900);
+  }
+  setTimeout(()=>{renderExtensionList();},1200);
+  try{if(typeof showUpdateToast==='function')showUpdateToast(`🗑 ${staffName}さんの ${ym} の延長を削除しました`);}catch(e){}
 }
 
 /* 延長を保存（ボタン視覚フィードバック付き） */
