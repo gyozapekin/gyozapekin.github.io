@@ -305,7 +305,7 @@ body{font-family:'Helvetica Neue','Hiragino Sans','Yu Gothic UI',Arial,sans-seri
     <div class="cal-head-cell sun">日</div><div class="cal-head-cell">月</div>
     <div class="cal-head-cell">火</div><div class="cal-head-cell">水</div>
     <div class="cal-head-cell">木</div>
-    <div class="cal-head-cell">金</div><div class="cal-head-cell sat">土</div>
+    <div class="cal-head-cell sat">金</div><div class="cal-head-cell sat">土</div>
   </div>
   <div class="cal-grid" id="calGrid"></div>
 </div>
@@ -331,7 +331,7 @@ body{font-family:'Helvetica Neue','Hiragino Sans','Yu Gothic UI',Arial,sans-seri
     <div class="cal-head-cell sun">日</div><div class="cal-head-cell">月</div>
     <div class="cal-head-cell">火</div><div class="cal-head-cell">水</div>
     <div class="cal-head-cell">木</div>
-    <div class="cal-head-cell">金</div><div class="cal-head-cell sat">土</div>
+    <div class="cal-head-cell sat">金</div><div class="cal-head-cell sat">土</div>
   </div>
   <div class="cal-grid" id="overviewGrid"></div>
 </div>
@@ -1484,6 +1484,8 @@ function saveClosedDays(){
 
 /* Special dates list */
 const TYPE_LABELS={holiday:'振替休日',closed:'臨時休業',other:'その他'};
+/* カレンダーのセル内に表示する短縮ラベル（丸の中に収めるため1文字） */
+const CELL_DEFAULT_LABELS={holiday:'振',closed:'臨',other:'他'};
 const TYPE_CLS={holiday:'stype-holiday',closed:'stype-closed',other:'stype-other'};
 
 function renderSpecialDateList(){
@@ -1520,7 +1522,8 @@ function saveSpecialDate(){
   if(!date){alert('日付を選択してください');return;}
   const type=document.getElementById('sdType').value;
   const rawLabel=document.getElementById('sdLabel').value.trim();
-  const label=rawLabel||TYPE_LABELS[type]||type;
+  /* 「臨時休業」など長い文字列はカレンダーセルからはみ出すため、未入力時は1文字のラベルを使用 */
+  const label=rawLabel||CELL_DEFAULT_LABELS[type]||TYPE_LABELS[type]||type;
   const s=getSettings();
   if(!s.specialDates)s.specialDates={};
   /* 既に同じ日付の特別日があれば「上書き」、なければ「追加」と表示して確認を取る */
@@ -2145,4 +2148,39 @@ function doExcelExport(){
         rows.push([dateStr,dowStr,section,'','','','',note]);
       }else{
         const entry=sd[k]||{lunch:{names:[],ext:false},dinner:{names:[],ext:false}};
-        const ln=(entry.lunch.nam
+        const ln=(entry.lunch.names||[]).filter(n=>n);
+        const dn=(entry.dinner.names||[]).filter(n=>n);
+        const section=dow===0?'日曜':dow===6?'土曜':dow===5?'金曜':'平日';
+        const extNote=(entry.lunch.ext?'昼延長 ':'')+(entry.dinner.ext?'夜延長':'');
+        rows.push([dateStr,dowStr,section,
+          ln[0]||'',ln.slice(1).join(' '),
+          dn[0]||'',dn.slice(1).join(' '),
+          extNote.trim()]);
+      }
+    }
+    const ws=XLSX.utils.aoa_to_sheet(rows);
+    ws['!cols']=[{wch:8},{wch:5},{wch:8},{wch:12},{wch:12},{wch:12},{wch:12},{wch:14}];
+    /* ヘッダー行スタイル（背景色） */
+    const range=XLSX.utils.decode_range(ws['!ref']);
+    for(let C=range.s.c;C<=range.e.c;C++){
+      const addr=XLSX.utils.encode_cell({r:0,c:C});
+      if(!ws[addr])continue;
+      ws[addr].s={fill:{fgColor:{rgb:'2C3E50'}},font:{bold:true,color:{rgb:'FFFFFF'}},alignment:{horizontal:'center'}};
+    }
+    XLSX.utils.book_append_sheet(wb,ws,sheetName);
+  }
+  const fname=months===1?`北京の希望_${sy}年${sm+1}月.xlsx`:`北京の希望_${sy}年${sm+1}月〜${months}ヶ月.xlsx`;
+  XLSX.writeFile(wb,fname);
+  closeExcelModal();
+}
+
+/* Backdrop close */
+['editOverlay','staffOverlay','specialDateOverlay','excelOverlay'].forEach(id=>{
+  document.getElementById(id).addEventListener('click',function(e){
+    if(e.target===this)this.classList.remove('open');
+  });
+});
+
+</script>
+</body>
+</html>
