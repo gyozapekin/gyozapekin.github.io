@@ -2294,4 +2294,465 @@ function _showUndoDeleteToast(name){
 
   const toast=document.createElement('div');
   toast.id='undoDeleteToast';
-  toast.style.cssText='position:fixed;bottom:24px;left:50%;transfor
+  toast.style.cssText='position:fixed;bottom:24px;left:50%;transform:translateX(-50%);'
+    +'background:#1e293b;color:#fff;padding:14px 22px;border-radius:14px;'
+    +'font-size:.84em;font-weight:600;z-index:9999;display:flex;align-items:center;'
+    +'gap:14px;box-shadow:0 6px 28px rgba(0,0,0,.38);animation:slideUp .25s ease;white-space:nowrap';
+
+  const msg=document.createElement('span');
+  msg.textContent=`「${name}」を削除しました`;
+  toast.appendChild(msg);
+
+  const btn=document.createElement('button');
+  btn.textContent='↩ 元に戻す';
+  btn.style.cssText='background:#3b82f6;color:#fff;border:none;border-radius:8px;'
+    +'padding:7px 16px;font-size:.82em;font-weight:700;cursor:pointer;flex-shrink:0;'
+    +'transition:background .12s';
+  btn.onmouseenter=()=>{btn.style.background='#2563eb';};
+  btn.onmouseleave=()=>{btn.style.background='#3b82f6';};
+  /* クリックで確認ダイアログ → OK なら復元 */
+  btn.onclick=()=>{
+    if(confirm(`「${name}」の削除を取り消して復元しますか？\n（希望カレンダー・シフト管理のデータもすべて戻ります）`)){
+      _undoDeleteStaff();
+    }
+  };
+  toast.appendChild(btn);
+  document.body.appendChild(toast);
+
+  /* 30秒後: トーストを消してウォーニングを出す */
+  _deleteUndoTimer=setTimeout(()=>{
+    /* Undoトースト閉じる */
+    toast.style.opacity='0';
+    toast.style.transition='opacity .35s';
+    setTimeout(()=>{
+      toast.remove();
+      _deletedStaff=null;
+      /* ⚠ 復元期限切れウォーニング */
+      _showDeleteExpiredWarning(name);
+    },380);
+  },30000);
+}
+
+function _showDeleteExpiredWarning(name){
+  const warn=document.createElement('div');
+  warn.style.cssText='position:fixed;bottom:24px;left:50%;transform:translateX(-50%);'
+    +'background:#dc2626;color:#fff;padding:13px 22px;border-radius:14px;'
+    +'font-size:.84em;font-weight:700;z-index:9999;display:flex;align-items:center;gap:9px;'
+    +'box-shadow:0 6px 28px rgba(0,0,0,.38);animation:slideUp .25s ease;white-space:nowrap';
+  warn.innerHTML='⚠ 復元できる時間が切れました。「'+name+'」の削除が確定しました。';
+  document.body.appendChild(warn);
+  /* 5秒後に消える */
+  setTimeout(()=>{
+    warn.style.opacity='0';warn.style.transition='opacity .4s';
+    setTimeout(()=>warn.remove(),420);
+  },5000);
+}
+
+function _undoDeleteStaff(){
+  if(!_deletedStaff)return;
+  clearTimeout(_deleteUndoTimer);
+  const restored=_deletedStaff;
+  _deletedStaff=null;
+
+  /* ユーザーリストに戻す（希望データはlocalStorageに残っているのでそのまま復元） */
+  const users=getUsers();
+  users.push(restored);
+  saveUsers(users);
+
+  /* 全タブを再描画 */
+  renderStaffPanel();
+  render();
+  if(document.getElementById('panel-overview').classList.contains('active'))renderOverview();
+  if(document.getElementById('panel-avail').classList.contains('active'))renderAvailPanel();
+
+  /* Undoトーストを閉じて成功トースト表示 */
+  const undo=document.getElementById('undoDeleteToast');
+  if(undo){undo.style.opacity='0';setTimeout(()=>undo.remove(),350);}
+  showUpdateToast(`↩ 「${restored.name}」を復元しました`);
+}
+
+/* ════════════════════════════════════════
+   NAVIGATION & TABS
+════════════════════════════════════════ */
+function changeMonth(d){
+  M+=d;if(M>11){M=0;Y++;}if(M<0){M=11;Y--;}
+  loadShift();_initShiftHistory();render();
+  const ap=document.getElementById('panel-avail');
+  const op=document.getElementById('panel-overview');
+  if(ap.classList.contains('active'))renderAvailPanel();
+  if(op.classList.contains('active'))renderOverview();
+}
+
+function resetToDefault(){
+  if(!confirm('この月のシフトにテンプレートを反映しますか？\n（現在のシフトデータは上書きされます）'))return;
+  shiftData=applyTemplate(Y,M);_pushShiftHistory();saveShift();render();
+}
+
+const TAB_NAMES=['shift','overview','avail','staff','settings','template'];
+function switchTab(name){
+  document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active',TAB_NAMES[i]===name));
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('panel-'+name).classList.add('active');
+  if(name==='shift'){loadShift();_initShiftHistory();render();}
+  if(name==='overview')renderOverview();
+  if(name==='avail')renderAvailPanel();
+  if(name==='staff')renderStaffPanel();
+  if(name==='settings'){renderSettingsPanel();renderMasterPwStatus();}
+  if(name==='template')renderTemplatePanel();
+}
+
+/* ════════════════════════════════════════
+   SHIFT TEMPLATE (2-week rotation)
+   Storage: pekin_shift_template
+   Structure: {
+     weekA: {0:{lunch:[],dinner:[]}, 1:{...}, ..., 6:{...}},
+     weekB: same
+   }
+   0=Sun,1=Mon,...,6=Sat (JS getDay())
+   weekIdx = Math.floor((d-1+firstDow)/7)
+   weekIdx%2===0 → weekA, weekIdx%2===1 → weekB
+════════════════════════════════════════ */
+const TEMPLATE_KEY='pekin_shift_template';
+const TPL_DAYS=[1,2,3,4,5,6,0]; // Mon first, then Sun last for display
+
+function getTemplate(){
+  const def={weekA:{},weekB:{}};
+  TPL_DAYS.forEach(d=>{
+    def.weekA[d]={lunch:[],dinner:[]};
+    def.weekB[d]={lunch:[],dinner:[]};
+  });
+  try{
+    const stored=JSON.parse(localStorage.getItem(TEMPLATE_KEY)||'null');
+    if(!stored)return def;
+    const out={weekA:{},weekB:{}};
+    TPL_DAYS.forEach(d=>{
+      out.weekA[d]={
+        lunch:(stored.weekA&&stored.weekA[d]&&stored.weekA[d].lunch)||[],
+        dinner:(stored.weekA&&stored.weekA[d]&&stored.weekA[d].dinner)||[]
+      };
+      out.weekB[d]={
+        lunch:(stored.weekB&&stored.weekB[d]&&stored.weekB[d].lunch)||[],
+        dinner:(stored.weekB&&stored.weekB[d]&&stored.weekB[d].dinner)||[]
+      };
+    });
+    return out;
+  }catch(e){return def;}
+}
+
+function saveTemplateData(t){
+  const json=JSON.stringify(t);
+  localStorage.setItem(TEMPLATE_KEY,json);
+  _syncKeyToFirebase(TEMPLATE_KEY,json);  /* ← テンプレもFirebaseへ */
+}
+
+/* Week index (0-based) within the month, week starts on Sunday */
+function getWeekInMonth(y,m,d){
+  const firstDow=new Date(y,m,1).getDay();
+  return Math.floor((d-1+firstDow)/7);
+}
+
+/* Apply template to a month → returns new shiftData */
+function applyTemplate(y,m){
+  const tpl=getTemplate();
+  const out={};
+  const days=new Date(y,m+1,0).getDate();
+  for(let d=1;d<=days;d++){
+    if(isClosedDay(y,m,d))continue;
+    const k=dKey(y,m,d);
+    const dow=new Date(y,m,d).getDay();
+    const weekIdx=getWeekInMonth(y,m,d);
+    const week=weekIdx%2===0?'weekA':'weekB';
+    const td=tpl[week][dow]||{lunch:[],dinner:[]};
+    out[k]={
+      lunch:{names:[...(td.lunch||[])],ext:false},
+      dinner:{names:[...(td.dinner||[])],ext:false}
+    };
+  }
+  return out;
+}
+
+function applyTemplateToMonth(){
+  if(!confirm(`${Y}年${M+1}月のシフトにテンプレートを反映しますか？\n（現在のシフトデータは上書きされます）`))return;
+  shiftData=applyTemplate(Y,M);
+  saveShift();
+  showUpdateToast('📋 テンプレートをシフトに反映しました');
+  switchTab('shift');
+}
+
+/* ── Template panel renderer ── */
+function renderTemplatePanel(){
+  const tpl=getTemplate();
+  const staffList=getStaffList();
+  const closedDows=(getSettings().defaultClosedDays||[2,3]);
+  const container=document.getElementById('templatePanelBody');
+  if(!container)return;
+  container.innerHTML='';
+
+  const DOW_NAMES=['日','月','火','水','木','金','土'];
+
+  ['weekA','weekB'].forEach(week=>{
+    const label=week==='weekA'?'🅐 Aパターン（1・3・5週目）':'🅑 Bパターン（2・4週目）';
+    const sec=document.createElement('div');
+    sec.className='sec';
+    sec.style.marginBottom='20px';
+
+    const head=document.createElement('div');
+    head.className='sec-head';
+    head.textContent=label;
+    sec.appendChild(head);
+
+    const body=document.createElement('div');
+    body.className='sec-body';
+    body.style.padding='12px 14px';
+
+    const table=document.createElement('table');
+    table.style.cssText='width:100%;border-collapse:collapse;font-size:.82em';
+
+    const thead=document.createElement('thead');
+    thead.innerHTML=`<tr style="background:#f8fafc">
+      <th style="width:44px;padding:7px 10px;text-align:left;color:#94a3b8;font-size:.8em;font-weight:700;border-bottom:2px solid #e2e8f0">曜日</th>
+      <th style="padding:7px 10px;text-align:left;color:#1d4ed8;font-size:.8em;font-weight:700;border-bottom:2px solid #e2e8f0">☀ 昼</th>
+      <th style="padding:7px 10px;text-align:left;color:#92400e;font-size:.8em;font-weight:700;border-bottom:2px solid #e2e8f0">🌙 夜</th>
+    </tr>`;
+    table.appendChild(thead);
+
+    const tbody=document.createElement('tbody');
+    TPL_DAYS.forEach(dow=>{
+      const isClosed=closedDows.includes(dow);
+      const tr=document.createElement('tr');
+      tr.style.cssText='border-bottom:1px solid #f1f5f9;'+(isClosed?'opacity:.4':'');
+
+      const tdDow=document.createElement('td');
+      tdDow.style.cssText='padding:6px 10px;font-weight:700;white-space:nowrap;vertical-align:middle;';
+      tdDow.style.color=dow===0?'#c0392b':dow===6?'#1d4ed8':'#374151';
+      tdDow.textContent=DOW_NAMES[dow];
+      if(isClosed){
+        const cl=document.createElement('span');
+        cl.style.cssText='display:block;font-size:.65em;color:#adb5bd;font-weight:400';
+        cl.textContent='定休';
+        tdDow.appendChild(cl);
+      }
+      tr.appendChild(tdDow);
+
+      ['lunch','dinner'].forEach(type=>{
+        const td=document.createElement('td');
+        td.style.cssText='padding:4px 8px;vertical-align:middle;';
+        td.id=`tpl-${week}-${dow}-${type}`;
+        _renderTplCell(td,week,dow,type,tpl,staffList);
+        tr.appendChild(td);
+      });
+      tbody.appendChild(tr);
+    });
+    table.appendChild(tbody);
+    body.appendChild(table);
+    sec.appendChild(body);
+    container.appendChild(sec);
+  });
+}
+
+function _renderTplCell(td,week,dow,type,tpl,staffList){
+  td.innerHTML='';
+  const wrap=document.createElement('div');
+  wrap.style.cssText='display:flex;flex-wrap:wrap;gap:3px;align-items:center;min-height:28px;padding:2px 0';
+  const assigned=(tpl[week]&&tpl[week][dow]&&tpl[week][dow][type])||[];
+
+  assigned.forEach(n=>{
+    const t=document.createElement('span');
+    t.className='ntag ntag-assigned ntag-pending';
+    t.textContent=n;
+    t.title=`${n} — クリックで外す`;
+    t.style.cursor='pointer';
+    t.onclick=(e)=>{e.stopPropagation();_removeTplStaff(week,dow,type,n);};
+    wrap.appendChild(t);
+  });
+
+  const remaining=staffList.filter(s=>!assigned.includes(s.name));
+  if(remaining.length>0){
+    const btn=document.createElement('button');
+    btn.className='cbtn cbtn-outline';
+    btn.style.cssText='font-size:.62em;padding:2px 8px;border-radius:10px;';
+    btn.textContent='＋';
+    btn.title='スタッフを追加';
+    btn.onclick=(ev)=>{ev.stopPropagation();_showTplPicker(ev,week,dow,type,remaining);};
+    wrap.appendChild(btn);
+  }
+  td.appendChild(wrap);
+}
+
+let _tplPickerCleanup=null;
+function _showTplPicker(ev,week,dow,type,options){
+  if(_tplPickerCleanup)_tplPickerCleanup();
+  const picker=document.createElement('div');
+  picker.style.cssText='position:fixed;z-index:600;background:#fff;border:1px solid #e2e8f0;'
+    +'border-radius:10px;box-shadow:0 8px 30px rgba(0,0,0,.18);padding:6px;'
+    +'display:flex;flex-direction:column;gap:2px;min-width:110px;max-height:280px;overflow-y:auto';
+  const rect=ev.target.getBoundingClientRect();
+  let top=rect.bottom+4,left=rect.left;
+  // Keep within viewport
+  if(top+200>window.innerHeight)top=rect.top-200;
+  if(left+130>window.innerWidth)left=window.innerWidth-140;
+  picker.style.top=top+'px';
+  picker.style.left=left+'px';
+
+  options.forEach(s=>{
+    const btn=document.createElement('button');
+    btn.style.cssText='border:none;background:none;padding:6px 12px;text-align:left;cursor:pointer;'
+      +'border-radius:6px;font-size:.83em;color:#374151;white-space:nowrap;width:100%';
+    btn.textContent=s.name;
+    btn.onmouseenter=()=>{btn.style.background='#eff6ff';};
+    btn.onmouseleave=()=>{btn.style.background='';};
+    btn.onclick=()=>{_addTplStaff(week,dow,type,s.name);_tplPickerCleanup();};
+    picker.appendChild(btn);
+  });
+
+  document.body.appendChild(picker);
+  const outsideClick=(e)=>{if(!picker.contains(e.target))_tplPickerCleanup();};
+  _tplPickerCleanup=()=>{
+    picker.remove();
+    document.removeEventListener('click',outsideClick);
+    _tplPickerCleanup=null;
+  };
+  setTimeout(()=>document.addEventListener('click',outsideClick),0);
+}
+
+function _addTplStaff(week,dow,type,name){
+  const tpl=getTemplate();
+  if(!tpl[week][dow])tpl[week][dow]={lunch:[],dinner:[]};
+  if(!tpl[week][dow][type].includes(name))tpl[week][dow][type].push(name);
+  saveTemplateData(tpl);
+  const td=document.getElementById(`tpl-${week}-${dow}-${type}`);
+  if(td)_renderTplCell(td,week,dow,type,tpl,getStaffList());
+}
+
+function _removeTplStaff(week,dow,type,name){
+  const tpl=getTemplate();
+  if(tpl[week]&&tpl[week][dow])
+    tpl[week][dow][type]=(tpl[week][dow][type]||[]).filter(n=>n!==name);
+  saveTemplateData(tpl);
+  const td=document.getElementById(`tpl-${week}-${dow}-${type}`);
+  if(td)_renderTplCell(td,week,dow,type,tpl,getStaffList());
+}
+
+/* ════════════════════════════════════════
+   QUICK-CLOSE TOGGLE
+════════════════════════════════════════ */
+function toggleQuickClose(y,m,d){
+  const k=dKey(y,m,d);
+  const s=getSettings();
+  const special=s.specialDates&&s.specialDates[k];
+
+  if(special){
+    const stype=special.type;
+    if(stype==='open'){
+      /* 営業例外 → 定休に戻す */
+      if(confirm(`${y}年${m+1}月${d}日の「営業日設定」を解除し、定休日に戻しますか？`)){
+        delete s.specialDates[k];
+        saveSettings(s);loadShift();render();
+        if(document.getElementById('panel-settings').classList.contains('active'))renderSettingsPanel();
+      }
+    }else{
+      /* 特別休日 → 解除 */
+      if(confirm(`${y}年${m+1}月${d}日の休業設定を解除しますか？`)){
+        delete s.specialDates[k];
+        saveSettings(s);loadShift();render();
+        if(document.getElementById('panel-settings').classList.contains('active'))renderSettingsPanel();
+      }
+    }
+  }else{
+    const dow=new Date(y,m,d).getDay();
+    const isRegular=(s.defaultClosedDays||[2,3]).includes(dow);
+    if(isRegular){
+      /* 定休日 → 営業にする */
+      if(confirm(`${y}年${m+1}月${d}日（定休日）を営業日に変更しますか？`)){
+        if(!s.specialDates)s.specialDates={};
+        s.specialDates[k]={type:'open',label:'営業'};
+        saveSettings(s);loadShift();render();
+        if(document.getElementById('panel-settings').classList.contains('active'))renderSettingsPanel();
+      }
+    }else{
+      /* 通常営業日 → 休業設定モーダルをその日付で開く */
+      document.getElementById('sdDate').value=k;
+      document.getElementById('sdType').value='closed';
+      document.getElementById('sdLabel').value='';
+      document.getElementById('specialDateOverlay').classList.add('open');
+    }
+  }
+}
+
+/* ════════════════════════════════════════
+   EXCEL EXPORT (SheetJS)
+════════════════════════════════════════ */
+function openExcelModal(){
+  document.getElementById('xlStartY').value=Y;
+  document.getElementById('xlStartM').value=M+1;
+  document.getElementById('xlRange').value='1';
+  document.getElementById('excelOverlay').classList.add('open');
+}
+function closeExcelModal(){document.getElementById('excelOverlay').classList.remove('open');}
+
+function doExcelExport(){
+  if(typeof XLSX==='undefined'){alert('SheetJSライブラリが読み込まれていません。ページを再読み込みしてください。');return;}
+  const sy=parseInt(document.getElementById('xlStartY').value)||Y;
+  const sm=parseInt(document.getElementById('xlStartM').value)-1;
+  const months=parseInt(document.getElementById('xlRange').value)||1;
+  const wb=XLSX.utils.book_new();
+  const DOW_JP=['日','月','火','水','木','金','土'];
+  const SECTION_LABEL={regular:'定休日',holiday:'振替休日',closed:'臨時休業',other:'その他'};
+
+  for(let i=0;i<months;i++){
+    let ey=sy,em=sm+i;
+    while(em>11){em-=12;ey++;}
+    const sheetName=`${ey}年${em+1}月`;
+    const days=new Date(ey,em+1,0).getDate();
+    const shKey=`pekin_shift_${ey}-${String(em+1).padStart(2,'0')}`;
+    const sd=JSON.parse(localStorage.getItem(shKey)||'{}');
+
+    const rows=[['日付','曜日','区分','昼の部','昼予備','夜の部','夜予備','備考']];
+    for(let d=1;d<=days;d++){
+      const dow=new Date(ey,em,d).getDay();
+      const k=dKey(ey,em,d);
+      const ci=getClosedInfo(ey,em,d);
+      const dateStr=`${em+1}/${d}`;
+      const dowStr=DOW_JP[dow];
+      if(ci){
+        const section=SECTION_LABEL[ci.type]||ci.type;
+        const note=ci.label&&ci.label!==section?ci.label:'';
+        rows.push([dateStr,dowStr,section,'','','','',note]);
+      }else{
+        const entry=sd[k]||{lunch:{names:[],ext:false},dinner:{names:[],ext:false}};
+        const ln=(entry.lunch.names||[]).filter(n=>n);
+        const dn=(entry.dinner.names||[]).filter(n=>n);
+        const section=dow===0?'日曜':dow===6?'土曜':dow===5?'金曜':'平日';
+        const extNote=(entry.lunch.ext?'昼延長 ':'')+(entry.dinner.ext?'夜延長':'');
+        rows.push([dateStr,dowStr,section,
+          ln[0]||'',ln.slice(1).join(' '),
+          dn[0]||'',dn.slice(1).join(' '),
+          extNote.trim()]);
+      }
+    }
+    const ws=XLSX.utils.aoa_to_sheet(rows);
+    ws['!cols']=[{wch:8},{wch:5},{wch:8},{wch:12},{wch:12},{wch:12},{wch:12},{wch:14}];
+    /* ヘッダー行スタイル（背景色） */
+    const range=XLSX.utils.decode_range(ws['!ref']);
+    for(let C=range.s.c;C<=range.e.c;C++){
+      const addr=XLSX.utils.encode_cell({r:0,c:C});
+      if(!ws[addr])continue;
+      ws[addr].s={fill:{fgColor:{rgb:'2C3E50'}},font:{bold:true,color:{rgb:'FFFFFF'}},alignment:{horizontal:'center'}};
+    }
+    XLSX.utils.book_append_sheet(wb,ws,sheetName);
+  }
+  const fname=months===1?`北京の希望_${sy}年${sm+1}月.xlsx`:`北京の希望_${sy}年${sm+1}月〜${months}ヶ月.xlsx`;
+  XLSX.writeFile(wb,fname);
+  closeExcelModal();
+}
+
+/* Backdrop close */
+['editOverlay','staffOverlay','specialDateOverlay','excelOverlay'].forEach(id=>{
+  document.getElementById(id).addEventListener('click',function(e){
+    if(e.target===this)this.classList.remove('open');
+  });
+});
+
+</script>
+</body>
+</html>
