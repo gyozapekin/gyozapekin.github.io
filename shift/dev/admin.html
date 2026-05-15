@@ -249,10 +249,49 @@ body{font-family:'Helvetica Neue','Hiragino Sans','Yu Gothic UI',Arial,sans-seri
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 </head>
 <body>
-<div id="dev-banner" style="position:fixed;top:0;left:0;right:0;background:#fbbf24;color:#1f2937;padding:8px 16px;text-align:center;font-weight:bold;z-index:99999;font-size:14px;border-bottom:3px solid #b45309;box-shadow:0 2px 8px rgba(0,0,0,.2);font-family:sans-serif;">
-  ⚠ テスト環境 (dev) ⚠ 本番データには影響しません — URL: /shift/dev/
+<div id="dev-banner" style="position:fixed;top:0;left:0;right:0;background:#fbbf24;color:#1f2937;padding:8px 16px;text-align:center;font-weight:bold;z-index:99999;font-size:14px;border-bottom:3px solid #b45309;box-shadow:0 2px 8px rgba(0,0,0,.2);font-family:sans-serif;display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;">
+  <span>⚠ テスト環境 (dev) ⚠ 本番データには影響しません — URL: /shift/dev/</span>
+  <button onclick="resetDevFromProd()" style="background:#1f2937;color:#fbbf24;border:none;padding:4px 12px;border-radius:6px;cursor:pointer;font-weight:bold;font-size:12px;">↺ 本番から再コピー</button>
+  <button onclick="exportDevBackup()" style="background:#1f2937;color:#fbbf24;border:none;padding:4px 12px;border-radius:6px;cursor:pointer;font-weight:bold;font-size:12px;">⬇ テスト環境をバックアップ</button>
 </div>
 <style>body{padding-top:42px !important;}@media print{#dev-banner{display:none}}</style>
+<script>
+// テスト環境を本番(pekin/db)からコピーで上書き
+async function resetDevFromProd(){
+  if(!confirm('テスト環境(pekin/db_dev)を本番(pekin/db)のコピーで上書きします。
+
+テスト環境で行った変更はすべて失われます。
+よろしいですか？'))return;
+  try{
+    const fbBase='https://pekin-shift-default-rtdb.asia-southeast1.firebasedatabase.app';
+    const r=await fetch(fbBase+'/pekin/db.json');
+    if(!r.ok)throw new Error('本番データ取得失敗 ('+r.status+')');
+    const data=await r.json();
+    if(!data)throw new Error('本番データが空です');
+    const r2=await fetch(fbBase+'/pekin/db_dev.json',{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});
+    if(!r2.ok)throw new Error('テスト環境への書き込み失敗 ('+r2.status+')');
+    alert('本番データのコピー完了。
+ページを再読み込みします。');
+    location.reload();
+  }catch(e){alert('エラー: '+e.message);}
+}
+// テスト環境(pekin/db_dev)をJSONとしてダウンロード
+async function exportDevBackup(){
+  try{
+    const fbBase='https://pekin-shift-default-rtdb.asia-southeast1.firebasedatabase.app';
+    const r=await fetch(fbBase+'/pekin/db_dev.json');
+    if(!r.ok)throw new Error('テスト環境データ取得失敗');
+    const data=await r.json();
+    const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
+    const a=document.createElement('a');
+    a.href=URL.createObjectURL(blob);
+    const today=new Date().toISOString().slice(0,10);
+    a.download='pekin_db_dev_backup_'+today+'.json';
+    document.body.appendChild(a);a.click();document.body.removeChild(a);
+  }catch(e){alert('エラー: '+e.message);}
+}
+</script>
+
 
 
 <!-- NAV -->
