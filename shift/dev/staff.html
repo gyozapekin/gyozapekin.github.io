@@ -163,7 +163,7 @@ body{font-family:'Helvetica Neue','Hiragino Sans','Yu Gothic UI',Arial,sans-seri
 <body>
 <div id="dev-banner" style="position:fixed;top:0;left:0;right:0;background:#fbbf24;color:#1f2937;padding:6px 12px;text-align:center;font-weight:bold;z-index:99999;font-size:13px;border-bottom:3px solid #b45309;box-shadow:0 2px 8px rgba(0,0,0,.2);font-family:sans-serif;">
   <div style="display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;">
-    <span>⚠ テスト環境 (dev) v6 ⚠ /shift/dev/</span>
+    <span>⚠ テスト環境 (dev) v6 ⚠ /dev/shift/</span>
     <span id="dev-backup-status" style="background:#dc2626;color:#fff;padding:2px 8px;border-radius:4px;font-size:11px;">バックアップ未取得</span>
     <button id="dev-btn-backup" onclick="exportDevBackup()" style="background:#065f46;color:#fef3c7;border:none;padding:5px 12px;border-radius:6px;cursor:pointer;font-weight:bold;font-size:12px;">⬇ ① まずバックアップ</button>
     <button id="dev-btn-copy" onclick="resetDevFromProd()" style="background:#1f2937;color:#fbbf24;border:none;padding:5px 12px;border-radius:6px;cursor:pointer;font-weight:bold;font-size:12px;">↺ ② 本番から再コピー</button>
@@ -946,4 +946,41 @@ function changePassword(){
   const currentPw=document.getElementById('acctCurrentPw').value;
   const newPw=document.getElementById('acctNewPw').value;
   const newPw2=document.getElementById('acctNewPw2').value;
-  const msgEl=document.getElem
+  const msgEl=document.getElementById('acctMsg');
+
+  function showMsg(type,text){
+    msgEl.className='acct-msg '+type;
+    msgEl.textContent=text;
+    msgEl.style.display='block';
+    setTimeout(()=>{msgEl.style.display='none';},4000);
+  }
+
+  if(!currentPw||!newPw||!newPw2){showMsg('err','すべての項目を入力してください');return;}
+  if(newPw.length<6){showMsg('err','新しいパスワードは6文字以上にしてください');return;}
+  if(newPw!==newPw2){showMsg('err','新しいパスワードが一致しません');return;}
+
+  const users=getUsers();
+  const myUser=users.find(u=>u.id===sess.userId);
+  if(!myUser){showMsg('err','ユーザーが見つかりません');return;}
+
+  /* 現在のパスワード確認（デフォルトPW か 変更済みPW のどちらかと一致すればOK） */
+  const isValid=(myUser.password===currentPw)||(myUser.customPassword&&myUser.customPassword===currentPw);
+  if(!isValid){showMsg('err','現在のパスワードが違います');return;}
+
+  if(newPw===myUser.password&&!myUser.customPassword){
+    showMsg('err','新しいパスワードはデフォルトパスワードと異なるものにしてください');return;
+  }
+  myUser.customPassword=newPw;
+  saveUsers(users);
+  document.getElementById('acctCurrentPw').value='';
+  document.getElementById('acctNewPw').value='';
+  document.getElementById('acctNewPw2').value='';
+  showMsg('ok','✅ パスワードを変更しました');
+}
+
+/* ── INIT ── */
+loadMyAvail();
+renderRequestList();
+</script>
+</body>
+</html>�
