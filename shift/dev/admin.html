@@ -2739,4 +2739,24 @@ function doExcelExport(){
     /* ヘッダー行スタイル（背景色） */
     const range=XLSX.utils.decode_range(ws['!ref']);
     for(let C=range.s.c;C<=range.e.c;C++){
-      const addr=XLS
+      const addr=XLSX.utils.encode_cell({r:0,c:C});
+      if(!ws[addr])continue;
+      ws[addr].s={fill:{fgColor:{rgb:'2C3E50'}},font:{bold:true,color:{rgb:'FFFFFF'}},alignment:{horizontal:'center'}};
+    }
+    XLSX.utils.book_append_sheet(wb,ws,sheetName);
+  }
+  const fname=months===1?`北京の希望_${sy}年${sm+1}月.xlsx`:`北京の希望_${sy}年${sm+1}月〜${months}ヶ月.xlsx`;
+  XLSX.writeFile(wb,fname);
+  closeExcelModal();
+}
+
+/* Backdrop close */
+['editOverlay','staffOverlay','specialDateOverlay','excelOverlay'].forEach(id=>{
+  document.getElementById(id).addEventListener('click',function(e){
+    if(e.target===this)this.classList.remove('open');
+  });
+});
+
+</script>
+</body>
+</html>
