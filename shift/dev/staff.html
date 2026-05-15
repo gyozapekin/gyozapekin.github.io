@@ -633,14 +633,48 @@ const dKey=(y,m,d)=>`${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,
 const DOW_STR=['日','月','火','水','木','金','土'];
 const DOW_CLS2=['sun','mon','tue','wed','thu','fri','sat'];
 
-/* ── DEADLINE CHECK ── */
+/* ── DEADLINE CHECK ──
+   settings.deadline.day を「対象月の前月N日」として扱う
+   settings.extensions[staffId][YYYY-MM] が今日以降なら延長扱い
+   締切オフ（enabled=false）なら常に「受付中」 */
 function updateDeadlineUI(){
-  const deadline=new Date(now.getFullYear(),now.getMonth(),20,23,59,59);
-  const closed=now>deadline;
-  document.getElementById('reqStatusBadge').textContent=closed?'受付終了':'受付中';
-  document.getElementById('reqStatusBadge').className='status-badge '+(closed?'status-closed':'status-open');
+  const settings=JSON.parse(localStorage.getItem('pekin_settings')||'{}');
+  const dl=settings.deadline||{enabled:true,day:20};
+  const day=Math.max(1,Math.min(31,parseInt(dl.day,10)||20));
+  /* 対象月（reqY, reqM）の前月N日23:59 が締切 */
+  let dy=reqY, dm=reqM-1;
+  if(dm<0){dm=11;dy--;}
+  const baseDeadline=new Date(dy,dm,day,23,59,59);
+  /* 延長設定 */
+  const ym=`${reqY}-${String(reqM+1).padStart(2,'0')}`;
+  const exts=settings.extensions||{};
+  const extStr=(exts[sess.userId]&&exts[sess.userId][ym])||'';
+  let extendedTo=null;
+  if(extStr){
+    const parts=extStr.split('-').map(n=>parseInt(n,10));
+    if(parts.length===3&&parts[0]&&parts[1]&&parts[2])
+      extendedTo=new Date(parts[0],parts[1]-1,parts[2],23,59,59);
+  }
+  const effective=extendedTo&&extendedTo>baseDeadline?extendedTo:baseDeadline;
+  const enabled=dl.enabled!==false;
+  const closed=enabled&&now>effective;
+  /* バッジ表示 */
+  const badge=document.getElementById('reqStatusBadge');
+  if(!enabled){
+    badge.textContent='受付中（締切なし）';badge.className='status-badge status-open';
+  }else if(extendedTo&&extendedTo>baseDeadline){
+    badge.textContent=closed?'受付終了':'受付中（延長中）';
+    badge.className='status-badge '+(closed?'status-closed':'status-open');
+  }else{
+    badge.textContent=closed?'受付終了':'受付中';
+    badge.className='status-badge '+(closed?'status-closed':'status-open');
+  }
   document.getElementById('submitBtn').disabled=closed;
-  document.getElementById('reqDeadline').textContent=`${now.getMonth()+1}月20日`;
+  /* 締切日表示 */
+  const eff=effective;
+  const dlText=`${eff.getMonth()+1}月${eff.getDate()}日 23:59`+
+    (extendedTo&&extendedTo>baseDeadline?'（延長）':'');
+  document.getElementById('reqDeadline').textContent=enabled?dlText:'設定なし';
 }
 
 /* ── RENDER REQUEST LIST ──
@@ -912,41 +946,4 @@ function changePassword(){
   const currentPw=document.getElementById('acctCurrentPw').value;
   const newPw=document.getElementById('acctNewPw').value;
   const newPw2=document.getElementById('acctNewPw2').value;
-  const msgEl=document.getElementById('acctMsg');
-
-  function showMsg(type,text){
-    msgEl.className='acct-msg '+type;
-    msgEl.textContent=text;
-    msgEl.style.display='block';
-    setTimeout(()=>{msgEl.style.display='none';},4000);
-  }
-
-  if(!currentPw||!newPw||!newPw2){showMsg('err','すべての項目を入力してください');return;}
-  if(newPw.length<6){showMsg('err','新しいパスワードは6文字以上にしてください');return;}
-  if(newPw!==newPw2){showMsg('err','新しいパスワードが一致しません');return;}
-
-  const users=getUsers();
-  const myUser=users.find(u=>u.id===sess.userId);
-  if(!myUser){showMsg('err','ユーザーが見つかりません');return;}
-
-  /* 現在のパスワード確認（デフォルトPW か 変更済みPW のどちらかと一致すればOK） */
-  const isValid=(myUser.password===currentPw)||(myUser.customPassword&&myUser.customPassword===currentPw);
-  if(!isValid){showMsg('err','現在のパスワードが違います');return;}
-
-  if(newPw===myUser.password&&!myUser.customPassword){
-    showMsg('err','新しいパスワードはデフォルトパスワードと異なるものにしてください');return;
-  }
-  myUser.customPassword=newPw;
-  saveUsers(users);
-  document.getElementById('acctCurrentPw').value='';
-  document.getElementById('acctNewPw').value='';
-  document.getElementById('acctNewPw2').value='';
-  showMsg('ok','✅ パスワードを変更しました');
-}
-
-/* ── INIT ── */
-loadMyAvail();
-renderRequestList();
-</script>
-</body>
-</html>�
+  const msgEl=document.getElem
