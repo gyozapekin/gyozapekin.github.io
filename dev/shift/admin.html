@@ -251,7 +251,7 @@ body{font-family:'Helvetica Neue','Hiragino Sans','Yu Gothic UI',Arial,sans-seri
 <body>
 <div id="dev-banner" style="position:fixed;top:0;left:0;right:0;background:#fbbf24;color:#1f2937;padding:6px 12px;text-align:center;font-weight:bold;z-index:99999;font-size:13px;border-bottom:3px solid #b45309;box-shadow:0 2px 8px rgba(0,0,0,.2);font-family:sans-serif;">
   <div style="display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;">
-    <span>⚠ テスト環境 (dev) v6 ⚠ /dev/shift/</span>
+    <span>⚠ テスト環境 (dev) v6 ⚠ /shift/dev/</span>
     <span id="dev-backup-status" style="background:#dc2626;color:#fff;padding:2px 8px;border-radius:4px;font-size:11px;">バックアップ未取得</span>
     <button id="dev-btn-backup" onclick="exportDevBackup()" style="background:#065f46;color:#fef3c7;border:none;padding:5px 12px;border-radius:6px;cursor:pointer;font-weight:bold;font-size:12px;">⬇ ① まずバックアップ</button>
     <button id="dev-btn-copy" onclick="resetDevFromProd()" style="background:#1f2937;color:#fbbf24;border:none;padding:5px 12px;border-radius:6px;cursor:pointer;font-weight:bold;font-size:12px;">↺ ② 本番から再コピー</button>
@@ -2739,4 +2739,24 @@ function doExcelExport(){
     /* ヘッダー行スタイル（背景色） */
     const range=XLSX.utils.decode_range(ws['!ref']);
     for(let C=range.s.c;C<=range.e.c;C++){
-      const addr=XLS
+      const addr=XLSX.utils.encode_cell({r:0,c:C});
+      if(!ws[addr])continue;
+      ws[addr].s={fill:{fgColor:{rgb:'2C3E50'}},font:{bold:true,color:{rgb:'FFFFFF'}},alignment:{horizontal:'center'}};
+    }
+    XLSX.utils.book_append_sheet(wb,ws,sheetName);
+  }
+  const fname=months===1?`北京の希望_${sy}年${sm+1}月.xlsx`:`北京の希望_${sy}年${sm+1}月〜${months}ヶ月.xlsx`;
+  XLSX.writeFile(wb,fname);
+  closeExcelModal();
+}
+
+/* Backdrop close */
+['editOverlay','staffOverlay','specialDateOverlay','excelOverlay'].forEach(id=>{
+  document.getElementById(id).addEventListener('click',function(e){
+    if(e.target===this)this.classList.remove('open');
+  });
+});
+
+</script>
+</body>
+</html>
