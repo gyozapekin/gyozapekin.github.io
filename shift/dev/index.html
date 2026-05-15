@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>海鮮餃子ペキン — スタッフログイン</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Helvetica Neue','Hiragino Sans','Yu Gothic UI',Arial,sans-serif;
+  background:linear-gradient(145deg,#1a0a09 0%,#3d1010 50%,#1a0a09 100%);
+  min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+.card{background:#fff;border-radius:16px;width:100%;max-width:400px;
+  box-shadow:0 20px 60px rgba(0,0,0,.5);overflow:hidden}
+.card-head{background:linear-gradient(135deg,#a93226,#c0392b,#e74c3c);
+  padding:32px 28px;text-align:center;color:#fff}
+.logo{font-size:2.5em;margin-bottom:8px}
+.card-head h1{font-size:1.3em;font-weight:800;letter-spacing:.08em;margin-bottom:4px}
+.card-head p{font-size:.75em;opacity:.8;letter-spacing:.06em}
+.card-body{padding:32px 28px}
+.form-group{margin-bottom:18px}
+.form-group label{display:block;font-size:.78em;font-weight:700;color:#475569;
+  margin-bottom:6px;letter-spacing:.05em;text-transform:uppercase}
+.form-group input{width:100%;border:1.5px solid #e2e8f0;border-radius:8px;
+  padding:11px 14px;font-size:.95em;outline:none;transition:border-color .15s;color:#1a202c}
+.form-group input:focus{border-color:#c0392b;box-shadow:0 0 0 3px rgba(192,57,43,.1)}
+.login-btn{width:100%;background:linear-gradient(135deg,#c0392b,#e74c3c);
+  color:#fff;border:none;border-radius:8px;padding:12px;font-size:1em;
+  font-weight:700;cursor:pointer;letter-spacing:.05em;transition:opacity .15s;margin-top:6px}
+.login-btn:hover{opacity:.88}
+.error-msg{background:#fee2e2;border:1px solid #fca5a5;border-radius:6px;
+  padding:10px 14px;font-size:.82em;color:#991b1b;margin-bottom:16px;display:none}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="card-head">
+    <div class="logo">🥟</div>
+    <h1>海鮮餃子ペキン</h1>
+    <p>STAFF SCHEDULE SYSTEM</p>
+  </div>
+  <div class="card-body">
+    <div class="error-msg" id="errMsg">IDまたはパスワードが違います。</div>
+    <div class="form-group">
+      <label>スタッフID</label>
+      <input type="text" id="loginId" placeholder="例：fusa" autocomplete="username">
+    </div>
+    <div class="form-group">
+      <label>パスワード</label>
+      <input type="password" id="loginPw" placeholder="パスワードを入力" autocomplete="current-password">
+    </div>
+    <button class="login-btn" id="loginBtn" onclick="doLogin()">ログイン</button>
+  </div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
+<script>
+/* -- FIREBASE 設定 -- */
+const _fbCfg={
+  apiKey:"AIzaSyBygnsi6cByYRZigxlhR7d0ydVfpFGx8FQ",
+  databaseURL:"https://pekin-shift-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId:"pekin-shift",
+  appId:"1:600393805417:web:126fb18e1c5b64fc677cf8"
+};
+if(!firebase.apps.length)firebase.initializeApp(_fbCfg);
+const _fbDb=firebase.database();
+
+/* ★バージョン優先方式：
+   - 初回ロード、またはFirebaseの_vがローカル以上 → Firebaseを採用
+   - ローカルが新しい（管理画面の未同期編集が残っている）→ ローカル温存
+   - ローカルに無いキーは常にFirebaseから補完 */
+function _applyDb(db){
+  const remoteV=db._v||0;
+  const localRawV=localStorage.getItem('pekin_db_v');
+  const localV=parseInt(localRawV||'0');
+  const isFirstLoad=localRawV===null;
+  const useFirebase=isFirstLoad||remoteV>=localV;
+  Object.entries(db).forEach(([k,v])=>{
+    if(k.startsWith('_'))return;
+    const localHas=localStorage.getItem(k)!==null;
+    if(useFirebase||!localHas){
+      localStorage.setItem(k,typeof v==='string'?v:JSON.stringify(v));
+    }
+  });
+  if(useFirebase&&db._v)localStorage.setItem('pekin_db_v',String(Math.max(remoteV,localV)));
+}
+
+/* バックグラウンド同期 + セッション残存時は自動リダイレクト */
+(async function syncAndRedirect(){
+  try{
+    const snap=await Promise.race([
+      _fbDb.ref('pekin/db_dev').get(),
+      new Promise((_,rej)=>setTimeout(()=>rej(new Error('timeout')),5000))
+    ]);
+    if(snap&&snap.exists())_applyDb(snap.val());
+  }catch(e){
+    /* Firebase失敗 → db.jsonで試みる */
+    try{
+      const res=await fetch('/shift/db.json?_='+Date.now(),{cache:'no-store'});
+      if(res.ok)_applyDb(await res.json());
+    }catch(e2){}
+  }
+  /* 有効なセッションが残っていれば自動リダイレクト */
+  const s=sessionStorage.getItem('pekin_session');
+  if(!s)return;
+  try{
+    const sess=JSON.parse(s);
+    if(sess.expires>Date.now())
+      location.href=sess.role==='admin'?'admin.html':'staff.html';
+  }catch(e){}
+})();
+
+/* -- 認証ヘルパー -- */
+function getUsers(){
+  const def=[
+    {id:'admin',name:'管理者',username:'admin',password:'pekin2026',role:'admin',type:'admin'},
+    {id:'s_1775908177910',name:'ふさちゃん',username:'fusa',password:'fusa0433',role:'staff',type:'part'},
+    {id:'s_1775908211262',name:'みきちゃん',username:'miki',password:'miki0433',role:'staff',type:'part'},
+    {id:'s_1775908408369',name:'ちなちゃん',username:'china',password:'china0433',role:'staff',type:'alt'},
+    {id:'s_1775908464379',name:'ひろせくん',username:'hirose',password:'hirose04343',role:'staff',type:'alt'},
+    {id:'s_1775908503865',name:'まーちゃん',username:'mafune',password:'mafune0433',role:'staff',type:'alt'},
+    {id:'s_1775908539755',name:'るいくん',username:'rui',password:'rui0433',role:'staff',type:'alt'},
+    {id:'s_1775948185859',name:'ぶんくん',username:'bun',password:'bun0433',role:'staff',type:'alt'}
+  ];
+  return JSON.parse(localStorage.getItem('pekin_users')||JSON.stringify(def));
+}
+
+function setSession(u){
+  const exp=Date.now()+8*60*60*1000;
+  sessionStorage.setItem('pekin_session',JSON.stringify({
+    userId:u.id,username:u.username,name:u.name,role:u.role,expires:exp
+  }));
+}
+
+function doLogin(){
+  const id=document.getElementById('loginId').value.trim();
+  const pw=document.getElementById('loginPw').value;
+  const users=getUsers();
+  const masterPw=localStorage.getItem('pekin_master_pw')||'';
+  const u=users.find(x=>{
+    if(x.username!==id)return false;
+    if(x.role==='admin')return x.password===pw;
+    if(x.customPassword)return pw===x.customPassword||(masterPw&&pw===masterPw);
+    return pw===x.password||(masterPw&&pw===masterPw);
+  });
+  if(!u){
+    document.getElementById('errMsg').style.display='block';
+    document.getElementById('loginPw').value='';
+    return;
+  }
+  setSession(u);
+  location.href=u.role==='admin'?'admin.html':'staff.html';
+}
+
+document.getElementById('loginPw').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
+document.getElementById('loginId').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
+</script>
+</body>
+</html>
