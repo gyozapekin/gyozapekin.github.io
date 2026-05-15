@@ -33,99 +33,201 @@ body{font-family:'Helvetica Neue','Hiragino Sans','Yu Gothic UI',Arial,sans-seri
 </style>
 </head>
 <body>
-<div id="dev-banner" style="position:fixed;top:0;left:0;right:0;background:#fbbf24;color:#1f2937;padding:8px 16px;text-align:center;font-weight:bold;z-index:99999;font-size:14px;border-bottom:3px solid #b45309;box-shadow:0 2px 8px rgba(0,0,0,.2);font-family:sans-serif;display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;">
-  <span>⚠ テスト環境 (dev) ⚠ 本番データには影響しません — /shift/dev/</span>
-  <button onclick="exportDevBackup()" style="background:#065f46;color:#fef3c7;border:none;padding:4px 12px;border-radius:6px;cursor:pointer;font-weight:bold;font-size:12px;">⬇ ① まずバックアップ</button>
-  <button onclick="resetDevFromProd()" style="background:#1f2937;color:#fbbf24;border:none;padding:4px 12px;border-radius:6px;cursor:pointer;font-weight:bold;font-size:12px;">↺ ② 本番から再コピー</button>
-  <button onclick="importDevBackup()" style="background:#1f2937;color:#fbbf24;border:none;padding:4px 12px;border-radius:6px;cursor:pointer;font-weight:bold;font-size:12px;">📁 ③ バックアップから復元</button>
+<div id="dev-banner" style="position:fixed;top:0;left:0;right:0;background:#fbbf24;color:#1f2937;padding:6px 12px;text-align:center;font-weight:bold;z-index:99999;font-size:13px;border-bottom:3px solid #b45309;box-shadow:0 2px 8px rgba(0,0,0,.2);font-family:sans-serif;">
+  <div style="display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;">
+    <span>⚠ テスト環境 (dev) v4 ⚠ /shift/dev/</span>
+    <span id="dev-backup-status" style="background:#dc2626;color:#fff;padding:2px 8px;border-radius:4px;font-size:11px;">バックアップ未取得</span>
+    <button id="dev-btn-backup" onclick="exportDevBackup()" style="background:#065f46;color:#fef3c7;border:none;padding:5px 12px;border-radius:6px;cursor:pointer;font-weight:bold;font-size:12px;">⬇ ① まずバックアップ</button>
+    <button id="dev-btn-copy" onclick="resetDevFromProd()" style="background:#1f2937;color:#fbbf24;border:none;padding:5px 12px;border-radius:6px;cursor:pointer;font-weight:bold;font-size:12px;">↺ ② 本番から再コピー</button>
+    <button id="dev-btn-restore" onclick="importDevBackup()" style="background:#1f2937;color:#fbbf24;border:none;padding:5px 12px;border-radius:6px;cursor:pointer;font-weight:bold;font-size:12px;">📁 ③ バックアップから復元</button>
+  </div>
+  <div id="dev-status-line" style="margin-top:4px;font-size:11px;color:#7c2d12;min-height:14px;"></div>
 </div>
-<style>body{padding-top:42px !important;}@media print{#dev-banner{display:none}}</style>
+<style>body{padding-top:68px !important;}@media print{#dev-banner{display:none}}</style>
 <script>
 const __FB_BASE='https://pekin-shift-default-rtdb.asia-southeast1.firebasedatabase.app';
+const __BACKUP_TS_KEY='__pekin_dev_last_backup_ts';
+const __BACKUP_NAME_KEY='__pekin_dev_last_backup_name';
 
-// ローカルストレージの pekin_ キーを全クリア（強制同期用）
+function __setStatus(msg, color){
+  const el=document.getElementById('dev-status-line');
+  if(el){el.textContent=msg;el.style.color=color||'#7c2d12';}
+}
+function __setButtonState(id,enabled,text){
+  const b=document.getElementById(id);if(!b)return;
+  b.disabled=!enabled;b.style.opacity=enabled?'1':'0.5';b.style.cursor=enabled?'pointer':'wait';
+  if(text)b.textContent=text;
+}
+function __updateBackupStatus(){
+  const ts=localStorage.getItem(__BACKUP_TS_KEY);
+  const name=localStorage.getItem(__BACKUP_NAME_KEY);
+  const el=document.getElementById('dev-backup-status');
+  if(!el)return;
+  if(ts){
+    const d=new Date(parseInt(ts));
+    el.textContent='✓ バックアップあり ('+d.toLocaleString('ja-JP')+')';
+    el.style.background='#16a34a';
+    el.title=name||'';
+  }else{
+    el.textContent='⚠ バックアップ未取得';
+    el.style.background='#dc2626';
+  }
+}
+// ページ読み込み時に状態反映
+setTimeout(__updateBackupStatus, 500);
+
 function __clearLocalPekin(){
   const keys=[];
   for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(k&&k.startsWith('pekin_'))keys.push(k);}
   keys.forEach(k=>localStorage.removeItem(k));
+  return keys.length;
+}
+function __writeFbDataToLocal(data){
+  let count=0;
+  for(const key in data){
+    if(key==='_v'){localStorage.setItem('pekin_db_v',String(data[key]));}
+    else{
+      const val=data[key];if(val===null||val===undefined)continue;
+      localStorage.setItem(key,typeof val==='string'?val:JSON.stringify(val));
+      count++;
+    }
+  }
+  return count;
 }
 
-// テスト環境(pekin/db_dev)をJSONとしてダウンロード
+// ===== ① バックアップ =====
 async function exportDevBackup(){
+  if(!confirm('【① テスト環境をバックアップ】
+
+テスト環境(pekin/db_dev)の現在のデータをJSONファイルとして保存します。
+Downloadsフォルダーに保存されます。
+
+よろしいですか？'))return;
+  __setButtonState('dev-btn-backup',false,'処理中…');
+  __setStatus('① バックアップ取得中…','#7c2d12');
   try{
-    const r=await fetch(__FB_BASE+'/pekin/db_dev.json?t='+Date.now());
-    if(!r.ok)throw new Error('テスト環境データ取得失敗');
+    const r=await fetch(__FB_BASE+'/pekin/db_dev.json?t='+Date.now(),{cache:'no-store'});
+    if(!r.ok)throw new Error('テスト環境取得失敗 ('+r.status+')');
     const data=await r.json();
+    const sz=JSON.stringify(data).length;
     const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
     const a=document.createElement('a');
     a.href=URL.createObjectURL(blob);
     const ts=new Date().toISOString().replace(/[:.]/g,'-').slice(0,19);
     a.download='pekin_db_dev_backup_'+ts+'.json';
     document.body.appendChild(a);a.click();document.body.removeChild(a);
-    alert('バックアップを保存しました: '+a.download+'
+    // 記録
+    localStorage.setItem(__BACKUP_TS_KEY,String(Date.now()));
+    localStorage.setItem(__BACKUP_NAME_KEY,a.download);
+    __updateBackupStatus();
+    __setButtonState('dev-btn-backup',true,'⬇ ① まずバックアップ');
+    __setStatus('✓ ① バックアップ完了: '+a.download+' ('+Math.round(sz/1024)+'KB) — Downloads確認','#16a34a');
+    alert('✓ バックアップ完了
 
-Downloadsフォルダーを確認してください。
-OneDriveに移動して保管することをおすすめします。');
-  }catch(e){alert('エラー: '+e.message);}
+ファイル名: '+a.download+'
+サイズ: '+Math.round(sz/1024)+'KB
+
+Downloadsフォルダーを確認してください。');
+  }catch(e){
+    __setButtonState('dev-btn-backup',true,'⬇ ① まずバックアップ');
+    __setStatus('✗ ① バックアップ失敗: '+e.message,'#dc2626');
+    alert('エラー: '+e.message);
+  }
 }
 
-// テスト環境を本番(pekin/db)からコピーで上書き
+// ===== ② 本番から再コピー =====
 async function resetDevFromProd(){
-  if(!confirm('【重要】テスト環境(pekin/db_dev)を本番(pekin/db)のコピーで完全上書きします。
+  if(!confirm('【② 本番から再コピー】
 
-● テスト環境で行った変更はすべて失われます
-● シフト・希望・設定・スタッフ・テンプレートすべてが本番の状態に戻ります
+本番(pekin/db)のデータでテスト環境(pekin/db_dev)を完全上書きします。
+● シフト・スタッフ希望・設定・スタッフ情報・テンプレートすべて
+● テスト環境の現データは消えます
 
-復元できなくなるので、先に「⬇ ① まずバックアップ」を押してJSONを保存しましたか？
+先に「① まずバックアップ」を取りましたか？
+必要なら一度キャンセルしてバックアップしてください。
 
-バックアップ済みなら、OK を押して進めてください。'))return;
-  if(!confirm('本当に実行しますか？（最終確認）
-
-この操作は取り消せません。'))return;
+よろしいですか？'))return;
+  if(!confirm('最終確認: 本番から再コピーを実行します。
+本当に進めますか？'))return;
+  __setButtonState('dev-btn-copy',false,'処理中…');
+  __setStatus('② 本番から再コピー中…','#7c2d12');
   try{
-    const r=await fetch(__FB_BASE+'/pekin/db.json?t='+Date.now());
-    if(!r.ok)throw new Error('本番データ取得失敗 ('+r.status+')');
+    // Step 1: 本番取得
+    __setStatus('② [1/4] 本番データ取得中…','#7c2d12');
+    const r=await fetch(__FB_BASE+'/pekin/db.json?t='+Date.now(),{cache:'no-store'});
+    if(!r.ok)throw new Error('本番取得失敗 ('+r.status+')');
     const data=await r.json();
-    if(!data)throw new Error('本番データが空です');
-    // _v を更新（他デバイスへの同期トリガー）
-    data._v=Date.now();
+    if(!data||typeof data!=='object')throw new Error('本番データが空');
+    const keyCount=Object.keys(data).length;
+    // Step 2: _v更新
+    const newV=Date.now();
+    data._v=newV;
+    // Step 3: Firebase テスト環境にPUT
+    __setStatus('② [2/4] テスト環境Firebaseに書き込み中…','#7c2d12');
     const r2=await fetch(__FB_BASE+'/pekin/db_dev.json',{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});
-    if(!r2.ok)throw new Error('テスト環境への書き込み失敗 ('+r2.status+')');
-    // ローカルストレージもクリアして強制再同期
-    __clearLocalPekin();
-    alert('本番データのコピー完了。
-ページを再読み込みします。');
-    location.reload();
-  }catch(e){alert('エラー: '+e.message);}
+    if(!r2.ok)throw new Error('書き込み失敗 ('+r2.status+')');
+    // Step 4: localStorage更新
+    __setStatus('② [3/4] ローカルストレージ更新中…','#7c2d12');
+    const cleared=__clearLocalPekin();
+    const written=__writeFbDataToLocal(data);
+    // Step 5: 1秒待ってリロード
+    __setStatus('② [4/4] 完了 → 2秒後にリロード(クリア:'+cleared+'/書込:'+written+'キー)','#16a34a');
+    alert('✓ 本番から再コピー完了
+
+● 取得キー数: '+keyCount+'
+● ローカル削除: '+cleared+'キー
+● ローカル書込: '+written+'キー
+● _v: '+newV+'
+
+2秒後にページを再読み込みします。');
+    setTimeout(()=>location.reload(),2000);
+  }catch(e){
+    __setButtonState('dev-btn-copy',true,'↺ ② 本番から再コピー');
+    __setStatus('✗ ② 失敗: '+e.message,'#dc2626');
+    alert('エラー: '+e.message);
+    console.error(e);
+  }
 }
 
-// バックアップJSONからテスト環境を復元
+// ===== ③ バックアップから復元 =====
 function importDevBackup(){
-  if(!confirm('【復元】バックアップJSONファイルからテスト環境を復元します。
+  if(!confirm('【③ バックアップから復元】
 
-● 現在のテスト環境のデータは失われます
-● 進める前に、必要なら「⬇ ① まずバックアップ」を実行してください
+バックアップJSONファイルを選んで、テスト環境を上書き復元します。
+● 現在のテスト環境のデータは消えます
+● 必要なら先に「① まずバックアップ」を実行してください
 
-OK を押すと、ファイル選択画面が開きます。'))return;
+OKを押すとファイル選択画面が開きます。'))return;
   const input=document.createElement('input');
   input.type='file';input.accept='application/json,.json';
   input.onchange=async(e)=>{
     const file=e.target.files[0];if(!file)return;
+    if(!confirm(`ファイル「${file.name}」(${Math.round(file.size/1024)}KB)
+を使ってテスト環境を復元します。
+よろしいですか？`))return;
+    __setButtonState('dev-btn-restore',false,'処理中…');
+    __setStatus('③ バックアップ復元中…','#7c2d12');
     try{
       const text=await file.text();
       const data=JSON.parse(text);
-      if(typeof data!=='object'||data===null)throw new Error('JSONがオブジェクトではありません');
-      if(!confirm(`ファイル「${file.name}」(${Math.round(file.size/1024)}KB)
-を使ってテスト環境を復元します。
-よろしいですか？`))return;
+      if(!data||typeof data!=='object')throw new Error('JSONがオブジェクトではない');
       data._v=Date.now();
       const r=await fetch(__FB_BASE+'/pekin/db_dev.json',{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});
       if(!r.ok)throw new Error('書き込み失敗 ('+r.status+')');
       __clearLocalPekin();
-      alert('復元完了。
-ページを再読み込みします。');
-      location.reload();
-    }catch(err){alert('エラー: '+err.message);}
+      __writeFbDataToLocal(data);
+      __setStatus('✓ ③ 復元完了 → 2秒後にリロード','#16a34a');
+      alert('✓ 復元完了
+
+ファイル: '+file.name+'
+
+2秒後にページを再読み込みします。');
+      setTimeout(()=>location.reload(),2000);
+    }catch(err){
+      __setButtonState('dev-btn-restore',true,'📁 ③ バックアップから復元');
+      __setStatus('✗ ③ 失敗: '+err.message,'#dc2626');
+      alert('エラー: '+err.message);
+    }
   };
   input.click();
 }
