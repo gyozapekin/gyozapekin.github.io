@@ -1820,7 +1820,7 @@ function saveAvailEdit(){
   _syncKeyToFirebase(ak,json);
   closeAvailEditModal();
   renderAvailPanel();
-  showUpdateToast(`✓ ${staffName}さんの${M+1}月${day}日の希望を更新しました`);
+  try{if(typeof showUpdateToast==='function')showUpdateToast(`✓ ${staffName}さんの${M+1}月${day}日の希望を更新しました`);}catch(e){}
 }
 
 /* ════════════════════════════════════════
@@ -1902,7 +1902,7 @@ function saveStaffAvailAll(){
   _syncKeyToFirebase(ak,json);
   closeStaffAvailModal();
   renderAvailPanel();
-  showUpdateToast(`✓ ${staffName}さんの${y}年${m+1}月の希望を保存しました`);
+  try{if(typeof showUpdateToast==='function')showUpdateToast(`✓ ${staffName}さんの${y}年${m+1}月の希望を保存しました`);}catch(e){}
 }
 function closeStaffAvailModal(){
   document.getElementById('staffAvailOverlay').classList.remove('open');
@@ -1975,7 +1975,7 @@ function saveDeadlineSettings(){
   s.deadline={enabled,day:dayVal||20};
   saveSettings(s);
   renderDeadlineSettings();
-  showUpdateToast('⏰ 締切日設定を保存しました');
+  try{if(typeof showUpdateToast==='function')showUpdateToast('⏰ 締切日設定を保存しました');}catch(e){}
 }
 
 /* 延長設定の対象月セレクタを描画（今月〜+3ヶ月） */
@@ -2048,7 +2048,7 @@ function saveExtension(staffId,ym,staffName){
   }
   saveSettings(s);
   const action=val?`を ${val} まで延長しました`:'の延長を解除しました';
-  showUpdateToast(`⏳ ${staffName}さんの ${ym} ${action}`);
+  try{if(typeof showUpdateToast==='function')showUpdateToast(`⏳ ${staffName}さんの ${ym} ${action}`);}catch(e){}
 }
 
 function saveClosedDays(){
@@ -2747,12 +2747,4 @@ function doExcelExport(){
 }
 
 /* Backdrop close */
-['editOverlay','staffOverlay','specialDateOverlay','excelOverlay'].forEach(id=>{
-  document.getElementById(id).addEventListener('click',function(e){
-    if(e.target===this)this.classList.remove('open');
-  });
-});
-
-</script>
-</body>
-</html>
+['editOverlay','staffOve
