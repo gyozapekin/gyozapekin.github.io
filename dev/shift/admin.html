@@ -2022,14 +2022,17 @@ function renderExtensionList(){
     +'</tr></thead><tbody>';
   staffList.forEach(st=>{
     const cur=(exts[st.id]&&exts[st.id][ym])||'';
-    html+=`<tr>
-      <td style="padding:8px;border-bottom:1px solid #f1f5f9">${st.name}</td>
+    /* 延長が設定済みの行は背景色を変えてバッジを表示 */
+    const rowBg=cur?'background:#ecfdf5':'';
+    const badge=cur?`<span style="display:inline-block;margin-left:8px;padding:2px 8px;background:#10b981;color:#fff;border-radius:10px;font-size:.7em;font-weight:700">延長中</span>`:'';
+    html+=`<tr id="extRow-${st.id}" style="${rowBg}">
+      <td style="padding:8px;border-bottom:1px solid #f1f5f9">${st.name}${badge}</td>
       <td style="padding:8px;border-bottom:1px solid #f1f5f9">
         <input type="date" id="ext-${st.id}" value="${cur}"
           style="border:1.5px solid #e2e8f0;border-radius:7px;padding:6px 8px;font-size:.9em">
       </td>
       <td style="padding:8px;border-bottom:1px solid #f1f5f9;text-align:center">
-        <button class="cbtn cbtn-blue" style="font-size:.78em;padding:5px 10px"
+        <button id="extBtn-${st.id}" class="cbtn cbtn-blue" style="font-size:.78em;padding:5px 10px;min-width:88px"
           onclick="saveExtension('${st.id}','${ym}','${st.name.replace(/'/g,"\\'")}')">保存</button>
       </td>
     </tr>`;
@@ -2038,7 +2041,7 @@ function renderExtensionList(){
   list.innerHTML=html;
 }
 
-/* 延長を保存 */
+/* 延長を保存（ボタン視覚フィードバック付き） */
 function saveExtension(staffId,ym,staffName){
   const val=document.getElementById('ext-'+staffId).value.trim();
   const s=getSettings();
@@ -2051,6 +2054,32 @@ function saveExtension(staffId,ym,staffName){
     if(Object.keys(s.extensions[staffId]).length===0)delete s.extensions[staffId];
   }
   saveSettings(s);
+
+  /* ── ボタン視覚フィードバック ── */
+  const btn=document.getElementById('extBtn-'+staffId);
+  const row=document.getElementById('extRow-'+staffId);
+  if(btn){
+    const orig=btn.innerHTML;
+    const origCls=btn.className;
+    btn.innerHTML='✓ 保存しました';
+    btn.className='cbtn';
+    btn.style.background='#10b981';
+    btn.style.color='#fff';
+    btn.style.border='none';
+    btn.disabled=true;
+    /* 行の背景も一瞬光らせる */
+    if(row){
+      const origBg=row.style.background;
+      row.style.transition='background .4s';
+      row.style.background='#a7f3d0';
+      setTimeout(()=>{row.style.background=val?'#ecfdf5':'';},900);
+    }
+    setTimeout(()=>{
+      /* 一覧を再描画して、行のバッジ＆背景色を最新状態に更新 */
+      renderExtensionList();
+    },1500);
+  }
+
   const action=val?`を ${val} まで延長しました`:'の延長を解除しました';
   try{if(typeof showUpdateToast==='function')showUpdateToast(`⏳ ${staffName}さんの ${ym} ${action}`);}catch(e){}
 }
