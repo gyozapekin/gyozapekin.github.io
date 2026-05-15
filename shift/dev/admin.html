@@ -1777,7 +1777,7 @@ function openAvailEdit(staffId, staffName, day){
   document.getElementById('availEditSub').textContent=`${Y}年${M+1}月${day}日（${DOW_STR[new Date(Y,M,day).getDay()]}）`;
   document.getElementById('availEditHead').textContent=`${staffName} さんの希望を編集`;
   _renderAvailEditChips();
-  document.getElementById('availEditOverlay').classList.add('show');
+  document.getElementById('availEditOverlay').classList.add('open');
 }
 function _renderAvailEditChips(){
   const make=(targetId,curVal,setKey)=>{
@@ -1798,7 +1798,7 @@ function _renderAvailEditChips(){
   make('availEditDinnerChips',_availEditCtx.dinner,'dinner');
 }
 function closeAvailEditModal(){
-  document.getElementById('availEditOverlay').classList.remove('show');
+  document.getElementById('availEditOverlay').classList.remove('open');
   _availEditCtx=null;
 }
 function saveAvailEdit(){
@@ -1837,7 +1837,7 @@ function openStaffAvailModal(staffId, staffName){
   document.getElementById('staffAvailSub').textContent=`${Y}年${M+1}月 代理入力`;
   document.getElementById('staffAvailHead').textContent=`${staffName} さんの希望（${Y}年${M+1}月）`;
   renderStaffAvailBody();
-  document.getElementById('staffAvailOverlay').classList.add('show');
+  document.getElementById('staffAvailOverlay').classList.add('open');
 }
 function renderStaffAvailBody(){
   if(!_staffAvailCtx)return;
@@ -1905,7 +1905,7 @@ function saveStaffAvailAll(){
   showUpdateToast(`✓ ${staffName}さんの${y}年${m+1}月の希望を保存しました`);
 }
 function closeStaffAvailModal(){
-  document.getElementById('staffAvailOverlay').classList.remove('show');
+  document.getElementById('staffAvailOverlay').classList.remove('open');
   _staffAvailCtx=null;
 }
 
