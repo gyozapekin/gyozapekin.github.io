@@ -4,14 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<title>ペキン 管理者ページ</title>
+<title>【TEST】ペキン 管理者ページ</title>
 <style>
 :root{--red:#c0392b;--bg:#f0f2f5;--card:#fff;--border:#e2e8f0;--text:#1a202c;--muted:#718096}
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Helvetica Neue','Hiragino Sans','Yu Gothic UI',Arial,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
 
 /* NAV */
-.topnav{background:linear-gradient(135deg,#a93226,#c0392b);color:#fff;
+.topnav{background:linear-gradient(135deg,#5b21b6,#7c3aed);color:#fff;
   padding:0 24px;display:flex;align-items:center;justify-content:space-between;
   box-shadow:0 2px 12px rgba(0,0,0,.2);flex-wrap:wrap;gap:8px;min-height:54px}
 .nav-left{display:flex;align-items:center;gap:12px}
@@ -249,6 +249,11 @@ body{font-family:'Helvetica Neue','Hiragino Sans','Yu Gothic UI',Arial,sans-seri
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 </head>
 <body>
+<div id="dev-banner" style="position:fixed;top:0;left:0;right:0;background:#fbbf24;color:#1f2937;padding:8px 16px;text-align:center;font-weight:bold;z-index:99999;font-size:14px;border-bottom:3px solid #b45309;box-shadow:0 2px 8px rgba(0,0,0,.2);font-family:sans-serif;">
+  ⚠ テスト環境 (dev) ⚠ 本番データには影響しません — URL: /shift/dev/
+</div>
+<style>body{padding-top:42px !important;}@media print{#dev-banner{display:none}}</style>
+
 
 <!-- NAV -->
 <!-- ローディングオーバーレイ（データ同期中に表示） -->
