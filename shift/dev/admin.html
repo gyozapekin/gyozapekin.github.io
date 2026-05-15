@@ -249,51 +249,103 @@ body{font-family:'Helvetica Neue','Hiragino Sans','Yu Gothic UI',Arial,sans-seri
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 </head>
 <body>
-<div id="dev-banner" style="position:fixed;top:0;left:0;right:0;background:#fbbf24;color:#1f2937;padding:8px 16px;text-align:center;font-weight:bold;z-index:99999;font-size:14px;border-bottom:3px solid #b45309;box-shadow:0 2px 8px rgba(0,0,0,.2);font-family:sans-serif;display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;">
-  <span>⚠ テスト環境 (dev) ⚠ 本番データには影響しません — URL: /shift/dev/</span>
-  <button onclick="resetDevFromProd()" style="background:#1f2937;color:#fbbf24;border:none;padding:4px 12px;border-radius:6px;cursor:pointer;font-weight:bold;font-size:12px;">↺ 本番から再コピー</button>
-  <button onclick="exportDevBackup()" style="background:#1f2937;color:#fbbf24;border:none;padding:4px 12px;border-radius:6px;cursor:pointer;font-weight:bold;font-size:12px;">⬇ テスト環境をバックアップ</button>
+<div id="dev-banner" style="position:fixed;top:0;left:0;right:0;background:#fbbf24;color:#1f2937;padding:8px 16px;text-align:center;font-weight:bold;z-index:99999;font-size:14px;border-bottom:3px solid #b45309;box-shadow:0 2px 8px rgba(0,0,0,.2);font-family:sans-serif;display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;">
+  <span>⚠ テスト環境 (dev) ⚠ 本番データには影響しません — /shift/dev/</span>
+  <button onclick="exportDevBackup()" style="background:#065f46;color:#fef3c7;border:none;padding:4px 12px;border-radius:6px;cursor:pointer;font-weight:bold;font-size:12px;">⬇ ① まずバックアップ</button>
+  <button onclick="resetDevFromProd()" style="background:#1f2937;color:#fbbf24;border:none;padding:4px 12px;border-radius:6px;cursor:pointer;font-weight:bold;font-size:12px;">↺ ② 本番から再コピー</button>
+  <button onclick="importDevBackup()" style="background:#1f2937;color:#fbbf24;border:none;padding:4px 12px;border-radius:6px;cursor:pointer;font-weight:bold;font-size:12px;">📁 ③ バックアップから復元</button>
 </div>
 <style>body{padding-top:42px !important;}@media print{#dev-banner{display:none}}</style>
 <script>
-// テスト環境を本番(pekin/db)からコピーで上書き
-async function resetDevFromProd(){
-  if(!confirm('テスト環境(pekin/db_dev)を本番(pekin/db)のコピーで上書きします。
+const __FB_BASE='https://pekin-shift-default-rtdb.asia-southeast1.firebasedatabase.app';
 
-テスト環境で行った変更はすべて失われます。
-よろしいですか？'))return;
-  try{
-    const fbBase='https://pekin-shift-default-rtdb.asia-southeast1.firebasedatabase.app';
-    const r=await fetch(fbBase+'/pekin/db.json');
-    if(!r.ok)throw new Error('本番データ取得失敗 ('+r.status+')');
-    const data=await r.json();
-    if(!data)throw new Error('本番データが空です');
-    const r2=await fetch(fbBase+'/pekin/db_dev.json',{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});
-    if(!r2.ok)throw new Error('テスト環境への書き込み失敗 ('+r2.status+')');
-    alert('本番データのコピー完了。
-ページを再読み込みします。');
-    location.reload();
-  }catch(e){alert('エラー: '+e.message);}
+// ローカルストレージの pekin_ キーを全クリア（強制同期用）
+function __clearLocalPekin(){
+  const keys=[];
+  for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(k&&k.startsWith('pekin_'))keys.push(k);}
+  keys.forEach(k=>localStorage.removeItem(k));
 }
+
 // テスト環境(pekin/db_dev)をJSONとしてダウンロード
 async function exportDevBackup(){
   try{
-    const fbBase='https://pekin-shift-default-rtdb.asia-southeast1.firebasedatabase.app';
-    const r=await fetch(fbBase+'/pekin/db_dev.json');
+    const r=await fetch(__FB_BASE+'/pekin/db_dev.json?t='+Date.now());
     if(!r.ok)throw new Error('テスト環境データ取得失敗');
     const data=await r.json();
     const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
     const a=document.createElement('a');
     a.href=URL.createObjectURL(blob);
-    const today=new Date().toISOString().slice(0,10);
-    a.download='pekin_db_dev_backup_'+today+'.json';
+    const ts=new Date().toISOString().replace(/[:.]/g,'-').slice(0,19);
+    a.download='pekin_db_dev_backup_'+ts+'.json';
     document.body.appendChild(a);a.click();document.body.removeChild(a);
+    alert('バックアップを保存しました: '+a.download+'
+
+Downloadsフォルダーを確認してください。
+OneDriveに移動して保管することをおすすめします。');
   }catch(e){alert('エラー: '+e.message);}
 }
+
+// テスト環境を本番(pekin/db)からコピーで上書き
+async function resetDevFromProd(){
+  if(!confirm('【重要】テスト環境(pekin/db_dev)を本番(pekin/db)のコピーで完全上書きします。
+
+● テスト環境で行った変更はすべて失われます
+● シフト・希望・設定・スタッフ・テンプレートすべてが本番の状態に戻ります
+
+復元できなくなるので、先に「⬇ ① まずバックアップ」を押してJSONを保存しましたか？
+
+バックアップ済みなら、OK を押して進めてください。'))return;
+  if(!confirm('本当に実行しますか？（最終確認）
+
+この操作は取り消せません。'))return;
+  try{
+    const r=await fetch(__FB_BASE+'/pekin/db.json?t='+Date.now());
+    if(!r.ok)throw new Error('本番データ取得失敗 ('+r.status+')');
+    const data=await r.json();
+    if(!data)throw new Error('本番データが空です');
+    // _v を更新（他デバイスへの同期トリガー）
+    data._v=Date.now();
+    const r2=await fetch(__FB_BASE+'/pekin/db_dev.json',{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});
+    if(!r2.ok)throw new Error('テスト環境への書き込み失敗 ('+r2.status+')');
+    // ローカルストレージもクリアして強制再同期
+    __clearLocalPekin();
+    alert('本番データのコピー完了。
+ページを再読み込みします。');
+    location.reload();
+  }catch(e){alert('エラー: '+e.message);}
+}
+
+// バックアップJSONからテスト環境を復元
+function importDevBackup(){
+  if(!confirm('【復元】バックアップJSONファイルからテスト環境を復元します。
+
+● 現在のテスト環境のデータは失われます
+● 進める前に、必要なら「⬇ ① まずバックアップ」を実行してください
+
+OK を押すと、ファイル選択画面が開きます。'))return;
+  const input=document.createElement('input');
+  input.type='file';input.accept='application/json,.json';
+  input.onchange=async(e)=>{
+    const file=e.target.files[0];if(!file)return;
+    try{
+      const text=await file.text();
+      const data=JSON.parse(text);
+      if(typeof data!=='object'||data===null)throw new Error('JSONがオブジェクトではありません');
+      if(!confirm(`ファイル「${file.name}」(${Math.round(file.size/1024)}KB)
+を使ってテスト環境を復元します。
+よろしいですか？`))return;
+      data._v=Date.now();
+      const r=await fetch(__FB_BASE+'/pekin/db_dev.json',{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});
+      if(!r.ok)throw new Error('書き込み失敗 ('+r.status+')');
+      __clearLocalPekin();
+      alert('復元完了。
+ページを再読み込みします。');
+      location.reload();
+    }catch(err){alert('エラー: '+err.message);}
+  };
+  input.click();
+}
 </script>
-
-
-
 <!-- NAV -->
 <!-- ローディングオーバーレイ（データ同期中に表示） -->
 <div id="loadOverlay" style="position:fixed;inset:0;background:rgba(255,255,255,.95);z-index:99999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px">
