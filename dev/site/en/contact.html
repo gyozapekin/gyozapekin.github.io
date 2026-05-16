@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact | Kaisen Gyoza Pekin</title>
+    <meta name="description" content="Contact page of Kaisen Gyoza Pekin. Feel free to reach out for reservations or inquiries.">
+    <link rel="canonical" href="https://gyozapekin.github.io/en/contact.html">
+
+    <!-- hreflang -->
+    <link rel="alternate" hreflang="ja" href="https://gyozapekin.github.io/contact.html">
+    <link rel="alternate" hreflang="en" href="https://gyozapekin.github.io/en/contact.html">
+    <link rel="alternate" hreflang="x-default" href="https://gyozapekin.github.io/contact.html">
+
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <div class="site-wrapper">
+        <header class="site-header">
+            <a href="index.html">
+                <img src="../images/logo_banner.png" alt="Kaisen Gyoza Pekin" class="logo">
+            </a>
+        </header>
+        <nav class="site-nav">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="menu.html">Menu</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="howto.html">How to Cook Gyoza</a></li>
+                <li><a href="contact.html" class="active">Contact</a></li>
+                <li><a href="../contact.html" class="lang-switch">日本語</a></li>
+            </ul>
+        </nav>
+        <main>
+            <section class="section">
+                <h2>Contact</h2>
+                <p>For reservations or inquiries, please use the form below, or contact us by phone or email.</p>
+            </section>
+
+            <!-- Shop Information -->
+            <section class="section">
+                <div class="contact-info">
+                    <dl>
+                        <dt>Name</dt>
+                        <dd>Kaisen Gyoza Pekin (海鮮餃子 北京)</dd>
+                        <dt>Address</dt>
+                        <dd>1-19-2 Miyanosaka, Hirakata-Shi, Osaka 573-0022, Japan</dd>
+                        <dt>Phone</dt>
+                        <dd><a href="tel:+81728490433">+81-72-849-0433</a></dd>
+                        <dt>FAX</dt>
+                        <dd>+81-72-849-0606</dd>
+                        <dt>Hours</dt>
+                        <dd>11:30 - 22:00 (Last order 21:30)</dd>
+                        <dt>Closed</dt>
+                        <dd>Tuesday</dd>
+                        <dt>Access</dt>
+                        <dd>2 min walk from Miyanosaka Station (Keihan Line)<br>10 min walk from Hirakatashi Station (Keihan Line)</dd>
+                        <dt>Parking</dt>
+                        <dd>4 spaces available. If full, please use the coin parking next door.</dd>
+                    </dl>
+                </div>
+            </section>
+
+            <!-- Contact Form -->
+            <section class="section">
+                <h2>Contact Form</h2>
+                <!--
+                日本語版と同じく Formspree を利用する静的フォーム。
+                Formspree の action URL は日本語版と共通の YOUR_FORM_ID を流用する。
+                未設定なら下部のメール・電話リンクからの連絡を案内する。
+                -->
+                <form class="contact-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+                    <label for="name">
+                        Your Name <span class="required">*required</span>
+                    </label>
+                    <input type="text" id="name" name="name" placeholder="John Smith" required>
+
+                    <label for="email">
+                        Email Address <span class="required">*required</span>
+                    </label>
+                    <input type="email" id="email" name="email" placeholder="example@email.com" required>
+
+                    <label for="subject">
+                        Subject
+                    </label>
+                    <input type="text" id="subject" name="subject" placeholder="Subject of your inquiry">
+
+                    <label for="message">
+                        Message <span class="required">*required</span>
+                    </label>
+                    <textarea id="message" name="message" placeholder="Please enter your message here." required></textarea>
+
+                    <!-- スパム対策（ハニーポット） -->
+                    <input type="text" name="_gotcha" style="display:none">
+
+                    <!-- 送信後リダイレクト先（英語版ページに戻す） -->
+                    <input type="hidden" name="_next" value="https://gyozapekin.github.io/en/contact.html?sent=1">
+
+                    <button type="submit">Send</button>
+                </form>
+
+                <!-- 送信完了メッセージ -->
+                <div id="sent-msg" style="display:none; margin-top:20px; padding:14px; background:#e6ffe6; border:1px solid #88cc88; border-radius:4px;">
+                    <strong>Your message has been sent.</strong><br>
+                    Thank you for contacting us. We will get back to you shortly.
+                </div>
+
+                <!-- 電話・メールによる連絡の代替案内 -->
+                <div style="margin-top:20px; padding:14px; background:#fff8e1; border:1px solid #ffcc80; border-radius:4px;">
+                    <p style="margin:0;">Phone: <a href="tel:+81728490433" style="font-weight:bold; font-size:1.1em;">+81-72-849-0433</a></p>
+                    <p style="margin:5px 0 0;">Email: <a href="mailto:kaisen.gyoza.pekin@gmail.com">kaisen.gyoza.pekin@gmail.com</a></p>
+                </div>
+            </section>
+
+            <!-- Map -->
+            <section class="section">
+                <h2>Location Map</h2>
+                <div class="map-wrap">
+                    <iframe
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1640.1!2d135.6553!3d34.8137!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6001071d49d49b0d%3A0x9210f0b1b8e7c4e!2z5rW36a6u6aSD5a2QIOWMl-S6rA!5e0!3m2!1sen!2sjp!4v1234567890"
+                        allowfullscreen=""
+                        loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade"
+                        title="Kaisen Gyoza Pekin Map">
+                    </iframe>
+                </div>
+            </section>
+        </main>
+        <footer class="site-footer">
+            <div class="footer-links">
+                <a href="index.html">Home</a>
+                <a href="menu.html">Menu</a>
+                <a href="about.html">About Us</a>
+                <a href="contact.html">Contact</a>
+                <a href="privacy.html">Privacy Policy</a>
+            </div>
+            <p class="copyright">&copy; Kaisen Gyoza Pekin All Rights Reserved.</p>
+        </footer>
+    </div>
+    <script>
+        // 送信完了メッセージの表示制御（日本語版と同じロジック）
+        if (window.location.search.includes('sent=1')) {
+            document.getElementById('sent-msg').style.display = 'block';
+            window.scrollTo(0, document.getElementById('sent-msg').offsetTop - 100);
+        }
+    </script>
+</body>
+</html>

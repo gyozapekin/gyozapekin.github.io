@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>【TEST】海鮮餃子ペキン — スタッフログイン</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Helvetica Neue','Hiragino Sans','Yu Gothic UI',Arial,sans-serif;
+  background:linear-gradient(145deg,#1a0a09 0%,#3d1010 50%,#1a0a09 100%);
+  min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+.card{background:#fff;border-radius:16px;width:100%;max-width:400px;
+  box-shadow:0 20px 60px rgba(0,0,0,.5);overflow:hidden}
+.card-head{background:linear-gradient(135deg,#a93226,#c0392b,#e74c3c);
+  padding:32px 28px;text-align:center;color:#fff}
+.logo{font-size:2.5em;margin-bottom:8px}
+.card-head h1{font-size:1.3em;font-weight:800;letter-spacing:.08em;margin-bottom:4px}
+.card-head p{font-size:.75em;opacity:.8;letter-spacing:.06em}
+.card-body{padding:32px 28px}
+.form-group{margin-bottom:18px}
+.form-group label{display:block;font-size:.78em;font-weight:700;color:#475569;
+  margin-bottom:6px;letter-spacing:.05em;text-transform:uppercase}
+.form-group input{width:100%;border:1.5px solid #e2e8f0;border-radius:8px;
+  padding:11px 14px;font-size:.95em;outline:none;transition:border-color .15s;color:#1a202c}
+.form-group input:focus{border-color:#c0392b;box-shadow:0 0 0 3px rgba(192,57,43,.1)}
+.login-btn{width:100%;background:linear-gradient(135deg,#c0392b,#e74c3c);
+  color:#fff;border:none;border-radius:8px;padding:12px;font-size:1em;
+  font-weight:700;cursor:pointer;letter-spacing:.05em;transition:opacity .15s;margin-top:6px}
+.login-btn:hover{opacity:.88}
+.error-msg{background:#fee2e2;border:1px solid #fca5a5;border-radius:6px;
+  padding:10px 14px;font-size:.82em;color:#991b1b;margin-bottom:16px;display:none}
+</style>
+</head>
+<body>
+<div id="dev-banner" style="position:fixed;top:0;left:0;right:0;background:#fbbf24;color:#1f2937;padding:6px 12px;text-align:center;font-weight:bold;z-index:99999;font-size:13px;border-bottom:3px solid #b45309;box-shadow:0 2px 8px rgba(0,0,0,.2);font-family:sans-serif;">
+  <div style="display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;">
+    <span>⚠ テスト環境 (dev) v6 ⚠ /dev/shift/</span>
+    <span id="dev-backup-status" style="background:#dc2626;color:#fff;padding:2px 8px;border-radius:4px;font-size:11px;">バックアップ未取得</span>
+    <button id="dev-btn-backup" onclick="exportDevBackup()" style="background:#065f46;color:#fef3c7;border:none;padding:5px 12px;border-radius:6px;cursor:pointer;font-weight:bold;font-size:12px;">⬇ ① まずバックアップ</button>
+    <button id="dev-btn-copy" onclick="resetDevFromProd()" style="background:#1f2937;color:#fbbf24;border:none;padding:5px 12px;border-radius:6px;cursor:pointer;font-weight:bold;font-size:12px;">↺ ② 本番から再コピー</button>
+    <button id="dev-btn-restore" onclick="importDevBackup()" style="background:#1f2937;color:#fbbf24;border:none;padding:5px 12px;border-radius:6px;cursor:pointer;font-weight:bold;font-size:12px;">📁 ③ バックアップから復元</button>
+  </div>
+  <div id="dev-status-line" style="margin-top:4px;font-size:11px;color:#7c2d12;min-height:14px;"></div>
+</div>
+<style>body{padding-top:68px !important;}@media print{#dev-banner{display:none}}</style>
+<script>
+const __FB_BASE = "https://pekin-shift-default-rtdb.asia-southeast1.firebasedatabase.app";
+const __BACKUP_TS_KEY = "__pekin_dev_last_backup_ts";
+const __BACKUP_NAME_KEY = "__pekin_dev_last_backup_name";
+
+function __setStatus(msg, color){
+  const el = document.getElementById("dev-status-line");
+  if (el) { el.textContent = msg; el.style.color = color || "#7c2d12"; }
+}
+function __setButtonState(id, enabled, text){
+  const b = document.getElementById(id);
+  if (!b) return;
+  b.disabled = !enabled;
+  b.style.opacity = enabled ? "1" : "0.5";
+  b.style.cursor = enabled ? "pointer" : "wait";
+  if (text) b.textContent = text;
+}
+function __updateBackupStatus(){
+  const ts = localStorage.getItem(__BACKUP_TS_KEY);
+  const name = localStorage.getItem(__BACKUP_NAME_KEY);
+  const el = document.getElementById("dev-backup-status");
+  if (!el) return;
+  if (ts) {
+    const d = new Date(parseInt(ts));
+    el.textContent = "✓ バックアップあり (" + d.toLocaleString("ja-JP") + ")";
+    el.style.background = "#16a34a";
+    el.title = name || "";
+  } else {
+    el.textContent = "⚠ バックアップ未取得";
+    el.style.background = "#dc2626";
+  }
+}
+setTimeout(__updateBackupStatus, 500);
+
+function __clearLocalPekin(){
+  const keys = [];
+  for (let i = 0; i < localStorage.length; i++) {
+    const k = localStorage.key(i);
+    if (k && k.startsWith("pekin_")) keys.push(k);
+  }
+  keys.forEach(function(k){ localStorage.removeItem(k); });
+  return keys.length;
+}
+function __writeFbDataToLocal(data){
+  let count = 0;
+  for (const key in data) {
+    if (key === "_v") {
+      localStorage.setItem("pekin_db_v", String(data[key]));
+    } else {
+      const val = data[key];
+      if (val === null || val === undefined) continue;
+      localStorage.setItem(key, typeof val === "string" ? val : JSON.stringify(val));
+      count++;
+    }
+  }
+  return count;
+}
+
+async function exportDevBackup(){
+  if (!confirm(`【① テスト環境をバックアップ】
+
+テスト環境(pekin/db_dev)の現在のデータをJSONファイルとして保存します。
+Downloadsフォルダーに保存されます。
+
+よろしいですか？`)) return;
+  __setButtonState("dev-btn-backup", false, "処理中…");
+  __setStatus("① バックアップ取得中…", "#7c2d12");
+  try {
+    const r = await fetch(__FB_BASE + "/pekin/db_dev.json?t=" + Date.now(), {cache: "no-store"});
+    if (!r.ok) throw new Error("テスト環境取得失敗 (" + r.status + ")");
+    const data = await r.json();
+    const sz = JSON.stringify(data).length;
+    const blob = new Blob([JSON.stringify(data, null, 2)], {type: "application/json"});
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    const ts = new Date().toISOString().replace(/[:.]/g, "-").slice(0, 19);
+    a.download = "pekin_db_dev_backup_" + ts + ".json";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    localStorage.setItem(__BACKUP_TS_KEY, String(Date.now()));
+    localStorage.setItem(__BACKUP_NAME_KEY, a.download);
+    __updateBackupStatus();
+    __setButtonState("dev-btn-backup", true, "⬇ ① まずバックアップ");
+    __setStatus("✓ ① バックアップ完了: " + a.download + " (" + Math.round(sz/1024) + "KB)", "#16a34a");
+    alert(`✓ バックアップ完了
+
+ファイル名: ${a.download}
+サイズ: ${Math.round(sz/1024)}KB
+
+Downloadsフォルダーを確認してください。`);
+  } catch(e) {
+    __setButtonState("dev-btn-backup", true, "⬇ ① まずバックアップ");
+    __setStatus("✗ ① 失敗: " + e.message, "#dc2626");
+    alert("エラー: " + e.message);
+  }
+}
+
+async function resetDevFromProd(){
+  if (!confirm(`【② 本番から再コピー】
+
+本番(pekin/db)のデータでテスト環境(pekin/db_dev)を完全上書きします。
+● シフト・スタッフ希望・設定・スタッフ情報・テンプレートすべて
+● テスト環境の現データは消えます
+
+先に「① まずバックアップ」を取りましたか？
+バックアップ済みなら OK、必要ならキャンセルしてバックアップへ。`)) return;
+  if (!confirm("最終確認: 本番から再コピーを実行します。本当に進めますか？")) return;
+  __setButtonState("dev-btn-copy", false, "処理中…");
+  __setStatus("② 本番から再コピー中…", "#7c2d12");
+  try {
+    __setStatus("② [1/4] 本番データ取得中…", "#7c2d12");
+    const r = await fetch(__FB_BASE + "/pekin/db.json?t=" + Date.now(), {cache: "no-store"});
+    if (!r.ok) throw new Error("本番取得失敗 (" + r.status + ")");
+    const data = await r.json();
+    if (!data || typeof data !== "object") throw new Error("本番データが空");
+    const keyCount = Object.keys(data).length;
+    const newV = Date.now();
+    data._v = newV;
+    __setStatus("② [2/4] テスト環境Firebaseに書き込み中…", "#7c2d12");
+    const r2 = await fetch(__FB_BASE + "/pekin/db_dev.json", {method: "PUT", headers: {"Content-Type": "application/json"}, body: JSON.stringify(data)});
+    if (!r2.ok) throw new Error("書き込み失敗 (" + r2.status + ")");
+    __setStatus("② [3/4] ローカルストレージ更新中…", "#7c2d12");
+    const cleared = __clearLocalPekin();
+    const written = __writeFbDataToLocal(data);
+    __setStatus("② [4/4] 完了 → 2秒後リロード(クリア:" + cleared + "/書込:" + written + "キー)", "#16a34a");
+    alert(`✓ 本番から再コピー完了
+
+● 取得キー: ${keyCount}
+● ローカル削除: ${cleared}キー
+● ローカル書込: ${written}キー
+● _v: ${newV}
+
+2秒後にリロードします。`);
+    setTimeout(function(){ location.reload(); }, 2000);
+  } catch(e) {
+    __setButtonState("dev-btn-copy", true, "↺ ② 本番から再コピー");
+    __setStatus("✗ ② 失敗: " + e.message, "#dc2626");
+    alert("エラー: " + e.message);
+    console.error(e);
+  }
+}
+
+function importDevBackup(){
+  if (!confirm(`【③ バックアップから復元】
+
+バックアップJSONファイルでテスト環境を上書き復元します。
+● 現在のテスト環境のデータは消えます
+● 必要なら先に「① まずバックアップ」を実行してください
+
+OKを押すとファイル選択画面が開きます。`)) return;
+  const input = document.createElement("input");
+  input.type = "file";
+  input.accept = "application/json,.json";
+  input.onchange = async function(e){
+    const file = e.target.files[0];
+    if (!file) return;
+    if (!confirm("ファイル「" + file.name + "」(" + Math.round(file.size/1024) + "KB) でテスト環境を復元します。よろしいですか？")) return;
+    __setButtonState("dev-btn-restore", false, "処理中…");
+    __setStatus("③ バックアップ復元中…", "#7c2d12");
+    try {
+      const text = await file.text();
+      const data = JSON.parse(text);
+      if (!data || typeof data !== "object") throw new Error("JSONがオブジェクトではない");
+      data._v = Date.now();
+      const r = await fetch(__FB_BASE + "/pekin/db_dev.json", {method: "PUT", headers: {"Content-Type": "application/json"}, body: JSON.stringify(data)});
+      if (!r.ok) throw new Error("書き込み失敗 (" + r.status + ")");
+      __clearLocalPekin();
+      __writeFbDataToLocal(data);
+      __setStatus("✓ ③ 復元完了 → 2秒後にリロード", "#16a34a");
+      alert("✓ 復元完了。ファイル: " + file.name + " → 2秒後にリロード。");
+      setTimeout(function(){ location.reload(); }, 2000);
+    } catch(err) {
+      __setButtonState("dev-btn-restore", true, "📁 ③ バックアップから復元");
+      __setStatus("✗ ③ 失敗: " + err.message, "#dc2626");
+      alert("エラー: " + err.message);
+    }
+  };
+  input.click();
+}
+</script>
+
+<div class="card">
+  <div class="card-head">
+    <div class="logo">🥟</div>
+    <h1>海鮮餃子ペキン</h1>
+    <p>STAFF SCHEDULE SYSTEM</p>
+  </div>
+  <div class="card-body">
+    <div class="error-msg" id="errMsg">IDまたはパスワードが違います。</div>
+    <div class="form-group">
+      <label>スタッフID</label>
+      <input type="text" id="loginId" placeholder="例：fusa" autocomplete="username">
+    </div>
+    <div class="form-group">
+      <label>パスワード</label>
+      <input type="password" id="loginPw" placeholder="パスワードを入力" autocomplete="current-password">
+    </div>
+    <button class="login-btn" id="loginBtn" onclick="doLogin()">ログイン</button>
+  </div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
+<script>
+/* -- FIREBASE 設定 -- */
+const _fbCfg={
+  apiKey:"AIzaSyBygnsi6cByYRZigxlhR7d0ydVfpFGx8FQ",
+  databaseURL:"https://pekin-shift-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId:"pekin-shift",
+  appId:"1:600393805417:web:126fb18e1c5b64fc677cf8"
+};
+if(!firebase.apps.length)firebase.initializeApp(_fbCfg);
+const _fbDb=firebase.database();
+
+/* ★バージョン優先方式：
+   - 初回ロード、またはFirebaseの_vがローカル以上 → Firebaseを採用
+   - ローカルが新しい（管理画面の未同期編集が残っている）→ ローカル温存
+   - ローカルに無いキーは常にFirebaseから補完 */
+function _applyDb(db){
+  const remoteV=db._v||0;
+  const localRawV=localStorage.getItem('pekin_db_v');
+  const localV=parseInt(localRawV||'0');
+  const isFirstLoad=localRawV===null;
+  const useFirebase=isFirstLoad||remoteV>=localV;
+  Object.entries(db).forEach(([k,v])=>{
+    if(k.startsWith('_'))return;
+    const localHas=localStorage.getItem(k)!==null;
+    if(useFirebase||!localHas){
+      localStorage.setItem(k,typeof v==='string'?v:JSON.stringify(v));
+    }
+  });
+  if(useFirebase&&db._v)localStorage.setItem('pekin_db_v',String(Math.max(remoteV,localV)));
+}
+
+/* バックグラウンド同期 + セッション残存時は自動リダイレクト */
+(async function syncAndRedirect(){
+  try{
+    const snap=await Promise.race([
+      _fbDb.ref('pekin/db_dev').get(),
+      new Promise((_,rej)=>setTimeout(()=>rej(new Error('timeout')),5000))
+    ]);
+    if(snap&&snap.exists())_applyDb(snap.val());
+  }catch(e){
+    /* Firebase失敗 → db.jsonで試みる */
+    try{
+      const res=await fetch('/shift/db.json?_='+Date.now(),{cache:'no-store'});
+      if(res.ok)_applyDb(await res.json());
+    }catch(e2){}
+  }
+  /* 有効なセッションが残っていれば自動リダイレクト */
+  const s=sessionStorage.getItem('pekin_session');
+  if(!s)return;
+  try{
+    const sess=JSON.parse(s);
+    if(sess.expires>Date.now())
+      location.href=sess.role==='admin'?'admin.html':'staff.html';
+  }catch(e){}
+})();
+
+/* -- 認証ヘルパー -- */
+function getUsers(){
+  const def=[
+    {id:'admin',name:'管理者',username:'admin',password:'pekin2026',role:'admin',type:'admin'},
+    {id:'s_1775908177910',name:'ふさちゃん',username:'fusa',password:'fusa0433',role:'staff',type:'part'},
+    {id:'s_1775908211262',name:'みきちゃん',username:'miki',password:'miki0433',role:'staff',type:'part'},
+    {id:'s_1775908408369',name:'ちなちゃん',username:'china',password:'china0433',role:'staff',type:'alt'},
+    {id:'s_1775908464379',name:'ひろせくん',username:'hirose',password:'hirose04343',role:'staff',type:'alt'},
+    {id:'s_1775908503865',name:'まーちゃん',username:'mafune',password:'mafune0433',role:'staff',type:'alt'},
+    {id:'s_1775908539755',name:'るいくん',username:'rui',password:'rui0433',role:'staff',type:'alt'},
+    {id:'s_1775948185859',name:'ぶんくん',username:'bun',password:'bun0433',role:'staff',type:'alt'}
+  ];
+  return JSON.parse(localStorage.getItem('pekin_users')||JSON.stringify(def));
+}
+
+function setSession(u){
+  const exp=Date.now()+8*60*60*1000;
+  sessionStorage.setItem('pekin_session',JSON.stringify({
+    userId:u.id,username:u.username,name:u.name,role:u.role,expires:exp
+  }));
+}
+
+function doLogin(){
+  const id=document.getElementById('loginId').value.trim();
+  const pw=document.getElementById('loginPw').value;
+  const users=getUsers();
+  const masterPw=localStorage.getItem('pekin_master_pw')||'';
+  const u=users.find(x=>{
+    if(x.username!==id)return false;
+    if(x.role==='admin')return x.password===pw;
+    if(x.customPassword)return pw===x.customPassword||(masterPw&&pw===masterPw);
+    return pw===x.password||(masterPw&&pw===masterPw);
+  });
+  if(!u){
+    document.getElementById('errMsg').style.display='block';
+    document.getElementById('loginPw').value='';
+    return;
+  }
+  setSession(u);
+  location.href=u.role==='admin'?'admin.html':'staff.html';
+}
+
+document.getElementById('loginPw').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
+document.getElementById('loginId').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
+</script>
+</body>
+</html>
