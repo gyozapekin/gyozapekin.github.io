@@ -1,0 +1,986 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>【TEST】ペキン スタッフページ</title>
+<style>
+:root{--red:#c0392b;--blue:#1d4ed8;--green:#065f46;--bg:#f0f2f5;--card:#fff;--border:#e2e8f0;--text:#1a202c;--muted:#718096}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Helvetica Neue','Hiragino Sans','Yu Gothic UI',Arial,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+
+/* NAV */
+.topnav{background:linear-gradient(135deg,#145a8c,#1a6da0,#2471a3);color:#fff;
+  padding:0 24px;display:flex;align-items:center;justify-content:space-between;
+  box-shadow:0 2px 12px rgba(0,0,0,.2);flex-wrap:wrap;gap:8px;min-height:54px}
+.nav-left{display:flex;align-items:center;gap:12px}
+.nav-logo{font-size:1.4em}
+.nav-title{font-size:.95em;font-weight:800;letter-spacing:.05em}
+.nav-right{display:flex;align-items:center;gap:8px}
+.nav-user{font-size:.78em;opacity:.85}
+.nbtn{border:none;border-radius:6px;padding:6px 13px;font-size:.78em;font-weight:700;cursor:pointer}
+.nbtn-ghost{background:rgba(255,255,255,.18);color:#fff;border:1px solid rgba(255,255,255,.4)}
+.nbtn-ghost:hover{background:rgba(255,255,255,.28)}
+.nbtn-red{background:#922b21;color:#fff}
+
+/* TABS */
+.tab-bar{background:#fff;border-bottom:2px solid var(--border);padding:0 24px;display:flex;gap:0;overflow-x:auto}
+.tab{padding:12px 20px;font-size:.82em;font-weight:700;color:var(--muted);cursor:pointer;
+  border:none;background:none;border-bottom:3px solid transparent;white-space:nowrap;transition:all .15s}
+.tab.active{color:#1d4ed8;border-bottom-color:#1d4ed8}
+.tab:hover:not(.active){color:#374151}
+
+/* PANELS */
+.panel{display:none;padding:20px 24px;max-width:960px;margin:0 auto}
+.panel.active{display:block}
+
+/* ── REQUEST PANEL ── */
+.deadline-card{background:#fff;border:1px solid var(--border);border-radius:10px;padding:16px 20px;
+  margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
+.deadline-info{font-size:.82em;color:#475569;line-height:1.6}
+.deadline-info strong{color:#1a202c}
+.status-badge{padding:5px 14px;border-radius:20px;font-size:.78em;font-weight:700}
+.status-open{background:#d1fae5;color:#065f46}
+.status-closed{background:#fee2e2;color:#991b1b}
+.submit-btn{background:linear-gradient(135deg,#27ae60,#2ecc71);color:#fff;border:none;
+  border-radius:8px;padding:10px 22px;font-size:.88em;font-weight:700;cursor:pointer;transition:opacity .15s}
+.submit-btn:hover{opacity:.88}
+.submit-btn:disabled{background:#94a3b8;cursor:not-allowed}
+
+.month-nav2{display:flex;align-items:center;gap:8px;margin-bottom:16px;flex-wrap:wrap}
+.month-nav2 button{background:#fff;border:1px solid var(--border);border-radius:6px;
+  padding:5px 12px;cursor:pointer;font-size:.9em;color:#374151}
+.month-nav2 button:hover{background:#f1f5f9}
+.month-label2{font-size:.95em;font-weight:700;min-width:100px}
+
+/* per-day availability card */
+.day-avail-list{display:flex;flex-direction:column;gap:6px}
+.day-avail-row{background:#fff;border:1px solid var(--border);border-radius:8px;
+  padding:10px 14px;display:flex;flex-direction:column;gap:7px}
+.day-avail-row.closed-day{background:#f3f4f6;border-color:#e5e7eb}
+.day-avail-row:hover:not(.closed-day){box-shadow:0 1px 6px rgba(0,0,0,.08)}
+.day-row-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.day-label{font-size:.88em;font-weight:700}
+.day-label.sun{color:var(--red)}.day-label.sat,.day-label.fri{color:#1d4ed8}
+.day-label .dow{font-size:.78em;color:var(--muted);margin-left:4px}
+.closed-text{font-size:.8em;color:#adb5bd;letter-spacing:.1em}
+.session-row{display:flex;align-items:center;gap:8px;padding-left:2px}
+.session-label{font-size:.74em;font-weight:700;min-width:48px;flex-shrink:0;white-space:nowrap}
+.session-label.lunch-lbl{color:#1d4ed8}
+.session-label.dinner-lbl{color:#92400e}
+/* 北京の希望バッジ */
+.pekin-wish-col{display:flex;align-items:center;flex-wrap:wrap;gap:4px}
+.pekin-wish{font-size:.74em;font-weight:700;padding:3px 9px;border-radius:12px;
+  display:inline-flex;align-items:center;gap:3px;white-space:nowrap}
+.pekin-wish.lunch{background:#dbeafe;color:#1e40af;border:1px solid #93c5fd}
+.pekin-wish.dinner{background:#fef3c7;color:#92400e;border:1px solid #fcd34d}
+.pekin-wish.both{background:#f3e8ff;color:#6b21a8;border:1px solid #d8b4fe}
+.pekin-wish.none{background:#f1f5f9;color:#94a3b8;font-size:.72em;font-weight:400}
+/* ボタン */
+.avail-btns{display:flex;gap:6px;flex-wrap:wrap}
+.avail-btn{border:1.5px solid var(--border);border-radius:6px;padding:5px 12px;
+  font-size:.8em;font-weight:700;cursor:pointer;background:#f1f5f9;color:#94a3b8;
+  transition:all .15s;min-width:52px;text-align:center}
+.avail-btn:hover{filter:brightness(.96)}
+/* 選択状態 — 選択されたボタン */
+.avail-btn.sel-ok{background:#d1fae5;border-color:#34d399;color:#065f46}
+.avail-btn.sel-off{background:#fee2e2;border-color:#fca5a5;color:#991b1b}
+.avail-btn.sel-maybe{background:#fef9c3;border-color:#fde047;color:#854d0e}
+/* 非選択状態 — 他が選択されている時、このボタンを薄く */
+.avail-btn.unsel{opacity:.45}
+
+/* ── SHIFT VIEW PANEL ── */
+.shift-view-notice{background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;
+  padding:12px 16px;margin-bottom:16px;font-size:.82em;color:#1e40af;line-height:1.6}
+.shift-view-notice.draft{background:#fef9c3;border-color:#fde047;color:#92400e}
+
+.cal-head{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-bottom:3px}
+.cal-head-cell{text-align:center;font-size:.72em;font-weight:700;padding:5px 0;color:var(--muted);letter-spacing:.06em}
+.cal-head-cell.sun{color:var(--red)}.cal-head-cell.sat{color:#1d4ed8}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px}
+
+.day-cell{background:#fff;border-radius:8px;border:1px solid var(--border);
+  min-height:100px;padding:6px;display:flex;flex-direction:column;gap:3px}
+.day-cell.other-month{opacity:.3;pointer-events:none}
+.day-cell.closed{background:#f3f4f6;border-color:#e5e7eb}
+.day-cell.today{border:2px solid var(--red)}
+.day-cell.has-my-shift{border-color:#3b82f6;background:#f0f7ff}
+.day-num{font-size:.95em;font-weight:700;width:24px;height:24px;display:flex;
+  align-items:center;justify-content:center;border-radius:50%;align-self:flex-end}
+.day-cell.sun .day-num{color:var(--red)}.day-cell.sat .day-num{color:#1d4ed8}
+.day-cell.today .day-num{background:var(--red);color:#fff}
+.closed-label{flex:1;display:flex;align-items:center;justify-content:center;
+  font-size:.7em;color:#adb5bd;letter-spacing:.1em}
+.sblock{border-radius:5px;padding:3px 5px;flex:1}
+.sblock.lunch{background:#eff6ff;border:1px solid #bfdbfe}
+.sblock.dinner{background:#fffbeb;border:1px solid #fde68a}
+.sblock-label{font-size:.58em;font-weight:700;margin-bottom:2px}
+.sblock.lunch .sblock-label{color:#1d4ed8}
+.sblock.dinner .sblock-label{color:#92400e}
+.sname{font-size:.68em;font-weight:600;padding:1px 5px;border-radius:10px;white-space:nowrap;display:inline-block;margin:1px}
+.sname.lunch{background:#dbeafe;color:#1e40af}
+.sname.dinner{background:#fef3c7;color:#92400e}
+.sname.mine{outline:2px solid #3b82f6;font-weight:800}
+.sname-empty{font-size:.65em;color:#aaa}
+.my-badge{position:absolute;top:4px;left:4px;background:#3b82f6;color:#fff;
+  font-size:.58em;font-weight:700;padding:1px 5px;border-radius:4px}
+
+/* CONFIRM MODAL */
+.overlay{position:fixed;inset:0;background:rgba(15,23,42,.5);z-index:300;
+  display:none;align-items:center;justify-content:center;backdrop-filter:blur(2px)}
+.overlay.open{display:flex}
+.modal{background:#fff;border-radius:14px;padding:24px;width:380px;max-width:96vw;
+  box-shadow:0 20px 60px rgba(0,0,0,.25);animation:pop .18s ease}
+@keyframes pop{from{transform:scale(.94);opacity:0}to{transform:scale(1);opacity:1}}
+.modal-head{font-size:1em;font-weight:700;margin-bottom:14px}
+.confirm-list{background:#f8fafc;border-radius:8px;padding:12px 16px;max-height:220px;overflow-y:auto;margin:10px 0}
+.confirm-list li{font-size:.82em;padding:4px 0;border-bottom:1px solid #e2e8f0;list-style:none;display:flex;align-items:center;gap:6px}
+.confirm-list li:last-child{border-bottom:none}
+.modal-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:18px}
+.mbtn{border:none;border-radius:7px;padding:8px 18px;font-size:.85em;font-weight:600;cursor:pointer}
+.mbtn-cancel{background:#f1f5f9;color:#475569}
+.mbtn-green{background:#27ae60;color:#fff}
+.mbtn:hover{opacity:.88}
+
+/* ── ACCOUNT PANEL ── */
+.acct-card{background:#fff;border:1px solid var(--border);border-radius:12px;padding:24px;max-width:400px;margin:0 auto}
+.acct-card h2{font-size:.95em;font-weight:700;margin-bottom:18px;color:#374151}
+.acct-fg{margin-bottom:14px}
+.acct-fg label{display:block;font-size:.76em;font-weight:700;color:#475569;margin-bottom:5px;text-transform:uppercase;letter-spacing:.05em}
+.acct-fg input{width:100%;border:1.5px solid #e2e8f0;border-radius:7px;padding:9px 12px;font-size:.92em;outline:none;transition:border-color .15s}
+.acct-fg input:focus{border-color:#1d4ed8;box-shadow:0 0 0 3px rgba(29,78,216,.1)}
+.acct-save-btn{width:100%;background:linear-gradient(135deg,#1d4ed8,#2563eb);color:#fff;border:none;
+  border-radius:8px;padding:11px;font-size:.92em;font-weight:700;cursor:pointer;margin-top:6px;transition:opacity .15s}
+.acct-save-btn:hover{opacity:.88}
+.acct-info{font-size:.78em;color:#64748b;background:#f8fafc;border:1px solid #e2e8f0;
+  border-radius:7px;padding:10px 14px;margin-bottom:16px;line-height:1.7}
+.acct-msg{padding:10px 14px;border-radius:7px;font-size:.82em;margin-bottom:14px;display:none}
+.acct-msg.ok{background:#d1fae5;border:1px solid #6ee7b7;color:#065f46}
+.acct-msg.err{background:#fee2e2;border:1px solid #fca5a5;color:#991b1b}
+</style>
+</head>
+<body>
+<div id="dev-banner" style="position:fixed;top:0;left:0;right:0;background:#fbbf24;color:#1f2937;padding:6px 12px;text-align:center;font-weight:bold;z-index:99999;font-size:13px;border-bottom:3px solid #b45309;box-shadow:0 2px 8px rgba(0,0,0,.2);font-family:sans-serif;">
+  <div style="display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;">
+    <span>⚠ テスト環境 (dev) v6 ⚠ /dev/shift/</span>
+    <span id="dev-backup-status" style="background:#dc2626;color:#fff;padding:2px 8px;border-radius:4px;font-size:11px;">バックアップ未取得</span>
+    <button id="dev-btn-backup" onclick="exportDevBackup()" style="background:#065f46;color:#fef3c7;border:none;padding:5px 12px;border-radius:6px;cursor:pointer;font-weight:bold;font-size:12px;">⬇ ① まずバックアップ</button>
+    <button id="dev-btn-copy" onclick="resetDevFromProd()" style="background:#1f2937;color:#fbbf24;border:none;padding:5px 12px;border-radius:6px;cursor:pointer;font-weight:bold;font-size:12px;">↺ ② 本番から再コピー</button>
+    <button id="dev-btn-restore" onclick="importDevBackup()" style="background:#1f2937;color:#fbbf24;border:none;padding:5px 12px;border-radius:6px;cursor:pointer;font-weight:bold;font-size:12px;">📁 ③ バックアップから復元</button>
+  </div>
+  <div id="dev-status-line" style="margin-top:4px;font-size:11px;color:#7c2d12;min-height:14px;"></div>
+</div>
+<style>body{padding-top:68px !important;}@media print{#dev-banner{display:none}}</style>
+<script>
+const __FB_BASE = "https://pekin-shift-default-rtdb.asia-southeast1.firebasedatabase.app";
+const __BACKUP_TS_KEY = "__pekin_dev_last_backup_ts";
+const __BACKUP_NAME_KEY = "__pekin_dev_last_backup_name";
+
+function __setStatus(msg, color){
+  const el = document.getElementById("dev-status-line");
+  if (el) { el.textContent = msg; el.style.color = color || "#7c2d12"; }
+}
+function __setButtonState(id, enabled, text){
+  const b = document.getElementById(id);
+  if (!b) return;
+  b.disabled = !enabled;
+  b.style.opacity = enabled ? "1" : "0.5";
+  b.style.cursor = enabled ? "pointer" : "wait";
+  if (text) b.textContent = text;
+}
+function __updateBackupStatus(){
+  const ts = localStorage.getItem(__BACKUP_TS_KEY);
+  const name = localStorage.getItem(__BACKUP_NAME_KEY);
+  const el = document.getElementById("dev-backup-status");
+  if (!el) return;
+  if (ts) {
+    const d = new Date(parseInt(ts));
+    el.textContent = "✓ バックアップあり (" + d.toLocaleString("ja-JP") + ")";
+    el.style.background = "#16a34a";
+    el.title = name || "";
+  } else {
+    el.textContent = "⚠ バックアップ未取得";
+    el.style.background = "#dc2626";
+  }
+}
+setTimeout(__updateBackupStatus, 500);
+
+function __clearLocalPekin(){
+  const keys = [];
+  for (let i = 0; i < localStorage.length; i++) {
+    const k = localStorage.key(i);
+    if (k && k.startsWith("pekin_")) keys.push(k);
+  }
+  keys.forEach(function(k){ localStorage.removeItem(k); });
+  return keys.length;
+}
+function __writeFbDataToLocal(data){
+  let count = 0;
+  for (const key in data) {
+    if (key === "_v") {
+      localStorage.setItem("pekin_db_v", String(data[key]));
+    } else {
+      const val = data[key];
+      if (val === null || val === undefined) continue;
+      localStorage.setItem(key, typeof val === "string" ? val : JSON.stringify(val));
+      count++;
+    }
+  }
+  return count;
+}
+
+async function exportDevBackup(){
+  if (!confirm(`【① テスト環境をバックアップ】
+
+テスト環境(pekin/db_dev)の現在のデータをJSONファイルとして保存します。
+Downloadsフォルダーに保存されます。
+
+よろしいですか？`)) return;
+  __setButtonState("dev-btn-backup", false, "処理中…");
+  __setStatus("① バックアップ取得中…", "#7c2d12");
+  try {
+    const r = await fetch(__FB_BASE + "/pekin/db_dev.json?t=" + Date.now(), {cache: "no-store"});
+    if (!r.ok) throw new Error("テスト環境取得失敗 (" + r.status + ")");
+    const data = await r.json();
+    const sz = JSON.stringify(data).length;
+    const blob = new Blob([JSON.stringify(data, null, 2)], {type: "application/json"});
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    const ts = new Date().toISOString().replace(/[:.]/g, "-").slice(0, 19);
+    a.download = "pekin_db_dev_backup_" + ts + ".json";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    localStorage.setItem(__BACKUP_TS_KEY, String(Date.now()));
+    localStorage.setItem(__BACKUP_NAME_KEY, a.download);
+    __updateBackupStatus();
+    __setButtonState("dev-btn-backup", true, "⬇ ① まずバックアップ");
+    __setStatus("✓ ① バックアップ完了: " + a.download + " (" + Math.round(sz/1024) + "KB)", "#16a34a");
+    alert(`✓ バックアップ完了
+
+ファイル名: ${a.download}
+サイズ: ${Math.round(sz/1024)}KB
+
+Downloadsフォルダーを確認してください。`);
+  } catch(e) {
+    __setButtonState("dev-btn-backup", true, "⬇ ① まずバックアップ");
+    __setStatus("✗ ① 失敗: " + e.message, "#dc2626");
+    alert("エラー: " + e.message);
+  }
+}
+
+async function resetDevFromProd(){
+  if (!confirm(`【② 本番から再コピー】
+
+本番(pekin/db)のデータでテスト環境(pekin/db_dev)を完全上書きします。
+● シフト・スタッフ希望・設定・スタッフ情報・テンプレートすべて
+● テスト環境の現データは消えます
+
+先に「① まずバックアップ」を取りましたか？
+バックアップ済みなら OK、必要ならキャンセルしてバックアップへ。`)) return;
+  if (!confirm("最終確認: 本番から再コピーを実行します。本当に進めますか？")) return;
+  __setButtonState("dev-btn-copy", false, "処理中…");
+  __setStatus("② 本番から再コピー中…", "#7c2d12");
+  try {
+    __setStatus("② [1/4] 本番データ取得中…", "#7c2d12");
+    const r = await fetch(__FB_BASE + "/pekin/db.json?t=" + Date.now(), {cache: "no-store"});
+    if (!r.ok) throw new Error("本番取得失敗 (" + r.status + ")");
+    const data = await r.json();
+    if (!data || typeof data !== "object") throw new Error("本番データが空");
+    const keyCount = Object.keys(data).length;
+    const newV = Date.now();
+    data._v = newV;
+    __setStatus("② [2/4] テスト環境Firebaseに書き込み中…", "#7c2d12");
+    const r2 = await fetch(__FB_BASE + "/pekin/db_dev.json", {method: "PUT", headers: {"Content-Type": "application/json"}, body: JSON.stringify(data)});
+    if (!r2.ok) throw new Error("書き込み失敗 (" + r2.status + ")");
+    __setStatus("② [3/4] ローカルストレージ更新中…", "#7c2d12");
+    const cleared = __clearLocalPekin();
+    const written = __writeFbDataToLocal(data);
+    __setStatus("② [4/4] 完了 → 2秒後リロード(クリア:" + cleared + "/書込:" + written + "キー)", "#16a34a");
+    alert(`✓ 本番から再コピー完了
+
+● 取得キー: ${keyCount}
+● ローカル削除: ${cleared}キー
+● ローカル書込: ${written}キー
+● _v: ${newV}
+
+2秒後にリロードします。`);
+    setTimeout(function(){ location.reload(); }, 2000);
+  } catch(e) {
+    __setButtonState("dev-btn-copy", true, "↺ ② 本番から再コピー");
+    __setStatus("✗ ② 失敗: " + e.message, "#dc2626");
+    alert("エラー: " + e.message);
+    console.error(e);
+  }
+}
+
+function importDevBackup(){
+  if (!confirm(`【③ バックアップから復元】
+
+バックアップJSONファイルでテスト環境を上書き復元します。
+● 現在のテスト環境のデータは消えます
+● 必要なら先に「① まずバックアップ」を実行してください
+
+OKを押すとファイル選択画面が開きます。`)) return;
+  const input = document.createElement("input");
+  input.type = "file";
+  input.accept = "application/json,.json";
+  input.onchange = async function(e){
+    const file = e.target.files[0];
+    if (!file) return;
+    if (!confirm("ファイル「" + file.name + "」(" + Math.round(file.size/1024) + "KB) でテスト環境を復元します。よろしいですか？")) return;
+    __setButtonState("dev-btn-restore", false, "処理中…");
+    __setStatus("③ バックアップ復元中…", "#7c2d12");
+    try {
+      const text = await file.text();
+      const data = JSON.parse(text);
+      if (!data || typeof data !== "object") throw new Error("JSONがオブジェクトではない");
+      data._v = Date.now();
+      const r = await fetch(__FB_BASE + "/pekin/db_dev.json", {method: "PUT", headers: {"Content-Type": "application/json"}, body: JSON.stringify(data)});
+      if (!r.ok) throw new Error("書き込み失敗 (" + r.status + ")");
+      __clearLocalPekin();
+      __writeFbDataToLocal(data);
+      __setStatus("✓ ③ 復元完了 → 2秒後にリロード", "#16a34a");
+      alert("✓ 復元完了。ファイル: " + file.name + " → 2秒後にリロード。");
+      setTimeout(function(){ location.reload(); }, 2000);
+    } catch(err) {
+      __setButtonState("dev-btn-restore", true, "📁 ③ バックアップから復元");
+      __setStatus("✗ ③ 失敗: " + err.message, "#dc2626");
+      alert("エラー: " + err.message);
+    }
+  };
+  input.click();
+}
+</script>
+
+
+<!-- ローディングオーバーレイ -->
+<div id="loadOverlay" style="position:fixed;inset:0;background:rgba(255,255,255,.95);z-index:99999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px">
+  <div style="font-size:2em;animation:spin 1s linear infinite">🔄</div>
+  <div style="font-size:.95em;color:#475569;font-weight:600">データを読み込んでいます…</div>
+  <div style="font-size:.78em;color:#94a3b8">しばらくお待ちください</div>
+</div>
+<style>@keyframes spin{to{transform:rotate(360deg)}}</style>
+
+<nav class="topnav">
+  <div class="nav-left">
+    <span class="nav-logo">🥟</span>
+    <span class="nav-title">海鮮餃子ペキン — スタッフページ</span>
+  </div>
+  <div class="nav-right">
+    <span class="nav-user" id="navUser"></span>
+    <button class="nbtn nbtn-red" onclick="logout()">ログアウト</button>
+  </div>
+</nav>
+
+<div class="tab-bar">
+  <button class="tab active" onclick="switchTab('request')">📝 希望を入力する</button>
+  <button class="tab" onclick="switchTab('shift')">📅 シフトを確認する</button>
+  <button class="tab" onclick="switchTab('account')">⚙️ アカウント</button>
+</div>
+
+<!-- PANEL: REQUEST -->
+<div class="panel active" id="panel-request">
+  <div class="deadline-card">
+    <div class="deadline-info">
+      <strong id="reqTarget"></strong> のシフト希望を入力してください。<br>
+      締め切り：<strong id="reqDeadline"></strong>　まで
+    </div>
+    <span class="status-badge" id="reqStatusBadge">受付中</span>
+  </div>
+  <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:12px">
+    <div class="month-nav2">
+      <button onclick="changeReqMonth(-1)">◀</button>
+      <span class="month-label2" id="reqMonthLabel"></span>
+      <button onclick="changeReqMonth(1)">▶</button>
+    </div>
+    <button class="submit-btn" onclick="openConfirm()" id="submitBtn">✔ 希望を送信する</button>
+  </div>
+  <div class="day-avail-list" id="dayAvailList"></div>
+</div>
+
+<!-- PANEL: SHIFT -->
+<div class="panel" id="panel-shift">
+  <div id="shiftNotice" class="shift-view-notice draft">シフトはまだ公開されていません。確定後にここで確認できます。</div>
+  <div class="month-nav2">
+    <button onclick="changeViewMonth(-1)">◀</button>
+    <span class="month-label2" id="viewMonthLabel"></span>
+    <button onclick="changeViewMonth(1)">▶</button>
+  </div>
+  <div class="cal-head">
+    <div class="cal-head-cell sun">日</div><div class="cal-head-cell">月</div>
+    <div class="cal-head-cell">火</div><div class="cal-head-cell">水</div>
+    <div class="cal-head-cell">木</div>
+    <div class="cal-head-cell sat">金</div><div class="cal-head-cell sat">土</div>
+  </div>
+  <div class="cal-grid" id="calGrid"></div>
+</div>
+
+<!-- PANEL: ACCOUNT -->
+<div class="panel" id="panel-account">
+  <div class="acct-card" style="margin-top:16px">
+    <h2>🔑 パスワード変更</h2>
+    <div class="acct-info">
+      パスワードを変更すると、<strong>新しいパスワードでのみ</strong>ログインできるようになります。<br>
+      変更後は元のパスワードは使えなくなります。管理者がリセットするまで有効です。
+    </div>
+    <div class="acct-msg" id="acctMsg"></div>
+    <div class="acct-fg">
+      <label>現在のパスワード</label>
+      <input type="password" id="acctCurrentPw" placeholder="現在のパスワードを入力" autocomplete="current-password">
+    </div>
+    <div class="acct-fg">
+      <label>新しいパスワード</label>
+      <input type="password" id="acctNewPw" placeholder="6文字以上" autocomplete="new-password">
+    </div>
+    <div class="acct-fg">
+      <label>新しいパスワード（確認）</label>
+      <input type="password" id="acctNewPw2" placeholder="もう一度入力" autocomplete="new-password">
+    </div>
+    <button class="acct-save-btn" onclick="changePassword()">パスワードを変更する</button>
+  </div>
+</div>
+
+<!-- Confirm Modal -->
+<div class="overlay" id="confirmOverlay">
+  <div class="modal">
+    <div class="modal-head">✅ 希望を送信しますか？</div>
+    <p style="font-size:.82em;color:#475569" id="confirmName"></p>
+    <ul class="confirm-list" id="confirmList"></ul>
+    <p style="font-size:.75em;color:#94a3b8;margin-top:6px">締め切りまでは何度でも変更できます。</p>
+    <div class="modal-actions">
+      <button class="mbtn mbtn-cancel" onclick="closeConfirm()">戻る</button>
+      <button class="mbtn mbtn-green"  onclick="submitRequest()">送信する</button>
+    </div>
+  </div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
+<script>
+/* ════════════════════════════════════════
+   DATA SYNC — Firebase優先・db.jsonフォールバック
+════════════════════════════════════════ */
+const _STATIC_KEYS=['pekin_shift_template','pekin_settings','pekin_users','pekin_master_pw'];
+const _fbCfg={apiKey:"AIzaSyBygnsi6cByYRZigxlhR7d0ydVfpFGx8FQ",databaseURL:"https://pekin-shift-default-rtdb.asia-southeast1.firebasedatabase.app",projectId:"pekin-shift",appId:"1:600393805417:web:126fb18e1c5b64fc677cf8"};
+if(!firebase.apps.length)firebase.initializeApp(_fbCfg);
+const _fbDb=firebase.database();
+
+/* dbをlocalStorageに書き込む。force=trueで全データ強制上書き */
+function _applyDb(db,force=false){
+  const remoteV=db._v||0;
+  const localV=parseInt(localStorage.getItem('pekin_db_v')||'0');
+  _STATIC_KEYS.forEach(k=>{
+    if(db[k]!==undefined)
+      localStorage.setItem(k,typeof db[k]==='string'?db[k]:JSON.stringify(db[k]));
+  });
+  if(force||remoteV>=localV){
+    Object.entries(db).forEach(([k,v])=>{
+      if(k.startsWith('_')||_STATIC_KEYS.includes(k))return;
+      localStorage.setItem(k,typeof v==='string'?v:JSON.stringify(v));
+    });
+    localStorage.setItem('pekin_db_v',String(remoteV));
+    return true;
+  }
+  return false;
+}
+
+/* オーバーレイを閉じて再描画（1回だけ） */
+let _overlayHidden=false;
+function _finishSync(){
+  if(_overlayHidden)return;
+  _overlayHidden=true;
+  const ov=document.getElementById('loadOverlay');
+  if(ov)ov.style.display='none';
+  /* ページの再描画 */
+  try{
+    if(typeof loadMyAvail==='function')loadMyAvail();
+    if(typeof renderRequestList==='function')renderRequestList();
+    if(typeof renderShiftView==='function'&&document.getElementById('panel-shift')?.classList.contains('active'))renderShiftView();
+  }catch(e){console.warn('reRender:',e);}
+}
+
+/* 初回同期：Firebase→db.json順 */
+async function _doInitialSync(){
+  try{
+    const snap=await Promise.race([
+      _fbDb.ref('pekin/db_dev').get(),
+      new Promise((_,rej)=>setTimeout(()=>rej(new Error('timeout')),5000))
+    ]);
+    if(snap&&snap.exists()){_applyDb(snap.val(),true);console.log('Firebase sync ✓');}
+    else throw new Error('no data');
+  }catch(e){
+    console.warn('Firebase:',e.message);
+    try{
+      const res=await fetch('/shift/db.json?_='+Date.now(),{cache:'no-store'});
+      if(res.ok){_applyDb(await res.json());console.log('db.json sync ✓');}
+    }catch(e2){}
+  }
+  _finishSync();
+}
+
+/* 安全網：6秒後には必ず表示 */
+setTimeout(_finishSync,6000);
+_doInitialSync();
+
+/* リアルタイムリスナー（シフト公開通知用）
+   avoidデータは上書きしない（スタッフの未保存入力を守るため） */
+let _fbListenerReady=false;
+_fbDb.ref('pekin/db_dev').on('value',snap=>{
+  if(!snap||!snap.exists())return;
+  if(!_fbListenerReady){_fbListenerReady=true;return;} /* 初回はinitialSyncで処理済み */
+  const db=snap.val();
+  _STATIC_KEYS.forEach(k=>{
+    if(db[k]!==undefined)
+      localStorage.setItem(k,typeof db[k]==='string'?db[k]:JSON.stringify(db[k]));
+  });
+  Object.entries(db).forEach(([k,v])=>{
+    if(k.startsWith('_')||_STATIC_KEYS.includes(k))return;
+    if(k.startsWith('pekin_avail_'))return; /* スタッフの希望は上書きしない */
+    localStorage.setItem(k,typeof v==='string'?v:JSON.stringify(v));
+  });
+  if(typeof renderRequestList==='function')renderRequestList();
+  if(document.getElementById('panel-shift')?.classList.contains('active')&&typeof renderShiftView==='function')renderShiftView();
+  if(typeof showUpdateToast==='function')showUpdateToast('🔄 シフトが更新されました');
+});
+
+/* ── AUTH ── */
+function getSession(){
+  const s=sessionStorage.getItem('pekin_session');if(!s)return null;
+  const sess=JSON.parse(s);
+  if(sess.expires<Date.now()){sessionStorage.removeItem('pekin_session');return null;}
+  return sess;
+}
+function logout(){sessionStorage.removeItem('pekin_session');location.href='index.html';}
+const sess=getSession();
+if(!sess){location.href='index.html';}
+document.getElementById('navUser').textContent=sess.name;
+
+/* ── STATE ── */
+const now=new Date();
+let reqY,reqM,viewY,viewM;
+
+// Determine which month to request: if before 20th request NEXT month, else month after next
+function getRequestTarget(){
+  if(now.getDate()<=20)
+    return {y:now.getFullYear()+(now.getMonth()===11?1:0), m:(now.getMonth()+1)%12};
+  else
+    return {y:now.getFullYear()+(now.getMonth()>=10?1:0), m:(now.getMonth()+2)%12};
+}
+const target=getRequestTarget();
+reqY=target.y; reqM=target.m;
+viewY=now.getFullYear(); viewM=now.getMonth();
+
+/* ── SETTINGS (shared with admin.html via localStorage) ── */
+const SETTINGS_KEY='pekin_settings';
+function getSettings(){
+  const def={defaultClosedDays:[2,3],specialDates:{}};
+  try{return Object.assign({},def,JSON.parse(localStorage.getItem(SETTINGS_KEY)||'{}'));}
+  catch(e){return def;}
+}
+function isClosedDay(y,m,d){
+  const s=getSettings();
+  const k=`${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+  if(s.specialDates&&s.specialDates[k]){
+    if(s.specialDates[k].type==='open')return false; // 定休日の営業例外
+    return true;
+  }
+  return (s.defaultClosedDays||[2,3]).includes(new Date(y,m,d).getDay());
+}
+function getClosedLabel(y,m,d){
+  const s=getSettings();
+  const k=`${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+  if(s.specialDates&&s.specialDates[k]){
+    const v=s.specialDates[k];
+    return v.label||({holiday:'振替休日',closed:'臨時休業',other:'その他'}[v.type]||'休業');
+  }
+  return '定休日';
+}
+
+/* ── AVAIL DATA ── */
+const availKey=(y,m)=>`pekin_avail_${y}-${String(m+1).padStart(2,'0')}`;
+function loadAvail(y,m){return JSON.parse(localStorage.getItem(availKey(y,m))||'{}');}
+function saveAvail(y,m,data){
+  const key=availKey(y,m);
+  const json=JSON.stringify(data);
+  localStorage.setItem(key,json);
+  /* Firebaseにも保存（管理画面でリアルタイム反映） */
+  try{
+    _fbDb.ref('pekin/db_dev').update({[key]:json});
+    console.log('Avail saved to Firebase:',key);
+  }catch(e){console.warn('Firebase avail save failed:',e);}
+}
+let myAvail={};
+
+function loadMyAvail(){
+  const all=loadAvail(reqY,reqM);
+  const raw=all[sess.userId]||{};
+  myAvail={};
+  Object.entries(raw).forEach(([k,v])=>{
+    if(typeof v==='string'){
+      myAvail[k]={lunch:v,dinner:v}; // 旧フォーマット互換：文字列→昼夜同値
+    }else{
+      myAvail[k]={lunch:v.lunch||'',dinner:v.dinner||''};
+    }
+  });
+}
+
+/* ── SHIFT DATA ── */
+const shiftKey=(y,m)=>`pekin_shift_${y}-${String(m+1).padStart(2,'0')}`;
+const publishKey=(y,m)=>`pekin_published_${y}-${String(m+1).padStart(2,'0')}`;
+const dKey=(y,m,d)=>`${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+const DOW_STR=['日','月','火','水','木','金','土'];
+const DOW_CLS2=['sun','mon','tue','wed','thu','fri','sat'];
+
+/* ── DEADLINE CHECK ──
+   settings.deadline.day を「対象月の前月N日」として扱う
+   settings.extensions[staffId][YYYY-MM] が今日以降なら延長扱い
+   締切オフ（enabled=false）なら常に「受付中」 */
+function updateDeadlineUI(){
+  const settings=JSON.parse(localStorage.getItem('pekin_settings')||'{}');
+  const dl=settings.deadline||{enabled:true,day:20};
+  const day=Math.max(1,Math.min(31,parseInt(dl.day,10)||20));
+  /* 対象月（reqY, reqM）の前月N日23:59 が締切 */
+  let dy=reqY, dm=reqM-1;
+  if(dm<0){dm=11;dy--;}
+  const baseDeadline=new Date(dy,dm,day,23,59,59);
+  /* 延長設定 */
+  const ym=`${reqY}-${String(reqM+1).padStart(2,'0')}`;
+  const exts=settings.extensions||{};
+  const extStr=(exts[sess.userId]&&exts[sess.userId][ym])||'';
+  let extendedTo=null;
+  if(extStr){
+    const parts=extStr.split('-').map(n=>parseInt(n,10));
+    if(parts.length===3&&parts[0]&&parts[1]&&parts[2])
+      extendedTo=new Date(parts[0],parts[1]-1,parts[2],23,59,59);
+  }
+  const effective=extendedTo&&extendedTo>baseDeadline?extendedTo:baseDeadline;
+  const enabled=dl.enabled!==false;
+  const closed=enabled&&now>effective;
+  /* バッジ表示 */
+  const badge=document.getElementById('reqStatusBadge');
+  if(!enabled){
+    badge.textContent='受付中（締切なし）';badge.className='status-badge status-open';
+  }else if(extendedTo&&extendedTo>baseDeadline){
+    badge.textContent=closed?'受付終了':'受付中（延長中）';
+    badge.className='status-badge '+(closed?'status-closed':'status-open');
+  }else{
+    badge.textContent=closed?'受付終了':'受付中';
+    badge.className='status-badge '+(closed?'status-closed':'status-open');
+  }
+  document.getElementById('submitBtn').disabled=closed;
+  /* 締切日表示 */
+  const eff=effective;
+  const dlText=`${eff.getMonth()+1}月${eff.getDate()}日 23:59`+
+    (extendedTo&&extendedTo>baseDeadline?'（延長）':'');
+  document.getElementById('reqDeadline').textContent=enabled?dlText:'設定なし';
+}
+
+/* ── RENDER REQUEST LIST ──
+   ★ loadMyAvail() は呼ばない（呼ぶと未送信の選択がリセットされる）
+     月変更やinitでのみ呼ぶこと
+   ★ 昼の部・夜の部それぞれ独立してボタン選択可能 */
+function renderRequestList(){
+  document.getElementById('reqMonthLabel').textContent=`${reqY}年 ${reqM+1}月`;
+  document.getElementById('reqTarget').textContent=`${reqY}年 ${reqM+1}月`;
+  updateDeadlineUI();
+  const list=document.getElementById('dayAvailList');
+  list.innerHTML='';
+  const days=new Date(reqY,reqM+1,0).getDate();
+  const shiftData=JSON.parse(localStorage.getItem(shiftKey(reqY,reqM))||'{}');
+  const myName=sess.name;
+
+  for(let d=1;d<=days;d++){
+    const dow=new Date(reqY,reqM,d).getDay();
+    const closed=isClosedDay(reqY,reqM,d);
+    const k=dKey(reqY,reqM,d);
+    const row=document.createElement('div');
+    row.className='day-avail-row'+(closed?' closed-day':'');
+
+    /* ── ヘッダー行：日付 ＋ 北京の希望バッジ ── */
+    const head=document.createElement('div');
+    head.className='day-row-head';
+
+    const lbl=document.createElement('div');
+    lbl.className='day-label '+(['sun','mon','tue','wed','thu','fri','sat'][dow]);
+    lbl.innerHTML=`${d}日<span class="dow">${DOW_STR[dow]}</span>`;
+    head.appendChild(lbl);
+
+    if(closed){
+      const cl=document.createElement('div');
+      cl.className='closed-text';cl.textContent=getClosedLabel(reqY,reqM,d);
+      head.appendChild(cl);
+      row.appendChild(head);
+    }else{
+      /* 北京の希望バッジ */
+      const se=shiftData[k]||{lunch:{names:[],ext:false},dinner:{names:[],ext:false}};
+      const inLunch=(se.lunch.names||[]).includes(myName);
+      const inDinner=(se.dinner.names||[]).includes(myName);
+      const wishDiv=document.createElement('div');
+      wishDiv.className='pekin-wish-col';
+      if(inLunch&&inDinner){
+        wishDiv.innerHTML='<span class="pekin-wish both"><span style="font-weight:400;opacity:.7">北京の希望：</span>昼・夜</span>';
+      }else if(inLunch){
+        wishDiv.innerHTML='<span class="pekin-wish lunch"><span style="font-weight:400;opacity:.7">北京の希望：</span>昼</span>';
+      }else if(inDinner){
+        wishDiv.innerHTML='<span class="pekin-wish dinner"><span style="font-weight:400;opacity:.7">北京の希望：</span>夜</span>';
+      }else{
+        wishDiv.innerHTML='<span class="pekin-wish none">北京の希望：未定</span>';
+      }
+      head.appendChild(wishDiv);
+      row.appendChild(head);
+
+      /* ── 昼の部・夜の部 それぞれボタン行 ── */
+      const entry=myAvail[k]||{lunch:'',dinner:''};
+      [
+        {part:'lunch', icon:'☀', label:'昼の部', isWanted:inLunch,  labelCls:'lunch-lbl'},
+        {part:'dinner',icon:'🌙',label:'夜の部', isWanted:inDinner, labelCls:'dinner-lbl'}
+      ].forEach(({part,icon,label,isWanted,labelCls})=>{
+        const srow=document.createElement('div');
+        srow.className='session-row';
+
+        const slbl=document.createElement('span');
+        slbl.className=`session-label ${labelCls}`;
+        slbl.textContent=`${icon} ${label}`;
+        srow.appendChild(slbl);
+
+        const cur=entry[part]||(isWanted?'ok':'');
+        const btns=document.createElement('div');
+        btns.className='avail-btns';
+
+        const btnDefs=[
+          {val:'ok',   label:isWanted?'✓ OK出勤':'○ 出勤可', cls:'sel-ok'},
+          {val:'off',  label:isWanted?'✕ 休み希望':'× 休み',  cls:'sel-off'},
+          {val:'maybe',label:'△ 調整可',                       cls:'sel-maybe'}
+        ];
+        btnDefs.forEach(b=>{
+          const btn=document.createElement('button');
+          let btnCls='avail-btn';
+          if(cur===b.val) btnCls+=' '+b.cls;
+          else if(cur&&cur!==b.val) btnCls+=' unsel';
+          btn.className=btnCls;
+          btn.textContent=b.label;
+          btn.onclick=()=>{
+            if(!myAvail[k])myAvail[k]={lunch:'',dinner:''};
+            if(myAvail[k][part]===b.val) myAvail[k][part]=''; // トグル解除
+            else myAvail[k][part]=b.val;
+            renderRequestList(); // ★ loadMyAvail は呼ばない
+          };
+          btns.appendChild(btn);
+        });
+        srow.appendChild(btns);
+        row.appendChild(srow);
+      });
+    }
+    list.appendChild(row);
+  }
+}
+
+function changeReqMonth(d){
+  reqM+=d;if(reqM>11){reqM=0;reqY++;}if(reqM<0){reqM=11;reqY--;}
+  loadMyAvail(); // ★ 月が変わるたびにその月の保存データをロード
+  renderRequestList();
+}
+
+/* ── CONFIRM & SUBMIT ── */
+function openConfirm(){
+  document.getElementById('confirmName').textContent=`${sess.name}さんの希望（${reqY}年${reqM+1}月）`;
+  const list=document.getElementById('confirmList');
+  list.innerHTML='';
+
+  /* 北京の希望がある日の未選択分を 'ok' として確認リストに含める */
+  const shiftDataCfm=JSON.parse(localStorage.getItem(shiftKey(reqY,reqM))||'{}');
+  const days3=new Date(reqY,reqM+1,0).getDate();
+  const merged={};
+  for(let d=1;d<=days3;d++){
+    if(isClosedDay(reqY,reqM,d))continue;
+    const k=dKey(reqY,reqM,d);
+    const se=shiftDataCfm[k]||{lunch:{names:[],ext:false},dinner:{names:[],ext:false}};
+    const inL=(se.lunch.names||[]).includes(sess.name);
+    const inD=(se.dinner.names||[]).includes(sess.name);
+    const saved=myAvail[k]||{lunch:'',dinner:''};
+    const lVal=saved.lunch||(inL?'ok':'');
+    const dVal=saved.dinner||(inD?'ok':'');
+    if(lVal||dVal)merged[k]={lunch:lVal,dinner:dVal};
+  }
+  /* myAvail にある（北京の希望に無い）日も含める */
+  Object.entries(myAvail).forEach(([k,v])=>{
+    if(!merged[k]&&v&&(v.lunch||v.dinner))merged[k]=v;
+  });
+
+  const entries=Object.entries(merged).sort(([a],[b])=>a.localeCompare(b));
+  if(entries.length===0){
+    list.innerHTML='<li style="color:#aaa">入力なし — 全日出勤可として扱われます</li>';
+  }else{
+    const fmt=(val)=>val==='ok'?'出勤可':val==='off'?'休み希望':val==='maybe'?'調整可':'—';
+    const ico=(val)=>val==='ok'?'✅':val==='off'?'❌':val==='maybe'?'🔄':'　';
+    entries.forEach(([k,v])=>{
+      const [,m2,d]=k.split('-');
+      const dow=new Date(parseInt(k.split('-')[0]),parseInt(m2)-1,parseInt(d)).getDay();
+      const li=document.createElement('li');
+      li.innerHTML=`<strong>${parseInt(m2)}月${parseInt(d)}日（${DOW_STR[dow]}）</strong>
+        <span style="font-size:.85em;margin-left:6px;display:inline-flex;gap:8px">
+          <span>☀${ico(v.lunch)}${fmt(v.lunch)}</span>
+          <span>🌙${ico(v.dinner)}${fmt(v.dinner)}</span>
+        </span>`;
+      list.appendChild(li);
+    });
+  }
+  document.getElementById('confirmOverlay').classList.add('open');
+}
+function closeConfirm(){document.getElementById('confirmOverlay').classList.remove('open');}
+function submitRequest(){
+  /* 北京の希望があるのに未選択のシフトは 'ok' として自動設定 */
+  const shiftDataSub=JSON.parse(localStorage.getItem(shiftKey(reqY,reqM))||'{}');
+  const days2=new Date(reqY,reqM+1,0).getDate();
+  for(let d=1;d<=days2;d++){
+    if(isClosedDay(reqY,reqM,d))continue;
+    const k=dKey(reqY,reqM,d);
+    const se=shiftDataSub[k]||{lunch:{names:[],ext:false},dinner:{names:[],ext:false}};
+    const inL=(se.lunch.names||[]).includes(sess.name);
+    const inD=(se.dinner.names||[]).includes(sess.name);
+    if(inL||inD){
+      if(!myAvail[k])myAvail[k]={lunch:'',dinner:''};
+      if(inL&&!myAvail[k].lunch) myAvail[k].lunch='ok';
+      if(inD&&!myAvail[k].dinner)myAvail[k].dinner='ok';
+    }
+  }
+  const all=loadAvail(reqY,reqM);
+  all[sess.userId]=myAvail;
+  saveAvail(reqY,reqM,all);  /* ← Firebase保存も内部で実行 */
+  closeConfirm();
+  renderRequestList();
+  alert(`${sess.name}さんの希望を送信しました！\n管理者の画面にも反映されます。`);
+}
+
+/* ── SHIFT VIEW ── */
+function renderShiftView(){
+  document.getElementById('viewMonthLabel').textContent=`${viewY}年 ${viewM+1}月`;
+  const published=localStorage.getItem(publishKey(viewY,viewM))==='1';
+  const notice=document.getElementById('shiftNotice');
+  notice.textContent=published
+    ?`${viewY}年${viewM+1}月のシフトが公開されています。あなたのシフトは青枠で表示されます。`
+    :'シフトはまだ公開されていません。確定後にここで確認できます。';
+  notice.className='shift-view-notice'+(published?'':' draft');
+
+  const shiftData=JSON.parse(localStorage.getItem(shiftKey(viewY,viewM))||'{}');
+  const grid=document.getElementById('calGrid');
+  grid.innerHTML='';
+  const first=new Date(viewY,viewM,1).getDay();
+  const total=new Date(viewY,viewM+1,0).getDate();
+  const prev=new Date(viewY,viewM,0).getDate();
+  const today2=new Date();
+
+  for(let i=0;i<first;i++)grid.appendChild(makeViewCell(viewY,viewM-1,prev-first+i+1,true,shiftData));
+  for(let d=1;d<=total;d++){
+    const it=today2.getFullYear()===viewY&&today2.getMonth()===viewM&&today2.getDate()===d;
+    grid.appendChild(makeViewCell(viewY,viewM,d,false,shiftData,it));
+  }
+  const filled=first+total;
+  for(let i=1;i<=Math.ceil(filled/7)*7-filled;i++)
+    grid.appendChild(makeViewCell(viewY,viewM+1,i,true,shiftData));
+}
+
+function makeViewCell(y,m,d,other,shiftData,isToday){
+  const dow=new Date(y,m,d).getDay();
+  const closed=isClosedDay(y,m,d);
+  const k=dKey(y,m,d);
+  const e=shiftData[k]||{lunch:{names:[],ext:false},dinner:{names:[],ext:false}};
+  const myName=sess.name;
+  const hasMe=(e.lunch.names||[]).includes(myName)||(e.dinner.names||[]).includes(myName);
+  const cell=document.createElement('div');
+  cell.style.position='relative';
+  cell.className='day-cell '+DOW_CLS2[dow]
+    +(closed?' closed':'')+(other?' other-month':'')
+    +(isToday?' today':'')+(hasMe&&!other?' has-my-shift':'');
+  const num=document.createElement('div');
+  num.className='day-num';num.textContent=d;cell.appendChild(num);
+  if(closed){const cl=document.createElement('div');cl.className='closed-label';cl.textContent=getClosedLabel(y,m,d);cell.appendChild(cl);return cell;}
+  if(other)return cell;
+  if(hasMe){const b=document.createElement('div');b.className='my-badge';b.textContent='▶ 出勤';cell.appendChild(b);}
+  [{type:'lunch',se:e.lunch,label:'☀'},{type:'dinner',se:e.dinner,label:'🌙'}].forEach(({type,se,label})=>{
+    const bl=document.createElement('div');bl.className=`sblock ${type}`;
+    const lb=document.createElement('div');lb.className='sblock-label';lb.textContent=label;bl.appendChild(lb);
+    (se.names||[]).filter(n=>n&&n.trim()).forEach(n=>{
+      const sp=document.createElement('span');
+      sp.className=`sname ${type}`+(n===myName?' mine':'');
+      sp.textContent=n;bl.appendChild(sp);
+    });
+    if(!(se.names||[]).filter(n=>n).length){const e2=document.createElement('span');e2.className='sname-empty';e2.textContent='未定';bl.appendChild(e2);}
+    cell.appendChild(bl);
+  });
+  return cell;
+}
+
+function changeViewMonth(d){
+  viewM+=d;if(viewM>11){viewM=0;viewY++;}if(viewM<0){viewM=11;viewY--;}
+  renderShiftView();
+}
+
+/* ── TABS ── */
+function switchTab(name){
+  document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active',['request','shift','account'][i]===name));
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('panel-'+name).classList.add('active');
+  if(name==='shift')renderShiftView();
+}
+
+/* ── ACCOUNT / PASSWORD CHANGE ── */
+function getUsers(){
+  const def=[
+    {id:'admin',name:'管理者',username:'admin',password:'pekin2026',role:'admin',type:'admin'},
+    {id:'s_1775908177910',name:'ふさちゃん',username:'fusa',password:'fusa0433',role:'staff',type:'part'},
+    {id:'s_1775908211262',name:'みきちゃん',username:'miki',password:'miki0433',role:'staff',type:'part'},
+    {id:'s_1775908408369',name:'ちなちゃん',username:'china',password:'china0433',role:'staff',type:'alt'},
+    {id:'s_1775908464379',name:'ひろせくん',username:'hirose',password:'hirose04343',role:'staff',type:'alt'},
+    {id:'s_1775908503865',name:'まーちゃん',username:'mafune',password:'mafune0433',role:'staff',type:'alt'},
+    {id:'s_1775908539755',name:'るいくん',username:'rui',password:'rui0433',role:'staff',type:'alt'},
+    {id:'s_1775948185859',name:'ぶんくん',username:'bun',password:'bun0433',role:'staff',type:'alt'}
+  ];
+  return JSON.parse(localStorage.getItem('pekin_users')||JSON.stringify(def));
+}
+function saveUsers(users){localStorage.setItem('pekin_users',JSON.stringify(users));}
+
+function changePassword(){
+  const currentPw=document.getElementById('acctCurrentPw').value;
+  const newPw=document.getElementById('acctNewPw').value;
+  const newPw2=document.getElementById('acctNewPw2').value;
+  const msgEl=document.getElementById('acctMsg');
+
+  function showMsg(type,text){
+    msgEl.className='acct-msg '+type;
+    msgEl.textContent=text;
+    msgEl.style.display='block';
+    setTimeout(()=>{msgEl.style.display='none';},4000);
+  }
+
+  if(!currentPw||!newPw||!newPw2){showMsg('err','すべての項目を入力してください');return;}
+  if(newPw.length<6){showMsg('err','新しいパスワードは6文字以上にしてください');return;}
+  if(newPw!==newPw2){showMsg('err','新しいパスワードが一致しません');return;}
+
+  const users=getUsers();
+  const myUser=users.find(u=>u.id===sess.userId);
+  if(!myUser){showMsg('err','ユーザーが見つかりません');return;}
+
+  /* 現在のパスワード確認（デフォルトPW か 変更済みPW のどちらかと一致すればOK） */
+  const isValid=(myUser.password===currentPw)||(myUser.customPassword&&myUser.customPassword===currentPw);
+  if(!isValid){showMsg('err','現在のパスワードが違います');return;}
+
+  if(newPw===myUser.password&&!myUser.customPassword){
+    showMsg('err','新しいパスワードはデフォルトパスワードと異なるものにしてください');return;
+  }
+  myUser.customPassword=newPw;
+  saveUsers(users);
+  document.getElementById('acctCurrentPw').value='';
+  document.getElementById('acctNewPw').value='';
+  document.getElementById('acctNewPw2').value='';
+  showMsg('ok','✅ パスワードを変更しました');
+}
+
+/* ── INIT ── */
+loadMyAvail();
+renderRequestList();
+</script>
+</body>
+</html>�

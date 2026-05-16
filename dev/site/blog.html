@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ブログ | 海鮮餃子 北京</title>
+<meta name="description" content="海鮮餃子 北京 のブログ。最新のお知らせページへリダイレクト中です。">
+
+<!-- SEO: お知らせページを正規URLとして認識させる -->
+<link rel="canonical" href="https://gyozapekin.github.io/news/">
+
+<!-- 自動リダイレクト（2秒後） -->
+<meta http-equiv="refresh" content="2; url=/news/">
+
+<style>
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Hiragino Sans", "Yu Gothic", Meiryo, sans-serif;
+  background: #fdfaf5;
+  color: #333;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.redirect-box {
+  max-width: 500px;
+  padding: 40px 32px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+  text-align: center;
+  margin: 20px;
+}
+h1 {
+  color: #c0392b;
+  font-size: 1.5rem;
+  margin: 0 0 16px;
+  font-family: "Hiragino Mincho ProN", "Yu Mincho", serif;
+}
+p {
+  line-height: 1.7;
+  color: #555;
+  margin: 12px 0;
+}
+.loading {
+  display: inline-block;
+  width: 32px;
+  height: 32px;
+  border: 3px solid #f1c40f;
+  border-top-color: #c0392b;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 16px auto;
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+.cta {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 12px 28px;
+  background: #c0392b;
+  color: #fff;
+  border-radius: 4px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: background 0.2s;
+}
+.cta:hover { background: #e74c3c; }
+.note {
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px dashed #ccc;
+  font-size: 0.85rem;
+  color: #888;
+}
+</style>
+</head>
+<body>
+<div class="redirect-box">
+  <h1>新しいお知らせページへ</h1>
+  <div class="loading" aria-hidden="true"></div>
+  <p>海鮮餃子 北京 のブログは<br><strong>「お知らせ」ページ</strong>に移動しました。</p>
+  <p>自動的に新しいページに移動します...</p>
+  <a href="/news/" class="cta">お知らせページを開く</a>
+  <p class="note">
+    過去のブログ記事も新しいお知らせページからご覧いただけます。<br>
+    このページは2秒後に自動的に移動します。
+  </p>
+</div>
+
+<!-- JavaScript による即時リダイレクト（フォールバック） -->
+<script>
+  // ブラウザが meta refresh を尊重しない場合の保険として JavaScript でもリダイレクト
+  setTimeout(function() {
+    if (window.location.pathname.indexOf('/news/') === -1) {
+      window.location.replace('/news/');
+    }
+  }, 2000);
+</script>
+</body>
+</html>
