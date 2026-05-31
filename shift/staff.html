@@ -161,6 +161,7 @@ body{font-family:'Helvetica Neue','Hiragino Sans','Yu Gothic UI',Arial,sans-seri
 </style>
 </head>
 <body>
+
 <!-- ローディングオーバーレイ -->
 <div id="loadOverlay" style="position:fixed;inset:0;background:rgba(255,255,255,.95);z-index:99999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px">
   <div style="font-size:2em;animation:spin 1s linear infinite">🔄</div>
@@ -273,7 +274,8 @@ const _fbCfg={apiKey:"AIzaSyBygnsi6cByYRZigxlhR7d0ydVfpFGx8FQ",databaseURL:"http
 if(!firebase.apps.length)firebase.initializeApp(_fbCfg);
 const _fbDb=firebase.database();
 
-/* dbをlocalStorageに書き込む。force=trueで全データ強制上書き */
+/* dbをlocalStorageに書き込む。force=trueで全データ強制上書き
+   ※ pekin_lock_* はスタッフ側では使わないので無視 */
 function _applyDb(db,force=false){
   const remoteV=db._v||0;
   const localV=parseInt(localStorage.getItem('pekin_db_v')||'0');
@@ -284,6 +286,7 @@ function _applyDb(db,force=false){
   if(force||remoteV>=localV){
     Object.entries(db).forEach(([k,v])=>{
       if(k.startsWith('_')||_STATIC_KEYS.includes(k))return;
+      if(k.startsWith('pekin_lock_'))return; /* ロック情報はスタッフは保持しない */
       localStorage.setItem(k,typeof v==='string'?v:JSON.stringify(v));
     });
     localStorage.setItem('pekin_db_v',String(remoteV));
@@ -331,7 +334,8 @@ setTimeout(_finishSync,6000);
 _doInitialSync();
 
 /* リアルタイムリスナー（シフト公開通知用）
-   avoidデータは上書きしない（スタッフの未保存入力を守るため） */
+   avail データは上書きしない（スタッフの未保存入力を守るため）
+   pekin_published_* の変更を検知 → renderShiftView で snapshot 反映 */
 let _fbListenerReady=false;
 _fbDb.ref('pekin/db').on('value',snap=>{
   if(!snap||!snap.exists())return;
@@ -341,15 +345,40 @@ _fbDb.ref('pekin/db').on('value',snap=>{
     if(db[k]!==undefined)
       localStorage.setItem(k,typeof db[k]==='string'?db[k]:JSON.stringify(db[k]));
   });
+  let publishedChanged=false;
   Object.entries(db).forEach(([k,v])=>{
     if(k.startsWith('_')||_STATIC_KEYS.includes(k))return;
     if(k.startsWith('pekin_avail_'))return; /* スタッフの希望は上書きしない */
-    localStorage.setItem(k,typeof v==='string'?v:JSON.stringify(v));
+    if(k.startsWith('pekin_lock_'))return;  /* ロック情報はスタッフは無視 */
+    const json=typeof v==='string'?v:JSON.stringify(v);
+    const cur=localStorage.getItem(k);
+    if(cur!==json){
+      localStorage.setItem(k,json);
+      if(k.startsWith('pekin_published_'))publishedChanged=true;
+    }
   });
+  /* 公開状態が変わった、または unpublish で消えた場合の検知 */
   if(typeof renderRequestList==='function')renderRequestList();
   if(document.getElementById('panel-shift')?.classList.contains('active')&&typeof renderShiftView==='function')renderShiftView();
-  if(typeof showUpdateToast==='function')showUpdateToast('🔄 シフトが更新されました');
+  if(publishedChanged&&typeof showUpdateToast==='function')showUpdateToast('📅 シフトが更新されました');
 });
+
+/* showUpdateToast — スタッフ画面用シンプル版 */
+function showUpdateToast(msg){
+  try{
+    const old=document.getElementById('_simpleToast');
+    if(old)old.remove();
+    const t=document.createElement('div');
+    t.id='_simpleToast';
+    t.textContent=msg;
+    t.style.cssText='position:fixed;bottom:24px;left:50%;transform:translateX(-50%);'
+      +'background:#1e293b;color:#fff;padding:10px 18px;border-radius:10px;'
+      +'font-size:.82em;font-weight:600;z-index:9998;box-shadow:0 6px 22px rgba(0,0,0,.32);'
+      +'max-width:90vw;white-space:nowrap;overflow:hidden;text-overflow:ellipsis';
+    document.body.appendChild(t);
+    setTimeout(()=>{t.style.opacity='0';t.style.transition='opacity .35s';setTimeout(()=>t.remove(),380);},2400);
+  }catch(e){}
+}
 
 /* ── AUTH ── */
 function getSession(){
@@ -439,48 +468,14 @@ const dKey=(y,m,d)=>`${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,
 const DOW_STR=['日','月','火','水','木','金','土'];
 const DOW_CLS2=['sun','mon','tue','wed','thu','fri','sat'];
 
-/* ── DEADLINE CHECK ──
-   settings.deadline.day を「対象月の前月N日」として扱う
-   settings.extensions[staffId][YYYY-MM] が今日以降なら延長扱い
-   締切オフ（enabled=false）なら常に「受付中」 */
+/* ── DEADLINE CHECK ── */
 function updateDeadlineUI(){
-  const settings=JSON.parse(localStorage.getItem('pekin_settings')||'{}');
-  const dl=settings.deadline||{enabled:true,day:20};
-  const day=Math.max(1,Math.min(31,parseInt(dl.day,10)||20));
-  /* 対象月（reqY, reqM）の前月N日23:59 が締切 */
-  let dy=reqY, dm=reqM-1;
-  if(dm<0){dm=11;dy--;}
-  const baseDeadline=new Date(dy,dm,day,23,59,59);
-  /* 延長設定 */
-  const ym=`${reqY}-${String(reqM+1).padStart(2,'0')}`;
-  const exts=settings.extensions||{};
-  const extStr=(exts[sess.userId]&&exts[sess.userId][ym])||'';
-  let extendedTo=null;
-  if(extStr){
-    const parts=extStr.split('-').map(n=>parseInt(n,10));
-    if(parts.length===3&&parts[0]&&parts[1]&&parts[2])
-      extendedTo=new Date(parts[0],parts[1]-1,parts[2],23,59,59);
-  }
-  const effective=extendedTo&&extendedTo>baseDeadline?extendedTo:baseDeadline;
-  const enabled=dl.enabled!==false;
-  const closed=enabled&&now>effective;
-  /* バッジ表示 */
-  const badge=document.getElementById('reqStatusBadge');
-  if(!enabled){
-    badge.textContent='受付中（締切なし）';badge.className='status-badge status-open';
-  }else if(extendedTo&&extendedTo>baseDeadline){
-    badge.textContent=closed?'受付終了':'受付中（延長中）';
-    badge.className='status-badge '+(closed?'status-closed':'status-open');
-  }else{
-    badge.textContent=closed?'受付終了':'受付中';
-    badge.className='status-badge '+(closed?'status-closed':'status-open');
-  }
+  const deadline=new Date(now.getFullYear(),now.getMonth(),20,23,59,59);
+  const closed=now>deadline;
+  document.getElementById('reqStatusBadge').textContent=closed?'受付終了':'受付中';
+  document.getElementById('reqStatusBadge').className='status-badge '+(closed?'status-closed':'status-open');
   document.getElementById('submitBtn').disabled=closed;
-  /* 締切日表示 */
-  const eff=effective;
-  const dlText=`${eff.getMonth()+1}月${eff.getDate()}日 23:59`+
-    (extendedTo&&extendedTo>baseDeadline?'（延長）':'');
-  document.getElementById('reqDeadline').textContent=enabled?dlText:'設定なし';
+  document.getElementById('reqDeadline').textContent=`${now.getMonth()+1}月20日`;
 }
 
 /* ── RENDER REQUEST LIST ──
@@ -660,17 +655,33 @@ function submitRequest(){
   alert(`${sess.name}さんの希望を送信しました！\n管理者の画面にも反映されます。`);
 }
 
-/* ── SHIFT VIEW ── */
+/* ── SHIFT VIEW ──
+   pekin_published_YYYY-MM の中身:
+     - null/未存在 → 未公開
+     - '1' （旧形式）→ pekin_shift_YYYY-MM を見る（後方互換）
+     - JSON文字列（新形式）→ そのスナップショットを表示
+*/
+function getPublishedShiftData(y,m){
+  const raw=localStorage.getItem(publishKey(y,m));
+  if(!raw)return null;
+  if(raw==='1'){
+    /* 旧形式 → ドラフトから取得（後方互換） */
+    return JSON.parse(localStorage.getItem(shiftKey(y,m))||'{}');
+  }
+  try{return JSON.parse(raw);}catch(e){return null;}
+}
 function renderShiftView(){
   document.getElementById('viewMonthLabel').textContent=`${viewY}年 ${viewM+1}月`;
-  const published=localStorage.getItem(publishKey(viewY,viewM))==='1';
+  const publishedSnap=getPublishedShiftData(viewY,viewM);
+  const published=publishedSnap!==null;
   const notice=document.getElementById('shiftNotice');
   notice.textContent=published
     ?`${viewY}年${viewM+1}月のシフトが公開されています。あなたのシフトは青枠で表示されます。`
     :'シフトはまだ公開されていません。確定後にここで確認できます。';
   notice.className='shift-view-notice'+(published?'':' draft');
 
-  const shiftData=JSON.parse(localStorage.getItem(shiftKey(viewY,viewM))||'{}');
+  /* 公開済みなら snapshot を、未公開なら空オブジェクトを使う */
+  const shiftData=published?publishedSnap:{};
   const grid=document.getElementById('calGrid');
   grid.innerHTML='';
   const first=new Date(viewY,viewM,1).getDay();
