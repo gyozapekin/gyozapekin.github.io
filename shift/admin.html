@@ -11,7 +11,7 @@
 body{font-family:'Helvetica Neue','Hiragino Sans','Yu Gothic UI',Arial,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
 
 /* NAV */
-.topnav{background:linear-gradient(135deg,#5b21b6,#7c3aed);color:#fff;
+.topnav{background:linear-gradient(135deg,#a93226,#c0392b);color:#fff;
   padding:0 24px;display:flex;align-items:center;justify-content:space-between;
   box-shadow:0 2px 12px rgba(0,0,0,.2);flex-wrap:wrap;gap:8px;min-height:54px}
 .nav-left{display:flex;align-items:center;gap:12px}
@@ -249,6 +249,7 @@ body{font-family:'Helvetica Neue','Hiragino Sans','Yu Gothic UI',Arial,sans-seri
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 </head>
 <body>
+
 <!-- NAV -->
 <!-- ローディングオーバーレイ（データ同期中に表示） -->
 <div id="loadOverlay" style="position:fixed;inset:0;background:rgba(255,255,255,.95);z-index:99999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px">
@@ -265,7 +266,11 @@ body{font-family:'Helvetica Neue','Hiragino Sans','Yu Gothic UI',Arial,sans-seri
   </div>
   <div class="nav-right">
     <span class="nav-user" id="navUser"></span>
-    <button class="nbtn nbtn-green no-print" onclick="publishToGitHub()" id="publishBtn">📱 公開</button>
+    <span id="syncIndicator" class="no-print" title="同期状態" style="display:inline-flex;align-items:center;gap:5px;font-size:.72em;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.35);border-radius:14px;padding:3px 9px">
+      <span id="syncDot" style="width:8px;height:8px;border-radius:50%;background:#27ae60;display:inline-block"></span>
+      <span id="syncText">オンライン</span>
+    </span>
+    <button class="nbtn nbtn-green no-print" onclick="publishShift()" id="publishBtn">📱 公開</button>
     <button class="nbtn nbtn-green no-print" onclick="window.print()">🖨 印刷</button>
     <button class="nbtn nbtn-red no-print" onclick="logout()">ログアウト</button>
   </div>
@@ -283,12 +288,19 @@ body{font-family:'Helvetica Neue','Hiragino Sans','Yu Gothic UI',Arial,sans-seri
 
 <!-- PANEL: SHIFT MANAGEMENT -->
 <div class="panel active" id="panel-shift">
+  <!-- ロック状態バナー（編集中 or 他人保持中） -->
+  <div id="lockBanner" style="display:none;margin-bottom:12px;border-radius:8px;padding:9px 14px;font-size:.84em;font-weight:600;line-height:1.5"></div>
+  <!-- 最終編集情報 -->
+  <div id="metaInfo" style="font-size:.74em;color:#94a3b8;margin-bottom:8px"></div>
   <div class="cal-controls no-print">
     <div class="month-nav">
       <button onclick="changeMonth(-1)">◀</button>
       <span class="month-label" id="monthLabel"></span>
       <button onclick="changeMonth(1)">▶</button>
     </div>
+    <!-- 編集モード切替 -->
+    <button id="editModeBtn" class="cbtn cbtn-red" onclick="toggleEditMode()" style="font-weight:700">✎ 編集モードに入る</button>
+    <span style="width:1px;background:#e2e8f0;height:24px;display:inline-block;margin:0 4px;vertical-align:middle"></span>
     <button class="cbtn cbtn-outline" onclick="resetToDefault()">↺ デフォルト</button>
     <span style="width:1px;background:#e2e8f0;height:24px;display:inline-block;margin:0 4px;vertical-align:middle"></span>
     <button id="shiftUndoBtn" class="cbtn cbtn-outline" onclick="undoShift()" title="元に戻す（最大15ステップ）" style="font-size:.8em">↩ 戻る</button>
@@ -296,6 +308,8 @@ body{font-family:'Helvetica Neue','Hiragino Sans','Yu Gothic UI',Arial,sans-seri
     <button id="shiftRedoBtn" class="cbtn cbtn-outline" onclick="redoShift()" title="やり直す" style="font-size:.8em">↪ 進む</button>
     <span style="width:1px;background:#e2e8f0;height:24px;display:inline-block;margin:0 4px;vertical-align:middle"></span>
     <button class="cbtn cbtn-blue"    onclick="publishShift()">✔ 公開する</button>
+    <button class="cbtn cbtn-outline" onclick="openPublishPreview()" title="スタッフが見る形でプレビュー">👁 公開プレビュー</button>
+    <button id="unpublishBtn" class="cbtn cbtn-outline" onclick="unpublishShift()" style="display:none;color:#991b1b;border-color:#fca5a5" title="公開を取り下げる">↩ 未公開に戻す</button>
     <button class="cbtn cbtn-green"   onclick="openExcelModal()">📊 Excel出力</button>
     <button class="cbtn cbtn-outline" onclick="refreshAll();showUpdateToast('🔄 データを更新しました');" title="スタッフ希望など最新データを再読み込み">🔄 更新</button>
     <span id="publishStatus"></span>
@@ -400,48 +414,6 @@ body{font-family:'Helvetica Neue','Hiragino Sans','Yu Gothic UI',Arial,sans-seri
       </p>
       <div id="openExEmpty" class="empty-state" style="display:none">営業例外日の登録はありません</div>
       <div class="open-ex-list" id="openExList"></div>
-    </div>
-  </div>
-
-  <!-- 希望入力の締切設定 -->
-  <div class="sec">
-    <div class="sec-head" style="background:#0e7490">⏰ 希望入力の締切日</div>
-    <div class="sec-body">
-      <p style="font-size:.83em;color:#475569;margin-bottom:14px">
-        スタッフが翌月のシフト希望を入力できる締切日を設定します。<br>
-        例：「20日」の場合、6月分のシフト希望は前月（5月）の20日23:59まで入力可能になります。<br>
-        <span style="color:#94a3b8;font-size:.9em">締切後は入力ボタンが無効化されます（延長設定でスタッフ別に延長可能）</span>
-      </p>
-      <div style="display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin-bottom:12px">
-        <label style="display:flex;gap:6px;align-items:center;font-size:.92em">
-          <input type="checkbox" id="deadlineEnabledChk"> 締切機能を有効にする
-        </label>
-        <div style="display:flex;gap:6px;align-items:center;font-size:.92em">
-          <span>毎月</span>
-          <input type="number" id="deadlineDayInput" min="1" max="31" value="20"
-            style="width:60px;border:1.5px solid #e2e8f0;border-radius:7px;padding:6px 8px;text-align:center;font-size:.95em">
-          <span>日まで（前月の同日締切）</span>
-        </div>
-        <button class="cbtn cbtn-blue" onclick="saveDeadlineSettings()">💾 保存する</button>
-      </div>
-      <div id="deadlineStatus" style="font-size:.85em;color:#475569;padding:8px 12px;background:#f1f5f9;border-radius:7px"></div>
-    </div>
-  </div>
-
-  <!-- スタッフ別の延長設定 -->
-  <div class="sec">
-    <div class="sec-head" style="background:#a16207">⏳ スタッフ別の締切延長</div>
-    <div class="sec-body">
-      <p style="font-size:.83em;color:#475569;margin-bottom:14px">
-        特定のスタッフに対して、翌月分の入力締切を延長することができます。<br>
-        <span style="color:#94a3b8;font-size:.9em">延長日付の入力欄を空にして保存すると延長解除になります。</span>
-      </p>
-      <div style="margin-bottom:12px;display:flex;gap:10px;align-items:center;flex-wrap:wrap">
-        <span style="font-size:.9em">対象月：</span>
-        <select id="extensionMonthSel" style="border:1.5px solid #e2e8f0;border-radius:7px;padding:6px 10px;font-size:.92em;background:#fff"></select>
-        <button class="cbtn cbtn-outline" onclick="renderExtensionList()">🔄 更新</button>
-      </div>
-      <div id="extensionList"></div>
     </div>
   </div>
 
@@ -552,6 +524,18 @@ body{font-family:'Helvetica Neue','Hiragino Sans','Yu Gothic UI',Arial,sans-seri
   </div>
 </div>
 
+<!-- MODAL: Publish Preview（スタッフから見えるシフト下書きをプレビュー） -->
+<div class="overlay" id="previewOverlay">
+  <div class="modal" style="width:720px;max-width:96vw;max-height:88vh;overflow-y:auto">
+    <div class="modal-head">👁 公開プレビュー（スタッフからの見え方）</div>
+    <div id="previewBody" style="font-size:.82em;color:#475569"></div>
+    <div class="modal-actions">
+      <button class="mbtn mbtn-cancel" onclick="closePublishPreview()">閉じる</button>
+      <button class="mbtn mbtn-save" onclick="closePublishPreview();publishShift();">✔ 公開する</button>
+    </div>
+  </div>
+</div>
+
 <!-- MODAL: Excel Export -->
 <div class="overlay" id="excelOverlay">
   <div class="modal">
@@ -577,46 +561,6 @@ body{font-family:'Helvetica Neue','Hiragino Sans','Yu Gothic UI',Arial,sans-seri
     <div class="modal-actions">
       <button class="mbtn mbtn-cancel" onclick="closeExcelModal()">キャンセル</button>
       <button class="mbtn mbtn-save"   onclick="doExcelExport()">📥 ダウンロード</button>
-    </div>
-  </div>
-</div>
-
-<!-- MODAL: アドミン代理編集（単日のavail編集） -->
-<div class="overlay" id="availEditOverlay">
-  <div class="modal">
-    <div style="font-size:.78em;color:var(--muted);margin-bottom:4px" id="availEditSub"></div>
-    <div class="modal-head" id="availEditHead">スタッフの希望を編集</div>
-    <div class="fg">
-      <label style="font-weight:700;color:#0e7490">☀ 昼の部（11:00〜14:00）</label>
-      <div class="chips" id="availEditLunchChips" style="margin-top:6px"></div>
-    </div>
-    <div class="fg">
-      <label style="font-weight:700;color:#7c3aed">🌙 夜の部（18:00〜21:00）</label>
-      <div class="chips" id="availEditDinnerChips" style="margin-top:6px"></div>
-    </div>
-    <div style="font-size:.78em;color:#94a3b8;margin-top:4px;padding:8px 10px;background:#f8fafc;border-radius:6px">
-      ※ 管理者による代理編集です。スタッフ自身が再送信すると上書きされます。
-    </div>
-    <div class="modal-actions">
-      <button class="mbtn mbtn-cancel" onclick="closeAvailEditModal()">キャンセル</button>
-      <button class="mbtn mbtn-save"   onclick="saveAvailEdit()">💾 保存</button>
-    </div>
-  </div>
-</div>
-
-<!-- MODAL: スタッフ別 月単位の代理入力ページ -->
-<div class="overlay" id="staffAvailOverlay">
-  <div class="modal" style="width:720px;max-width:96vw;max-height:90vh;overflow:auto">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
-      <div>
-        <div style="font-size:.78em;color:var(--muted)" id="staffAvailSub"></div>
-        <div class="modal-head" style="margin:2px 0" id="staffAvailHead">スタッフ別 希望入力</div>
-      </div>
-      <button onclick="closeStaffAvailModal()" style="background:none;border:none;font-size:1.4em;cursor:pointer;color:#94a3b8">×</button>
-    </div>
-    <div id="staffAvailBody"></div>
-    <div class="modal-actions">
-      <button class="mbtn mbtn-cancel" onclick="closeStaffAvailModal()">閉じる</button>
     </div>
   </div>
 </div>
@@ -680,9 +624,11 @@ function _applyDb(db, force=false){
 
   /* 動的データ（pekin_shift_*, pekin_published_*, pekin_avail_* 等）
      Firebaseが新しい → 全面上書き
-     ローカルが新しい → ローカル温存、ただしローカルに存在しないキーは補完 */
+     ローカルが新しい → ローカル温存、ただしローカルに存在しないキーは補完
+     ※ pekin_lock_* は揮発情報なのでlocalStorageには保存せずスキップ */
   Object.entries(db).forEach(([k,v])=>{
     if(k.startsWith('_')||_STATIC_KEYS.includes(k))return;
+    if(k.startsWith('pekin_lock_'))return; /* ロックは揮発情報・Firebaseのみで管理 */
     const localHas=localStorage.getItem(k)!==null;
     if(useFirebase||!localHas)
       localStorage.setItem(k,typeof v==='string'?v:JSON.stringify(v));
@@ -778,11 +724,12 @@ function _pushAllToFirebase(){
       const v=localStorage.getItem(k);
       if(v!==null)payload[k]=v;
     });
-    /* シフトデータ・公開フラグ（pekin_shift_*, pekin_published_*）*/
+    /* シフトデータ・公開スナップショット・メタ（pekin_shift_*, pekin_published_*, pekin_meta_*）
+       ※ pekin_lock_* はFirebase直接管理のため payload に含めない */
     for(let i=0;i<localStorage.length;i++){
       const k=localStorage.key(i);
       if(!k)continue;
-      if(k.startsWith('pekin_shift_')||k.startsWith('pekin_published_')){
+      if(k.startsWith('pekin_shift_')||k.startsWith('pekin_published_')||k.startsWith('pekin_meta_')){
         payload[k]=localStorage.getItem(k);
       }
     }
@@ -886,46 +833,14 @@ function getStaffList(){return getUsers().filter(u=>u.role==='staff');}
 ════════════════════════════════════════ */
 const SETTINGS_KEY='pekin_settings';
 function getSettings(){
-  /* deadline: スタッフ希望入力の毎月の締切日設定（enabled=true なら有効、day=1〜31） */
-  /* extensions: スタッフごとの延長設定 { [staffId]: { [yearMonth]: 'YYYY-MM-DD' } } */
-  const def={defaultClosedDays:[2,3],specialDates:{},deadline:{enabled:true,day:20},extensions:{}};
-  try{
-    const s=Object.assign({},def,JSON.parse(localStorage.getItem(SETTINGS_KEY)||'{}'));
-    /* 旧データに deadline/extensions がない場合の補完 */
-    if(!s.deadline)s.deadline={enabled:true,day:20};
-    if(!s.extensions)s.extensions={};
-    return s;
-  }catch(e){return def;}
+  const def={defaultClosedDays:[2,3],specialDates:{}};
+  try{return Object.assign({},def,JSON.parse(localStorage.getItem(SETTINGS_KEY)||'{}'));}
+  catch(e){return def;}
 }
 function saveSettings(s){
   const json=JSON.stringify(s);
   localStorage.setItem(SETTINGS_KEY,json);
   _syncKeyToFirebase(SETTINGS_KEY,json);
-}
-
-/* 締切判定: targetY, targetM の月の希望入力が現在締切済みかどうか
-   通常: 毎月 settings.deadline.day までは「翌月分」を入力可能
-   延長: settings.extensions[staffId][yearMonth] が今日以降ならOK
-   返り値: {closed:boolean, deadlineDate:Date, isExtended:boolean, extendedTo:Date|null} */
-function getDeadlineStatus(targetY,targetM,staffId){
-  const s=getSettings();
-  if(!s.deadline||!s.deadline.enabled)return {closed:false,deadlineDate:null,isExtended:false,extendedTo:null};
-  const day=Math.max(1,Math.min(31,parseInt(s.deadline.day,10)||20));
-  /* 締切ロジック: 「対象月のN日まで」のシンプルなルール（前月のN日まで翌月分） */
-  /* 例: 6月分の入力は5月N日23:59まで → deadline = (targetY,targetM-1,day,23,59,59) */
-  let dy=targetY, dm=targetM-1;
-  if(dm<0){dm=11;dy--;}
-  const deadlineDate=new Date(dy,dm,day,23,59,59);
-  const now=new Date();
-  const ym=`${targetY}-${String(targetM+1).padStart(2,'0')}`;
-  const extStr=(s.extensions&&s.extensions[staffId]&&s.extensions[staffId][ym])||'';
-  let extendedTo=null;
-  if(extStr){
-    const [ey,em,ed]=extStr.split('-').map(n=>parseInt(n,10));
-    if(ey&&em&&ed)extendedTo=new Date(ey,em-1,ed,23,59,59);
-  }
-  const effective=extendedTo&&extendedTo>deadlineDate?extendedTo:deadlineDate;
-  return {closed:now>effective,deadlineDate,isExtended:!!extendedTo,extendedTo};
 }
 
 const dKey=(y,m,d)=>`${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
@@ -1049,25 +964,164 @@ function buildDefault(y,m){
 }
 
 /* ════════════════════════════════════════
-   PUBLISH
+   PUBLISH ─ draft/published 分離方式
+   pekin_published_YYYY-MM: シフトのスナップショット（JSON文字列）
+     null/存在なし → 未公開
+     旧形式 '1' は初回読み込み時に自動マイグレーション
+   pekin_meta_YYYY-MM: {lastEditedBy,lastEditedAt,publishedAt,publishedBy}
 ════════════════════════════════════════ */
 function getPublishKey(){return `pekin_published_${Y}-${String(M+1).padStart(2,'0')}`;}
-function isPublished(){return localStorage.getItem(getPublishKey())==='1';}
-function publishShift(){
-  if(!confirm('このシフトをスタッフに公開しますか？'))return;
-  const pk=getPublishKey();
-  localStorage.setItem(pk,'1');
-  _syncKeyToFirebase(pk,'1');  /* ← 公開フラグもFirebaseへ */
-  saveShift();
-  updatePublishStatus();
-  alert('公開しました！スタッフが確認できます。');
+function getMetaKey(){return `pekin_meta_${Y}-${String(M+1).padStart(2,'0')}`;}
+function getMetaKeyFor(y,m){return `pekin_meta_${y}-${String(m+1).padStart(2,'0')}`;}
+
+/* 公開済みスナップショットを取得（オブジェクト or null） */
+function getPublishedSnapshot(){
+  const raw=localStorage.getItem(getPublishKey());
+  if(!raw)return null;
+  if(raw==='1'){
+    /* 旧形式：フラグだけ → 現在のドラフトをスナップショットに昇格（マイグレーション） */
+    const draft=localStorage.getItem(shiftKey());
+    if(draft){
+      localStorage.setItem(getPublishKey(),draft);
+      _syncKeyToFirebase(getPublishKey(),draft);
+      return JSON.parse(draft);
+    }
+    return null;
+  }
+  try{return JSON.parse(raw);}catch(e){return null;}
 }
+function isPublished(){return getPublishedSnapshot()!==null;}
+
+/* メタ情報の読み書き */
+function getMeta(){
+  try{return JSON.parse(localStorage.getItem(getMetaKey())||'{}');}catch(e){return {};}
+}
+function saveMeta(m){
+  const json=JSON.stringify(m);
+  localStorage.setItem(getMetaKey(),json);
+  _syncKeyToFirebase(getMetaKey(),json);
+}
+
+/* 公開：現在のドラフトをスナップショットに保存 */
+function publishShift(){
+  const monthLabel=`${Y}年${M+1}月`;
+  const already=isPublished();
+  const msg=already
+    ?`${monthLabel}のシフトを再公開しますか？\n既に公開済みのバージョンは上書きされます。`
+    :`${monthLabel}のシフトを公開しますか？\n公開すると従業員から見えるようになります。`;
+  if(!confirm(msg))return;
+  /* 念のため最新ドラフトを保存 */
+  saveShift();
+  const snapshot=JSON.stringify(shiftData);
+  const pk=getPublishKey();
+  localStorage.setItem(pk,snapshot);
+  _syncKeyToFirebase(pk,snapshot);
+  /* メタ更新 */
+  const meta=getMeta();
+  meta.publishedAt=Date.now();
+  meta.publishedBy=(typeof sess!=='undefined'&&sess&&sess.userId)||'admin';
+  meta.publishedByName=(typeof sess!=='undefined'&&sess&&sess.name)||'';
+  saveMeta(meta);
+  updatePublishStatus();
+  showUpdateToast(already?'🔄 シフトを再公開しました':'📱 公開しました');
+}
+
+/* 公開取り下げ：snapshotをnullに */
+function unpublishShift(){
+  if(!isPublished()){showUpdateToast('まだ公開されていません');return;}
+  if(!confirm(`${Y}年${M+1}月のシフトを未公開状態に戻しますか？\n従業員からは見えなくなります（ドラフトは保持されます）。`))return;
+  const pk=getPublishKey();
+  localStorage.removeItem(pk);
+  /* Firebase 側を null に */
+  try{_fbDb.ref('pekin/db').update({[pk]:null,_v:Date.now()});}catch(e){console.warn('unpublish fb:',e);}
+  const meta=getMeta();
+  delete meta.publishedAt;delete meta.publishedBy;delete meta.publishedByName;
+  saveMeta(meta);
+  updatePublishStatus();
+  showUpdateToast('↩ 未公開に戻しました');
+}
+
 function updatePublishStatus(){
   const el=document.getElementById('publishStatus');
-  el.innerHTML=isPublished()
+  if(!el)return;
+  const published=isPublished();
+  el.innerHTML=published
     ?'<span class="published-badge">✓ 公開済み</span>'
-    :'<span class="draft-badge">下書き</span>';
+    :'<span class="draft-badge">下書き（未公開）</span>';
+  const ub=document.getElementById('unpublishBtn');
+  if(ub)ub.style.display=published?'inline-block':'none';
+  renderMetaInfo();
 }
+
+/* 公開プレビューモーダル：現在のドラフトをスタッフ視点で表示 */
+function openPublishPreview(){
+  const body=document.getElementById('previewBody');
+  if(!body)return;
+  const days=new Date(Y,M+1,0).getDate();
+  let html=`<p style="margin-bottom:10px;color:#64748b">${Y}年${M+1}月 — 公開すると以下の内容がスタッフに表示されます。</p>`;
+  html+='<table style="width:100%;border-collapse:collapse;font-size:.88em"><thead><tr style="background:#f8fafc">'
+    +'<th style="padding:6px;border-bottom:1px solid #e2e8f0;text-align:left">日付</th>'
+    +'<th style="padding:6px;border-bottom:1px solid #e2e8f0;text-align:left">☀ 昼</th>'
+    +'<th style="padding:6px;border-bottom:1px solid #e2e8f0;text-align:left">🌙 夜</th></tr></thead><tbody>';
+  for(let d=1;d<=days;d++){
+    const k=dKey(Y,M,d);
+    const dow=new Date(Y,M,d).getDay();
+    const ci=getClosedInfo(Y,M,d);
+    if(ci){
+      html+=`<tr><td style="padding:5px;border-bottom:1px solid #f1f5f9">${d}日（${DOW_STR[dow]}）</td>`
+        +`<td colspan="2" style="padding:5px;color:#94a3b8;border-bottom:1px solid #f1f5f9">${closedLabel(ci)}</td></tr>`;
+      continue;
+    }
+    const e=shiftData[k]||{lunch:{names:[],ext:false},dinner:{names:[],ext:false}};
+    const ln=(e.lunch.names||[]).filter(n=>n).join('・')||'<span style="color:#cbd5e1">未定</span>';
+    const dn=(e.dinner.names||[]).filter(n=>n).join('・')||'<span style="color:#cbd5e1">未定</span>';
+    html+=`<tr><td style="padding:5px;border-bottom:1px solid #f1f5f9">${d}日（${DOW_STR[dow]}）</td>`
+      +`<td style="padding:5px;border-bottom:1px solid #f1f5f9">${ln}</td>`
+      +`<td style="padding:5px;border-bottom:1px solid #f1f5f9">${dn}</td></tr>`;
+  }
+  html+='</tbody></table>';
+  body.innerHTML=html;
+  document.getElementById('previewOverlay').classList.add('open');
+}
+function closePublishPreview(){document.getElementById('previewOverlay').classList.remove('open');}
+
+/* 最終編集情報の描画 */
+function renderMetaInfo(){
+  const el=document.getElementById('metaInfo');
+  if(!el)return;
+  const meta=getMeta();
+  const parts=[];
+  if(meta.lastEditedAt){
+    const mins=Math.max(0,Math.floor((Date.now()-meta.lastEditedAt)/60000));
+    const who=meta.lastEditedByName||meta.lastEditedBy||'誰か';
+    parts.push(`最終編集：${who} が ${mins<1?'たった今':mins+'分前'}`);
+  }
+  if(meta.publishedAt){
+    const mins=Math.max(0,Math.floor((Date.now()-meta.publishedAt)/60000));
+    parts.push(`公開：${mins<1?'たった今':mins+'分前'}`);
+  }
+  el.textContent=parts.join(' / ');
+}
+
+/* 起動時に旧形式（"1"）のマイグレーション実行 */
+function _migrateLegacyPublishedFlags(){
+  for(let i=0;i<localStorage.length;i++){
+    const k=localStorage.key(i);
+    if(!k||!k.startsWith('pekin_published_'))continue;
+    const v=localStorage.getItem(k);
+    if(v==='1'){
+      const yyyymm=k.replace('pekin_published_','');
+      const draftRaw=localStorage.getItem('pekin_shift_'+yyyymm);
+      if(draftRaw){
+        localStorage.setItem(k,draftRaw);
+        try{_fbDb.ref('pekin/db').update({[k]:draftRaw});}catch(e){}
+        console.log('Migrated legacy published flag → snapshot:',k);
+      }
+    }
+  }
+}
+/* 同期完了後にマイグレーションを実行（_finishSync後の少し遅らせて） */
+setTimeout(_migrateLegacyPublishedFlags,2500);
 
 /* ════════════════════════════════════════
    AVAILABILITY DATA
@@ -1499,10 +1553,7 @@ function renderAvailPanel(){
   if(staffList.length===0){body.innerHTML='<div class="empty-state">スタッフが登録されていません</div>';return;}
   const days=new Date(Y,M+1,0).getDate();
 
-  let html=`<div style="margin-bottom:10px;padding:10px 12px;background:#fef3c7;border-left:3px solid #f59e0b;border-radius:6px;font-size:.85em;color:#78350f">
-    ヒント: 各セルは上段が☀昼・下段が🌙夜です。セルをクリックするとそのスタッフ・その日の希望を代理編集できます。スタッフ名をクリックすると月単位の代理入力ページが開きます。
-  </div>
-  <div class="avail-table-wrap"><table class="avail-table"><thead><tr>
+  let html=`<div class="avail-table-wrap"><table class="avail-table"><thead><tr>
     <th>スタッフ</th><th>種別</th><th style="min-width:64px">削除</th>`;
   for(let d=1;d<=days;d++){
     if(isClosedDay(Y,M,d))continue;
@@ -1515,35 +1566,24 @@ function renderAvailPanel(){
     const typeLabel={part:'パート',fixed:'固定',free:'フリー',alt:'アルバイト'}[s.type]||'';
     const badgeCls={part:'sb-part',fixed:'sb-fixed',free:'sb-free',alt:'sb-alt'}[s.type]||'';
     const hasEntry=Object.keys(sav).length>0;
-    const sNameEsc=s.name.replace(/'/g,"\\'");
-    html+=`<tr><td style="text-align:left;font-weight:600;cursor:pointer;color:#0e7490;text-decoration:underline"
-      onclick="openStaffAvailModal('${s.id}','${sNameEsc}')" title="${s.name}さんの月単位の代理入力ページを開く">${s.name}</td>
+    html+=`<tr><td style="text-align:left;font-weight:600">${s.name}</td>
       <td><span class="sbadge2 ${badgeCls}">${typeLabel}</span></td>
       <td style="text-align:center">${hasEntry
-        ?`<button onclick="deleteStaffAvail('${s.id}','${sNameEsc}')" title="${M+1}月の${s.name}さんの希望を削除"
+        ?`<button onclick="deleteStaffAvail('${s.id}','${s.name}')" title="${M+1}月の${s.name}さんの希望を削除"
             style="background:none;border:1px solid #fca5a5;border-radius:4px;padding:2px 7px;font-size:.72em;color:#991b1b;cursor:pointer">🗑</button>`
         :'<span style="font-size:.7em;color:#cbd5e1">—</span>'
       }</td>`;
     for(let d=1;d<=days;d++){
       if(isClosedDay(Y,M,d))continue;
       const k=dKey(Y,M,d);const v=sav[k];
-      const sym=(x)=>x==='ok'?'○':x==='off'?'×':x==='maybe'?'△':'—';
-      const cls=(x)=>x==='ok'?'atag-ok':x==='off'?'atag-off':x==='maybe'?'atag-maybe':'atag-none';
-      if(!v){
-        /* 未入力でも昼/夜の2行を確保（縦並び）して列幅を統一 */
-        html+=`<td style="cursor:pointer;padding:2px 3px;text-align:center" onclick="openAvailEdit('${s.id}','${sNameEsc}',${d})" title="${M+1}月${d}日 ${s.name}さんの希望を代理編集">
-          <span class="atag atag-none" style="font-size:.6em;padding:1px 3px;display:block">☀—</span>
-          <span class="atag atag-none" style="font-size:.6em;padding:1px 3px;display:block;margin-top:2px">🌙—</span>
-        </td>`;
-        continue;
-      }
+      if(!v){html+=`<td><span class="atag atag-none" style="font-size:.65em">—</span></td>`;continue;}
       const lv=typeof v==='string'?v:(v.lunch||'');
       const dv=typeof v==='string'?v:(v.dinner||'');
-      /* 昼☀を上、夜🌙を下に縦並びで表示（display:block で列幅を節約） */
-      html+=`<td style="padding:2px 3px;cursor:pointer;text-align:center"
-        onclick="openAvailEdit('${s.id}','${sNameEsc}',${d})" title="${M+1}月${d}日 ${s.name}さんの希望を代理編集">
-        <span class="atag ${cls(lv)}" style="font-size:.6em;padding:1px 3px;display:block" title="昼">☀${sym(lv)}</span>
-        <span class="atag ${cls(dv)}" style="font-size:.6em;padding:1px 3px;display:block;margin-top:2px" title="夜">🌙${sym(dv)}</span>
+      const sym=(x)=>x==='ok'?'○':x==='off'?'×':x==='maybe'?'△':'—';
+      const cls=(x)=>x==='ok'?'atag-ok':x==='off'?'atag-off':x==='maybe'?'atag-maybe':'atag-none';
+      html+=`<td style="white-space:nowrap;padding:4px 2px">
+        <span class="atag ${cls(lv)}" style="font-size:.6em;padding:1px 3px" title="昼">☀${sym(lv)}</span>
+        <span class="atag ${cls(dv)}" style="font-size:.6em;padding:1px 3px;margin-left:1px" title="夜">🌙${sym(dv)}</span>
       </td>`;
     }
     html+='</tr>';
@@ -1563,160 +1603,6 @@ function deleteStaffAvail(staffId, staffName){
   _syncKeyToFirebase(ak,json);  /* ← Firebaseにも反映 */
   renderAvailPanel();
   showUpdateToast(`🗑 ${staffName}さんの${label}の希望を削除しました`);
-}
-
-/* ════════════════════════════════════════
-   ADMIN: アドミン代理編集（単日のavail編集）
-════════════════════════════════════════ */
-let _availEditCtx=null;  /* {staffId, staffName, day, lunch, dinner} */
-const AVAIL_OPTIONS=[
-  {v:'ok', label:'○ 出勤可', cls:'atag-ok'},
-  {v:'maybe', label:'△ 微妙', cls:'atag-maybe'},
-  {v:'off', label:'× 不可', cls:'atag-off'},
-  {v:'', label:'— 未回答', cls:'atag-none'}
-];
-
-function openAvailEdit(staffId, staffName, day){
-  const avail=loadAvail(Y,M);
-  const sav=avail[staffId]||{};
-  const k=dKey(Y,M,day);
-  const v=sav[k];
-  const lunch=v?(typeof v==='string'?v:(v.lunch||'')):'';
-  const dinner=v?(typeof v==='string'?v:(v.dinner||'')):'';
-  _availEditCtx={staffId,staffName,day,lunch,dinner};
-  document.getElementById('availEditSub').textContent=`${Y}年${M+1}月${day}日（${DOW_STR[new Date(Y,M,day).getDay()]}）`;
-  document.getElementById('availEditHead').textContent=`${staffName} さんの希望を編集`;
-  _renderAvailEditChips();
-  document.getElementById('availEditOverlay').classList.add('open');
-}
-function _renderAvailEditChips(){
-  const make=(targetId,curVal,setKey)=>{
-    const el=document.getElementById(targetId);
-    el.innerHTML='';
-    AVAIL_OPTIONS.forEach(o=>{
-      const b=document.createElement('button');
-      b.className='atag '+o.cls;
-      b.style.cssText='font-size:.85em;padding:7px 12px;margin:2px;border:'+
-        (o.v===curVal?'2px solid #0e7490':'1px solid #e2e8f0')+
-        ';cursor:pointer;'+(o.v===curVal?'font-weight:700':'');
-      b.textContent=o.label;
-      b.onclick=()=>{_availEditCtx[setKey]=o.v;_renderAvailEditChips();};
-      el.appendChild(b);
-    });
-  };
-  make('availEditLunchChips',_availEditCtx.lunch,'lunch');
-  make('availEditDinnerChips',_availEditCtx.dinner,'dinner');
-}
-function closeAvailEditModal(){
-  document.getElementById('availEditOverlay').classList.remove('open');
-  _availEditCtx=null;
-}
-function saveAvailEdit(){
-  if(!_availEditCtx)return;
-  const {staffId,staffName,day,lunch,dinner}=_availEditCtx;
-  const avail=loadAvail(Y,M);
-  if(!avail[staffId])avail[staffId]={};
-  const k=dKey(Y,M,day);
-  if(!lunch&&!dinner){
-    /* 両方空なら削除 */
-    delete avail[staffId][k];
-    if(Object.keys(avail[staffId]).length===0)delete avail[staffId];
-  }else{
-    avail[staffId][k]={lunch,dinner};
-  }
-  const ak=availKey(Y,M);
-  const json=JSON.stringify(avail);
-  localStorage.setItem(ak,json);
-  _syncKeyToFirebase(ak,json);
-  closeAvailEditModal();
-  renderAvailPanel();
-  try{if(typeof showUpdateToast==='function')showUpdateToast(`✓ ${staffName}さんの${M+1}月${day}日の希望を更新しました`);}catch(e){}
-}
-
-/* ════════════════════════════════════════
-   ADMIN: スタッフ別 月単位の代理入力ページ
-════════════════════════════════════════ */
-let _staffAvailCtx=null; /* {staffId, staffName, y, m, data} */
-
-function openStaffAvailModal(staffId, staffName){
-  const avail=loadAvail(Y,M);
-  _staffAvailCtx={
-    staffId,staffName,y:Y,m:M,
-    data:JSON.parse(JSON.stringify(avail[staffId]||{}))
-  };
-  document.getElementById('staffAvailSub').textContent=`${Y}年${M+1}月 代理入力`;
-  document.getElementById('staffAvailHead').textContent=`${staffName} さんの希望（${Y}年${M+1}月）`;
-  renderStaffAvailBody();
-  document.getElementById('staffAvailOverlay').classList.add('open');
-}
-function renderStaffAvailBody(){
-  if(!_staffAvailCtx)return;
-  const {y,m,data}=_staffAvailCtx;
-  const body=document.getElementById('staffAvailBody');
-  const days=new Date(y,m+1,0).getDate();
-  let html='<div style="font-size:.82em;color:#475569;margin-bottom:10px;padding:8px 10px;background:#eff6ff;border-radius:6px">'+
-    '各日付の昼／夜について○・△・×を選んで「保存」を押してください。空欄は「未回答」になります。</div>';
-  html+='<table style="width:100%;border-collapse:collapse;font-size:.88em">';
-  html+='<thead><tr style="background:#f8fafc"><th style="padding:6px;border-bottom:1px solid #e5e7eb;text-align:left">日付</th>'+
-    '<th style="padding:6px;border-bottom:1px solid #e5e7eb;color:#0e7490">☀ 昼</th>'+
-    '<th style="padding:6px;border-bottom:1px solid #e5e7eb;color:#7c3aed">🌙 夜</th></tr></thead><tbody>';
-  for(let d=1;d<=days;d++){
-    const closed=isClosedDay(y,m,d);
-    if(closed)continue;
-    const dow=new Date(y,m,d).getDay();
-    const dowStyle=dow===0?'color:#dc2626':(dow===6?'color:#2563eb':'');
-    const k=dKey(y,m,d);
-    const v=data[k];
-    const lunch=v?(typeof v==='string'?v:(v.lunch||'')):'';
-    const dinner=v?(typeof v==='string'?v:(v.dinner||'')):'';
-    html+=`<tr><td style="padding:5px 6px;border-bottom:1px solid #f1f5f9;${dowStyle}"><strong>${d}日</strong> (${DOW_STR[dow]})</td>`;
-    html+=`<td style="padding:5px 6px;border-bottom:1px solid #f1f5f9">${_staffAvailSelHtml(d,'lunch',lunch)}</td>`;
-    html+=`<td style="padding:5px 6px;border-bottom:1px solid #f1f5f9">${_staffAvailSelHtml(d,'dinner',dinner)}</td></tr>`;
-  }
-  html+='</tbody></table>';
-  html+='<div style="margin-top:12px;text-align:right"><button class="cbtn cbtn-red" onclick="saveStaffAvailAll()">💾 一括保存する</button></div>';
-  body.innerHTML=html;
-}
-function _staffAvailSelHtml(day,slot,cur){
-  return `<select onchange="updateStaffAvailCell(${day},'${slot}',this.value)" style="border:1.5px solid #e2e8f0;border-radius:5px;padding:4px 6px;font-size:.88em">
-    <option value=""${cur===''?' selected':''}>—</option>
-    <option value="ok"${cur==='ok'?' selected':''}>○</option>
-    <option value="maybe"${cur==='maybe'?' selected':''}>△</option>
-    <option value="off"${cur==='off'?' selected':''}>×</option>
-  </select>`;
-}
-function updateStaffAvailCell(day,slot,val){
-  if(!_staffAvailCtx)return;
-  const k=dKey(_staffAvailCtx.y,_staffAvailCtx.m,day);
-  if(!_staffAvailCtx.data[k])_staffAvailCtx.data[k]={lunch:'',dinner:''};
-  if(typeof _staffAvailCtx.data[k]==='string'){
-    /* 旧フォーマット互換 */
-    _staffAvailCtx.data[k]={lunch:_staffAvailCtx.data[k],dinner:_staffAvailCtx.data[k]};
-  }
-  _staffAvailCtx.data[k][slot]=val;
-  /* 両方空なら削除 */
-  if(!_staffAvailCtx.data[k].lunch&&!_staffAvailCtx.data[k].dinner)delete _staffAvailCtx.data[k];
-}
-function saveStaffAvailAll(){
-  if(!_staffAvailCtx)return;
-  const {staffId,staffName,y,m,data}=_staffAvailCtx;
-  const avail=loadAvail(y,m);
-  if(Object.keys(data).length===0){
-    delete avail[staffId];
-  }else{
-    avail[staffId]=data;
-  }
-  const ak=availKey(y,m);
-  const json=JSON.stringify(avail);
-  localStorage.setItem(ak,json);
-  _syncKeyToFirebase(ak,json);
-  closeStaffAvailModal();
-  renderAvailPanel();
-  try{if(typeof showUpdateToast==='function')showUpdateToast(`✓ ${staffName}さんの${y}年${m+1}月の希望を保存しました`);}catch(e){}
-}
-function closeStaffAvailModal(){
-  document.getElementById('staffAvailOverlay').classList.remove('open');
-  _staffAvailCtx=null;
 }
 
 /* ════════════════════════════════════════
@@ -1748,181 +1634,11 @@ function renderSettingsPanel(){
 
   renderSpecialDateList();
   renderOpenExceptionList();
-  renderDeadlineSettings();
-  renderExtensionMonthOptions();
-  renderExtensionList();
-}
-
-/* 締切日設定の描画 */
-function renderDeadlineSettings(){
-  const s=getSettings();
-  const dl=s.deadline||{enabled:true,day:20};
-  document.getElementById('deadlineEnabledChk').checked=!!dl.enabled;
-  document.getElementById('deadlineDayInput').value=dl.day||20;
-  const stEl=document.getElementById('deadlineStatus');
-  if(!dl.enabled){
-    stEl.innerHTML='<span style="color:#94a3b8">締切機能はオフです（スタッフはいつでも入力可能）</span>';
-    return;
-  }
-  /* 次の対象月（翌月）の締切日を表示 */
-  const now=new Date();
-  let ty=now.getFullYear(), tm=now.getMonth()+1;
-  if(tm>11){tm=0;ty++;}
-  const st=getDeadlineStatus(ty,tm,'__preview__');
-  const d=st.deadlineDate;
-  const ds=`${d.getFullYear()}年${d.getMonth()+1}月${d.getDate()}日 23:59`;
-  stEl.innerHTML=`<strong>${ty}年${tm+1}月分</strong> の入力締切は <strong style="color:#0e7490">${ds}</strong> です`;
-}
-
-/* 締切設定を保存 */
-function saveDeadlineSettings(){
-  const enabled=document.getElementById('deadlineEnabledChk').checked;
-  const dayVal=parseInt(document.getElementById('deadlineDayInput').value,10);
-  if(enabled&&(isNaN(dayVal)||dayVal<1||dayVal>31)){
-    alert('締切日は 1〜31 の範囲で指定してください。');return;
-  }
-  const s=getSettings();
-  s.deadline={enabled,day:dayVal||20};
-  saveSettings(s);
-  renderDeadlineSettings();
-  try{if(typeof showUpdateToast==='function')showUpdateToast('⏰ 締切日設定を保存しました');}catch(e){}
-}
-
-/* 延長設定の対象月セレクタを描画（今月〜+3ヶ月） */
-function renderExtensionMonthOptions(){
-  const sel=document.getElementById('extensionMonthSel');
-  if(!sel)return;
-  const cur=sel.value;
-  sel.innerHTML='';
-  const now=new Date();
-  for(let i=0;i<=3;i++){
-    let y=now.getFullYear(), m=now.getMonth()+i;
-    while(m>11){m-=12;y++;}
-    const ym=`${y}-${String(m+1).padStart(2,'0')}`;
-    const opt=document.createElement('option');
-    opt.value=ym;opt.textContent=`${y}年${m+1}月`;
-    if(i===1)opt.selected=true; /* デフォルトで翌月 */
-    sel.appendChild(opt);
-  }
-  if(cur)sel.value=cur;
-}
-
-/* 延長一覧の描画（スタッフ別の延長日入力） */
-function renderExtensionList(){
-  const sel=document.getElementById('extensionMonthSel');
-  const list=document.getElementById('extensionList');
-  if(!sel||!list)return;
-  const ym=sel.value;
-  if(!ym){list.innerHTML='';return;}
-  const staffList=getStaffList();
-  if(staffList.length===0){
-    list.innerHTML='<div class="empty-state">スタッフが登録されていません</div>';return;
-  }
-  const s=getSettings();
-  const exts=s.extensions||{};
-  let html='<table style="width:100%;border-collapse:collapse;font-size:.92em">';
-  html+='<thead><tr style="background:#f8fafc">'
-    +'<th style="padding:8px;border-bottom:1px solid #e5e7eb;text-align:left">スタッフ</th>'
-    +'<th style="padding:8px;border-bottom:1px solid #e5e7eb;text-align:left">延長期限（YYYY-MM-DD）</th>'
-    +'<th style="padding:8px;border-bottom:1px solid #e5e7eb;text-align:center;width:120px">操作</th>'
-    +'</tr></thead><tbody>';
-  staffList.forEach(st=>{
-    const cur=(exts[st.id]&&exts[st.id][ym])||'';
-    /* 延長が設定済みの行は背景色を変えてバッジを表示 */
-    const rowBg=cur?'background:#ecfdf5':'';
-    const badge=cur?`<span style="display:inline-block;margin-left:8px;padding:2px 8px;background:#10b981;color:#fff;border-radius:10px;font-size:.7em;font-weight:700">延長中</span>`:'';
-    const sNameEsc=st.name.replace(/'/g,"\\'");
-    /* 削除ボタンは延長設定済みの行にだけ表示 */
-    const deleteBtn=cur?`<button class="cbtn" style="font-size:.78em;padding:5px 10px;background:#fff;color:#991b1b;border:1px solid #fca5a5;margin-left:6px"
-          onclick="deleteExtension('${st.id}','${ym}','${sNameEsc}')">🗑 削除</button>`:'';
-    html+=`<tr id="extRow-${st.id}" style="${rowBg}">
-      <td style="padding:8px;border-bottom:1px solid #f1f5f9">${st.name}${badge}</td>
-      <td style="padding:8px;border-bottom:1px solid #f1f5f9">
-        <input type="date" id="ext-${st.id}" value="${cur}"
-          style="border:1.5px solid #e2e8f0;border-radius:7px;padding:6px 8px;font-size:.9em">
-      </td>
-      <td style="padding:8px;border-bottom:1px solid #f1f5f9;text-align:center;white-space:nowrap">
-        <button id="extBtn-${st.id}" class="cbtn cbtn-blue" style="font-size:.78em;padding:5px 10px;min-width:60px"
-          onclick="saveExtension('${st.id}','${ym}','${sNameEsc}')">保存</button>
-        ${deleteBtn}
-      </td>
-    </tr>`;
-  });
-  html+='</tbody></table>';
-  list.innerHTML=html;
-}
-
-/* 延長を削除（確認ダイアログ＋視覚フィードバック付き） */
-function deleteExtension(staffId,ym,staffName){
-  const s=getSettings();
-  const cur=(s.extensions&&s.extensions[staffId]&&s.extensions[staffId][ym])||'';
-  if(!cur){return;}
-  if(!confirm(`【${ym}】の ${staffName} さんの延長設定（${cur}まで）を削除します。\nよろしいですか？`))return;
-  /* extensions から削除 */
-  delete s.extensions[staffId][ym];
-  if(Object.keys(s.extensions[staffId]).length===0)delete s.extensions[staffId];
-  saveSettings(s);
-  /* 行の視覚フィードバック */
-  const row=document.getElementById('extRow-'+staffId);
-  if(row){
-    row.style.transition='background .4s';
-    row.style.background='#fee2e2';
-    setTimeout(()=>{row.style.background='';},900);
-  }
-  setTimeout(()=>{renderExtensionList();},1200);
-  try{if(typeof showUpdateToast==='function')showUpdateToast(`🗑 ${staffName}さんの ${ym} の延長を削除しました`);}catch(e){}
-}
-
-/* 延長を保存（ボタン視覚フィードバック付き） */
-function saveExtension(staffId,ym,staffName){
-  const val=document.getElementById('ext-'+staffId).value.trim();
-  const s=getSettings();
-  if(!s.extensions)s.extensions={};
-  if(!s.extensions[staffId])s.extensions[staffId]={};
-  if(val){
-    s.extensions[staffId][ym]=val;
-  }else{
-    delete s.extensions[staffId][ym];
-    if(Object.keys(s.extensions[staffId]).length===0)delete s.extensions[staffId];
-  }
-  saveSettings(s);
-
-  /* ── ボタン視覚フィードバック ── */
-  const btn=document.getElementById('extBtn-'+staffId);
-  const row=document.getElementById('extRow-'+staffId);
-  if(btn){
-    const orig=btn.innerHTML;
-    const origCls=btn.className;
-    btn.innerHTML='✓ 保存しました';
-    btn.className='cbtn';
-    btn.style.background='#10b981';
-    btn.style.color='#fff';
-    btn.style.border='none';
-    btn.disabled=true;
-    /* 行の背景も一瞬光らせる */
-    if(row){
-      const origBg=row.style.background;
-      row.style.transition='background .4s';
-      row.style.background='#a7f3d0';
-      setTimeout(()=>{row.style.background=val?'#ecfdf5':'';},900);
-    }
-    setTimeout(()=>{
-      /* 一覧を再描画して、行のバッジ＆背景色を最新状態に更新 */
-      renderExtensionList();
-    },1500);
-  }
-
-  const action=val?`を ${val} まで延長しました`:'の延長を解除しました';
-  try{if(typeof showUpdateToast==='function')showUpdateToast(`⏳ ${staffName}さんの ${ym} ${action}`);}catch(e){}
 }
 
 function saveClosedDays(){
-  const dayNames=['日','月','火','水','木','金','土'];
-  const newDays=closedDaySelection.slice().sort((a,b)=>a-b);
-  const newDaysText=newDays.length?newDays.map(function(d){return dayNames[d];}).join('・')+'曜日':'なし';
-  if(!confirm('定休曜日を「'+newDaysText+'」に変更します。\nホームページのカレンダーやスタッフの希望入力ページにも反映されます。\nよろしいですか？'))return;
   const s=getSettings();
-  s.defaultClosedDays=newDays;
+  s.defaultClosedDays=closedDaySelection.slice().sort((a,b)=>a-b);
   saveSettings(s);
   alert('定休曜日の設定を保存しました。');
   loadShift();render();
@@ -2612,11 +2328,369 @@ function doExcelExport(){
 }
 
 /* Backdrop close */
-['editOverlay','staffOverlay','specialDateOverlay','excelOverlay'].forEach(id=>{
-  document.getElementById(id).addEventListener('click',function(e){
+['editOverlay','staffOverlay','specialDateOverlay','excelOverlay','previewOverlay'].forEach(id=>{
+  const el=document.getElementById(id);
+  if(!el)return;
+  el.addEventListener('click',function(e){
     if(e.target===this)this.classList.remove('open');
   });
 });
+
+/* ════════════════════════════════════════
+   showUpdateToast — シンプルなトースト通知
+   既存コード随所から呼ばれているが定義が無かったので追加
+════════════════════════════════════════ */
+function showUpdateToast(msg){
+  try{
+    const old=document.getElementById('_simpleToast');
+    if(old)old.remove();
+    const t=document.createElement('div');
+    t.id='_simpleToast';
+    t.textContent=msg;
+    t.style.cssText='position:fixed;bottom:24px;left:50%;transform:translateX(-50%);'
+      +'background:#1e293b;color:#fff;padding:10px 18px;border-radius:10px;'
+      +'font-size:.82em;font-weight:600;z-index:9998;box-shadow:0 6px 22px rgba(0,0,0,.32);'
+      +'animation:slideUp .25s ease;max-width:90vw;white-space:nowrap;overflow:hidden;text-overflow:ellipsis';
+    document.body.appendChild(t);
+    setTimeout(()=>{
+      t.style.opacity='0';t.style.transition='opacity .35s';
+      setTimeout(()=>t.remove(),380);
+    },2400);
+  }catch(e){console.warn('toast:',e);}
+}
+
+/* refreshAll — Firebaseから最新データを取得して再描画 */
+function refreshAll(){
+  try{
+    _fbDb.ref('pekin/db').get().then(snap=>{
+      if(snap&&snap.exists()){_applyDb(snap.val(),true);_reRenderAllPanels();}
+    }).catch(e=>console.warn('refreshAll:',e));
+  }catch(e){console.warn('refreshAll:',e);}
+}
+
+/* ════════════════════════════════════════
+   LOCK 機構（編集排他）
+   pekin_lock_YYYY-MM:
+     {heldBy,heldByName,heartbeatAt,acquiredAt}
+   30秒heartbeat切れ → 他人が引き継ぎ可
+════════════════════════════════════════ */
+const LOCK_TIMEOUT_MS=30000;     // 30秒以上heartbeatなければ無効
+const HEARTBEAT_INTERVAL_MS=10000; // 10秒ごとにheartbeat
+let _isEditMode=false;
+let _heartbeatTimer=null;
+let _currentLock=null;     // 現在の月のロック情報（リスナーで更新）
+let _activeLockKey=null;   // 自分が現在保持しているロックのキー
+
+function getLockKey(){return `pekin_lock_${Y}-${String(M+1).padStart(2,'0')}`;}
+function getLockKeyFor(y,m){return `pekin_lock_${y}-${String(m+1).padStart(2,'0')}`;}
+
+/* 編集モードに入る／抜ける トグル */
+async function toggleEditMode(){
+  if(_isEditMode){
+    /* 編集モードを抜ける → 保存して解放 */
+    saveShift();
+    await releaseLock();
+    _isEditMode=false;
+    _updateEditModeUI();
+    showUpdateToast('💾 編集を終了して保存しました');
+    return;
+  }
+  /* ロック獲得試行 */
+  const ok=await tryAcquireLock(false);
+  if(ok){
+    _isEditMode=true;
+    _updateEditModeUI();
+    startHeartbeat();
+    showUpdateToast('✎ 編集モードに入りました');
+  }
+}
+
+/* ロック獲得（force=trueなら強制引き継ぎ） */
+async function tryAcquireLock(force){
+  const lockKey=getLockKey();
+  const me=(typeof sess!=='undefined'&&sess&&sess.userId)||'admin';
+  const myName=(typeof sess!=='undefined'&&sess&&sess.name)||'管理者';
+  const now=Date.now();
+  try{
+    /* Firebase transaction で原子的にチェック&セット */
+    const ref=_fbDb.ref('pekin/db/'+lockKey);
+    const result=await ref.transaction(curr=>{
+      let currObj=null;
+      if(curr){
+        try{currObj=typeof curr==='string'?JSON.parse(curr):curr;}catch(e){currObj=null;}
+      }
+      const isStale=!currObj||!currObj.heartbeatAt||(now-currObj.heartbeatAt>LOCK_TIMEOUT_MS);
+      const isMine=currObj&&currObj.heldBy===me;
+      if(force||isStale||isMine||!currObj){
+        return JSON.stringify({heldBy:me,heldByName:myName,heartbeatAt:now,acquiredAt:isMine?currObj.acquiredAt:now});
+      }
+      /* 既に他人が保持中 → 中断 */
+      return undefined;
+    });
+    if(result&&result.committed){
+      _activeLockKey=lockKey;
+      console.log('Lock acquired:',lockKey);
+      return true;
+    }
+    /* 取得失敗 → 現在の保持者情報を表示 */
+    const snap=await _fbDb.ref('pekin/db/'+lockKey).get();
+    if(snap.exists()){
+      const v=snap.val();
+      const obj=typeof v==='string'?JSON.parse(v):v;
+      const who=obj.heldByName||obj.heldBy||'誰か';
+      alert(`${who} さんが現在編集中です。\n（${Math.floor((now-obj.heartbeatAt)/1000)}秒前にアクティブ）`);
+    }else{
+      alert('編集モードの獲得に失敗しました。再試行してください。');
+    }
+    return false;
+  }catch(e){
+    console.warn('tryAcquireLock:',e);
+    /* Firebase 接続失敗時はとりあえずローカルロックを置く（フォールバック） */
+    localStorage.setItem(lockKey,JSON.stringify({heldBy:me,heldByName:myName,heartbeatAt:now,acquiredAt:now}));
+    _activeLockKey=lockKey;
+    return true;
+  }
+}
+
+/* ロック解放：自分のロックを null にセット */
+async function releaseLock(){
+  if(!_activeLockKey)return;
+  stopHeartbeat();
+  const k=_activeLockKey;
+  _activeLockKey=null;
+  try{
+    await _fbDb.ref('pekin/db').update({[k]:null});
+  }catch(e){console.warn('releaseLock:',e);}
+  try{localStorage.removeItem(k);}catch(e){}
+}
+
+/* heartbeat 開始 */
+function startHeartbeat(){
+  stopHeartbeat();
+  _heartbeatTimer=setInterval(()=>{
+    if(!_activeLockKey)return;
+    const me=(typeof sess!=='undefined'&&sess&&sess.userId)||'admin';
+    const myName=(typeof sess!=='undefined'&&sess&&sess.name)||'管理者';
+    const payload={heldBy:me,heldByName:myName,heartbeatAt:Date.now(),
+      acquiredAt:(_currentLock&&_currentLock.acquiredAt)||Date.now()};
+    try{_fbDb.ref('pekin/db').update({[_activeLockKey]:JSON.stringify(payload)});}
+    catch(e){console.warn('heartbeat:',e);}
+  },HEARTBEAT_INTERVAL_MS);
+}
+function stopHeartbeat(){
+  if(_heartbeatTimer){clearInterval(_heartbeatTimer);_heartbeatTimer=null;}
+}
+
+/* 編集モードUI更新（ボタン文言・バナー） */
+function _updateEditModeUI(){
+  const btn=document.getElementById('editModeBtn');
+  if(btn){
+    if(_isEditMode){
+      btn.textContent='💾 編集を終了して保存';
+      btn.className='cbtn cbtn-green';
+    }else{
+      btn.textContent='✎ 編集モードに入る';
+      btn.className='cbtn cbtn-red';
+    }
+  }
+  _renderLockBanner();
+}
+
+/* ロックバナーの描画（自分か他人かで色分け） */
+function _renderLockBanner(){
+  const el=document.getElementById('lockBanner');
+  if(!el)return;
+  const lock=_currentLock;
+  const me=(typeof sess!=='undefined'&&sess&&sess.userId)||'admin';
+  const now=Date.now();
+  if(_isEditMode){
+    el.style.display='block';
+    el.style.cssText+=';background:#d1fae5;border:1px solid #6ee7b7;color:#065f46';
+    el.innerHTML='✎ 編集中：<strong>あなた</strong>　他のユーザーは閲覧モードになります。';
+    return;
+  }
+  if(lock&&lock.heartbeatAt&&(now-lock.heartbeatAt<LOCK_TIMEOUT_MS)&&lock.heldBy!==me){
+    el.style.display='block';
+    const secs=Math.max(0,Math.floor((now-lock.heartbeatAt)/1000));
+    el.style.cssText+=';background:#fef3c7;border:1px solid #fcd34d;color:#92400e';
+    el.innerHTML=`⚠ <strong>${lock.heldByName||lock.heldBy}</strong> が編集中（${secs}秒前にアクティブ）・現在閲覧モード`;
+    return;
+  }
+  if(lock&&lock.heartbeatAt&&(now-lock.heartbeatAt>=LOCK_TIMEOUT_MS)&&lock.heldBy!==me){
+    el.style.display='block';
+    el.style.cssText+=';background:#fef3c7;border:1px solid #fcd34d;color:#92400e';
+    el.innerHTML=`⚠ <strong>${lock.heldByName||lock.heldBy}</strong> のロックが30秒以上反応なし `
+      +`<button class="cbtn cbtn-red" style="margin-left:8px" onclick="forceTakeoverLock()">[編集を引き継ぐ]</button>`;
+    return;
+  }
+  el.style.display='none';
+}
+
+/* ロック強制引き継ぎ */
+async function forceTakeoverLock(){
+  if(!confirm('他のユーザーのロックを引き継いで編集モードに入りますか？\n（その人の未保存編集は失われる可能性があります）'))return;
+  const ok=await tryAcquireLock(true);
+  if(ok){
+    _isEditMode=true;
+    _updateEditModeUI();
+    startHeartbeat();
+    showUpdateToast('✎ 編集を引き継ぎました');
+  }
+}
+
+/* ════════════════════════════════════════
+   月別リアルタイムリスナー
+   pekin_shift_*, pekin_lock_*, pekin_published_*, pekin_avail_*
+   月切替時に旧月の .off()
+════════════════════════════════════════ */
+let _monthListeners=[];
+function _detachMonthListeners(){
+  _monthListeners.forEach(({ref,cb})=>{try{ref.off('value',cb);}catch(e){}});
+  _monthListeners=[];
+}
+function _attachMonthListeners(){
+  _detachMonthListeners();
+  const ym=`${Y}-${String(M+1).padStart(2,'0')}`;
+  const keys=[
+    'pekin_shift_'+ym,
+    'pekin_lock_'+ym,
+    'pekin_published_'+ym,
+    'pekin_avail_'+ym,
+    'pekin_meta_'+ym
+  ];
+  keys.forEach(k=>{
+    const ref=_fbDb.ref('pekin/db/'+k);
+    const cb=ref.on('value',snap=>{
+      try{
+        const val=snap.val();
+        if(k.startsWith('pekin_lock_')){
+          /* ロック情報を更新 */
+          _currentLock=val?(typeof val==='string'?JSON.parse(val):val):null;
+          _renderLockBanner();
+          return;
+        }
+        if(k.startsWith('pekin_meta_')){
+          if(val!==null&&val!==undefined){
+            const json=typeof val==='string'?val:JSON.stringify(val);
+            localStorage.setItem(k,json);
+          }else{
+            localStorage.removeItem(k);
+          }
+          renderMetaInfo();
+          return;
+        }
+        /* shift/published/availの更新 */
+        const json=val===null||val===undefined?null:(typeof val==='string'?val:JSON.stringify(val));
+        const cur=localStorage.getItem(k);
+        if(json===null){
+          if(cur!==null)localStorage.removeItem(k);
+        }else if(cur!==json){
+          /* 自分が編集中の shift_ は上書き注意 */
+          if(k.startsWith('pekin_shift_')&&_isEditMode){
+            /* 自分が編集中：黄バナーで通知し、上書きはしない */
+            showUpdateToast('⚠ 他のユーザーがシフトを更新しました（編集を保存後にリロードしてください）');
+            return;
+          }
+          localStorage.setItem(k,json);
+          /* シフトデータが変わった → 再ロード&再描画 */
+          if(k.startsWith('pekin_shift_'))loadShift();
+          if(typeof render==='function')render();
+          if(k.startsWith('pekin_avail_')){
+            const ap=document.getElementById('panel-avail');
+            const op=document.getElementById('panel-overview');
+            if(ap&&ap.classList.contains('active')&&typeof renderAvailPanel==='function')renderAvailPanel();
+            if(op&&op.classList.contains('active')&&typeof renderOverview==='function')renderOverview();
+          }
+          if(k.startsWith('pekin_published_'))updatePublishStatus();
+        }
+      }catch(e){console.warn('listener err:',k,e);}
+    });
+    _monthListeners.push({ref,cb});
+  });
+}
+
+/* heartbeat表示用：1秒ごとにバナー秒数を更新 */
+setInterval(()=>{if(_currentLock)_renderLockBanner();renderMetaInfo();},5000);
+
+/* 同期インジケータ：Firebase接続状態 */
+try{
+  _fbDb.ref('.info/connected').on('value',snap=>{
+    const dot=document.getElementById('syncDot');
+    const txt=document.getElementById('syncText');
+    if(!dot||!txt)return;
+    if(snap.val()===true){dot.style.background='#27ae60';txt.textContent='オンライン';}
+    else{dot.style.background='#dc2626';txt.textContent='オフライン';}
+  });
+}catch(e){console.warn('connected listener:',e);}
+
+/* ════════════════════════════════════════
+   月変更時：旧月リスナー解除 → 新月リスナー attach
+   既存の changeMonth と switchTab に追補
+════════════════════════════════════════ */
+const _origChangeMonth=changeMonth;
+changeMonth=function(d){
+  /* 編集中なら一旦解放 */
+  if(_isEditMode){releaseLock();_isEditMode=false;_updateEditModeUI();}
+  _origChangeMonth(d);
+  _attachMonthListeners();
+  updatePublishStatus();
+};
+const _origSwitchTab=switchTab;
+switchTab=function(name){
+  _origSwitchTab(name);
+  if(name==='shift')_attachMonthListeners();
+};
+
+/* shift編集時にメタ更新 */
+const _origSaveShift=saveShift;
+saveShift=function(){
+  _origSaveShift();
+  /* 編集モード中のみメタ更新（閲覧モードでの偶発書き込みを避ける） */
+  if(_isEditMode){
+    const meta=getMeta();
+    meta.lastEditedAt=Date.now();
+    meta.lastEditedBy=(typeof sess!=='undefined'&&sess&&sess.userId)||'admin';
+    meta.lastEditedByName=(typeof sess!=='undefined'&&sess&&sess.name)||'';
+    saveMeta(meta);
+  }
+};
+
+/* 他人がロック保持中なら編集系をブロック（閲覧モード） */
+function _isLockedByOther(){
+  const me=(typeof sess!=='undefined'&&sess&&sess.userId)||'admin';
+  if(!_currentLock||!_currentLock.heartbeatAt)return false;
+  if(_currentLock.heldBy===me)return false;
+  return (Date.now()-_currentLock.heartbeatAt)<LOCK_TIMEOUT_MS;
+}
+const _origOpenEdit=openEdit;
+openEdit=function(k,type){
+  if(_isLockedByOther()){
+    alert(`現在 ${_currentLock.heldByName||_currentLock.heldBy} が編集中です。\n閲覧モードでは編集できません。`);
+    return;
+  }
+  _origOpenEdit(k,type);
+};
+const _origToggleStaffInShift=toggleStaffInShift;
+toggleStaffInShift=function(k,type,name,add){
+  if(_isLockedByOther()){
+    alert(`現在 ${_currentLock.heldByName||_currentLock.heldBy} が編集中です。\n閲覧モードでは編集できません。`);
+    return;
+  }
+  _origToggleStaffInShift(k,type,name,add);
+};
+
+/* beforeunload でロック解放 */
+window.addEventListener('beforeunload',()=>{
+  if(_activeLockKey){
+    try{
+      /* navigator.sendBeacon が使えればベストだがFirebaseは update() を fire-and-forget で */
+      _fbDb.ref('pekin/db').update({[_activeLockKey]:null});
+    }catch(e){}
+  }
+});
+
+/* 初期 attach（初回同期後にも実行されるよう少し遅らせる） */
+setTimeout(()=>{try{_attachMonthListeners();updatePublishStatus();}catch(e){console.warn('init attach:',e);}},1200);
 
 </script>
 </body>
