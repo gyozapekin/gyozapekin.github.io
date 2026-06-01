@@ -177,6 +177,7 @@ body{font-family:'Helvetica Neue','Hiragino Sans','Yu Gothic UI',Arial,sans-seri
   </div>
   <div class="nav-right">
     <span class="nav-user" id="navUser"></span>
+    <button class="nbtn" onclick="window.open('staff_manual.html','_blank')" style="background:#fff;color:#c0392b;border:1px solid rgba(255,255,255,.4)" title="スタッフ操作マニュアルを開く">📖 マニュアル</button>
     <button class="nbtn nbtn-red" onclick="logout()">ログアウト</button>
   </div>
 </nav>
@@ -265,6 +266,7 @@ body{font-family:'Helvetica Neue','Hiragino Sans','Yu Gothic UI',Arial,sans-seri
 
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
 <script>
 /* ════════════════════════════════════════
    DATA SYNC — Firebase優先・db.jsonフォールバック
@@ -273,6 +275,15 @@ const _STATIC_KEYS=['pekin_shift_template','pekin_settings','pekin_users','pekin
 const _fbCfg={apiKey:"AIzaSyBygnsi6cByYRZigxlhR7d0ydVfpFGx8FQ",databaseURL:"https://pekin-shift-default-rtdb.asia-southeast1.firebasedatabase.app",projectId:"pekin-shift",appId:"1:600393805417:web:126fb18e1c5b64fc677cf8"};
 if(!firebase.apps.length)firebase.initializeApp(_fbCfg);
 const _fbDb=firebase.database();
+try{firebase.auth().signInAnonymously().catch(e=>console.warn('anonAuth:',e));}catch(e){console.warn('auth init:',e);}
+/* ========== Dev/Prod 環境判定（Firebase namespace 切替） ==========
+   URL に /gyozapekin2.github.io/ が含まれる場合は Dev 環境 → /pekin/db_dev/
+   それ以外（gyozapekin.com 等）は Prod → /pekin/db/                */
+const IS_DEV=(location.pathname.indexOf('/gyozapekin2.github.io/')!==-1)
+  ||(location.hostname==='localhost')||(location.hostname.indexOf('gyozapekin2.')===0);
+const FB_NS=IS_DEV?'pekin/db_dev':'pekin/db';
+console.log('[ENV]',IS_DEV?'DEV':'PROD','using',FB_NS);
+
 
 /* dbをlocalStorageに書き込む。force=trueで全データ強制上書き
    ※ pekin_lock_* はスタッフ側では使わないので無視 */
@@ -314,7 +325,7 @@ function _finishSync(){
 async function _doInitialSync(){
   try{
     const snap=await Promise.race([
-      _fbDb.ref('pekin/db').get(),
+      _fbDb.ref(FB_NS).get(),
       new Promise((_,rej)=>setTimeout(()=>rej(new Error('timeout')),5000))
     ]);
     if(snap&&snap.exists()){_applyDb(snap.val(),true);console.log('Firebase sync ✓');}
@@ -337,7 +348,7 @@ _doInitialSync();
    avail データは上書きしない（スタッフの未保存入力を守るため）
    pekin_published_* の変更を検知 → renderShiftView で snapshot 反映 */
 let _fbListenerReady=false;
-_fbDb.ref('pekin/db').on('value',snap=>{
+_fbDb.ref(FB_NS).on('value',snap=>{
   if(!snap||!snap.exists())return;
   if(!_fbListenerReady){_fbListenerReady=true;return;} /* 初回はinitialSyncで処理済み */
   const db=snap.val();
@@ -440,10 +451,11 @@ function saveAvail(y,m,data){
   const key=availKey(y,m);
   const json=JSON.stringify(data);
   localStorage.setItem(key,json);
-  /* Firebaseにも保存（管理画面でリアルタイム反映） */
+  /* Firebaseには自分のサブパスのみ書き込む（他人の希望を上書きしないため） */
   try{
-    _fbDb.ref('pekin/db').update({[key]:json});
-    console.log('Avail saved to Firebase:',key);
+    const mine=data[sess.userId]||{};
+    _fbDb.ref(FB_NS+'/'+key+'/'+sess.userId).set(JSON.stringify(mine));
+    console.log('Avail saved to Firebase (subpath):',key,sess.userId);
   }catch(e){console.warn('Firebase avail save failed:',e);}
 }
 let myAvail={};
@@ -470,12 +482,34 @@ const DOW_CLS2=['sun','mon','tue','wed','thu','fri','sat'];
 
 /* ── DEADLINE CHECK ── */
 function updateDeadlineUI(){
-  const deadline=new Date(now.getFullYear(),now.getMonth(),20,23,59,59);
-  const closed=now>deadline;
+  /* デフォルト: リクエスト月の「前月20日」が締切 */
+  let deadline=new Date(reqY,reqM-1,20,23,59,59);
+  /* 優先順: 個別スタッフ別 > 月別共通 > デフォルト */
+  try{
+    const s=JSON.parse(localStorage.getItem('pekin_settings')||'{}');
+    const ymKey=`${reqY}-${String(reqM+1).padStart(2,'0')}`;
+    let raw=null;
+    /* 1) 個別スタッフ */
+    if(s.deadlinesPerStaff&&s.deadlinesPerStaff[ymKey]&&sess&&sess.userId&&s.deadlinesPerStaff[ymKey][sess.userId]){
+      raw=s.deadlinesPerStaff[ymKey][sess.userId];
+    }
+    /* 2) 月別共通 */
+    else if(s.deadlines&&s.deadlines[ymKey]){
+      raw=s.deadlines[ymKey];
+    }
+    if(raw){
+      const ov=new Date(raw+'T23:59:59');
+      if(!isNaN(ov.getTime()))deadline=ov;
+    }
+  }catch(e){}
+  const _now=new Date();
+  const closed=_now>deadline;
   document.getElementById('reqStatusBadge').textContent=closed?'受付終了':'受付中';
   document.getElementById('reqStatusBadge').className='status-badge '+(closed?'status-closed':'status-open');
   document.getElementById('submitBtn').disabled=closed;
-  document.getElementById('reqDeadline').textContent=`${now.getMonth()+1}月20日`;
+  const dy=deadline.getFullYear(),dm=deadline.getMonth()+1,dd=deadline.getDate();
+  const yPrefix=dy!==reqY?`${dy}年`:'';
+  document.getElementById('reqDeadline').textContent=`${yPrefix}${dm}月${dd}日`;
 }
 
 /* ── RENDER REQUEST LIST ──
@@ -759,7 +793,7 @@ function getUsers(){
 }
 function saveUsers(users){localStorage.setItem('pekin_users',JSON.stringify(users));}
 
-function changePassword(){
+async function changePassword(){
   const currentPw=document.getElementById('acctCurrentPw').value;
   const newPw=document.getElementById('acctNewPw').value;
   const newPw2=document.getElementById('acctNewPw2').value;
@@ -780,14 +814,21 @@ function changePassword(){
   const myUser=users.find(u=>u.id===sess.userId);
   if(!myUser){showMsg('err','ユーザーが見つかりません');return;}
 
-  /* 現在のパスワード確認（デフォルトPW か 変更済みPW のどちらかと一致すればOK） */
-  const isValid=(myUser.password===currentPw)||(myUser.customPassword&&myUser.customPassword===currentPw);
-  if(!isValid){showMsg('err','現在のパスワードが違います');return;}
+  /* 現在のパスワード確認（デフォルトPW or 変更済みPW、ハッシュ/平文両対応） */
+  const okDefault=await _checkPwStaff(myUser,currentPw,'password');
+  const okCustom=await _checkPwStaff(myUser,currentPw,'customPassword');
+  if(!okDefault&&!okCustom){showMsg('err','現在のパスワードが違います');return;}
 
-  if(newPw===myUser.password&&!myUser.customPassword){
+  /* 新PW=デフォルトと同じ場合は弾く */
+  if(await _checkPwStaff(myUser,newPw,'password')&&!myUser.customPassword&&!myUser.customPasswordHash){
     showMsg('err','新しいパスワードはデフォルトパスワードと異なるものにしてください');return;
   }
-  myUser.customPassword=newPw;
+  /* ハッシュ化して保存 */
+  const newSalt=genSalt();
+  const newHash=await hashPw(newPw,newSalt);
+  myUser.customPasswordHash=newHash;
+  myUser.customPasswordSalt=newSalt;
+  delete myUser.customPassword; /* 平文は保存しない */
   saveUsers(users);
   document.getElementById('acctCurrentPw').value='';
   document.getElementById('acctNewPw').value='';
@@ -795,9 +836,28 @@ function changePassword(){
   showMsg('ok','✅ パスワードを変更しました');
 }
 
+
+async function hashPw(plain, salt){
+  const data=new TextEncoder().encode(salt+':'+(plain||''));
+  const buf=await crypto.subtle.digest('SHA-256',data);
+  return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
+}
+function genSalt(){
+  const arr=new Uint8Array(12);
+  crypto.getRandomValues(arr);
+  return Array.from(arr).map(b=>b.toString(16).padStart(2,'0')).join('');
+}
+async function _checkPwStaff(user,pwInput,field){
+  if(!user[field]&&!user[field+'Hash'])return false;
+  if(user[field+'Hash']&&user[field+'Salt']){
+    const h=await hashPw(pwInput,user[field+'Salt']);
+    return h===user[field+'Hash'];
+  }
+  return user[field]===pwInput;
+}
 /* ── INIT ── */
 loadMyAvail();
 renderRequestList();
 </script>
 </body>
-</html>�
+</html>
