@@ -91,10 +91,10 @@ body{font-family:'Helvetica Neue','Hiragino Sans','Yu Gothic UI',Arial,sans-seri
 /* 昼・夜とも同じ青ベース（店からの要望・未回答） */
 .lunch .ntag,.dinner .ntag{background:#dbeafe;color:#1e40af;border:1px solid #93c5fd}
 /* スタッフ希望と照合した状態別カラー */
-.ntag.ntag-pending{background:#dbeafe!important;color:#1e40af!important;border:1px solid #93c5fd!important}
-.ntag.ntag-ok-confirmed{background:#d1fae5!important;color:#065f46!important;border:1px solid #6ee7b7!important;font-weight:700!important}
-.ntag.ntag-maybe{background:#fef9c3!important;color:#854d0e!important;border:1px solid #fde047!important;font-weight:700!important}
-.ntag.ntag-conflict{background:#fee2e2!important;color:#991b1b!important;border:1px solid #fca5a5!important;font-weight:700!important}
+.ntag.ntag-pending{background:#dbeafe!important;color:#1e40af!important;border:1.5px solid #2563eb!important;font-weight:700!important}
+.ntag.ntag-ok-confirmed{background:#065f46!important;color:#fff!important;border:1.5px solid #064e3b!important;font-weight:700!important}
+.ntag.ntag-maybe{background:#fef9c3!important;color:#854d0e!important;border:1.5px solid #ca8a04!important;font-weight:700!important}
+.ntag.ntag-conflict{background:#fee2e2!important;color:#991b1b!important;border:1.5px solid #dc2626!important;font-weight:700!important}
 .nempty{font-size:.68em;color:#aaa}
 .ext-tag{font-size:.6em;background:#fee2e2;color:#b91c1c;border-radius:3px;padding:1px 4px;font-weight:700}
 .avail-row{display:flex;flex-wrap:wrap;gap:2px;margin-top:2px}
@@ -125,14 +125,42 @@ body{font-family:'Helvetica Neue','Hiragino Sans','Yu Gothic UI',Arial,sans-seri
 .ntag-assigned:hover{opacity:.6;text-decoration:line-through}
 .avail-suggest-row{display:flex;flex-wrap:wrap;gap:2px;margin-top:4px;
   padding-top:4px;border-top:1px dashed #e2e8f0}
-.ntag-suggest-ok{background:#d1fae5!important;color:#065f46!important;
-  border:1px dashed #6ee7b7!important;cursor:pointer;transition:all .12s}
+.ntag-suggest-ok{background:#f0fdf4!important;color:#065f46!important;
+  border:1px dashed #6ee7b7!important;font-size:.6em!important;padding:1px 5px!important;cursor:pointer;transition:all .12s}
 .ntag-suggest-ok:hover{background:#a7f3d0!important;border-style:solid!important}
-.ntag-suggest-maybe{background:#fef9c3!important;color:#854d0e!important;
-  border:1px dashed #fde047!important;cursor:pointer;transition:all .12s}
+.ntag-suggest-maybe{background:#fefce8!important;color:#854d0e!important;
+  border:1px dashed #fde047!important;font-size:.6em!important;padding:1px 5px!important;cursor:pointer;transition:all .12s}
 .ntag-suggest-maybe:hover{background:#fef08a!important;border-style:solid!important}
-.ntag-off{background:#fee2e2!important;color:#991b1b!important;
-  border:1px solid #fca5a5!important;opacity:.6;font-size:.58em!important;cursor:default}
+.ntag-off{background:#fef2f2!important;color:#991b1b!important;
+  border:1px dashed #fca5a5!important;font-size:.6em!important;padding:1px 5px!important;cursor:default}
+.avail-suggest-separator{border-top:1.5px dashed #475569;margin:4px 0 3px;opacity:.8}
+.filter-btn{padding:3px 10px;border-radius:14px;font-size:.72em;font-weight:600;cursor:pointer;border:1px solid;transition:all .15s;margin-right:4px}
+.filter-btn.filter-on-ok{background:#d1fae5;color:#065f46;border-color:#065f46}
+.filter-btn.filter-on-maybe{background:#fef9c3;color:#854d0e;border-color:#854d0e}
+.filter-btn.filter-on-off{background:#fee2e2;color:#991b1b;border-color:#991b1b}
+.filter-btn.filter-disabled{background:transparent;color:#94a3b8;border-color:#cbd5e1;border-style:dashed;text-decoration:line-through}
+.archived-badge{font-size:.6em;background:#f1f5f9;color:#64748b;padding:1px 5px;border-radius:8px;margin-left:4px;font-weight:500}
+.stats-table{width:100%;border-collapse:collapse;font-size:.86em;margin-bottom:16px;background:#fff}
+.stats-table th{background:#f1f5f9;padding:8px 10px;text-align:center;border-bottom:1.5px solid #cbd5e1;font-weight:700;color:#475569;font-size:.82em;white-space:nowrap}
+.stats-table td{padding:8px 10px;border-bottom:0.5px solid #e2e8f0;text-align:center}
+.stats-table td.tname{text-align:left;font-weight:600;color:#1e293b}
+.stats-table tr:hover{background:#f8fafc}
+.stats-bar{display:inline-block;height:8px;border-radius:4px;background:linear-gradient(90deg,#3b82f6 0%,#3b82f6 var(--p,0%),#e2e8f0 var(--p,0%),#e2e8f0 100%);min-width:60px;vertical-align:middle;margin-right:6px}
+.stats-bar.lunch{background:linear-gradient(90deg,#0ea5e9 0%,#0ea5e9 var(--p,0%),#e2e8f0 var(--p,0%),#e2e8f0 100%)}
+.stats-bar.dinner{background:linear-gradient(90deg,#f59e0b 0%,#f59e0b var(--p,0%),#e2e8f0 var(--p,0%),#e2e8f0 100%)}
+.stats-summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:14px}
+.stats-card{background:#f8fafc;padding:10px 12px;border-radius:8px;border:1px solid #e2e8f0}
+.stats-card-label{font-size:.72em;color:#64748b;margin-bottom:2px;font-weight:600}
+.stats-card-val{font-size:1.4em;font-weight:700;color:#1e293b}
+.stats-card-sub{font-size:.7em;color:#94a3b8;margin-top:2px}
+.streak-badge{padding:2px 8px;border-radius:10px;font-weight:700;font-size:.85em;display:inline-block}
+.streak-low{background:#dcfce7;color:#166534}
+.streak-warn{background:#fef9c3;color:#854d0e}
+.streak-danger{background:#fee2e2;color:#991b1b}
+.stats-empty{color:#94a3b8;text-align:center;padding:24px;font-size:.9em}
+
+.ov-tab{padding:5px 14px;border-radius:6px;border:1px solid #cbd5e1;background:#fff;color:#64748b;font-size:.82em;font-weight:600;cursor:pointer}
+.ov-tab.ov-tab-active{background:#1d4ed8;color:#fff;border-color:#1d4ed8}
 .avail-suggest-label{font-size:.58em;color:#94a3b8;letter-spacing:.04em;width:100%;
   margin-bottom:1px;display:block}
 
@@ -270,6 +298,7 @@ body{font-family:'Helvetica Neue','Hiragino Sans','Yu Gothic UI',Arial,sans-seri
       <span id="syncDot" style="width:8px;height:8px;border-radius:50%;background:#27ae60;display:inline-block"></span>
       <span id="syncText">オンライン</span>
     </span>
+    <button class="nbtn no-print" onclick="window.open('admin_manual.html','_blank')" style="background:#fff;color:#c0392b;border:1px solid rgba(255,255,255,.4)" title="管理者操作マニュアルを開く">📖 マニュアル</button>
     <button class="nbtn nbtn-green no-print" onclick="publishShift()" id="publishBtn">📱 公開</button>
     <button class="nbtn nbtn-green no-print" onclick="window.print()">🖨 印刷</button>
     <button class="nbtn nbtn-red no-print" onclick="logout()">ログアウト</button>
@@ -284,6 +313,7 @@ body{font-family:'Helvetica Neue','Hiragino Sans','Yu Gothic UI',Arial,sans-seri
   <button class="tab" onclick="switchTab('staff')">👥 スタッフ管理</button>
   <button class="tab" onclick="switchTab('settings')">⚙ 設定</button>
   <button class="tab" onclick="switchTab('template')">📋 テンプレート</button>
+  <button class="tab" onclick="switchTab('stats')">📈 統計</button>
 </div>
 
 <!-- PANEL: SHIFT MANAGEMENT -->
@@ -311,8 +341,15 @@ body{font-family:'Helvetica Neue','Hiragino Sans','Yu Gothic UI',Arial,sans-seri
     <button class="cbtn cbtn-outline" onclick="openPublishPreview()" title="スタッフが見る形でプレビュー">👁 公開プレビュー</button>
     <button id="unpublishBtn" class="cbtn cbtn-outline" onclick="unpublishShift()" style="display:none;color:#991b1b;border-color:#fca5a5" title="公開を取り下げる">↩ 未公開に戻す</button>
     <button class="cbtn cbtn-green"   onclick="openExcelModal()">📊 Excel出力</button>
-    <button class="cbtn cbtn-outline" onclick="refreshAll();showUpdateToast('🔄 データを更新しました');" title="スタッフ希望など最新データを再読み込み">🔄 更新</button>
+    <button class="cbtn cbtn-outline" onclick="refreshAll();showUpdateToast('🔄 データを更新しました');" title="Firebaseから最新データを取り直す（通常は不要・自動同期されます）">⟳ 再同期</button>
     <span id="publishStatus"></span>
+  </div>
+  <!-- 改修4: 希望表示フィルター -->
+  <div id="availFilterBar" style="display:flex;gap:6px;margin:6px 0;flex-wrap:wrap;align-items:center;font-size:.8em">
+    <span style="color:#64748b">希望表示:</span>
+    <button id="filter-ok-btn" class="filter-btn filter-on-ok" onclick="toggleAvailFilter('ok')">○出勤可</button>
+    <button id="filter-maybe-btn" class="filter-btn filter-on-maybe" onclick="toggleAvailFilter('maybe')">△調整可</button>
+    <button id="filter-off-btn" class="filter-btn filter-disabled" onclick="toggleAvailFilter('off')">×休み</button>
   </div>
   <div class="cal-head">
     <div class="cal-head-cell sun">日</div><div class="cal-head-cell">月</div>
@@ -339,6 +376,16 @@ body{font-family:'Helvetica Neue','Hiragino Sans','Yu Gothic UI',Arial,sans-seri
         <span style="color:#1d4ed8;font-weight:700">☀</span>=昼　<span style="color:#92400e;font-weight:700">🌙</span>=夜（北京の希望）
       </span>
     </div>
+  </div>
+  <!-- 改修5: 昼/夜タブ + 希望種別フィルター -->
+  <div id="overviewControls" style="display:flex;gap:8px;margin:6px 0;flex-wrap:wrap;align-items:center;font-size:.85em">
+    <button id="ov-tab-lunch" class="ov-tab ov-tab-active" onclick="setOverviewSlot('lunch')">☀ 昼</button>
+    <button id="ov-tab-dinner" class="ov-tab" onclick="setOverviewSlot('dinner')">🌙 夜</button>
+    <button id="ov-tab-both" class="ov-tab" onclick="setOverviewSlot('both')">両方</button>
+    <span style="margin-left:auto;color:#64748b">希望:</span>
+    <button id="ov-filter-ok-btn" class="filter-btn filter-on-ok" onclick="toggleAvailFilter('ok')">○</button>
+    <button id="ov-filter-maybe-btn" class="filter-btn filter-on-maybe" onclick="toggleAvailFilter('maybe')">△</button>
+    <button id="ov-filter-off-btn" class="filter-btn filter-disabled" onclick="toggleAvailFilter('off')">×</button>
   </div>
   <div class="cal-head">
     <div class="cal-head-cell sun">日</div><div class="cal-head-cell">月</div>
@@ -438,6 +485,13 @@ body{font-family:'Helvetica Neue','Hiragino Sans','Yu Gothic UI',Arial,sans-seri
       <div id="masterPwStatus" style="font-size:.8em;margin-top:10px;color:#64748b"></div>
     </div>
   </div>
+
+  <h3 style="font-size:.95em;margin:18px 0 8px;color:#475569;font-weight:700">📅 シフト希望締切設定</h3>
+  <p style="font-size:.78em;color:#64748b;margin:0 0 8px">
+    各月のシフト希望提出締切を管理します。デフォルトは「前月の20日」です。<br>個別: 特定スタッフだけ違う締切にしたい場合は各月行の「👤 個別」ボタンで調整。<br>
+    特定月の締切を変更: 日付を入力して「保存」。元の20日に戻す: 「↺ リセット」（上書き設定済みの月のみ有効）。
+  </p>
+  <div id="deadlineWrap"></div>
 </div>
 
 <!-- PANEL: SHIFT TEMPLATE -->
@@ -451,6 +505,23 @@ body{font-family:'Helvetica Neue','Hiragino Sans','Yu Gothic UI',Arial,sans-seri
     「今月に反映」ボタンで <strong style="color:#374151">シフト管理</strong> タブにテンプレートが下書きとして反映されます。
   </p>
   <div id="templatePanelBody"></div>
+</div>
+
+<div class="panel" id="panel-stats">
+  <div class="cal-controls no-print" style="margin-bottom:8px;flex-wrap:wrap;align-items:center;gap:8px">
+    <button class="cbtn cbtn-outline" onclick="changeMonth(-1)">◀</button>
+    <span id="statsMonthLabel" style="font-weight:700;color:#374151;font-size:1.05em">YYYY年 M月</span>
+    <button class="cbtn cbtn-outline" onclick="changeMonth(1)">▶</button>
+    <span style="margin-left:auto;font-size:.85em;color:#64748b">集計対象:</span>
+    <button id="statsSrcPub" class="cbtn cbtn-outline" onclick="setStatsSource('published')">公開済み</button>
+    <button id="statsSrcDraft" class="cbtn cbtn-blue" onclick="setStatsSource('draft')">✓ 下書き（編集中）</button>
+    <button class="cbtn cbtn-outline" onclick="renderStatsPanel()" title="再計算">⟳ 更新</button>
+  </div>
+  <p style="font-size:.78em;color:#64748b;margin:0 0 12px;padding:0 2px">
+    デフォルトは「下書き（編集中のシフト管理データ）」を集計します。公開前のバランス確認用。<br>
+    1コマ=4時間、連勤判定は営業日のみ（定休日はスキップ）。シフトを変更すると自動で再計算されます。
+  </p>
+  <div id="statsBody"></div>
 </div>
 
 <!-- MODAL: Edit Shift -->
@@ -567,6 +638,7 @@ body{font-family:'Helvetica Neue','Hiragino Sans','Yu Gothic UI',Arial,sans-seri
 
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
 <script>
 /* ════════════════════════════════════════
    DATA SYNC  — Firebase優先・db.jsonフォールバック
@@ -579,6 +651,15 @@ const _STATIC_KEYS=['pekin_shift_template','pekin_settings','pekin_users','pekin
 const _fbCfg={apiKey:"AIzaSyBygnsi6cByYRZigxlhR7d0ydVfpFGx8FQ",databaseURL:"https://pekin-shift-default-rtdb.asia-southeast1.firebasedatabase.app",projectId:"pekin-shift",appId:"1:600393805417:web:126fb18e1c5b64fc677cf8"};
 if(!firebase.apps.length)firebase.initializeApp(_fbCfg);
 const _fbDb=firebase.database();
+try{firebase.auth().signInAnonymously().catch(e=>console.warn('anonAuth:',e));}catch(e){console.warn('auth init:',e);}
+/* ========== Dev/Prod 環境判定（Firebase namespace 切替） ==========
+   URL に /gyozapekin2.github.io/ が含まれる場合は Dev 環境 → /pekin/db_dev/
+   それ以外（gyozapekin.com 等）は Prod → /pekin/db/                */
+const IS_DEV=(location.pathname.indexOf('/gyozapekin2.github.io/')!==-1)
+  ||(location.hostname==='localhost')||(location.hostname.indexOf('gyozapekin2.')===0);
+const FB_NS=IS_DEV?'pekin/db_dev':'pekin/db';
+console.log('[ENV]',IS_DEV?'DEV':'PROD','using',FB_NS);
+
 
 /* dbオブジェクトをlocalStorageに書き込む
    ★バージョン優先方式：
@@ -603,7 +684,7 @@ function _applyDb(db, force=false){
       const localRaw=localStorage.getItem('pekin_users');
       if(localRaw){
         /* ローカルにデータあり → ローカル優先（名前変更・削除も反映） */
-        _fbDb.ref('pekin/db').update({'pekin_users':localRaw});
+        _fbDb.ref(FB_NS).update({'pekin_users':localRaw});
         console.log('pekin_users: local authoritative, Firebase updated with local data');
         /* localStorageは変更しない */
       }else{
@@ -653,7 +734,7 @@ function _reRenderAllPanels(){
     if(id==='overview'&&typeof renderOverview==='function')renderOverview();
     else if(id==='avail'&&typeof renderAvailPanel==='function')renderAvailPanel();
     else if(id==='staff'&&typeof renderStaffPanel==='function')renderStaffPanel();
-    else if(id==='settings'&&typeof renderSettingsPanel==='function'){renderSettingsPanel();renderMasterPwStatus();}
+    else if(id==='settings'&&typeof renderSettingsPanel==='function'){renderSettingsPanel();if(typeof renderDeadlinePanel==='function')renderDeadlinePanel();renderMasterPwStatus();}
   }catch(e){console.warn('reRender:',e);}
 }
 
@@ -675,7 +756,7 @@ async function _doInitialSync(){
   /* ① Firebase（最大5秒タイムアウト） */
   try{
     const snap=await Promise.race([
-      _fbDb.ref('pekin/db').get(),
+      _fbDb.ref(FB_NS).get(),
       new Promise((_,rej)=>setTimeout(()=>rej(new Error('timeout')),5000))
     ]);
     if(snap&&snap.exists()){
@@ -707,7 +788,7 @@ function _syncKeyToFirebase(key,value){
   try{
     if(typeof _fbDb!=='undefined'){
       const newV=Date.now();
-      _fbDb.ref('pekin/db').update({[key]:value,_v:newV});
+      _fbDb.ref(FB_NS).update({[key]:value,_v:newV});
       localStorage.setItem('pekin_db_v',String(newV));
     }
   }catch(e){console.warn('Firebase key sync failed:',key,e);}
@@ -737,7 +818,7 @@ function _pushAllToFirebase(){
     const newV=Date.now();
     payload._v=newV;
     localStorage.setItem('pekin_db_v',String(newV));
-    const p=_fbDb.ref('pekin/db').update(payload);
+    const p=_fbDb.ref(FB_NS).update(payload);
     p.then(()=>console.log('Full push to Firebase ✓',Object.keys(payload).length,'keys'))
      .catch(e=>console.warn('Full push failed:',e));
     return p;
@@ -755,7 +836,7 @@ window.addEventListener('pagehide',()=>{
 
 /* リアルタイムリスナー：スタッフが希望を送信したら管理画面に即反映 */
 let _adminListenerReady=false;
-_fbDb.ref('pekin/db').on('value',snap=>{
+_fbDb.ref(FB_NS).on('value',snap=>{
   if(!snap||!snap.exists())return;
   if(!_adminListenerReady){_adminListenerReady=true;return;} /* 初回はinitialSyncで処理済み */
   const db=snap.val();
@@ -763,8 +844,16 @@ _fbDb.ref('pekin/db').on('value',snap=>{
   let updated=false;
   Object.entries(db).forEach(([k,v])=>{
     if(!k.startsWith('pekin_avail_'))return;
+    let reconstructed={};
+    if(v&&typeof v==='string'){
+      try{reconstructed=JSON.parse(v);}catch(e){}
+    } else if(v&&typeof v==='object'){
+      for(const [sid,sjson] of Object.entries(v)){
+        try{reconstructed[sid]=typeof sjson==='string'?JSON.parse(sjson):sjson;}catch(e){reconstructed[sid]={};}
+      }
+    }
+    const nxt=JSON.stringify(reconstructed);
     const cur=localStorage.getItem(k);
-    const nxt=typeof v==='string'?v:JSON.stringify(v);
     if(cur!==nxt){localStorage.setItem(k,nxt);updated=true;}
   });
   if(!updated)return;
@@ -824,7 +913,33 @@ function saveUsers(u){
   localStorage.setItem('pekin_users',json);
   _syncKeyToFirebase('pekin_users',json);
 }
-function getStaffList(){return getUsers().filter(u=>u.role==='staff');}
+function getStaffList(){
+  const all=getUsers().filter(u=>u.role==='staff');
+  return all.filter(u=>!u.archived);
+}
+function getAllStaffList(){
+  /* archive 含む（管理画面の編集用） */
+  return getUsers().filter(u=>u.role!=='admin');
+}
+function getStaffListForMonth(y,m){
+  /* 当月に希望もしくはシフトに登場するアーカイブ済スタッフはゴーストとして残す */
+  const active=getStaffList();
+  const archived=getAllStaffList().filter(u=>u.archived);
+  const ak=`pekin_avail_${y}-${String(m+1).padStart(2,'0')}`;
+  const av=JSON.parse(localStorage.getItem(ak)||'{}');
+  const sk=`pekin_shift_${y}-${String(m+1).padStart(2,'0')}`;
+  const sd=JSON.parse(localStorage.getItem(sk)||'{}');
+  const ghosts=archived.filter(u=>{
+    if(av[u.id])return true;
+    for(const dk in sd){
+      const se=sd[dk];
+      if(((se.lunch||{}).names||[]).includes(u.name))return true;
+      if(((se.dinner||{}).names||[]).includes(u.name))return true;
+    }
+    return false;
+  });
+  return [...active,...ghosts];
+}
 
 /* ════════════════════════════════════════
    SETTINGS (shared with staff.html via localStorage)
@@ -1033,7 +1148,7 @@ function unpublishShift(){
   const pk=getPublishKey();
   localStorage.removeItem(pk);
   /* Firebase 側を null に */
-  try{_fbDb.ref('pekin/db').update({[pk]:null,_v:Date.now()});}catch(e){console.warn('unpublish fb:',e);}
+  try{_fbDb.ref(FB_NS).update({[pk]:null,_v:Date.now()});}catch(e){console.warn('unpublish fb:',e);}
   const meta=getMeta();
   delete meta.publishedAt;delete meta.publishedBy;delete meta.publishedByName;
   saveMeta(meta);
@@ -1104,6 +1219,56 @@ function renderMetaInfo(){
 }
 
 /* 起動時に旧形式（"1"）のマイグレーション実行 */
+
+/* ============ パスワードハッシュ化 (SHA-256 + salt) ============ */
+async function hashPw(plain, salt){
+  const data=new TextEncoder().encode(salt+':'+(plain||''));
+  const buf=await crypto.subtle.digest('SHA-256',data);
+  return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
+}
+function genSalt(){
+  const arr=new Uint8Array(12);
+  crypto.getRandomValues(arr);
+  return Array.from(arr).map(b=>b.toString(16).padStart(2,'0')).join('');
+}
+/* ユーザー1人を移行: 平文password→passwordHash+passwordSalt */
+async function _migrateUserPw(u){
+  if(u.passwordHash)return false;
+  if(!u.password)return false;
+  const salt=genSalt();
+  const h=await hashPw(u.password,salt);
+  u.passwordSalt=salt;
+  u.passwordHash=h;
+  /* 平文は残しておく（移行期、ログイン互換のため） */
+  /* 完全削除は別途「平文削除」ボタンで実施 */
+  return true;
+}
+async function _migrateAllPasswords(){
+  const users=getUsers();
+  let changed=false;
+  for(const u of users){
+    if(await _migrateUserPw(u))changed=true;
+  }
+  if(changed){
+    saveUsers(users);
+    console.log('Migrated passwords to hash for users:',users.filter(u=>u.passwordHash).length);
+  }
+}
+async function _purgePlainPasswords(){
+  if(!confirm('全スタッフの平文パスワードを完全削除しますか？\n\n削除後はハッシュのみで認証されます。元には戻せません。'))return;
+  const users=getUsers();
+  let cnt=0;
+  for(const u of users){
+    if(u.password&&u.passwordHash){
+      delete u.password;
+      cnt++;
+    }
+  }
+  saveUsers(users);
+  showUpdateToast('🔒 '+cnt+'人の平文PWを削除しました');
+}
+setTimeout(_migrateAllPasswords,4500);
+
 function _migrateLegacyPublishedFlags(){
   for(let i=0;i<localStorage.length;i++){
     const k=localStorage.key(i);
@@ -1114,7 +1279,7 @@ function _migrateLegacyPublishedFlags(){
       const draftRaw=localStorage.getItem('pekin_shift_'+yyyymm);
       if(draftRaw){
         localStorage.setItem(k,draftRaw);
-        try{_fbDb.ref('pekin/db').update({[k]:draftRaw});}catch(e){}
+        try{_fbDb.ref(FB_NS).update({[k]:draftRaw});}catch(e){}
         console.log('Migrated legacy published flag → snapshot:',k);
       }
     }
@@ -1123,11 +1288,52 @@ function _migrateLegacyPublishedFlags(){
 /* 同期完了後にマイグレーションを実行（_finishSync後の少し遅らせて） */
 setTimeout(_migrateLegacyPublishedFlags,2500);
 
+/* レガシー avail（pekin_avail_YYYY-MM が JSON文字列で全員分入っている形）を
+   サブパス形式（pekin_avail_YYYY-MM/{staffId}=JSON文字列）に移行する */
+async function _migrateLegacyAvailToSubpaths(){
+  try{
+    const snap=await _fbDb.ref(FB_NS).get();
+    const all=snap.val()||{};
+    for(const [key,val] of Object.entries(all)){
+      if(!key.startsWith('pekin_avail_'))continue;
+      if(typeof val==='string'){
+        let parsed=null;
+        try{parsed=JSON.parse(val);}catch(e){continue;}
+        if(!parsed||typeof parsed!=='object')continue;
+        const subpaths={};
+        for(const [sid,sdata] of Object.entries(parsed)){
+          subpaths[sid]=JSON.stringify(sdata);
+        }
+        await _fbDb.ref(FB_NS+'/'+key).set(subpaths);
+        console.log('Migrated avail to subpath:',key);
+      }
+    }
+  }catch(e){console.warn('migrate avail:',e);}
+}
+setTimeout(_migrateLegacyAvailToSubpaths,3500);
+
 /* ════════════════════════════════════════
    AVAILABILITY DATA
 ════════════════════════════════════════ */
 const availKey=(y,m)=>`pekin_avail_${y}-${String(m+1).padStart(2,'0')}`;
-function loadAvail(y,m){return JSON.parse(localStorage.getItem(availKey(y,m))||'{}');}
+function loadAvail(y,m){
+  const key=availKey(y,m);
+  const raw=localStorage.getItem(key);
+  if(!raw)return {};
+  try{
+    const p=JSON.parse(raw);
+    if(!p||typeof p!=='object')return {};
+    const fk=Object.keys(p)[0];
+    if(fk && typeof p[fk]==='string'){
+      const flat={};
+      for(const[s,j]of Object.entries(p)){
+        try{flat[s]=JSON.parse(j);}catch(e){flat[s]={};}
+      }
+      return flat;
+    }
+    return p;
+  }catch(e){return {};}
+}
 
 /* ════════════════════════════════════════
    SHIFT CALENDAR RENDERING
@@ -1249,13 +1455,31 @@ function makeShiftCell(y,m,d,other,isToday){
   return cell;
 }
 
+/* 改修4/5: 希望種別フィルター（シフト管理セル＆希望カレンダー共通） */
+const _availFilter=Object.assign({ok:true,maybe:true,off:false},JSON.parse(localStorage.getItem('pekin_pref_availFilter')||'{}'));
+function toggleAvailFilter(kind){
+  _availFilter[kind]=!_availFilter[kind];
+  try{localStorage.setItem('pekin_pref_availFilter',JSON.stringify(_availFilter));}catch(e){}
+  ['ok','maybe','off'].forEach(k=>{
+    ['filter-'+k+'-btn','ov-filter-'+k+'-btn'].forEach(id=>{
+      const b=document.getElementById(id);
+      if(!b)return;
+      ['filter-on-ok','filter-on-maybe','filter-on-off','filter-disabled'].forEach(c=>b.classList.remove(c));
+      if(_availFilter[k])b.classList.add('filter-on-'+k);
+      else b.classList.add('filter-disabled');
+    });
+  });
+  if(typeof render==='function')render();
+  if(document.getElementById('panel-overview')?.classList.contains('active')&&typeof renderOverview==='function')renderOverview();
+}
+
 function makeShiftBlock(k,type,se,label){
   const bl=document.createElement('div');
   bl.className=`shift-block ${type}`;
   bl.onclick=()=>openEdit(k,type);
 
   const av=loadAvail(Y,M);
-  const staffList=getStaffList();
+  const staffList=getStaffListForMonth(Y,M);
   const names=(se.names||[]).filter(n=>n&&n.trim());
 
   /* ═══════════════════════════════════════
@@ -1323,35 +1547,47 @@ function makeShiftBlock(k,type,se,label){
   }
   bl.appendChild(row);
 
+  /* 確定/候補の区切り線（改修4） */
+  if(names.length>0&&(okList.length||maybeList.length||offList.length)){
+    const sep=document.createElement('div');sep.className='avail-suggest-separator';
+    bl.appendChild(sep);
+  }
+
   /* ═══════════════════════════════════════
-     STEP 4: 採用候補バッジ（未割当スタッフ）
+     STEP 4: 採用候補バッジ（未割当スタッフ）— フィルター反映
   ═══════════════════════════════════════ */
   if(okList.length||maybeList.length||offList.length){
     const sr=document.createElement('div');sr.className='avail-suggest-row';
     sr.onclick=(ev)=>ev.stopPropagation();
-    okList.forEach(n=>{
-      const t=document.createElement('span');
-      t.className='ntag ntag-suggest-ok';
-      t.textContent='+'+n;
-      t.title=`${n}（出勤可）→ クリックでシフトに追加`;
-      t.onclick=(ev)=>{ev.stopPropagation();toggleStaffInShift(k,type,n,true);};
-      sr.appendChild(t);
-    });
-    maybeList.forEach(n=>{
-      const t=document.createElement('span');
-      t.className='ntag ntag-suggest-maybe';
-      t.textContent='+'+n;
-      t.title=`${n}（調整可）→ クリックでシフトに追加`;
-      t.onclick=(ev)=>{ev.stopPropagation();toggleStaffInShift(k,type,n,true);};
-      sr.appendChild(t);
-    });
-    offList.forEach(n=>{
-      const t=document.createElement('span');
-      t.className='ntag ntag-off';
-      t.textContent='×'+n;
-      t.title=`${n}：休み希望`;
-      sr.appendChild(t);
-    });
+    if(_availFilter.ok){
+      okList.forEach(n=>{
+        const t=document.createElement('span');
+        t.className='ntag ntag-suggest-ok';
+        t.textContent='+'+n;
+        t.title=`${n}（出勤可）→ クリックでシフトに追加`;
+        t.onclick=(ev)=>{ev.stopPropagation();toggleStaffInShift(k,type,n,true);};
+        sr.appendChild(t);
+      });
+    }
+    if(_availFilter.maybe){
+      maybeList.forEach(n=>{
+        const t=document.createElement('span');
+        t.className='ntag ntag-suggest-maybe';
+        t.textContent='+'+n;
+        t.title=`${n}（調整可）→ クリックでシフトに追加`;
+        t.onclick=(ev)=>{ev.stopPropagation();toggleStaffInShift(k,type,n,true);};
+        sr.appendChild(t);
+      });
+    }
+    if(_availFilter.off){
+      offList.forEach(n=>{
+        const t=document.createElement('span');
+        t.className='ntag ntag-off';
+        t.textContent='×'+n;
+        t.title=`${n}：休み希望`;
+        sr.appendChild(t);
+      });
+    }
     bl.appendChild(sr);
   }
 
@@ -1381,12 +1617,23 @@ function makeAvailDots(dk){
 /* ════════════════════════════════════════
    OVERVIEW CALENDAR — Staff 希望 + 北京の希望
 ════════════════════════════════════════ */
+/* 改修5: 表示スロット切替（昼/夜/両方） */
+let _overviewSlot=localStorage.getItem('pekin_pref_overviewSlot')||'lunch';
+function setOverviewSlot(s){
+  _overviewSlot=s;
+  try{localStorage.setItem('pekin_pref_overviewSlot',s);}catch(e){}
+  document.querySelectorAll('.ov-tab').forEach(b=>b.classList.remove('ov-tab-active'));
+  const btn=document.getElementById('ov-tab-'+s);
+  if(btn)btn.classList.add('ov-tab-active');
+  renderOverview();
+}
+
 function renderOverview(){
   document.getElementById('ovMonthLabel').textContent=`${Y}年 ${M+1}月`;
   const grid=document.getElementById('overviewGrid');
   grid.innerHTML='';
   const av=loadAvail(Y,M);
-  const staffList=getStaffList();
+  const staffList=getStaffListForMonth(Y,M);
   const first=new Date(Y,M,1).getDay();
   const total=new Date(Y,M+1,0).getDate();
   const prev=new Date(Y,M,0).getDate();
@@ -1450,8 +1697,14 @@ function renderOverview(){
             maybeArr.forEach(n=>{const b=document.createElement('span');b.className='ov-badge ov-maybe';b.textContent='△'+n;rowEl.appendChild(b);});
             cell.appendChild(rowEl);
           };
-          mkRow('☀','#1d4ed8',lOk,lOff,lMaybe);
-          mkRow('🌙','#92400e',dOk,dOff,dMaybe);
+          if(_overviewSlot==='lunch'||_overviewSlot==='both') mkRow('☀','#1d4ed8',
+            _availFilter.ok?lOk:[],
+            _availFilter.off?lOff:[],
+            _availFilter.maybe?lMaybe:[]);
+          if(_overviewSlot==='dinner'||_overviewSlot==='both') mkRow('🌙','#92400e',
+            _availFilter.ok?dOk:[],
+            _availFilter.off?dOff:[],
+            _availFilter.maybe?dMaybe:[]);
         } else {
           const no=document.createElement('div');no.className='ov-no-avail';no.textContent='希望未入力';
           cell.appendChild(no);
@@ -1549,7 +1802,7 @@ function renderAvailPanel(){
   document.getElementById('availMonthLabel').textContent=`${Y}年 ${M+1}月`;
   const body=document.getElementById('availBody');
   const avail=loadAvail(Y,M);
-  const staffList=getStaffList();
+  const staffList=getStaffListForMonth(Y,M);
   if(staffList.length===0){body.innerHTML='<div class="empty-state">スタッフが登録されていません</div>';return;}
   const days=new Date(Y,M+1,0).getDate();
 
@@ -1566,7 +1819,7 @@ function renderAvailPanel(){
     const typeLabel={part:'パート',fixed:'固定',free:'フリー',alt:'アルバイト'}[s.type]||'';
     const badgeCls={part:'sb-part',fixed:'sb-fixed',free:'sb-free',alt:'sb-alt'}[s.type]||'';
     const hasEntry=Object.keys(sav).length>0;
-    html+=`<tr><td style="text-align:left;font-weight:600">${s.name}</td>
+    html+=`<tr${s.archived?' style="opacity:.6;background:#fafafa"':''}><td style="text-align:left;font-weight:600">${s.name}${s.archived?'<span class="archived-badge">退職済</span>':''}</td>
       <td><span class="sbadge2 ${badgeCls}">${typeLabel}</span></td>
       <td style="text-align:center">${hasEntry
         ?`<button onclick="deleteStaffAvail('${s.id}','${s.name}')" title="${M+1}月の${s.name}さんの希望を削除"
@@ -1581,9 +1834,9 @@ function renderAvailPanel(){
       const dv=typeof v==='string'?v:(v.dinner||'');
       const sym=(x)=>x==='ok'?'○':x==='off'?'×':x==='maybe'?'△':'—';
       const cls=(x)=>x==='ok'?'atag-ok':x==='off'?'atag-off':x==='maybe'?'atag-maybe':'atag-none';
-      html+=`<td style="white-space:nowrap;padding:4px 2px">
-        <span class="atag ${cls(lv)}" style="font-size:.6em;padding:1px 3px" title="昼">☀${sym(lv)}</span>
-        <span class="atag ${cls(dv)}" style="font-size:.6em;padding:1px 3px;margin-left:1px" title="夜">🌙${sym(dv)}</span>
+      html+=`<td style="white-space:nowrap;padding:3px 2px;vertical-align:top;text-align:center">
+        <div class="atag ${cls(lv)}" style="font-size:.6em;padding:1px 3px;display:block;margin-bottom:1px" title="昼">☀${sym(lv)}</div>
+        <div class="atag ${cls(dv)}" style="font-size:.6em;padding:1px 3px;display:block" title="夜">🌙${sym(dv)}</div>
       </td>`;
     }
     html+='</tr>';
@@ -1610,6 +1863,200 @@ function deleteStaffAvail(staffId, staffName){
 ════════════════════════════════════════ */
 const DOW_NAMES=['日','月','火','水','木','金','土'];
 let closedDaySelection=[];
+
+
+/* ============ シフト希望締切設定（月別） ============
+   pekin_settings.deadlines = {"YYYY-MM": "YYYY-MM-DD", ...}
+   未設定の月は staff.html 側で「前月20日」がデフォルト適用される */
+function _getDefaultDeadline(y,m){
+  /* m は 0-indexed のリクエスト月。デフォルト=前月20日 */
+  const d=new Date(y,m-1,20);
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+}
+function renderDeadlinePanel(){
+  const wrap=document.getElementById('deadlineWrap');
+  if(!wrap)return;
+  const s=getSettings();
+  const overrides=s.deadlines||{};
+  const overrides_perstaff=s.deadlinesPerStaff||{};
+  /* 表示対象: 現在月から12ヶ月先まで */
+  const now=new Date();
+  let html='<table style="width:100%;border-collapse:collapse;font-size:.84em"><thead><tr style="background:#f8fafc">'
+    +'<th style="padding:6px 8px;text-align:left;border-bottom:1px solid #cbd5e1">対象月</th>'
+    +'<th style="padding:6px 8px;text-align:left;border-bottom:1px solid #cbd5e1">締切日</th>'
+    +'<th style="padding:6px 8px;text-align:left;border-bottom:1px solid #cbd5e1">状態</th>'
+    +'<th style="padding:6px 8px;text-align:center;border-bottom:1px solid #cbd5e1">操作</th>'
+    +'</tr></thead><tbody>';
+  for(let i=0;i<=12;i++){
+    const d=new Date(now.getFullYear(),now.getMonth()+i,1);
+    const y=d.getFullYear(),m=d.getMonth();
+    const ym=`${y}-${String(m+1).padStart(2,'0')}`;
+    const def=_getDefaultDeadline(y,m);
+    const cur=overrides[ym]||def;
+    const isOverride=!!overrides[ym];
+    const past=new Date(cur+'T23:59:59')<now;
+    const pStaff=(overrides_perstaff||{})[ym]||{};
+    const personalCount=Object.keys(pStaff).length;
+    html+=`<tr style="border-bottom:0.5px solid #e2e8f0">
+      <td style="padding:6px 8px;font-weight:600">${y}年${m+1}月</td>
+      <td style="padding:6px 8px">
+        <input type="date" value="${cur}" id="dl_${ym}" style="font-size:.9em;padding:3px 6px;border:1px solid #cbd5e1;border-radius:4px">
+        ${isOverride?'<span style="font-size:.7em;color:#0369a1;margin-left:4px">⚙ 上書き中</span>':'<span style="font-size:.7em;color:#94a3b8;margin-left:4px">デフォルト（前月20日）</span>'}
+        ${personalCount>0?`<span style="font-size:.7em;color:#9333ea;margin-left:4px">👤 個別${personalCount}件</span>`:''}
+      </td>
+      <td style="padding:6px 8px;font-size:.85em">${past?'<span style="color:#991b1b;font-weight:600">受付終了</span>':'<span style="color:#065f46;font-weight:600">受付中</span>'}</td>
+      <td style="padding:6px 8px;text-align:center">
+        <button class="cbtn cbtn-blue" style="padding:2px 10px;font-size:.78em" onclick="saveDeadline('${ym}')">保存</button>
+        <button class="cbtn cbtn-outline" style="padding:2px 8px;font-size:.78em;margin-left:4px${isOverride?'':';opacity:.4;cursor:not-allowed'}" onclick="resetDeadline('${ym}')" ${isOverride?'':'disabled title="現在デフォルト（上書きなし）"'}>↺ リセット</button>
+        <button class="cbtn cbtn-outline" style="padding:2px 8px;font-size:.78em;margin-left:4px;color:#7c3aed;border-color:#c4b5fd" onclick="toggleStaffDeadline('${ym}')" title="個別スタッフ別の締切を調整">👤 個別</button>
+      </td>
+    </tr>
+    <tr id="staffdl_${ym}" style="display:none"></tr>`;
+  }
+  html+='</tbody></table>';
+  wrap.innerHTML=html;
+}
+function saveDeadline(ym){
+  const inp=document.getElementById('dl_'+ym);
+  if(!inp||!inp.value){alert('日付を入力してください');return;}
+  const s=getSettings();
+  const [y,m]=ym.split('-').map(Number);
+  const defaultVal=_getDefaultDeadline(y,m-1);
+  const currentSaved=(s.deadlines||{})[ym]||null;
+  /* 値がデフォルトと同じ→上書きを作らない／既存があれば削除 */
+  if(inp.value===defaultVal){
+    if(currentSaved){
+      delete s.deadlines[ym];
+      saveSettings(s);
+      renderDeadlinePanel();
+      showUpdateToast('↩ 上書きを解除しデフォルトに戻しました');
+    }else{
+      showUpdateToast('変更なし（既にデフォルトです）');
+    }
+    return;
+  }
+  /* 既存と同じ→何もしない */
+  if(currentSaved===inp.value){
+    showUpdateToast('変更なし（既に同じ日付です）');
+    return;
+  }
+  if(!s.deadlines)s.deadlines={};
+  s.deadlines[ym]=inp.value;
+  saveSettings(s);
+  renderDeadlinePanel();
+  showUpdateToast(`✔ ${ym}の締切を ${inp.value} に設定しました`);
+}
+
+/* ====== 個別スタッフ別締切設定 ====== */
+function toggleStaffDeadline(ym){
+  const row=document.getElementById('staffdl_'+ym);
+  if(!row)return;
+  if(row.style.display==='none'||!row.style.display){
+    row.style.display='';
+    renderStaffDeadlineRow(ym);
+  }else{
+    row.style.display='none';
+  }
+}
+function closeStaffDeadline(ym){
+  const row=document.getElementById('staffdl_'+ym);
+  if(row){row.style.display='none';row.innerHTML='';}
+}
+function renderStaffDeadlineRow(ym){
+  const row=document.getElementById('staffdl_'+ym);
+  if(!row)return;
+  const s=getSettings();
+  const overrides=(s.deadlinesPerStaff||{})[ym]||{};
+  const monthOv=(s.deadlines||{})[ym];
+  const [y,m]=ym.split('-').map(Number);
+  const defaultDate=_getDefaultDeadline(y,m-1);
+  const monthLevel=monthOv||defaultDate;
+  const staffList=typeof getStaffListForMonth==='function'?getStaffListForMonth(y,m-1):getStaffList();
+  let html='<td colspan="4" style="background:#f8fafc;padding:10px 14px;position:relative">'
+    +`<button onclick="closeStaffDeadline('${ym}')" style="position:absolute;top:8px;right:10px;background:#fff;border:1px solid #cbd5e1;border-radius:4px;padding:3px 10px;cursor:pointer;font-size:.82em;color:#475569" title="閉じる（変更なしで戻る）">✕ 閉じる</button>`
+    +'<div style="font-size:.78em;color:#475569;margin-bottom:8px;padding-right:80px">'
+    +`<strong>${y}年${m}月</strong> の個別スタッフ別調整<br>`
+    +`全員共通: <strong>${monthLevel}</strong>${monthOv?'<span style="color:#0369a1;margin-left:4px">⚙ 月別上書き中</span>':' <span style="color:#94a3b8">(デフォルト)</span>'}<br>`
+    +`特定スタッフだけ異なる締切にしたい場合、下記で日付を変更→保存。元に戻すには「↺リセット」。</div>`
+    +'<table style="width:100%;border-collapse:collapse;font-size:.82em">'
+    +'<thead><tr style="background:#fff"><th style="padding:5px 8px;text-align:left;border-bottom:1px solid #cbd5e1">スタッフ</th>'
+    +'<th style="padding:5px 8px;text-align:left;border-bottom:1px solid #cbd5e1">この月の締切</th>'
+    +'<th style="padding:5px 8px;text-align:center;border-bottom:1px solid #cbd5e1">操作</th></tr></thead><tbody>';
+  for(const u of staffList){
+    if(u.role==='admin')continue;
+    const isPersonal=!!overrides[u.id];
+    const cur=overrides[u.id]||monthLevel;
+    html+=`<tr style="border-bottom:0.5px solid #e2e8f0${u.archived?';opacity:.6':''}">
+      <td style="padding:5px 8px;font-weight:600">${u.name}${u.archived?'<span class="archived-badge">退職済</span>':''}</td>
+      <td style="padding:5px 8px">
+        <input type="date" value="${cur}" id="dlS_${ym}_${u.id}" style="font-size:.9em;padding:3px 6px;border:1px solid #cbd5e1;border-radius:4px">
+        ${isPersonal?'<span style="font-size:.7em;color:#0369a1;margin-left:4px">⚙ 個別</span>':'<span style="font-size:.7em;color:#94a3b8;margin-left:4px">共通</span>'}
+      </td>
+      <td style="padding:5px 8px;text-align:center">
+        <button class="cbtn cbtn-blue" style="padding:2px 8px;font-size:.74em" onclick="saveStaffDeadline('${ym}','${u.id}')">保存</button>
+        <button class="cbtn cbtn-outline" style="padding:2px 6px;font-size:.74em;margin-left:3px${isPersonal?'':';opacity:.4;cursor:not-allowed'}" onclick="resetStaffDeadline('${ym}','${u.id}')" ${isPersonal?'':'disabled'}>↺ リセット</button>
+      </td>
+    </tr>`;
+  }
+  html+='</tbody></table></td>';
+  row.innerHTML=html;
+}
+function saveStaffDeadline(ym,sid){
+  const inp=document.getElementById('dlS_'+ym+'_'+sid);
+  if(!inp||!inp.value){alert('日付を入力してください');return;}
+  const s=getSettings();
+  const [y,m]=ym.split('-').map(Number);
+  const monthLevel=(s.deadlines||{})[ym]||_getDefaultDeadline(y,m-1);
+  const currentPersonal=((s.deadlinesPerStaff||{})[ym]||{})[sid];
+  /* 値が月別共通と同じ→個別を作らない／既存があれば削除 */
+  if(inp.value===monthLevel){
+    if(currentPersonal){
+      delete s.deadlinesPerStaff[ym][sid];
+      if(Object.keys(s.deadlinesPerStaff[ym]).length===0)delete s.deadlinesPerStaff[ym];
+      saveSettings(s);
+      renderStaffDeadlineRow(ym);renderDeadlinePanel();
+      showUpdateToast('↩ 個別設定を解除し共通に戻しました');
+    }else{
+      showUpdateToast('変更なし（既に共通設定です）');
+    }
+    return;
+  }
+  /* 既存個別と同じ */
+  if(currentPersonal===inp.value){
+    showUpdateToast('変更なし（既に同じ日付です）');
+    return;
+  }
+  if(!s.deadlinesPerStaff)s.deadlinesPerStaff={};
+  if(!s.deadlinesPerStaff[ym])s.deadlinesPerStaff[ym]={};
+  s.deadlinesPerStaff[ym][sid]=inp.value;
+  saveSettings(s);
+  renderStaffDeadlineRow(ym);
+  renderDeadlinePanel();
+  showUpdateToast('✔ 個別締切を設定しました');
+}
+function resetStaffDeadline(ym,sid){
+  if(!confirm('このスタッフの個別締切設定を削除しますか？\n削除後は月別共通／デフォルトが適用されます。'))return;
+  const s=getSettings();
+  if(s.deadlinesPerStaff&&s.deadlinesPerStaff[ym]&&s.deadlinesPerStaff[ym][sid]){
+    delete s.deadlinesPerStaff[ym][sid];
+    if(Object.keys(s.deadlinesPerStaff[ym]).length===0)delete s.deadlinesPerStaff[ym];
+    saveSettings(s);
+  }
+  renderStaffDeadlineRow(ym);
+  renderDeadlinePanel();
+  showUpdateToast('↩ 個別締切を解除しました');
+}
+
+function resetDeadline(ym){
+  if(!confirm(`${ym} の締切をデフォルト（前月20日）に戻しますか？`))return;
+  const s=getSettings();
+  if(s.deadlines&&s.deadlines[ym]){
+    delete s.deadlines[ym];
+    saveSettings(s);
+  }
+  renderDeadlinePanel();
+  showUpdateToast(`↩ ${ym}をデフォルト締切に戻しました`);
+}
 
 function renderSettingsPanel(){
   const s=getSettings();
@@ -1734,7 +2181,7 @@ function deleteOpenException(k){
   const s=getSettings();
   delete s.specialDates[k];
   saveSettings(s);
-  renderSettingsPanel();
+  renderSettingsPanel();if(typeof renderDeadlinePanel==='function')renderDeadlinePanel();
   loadShift();render();
 }
 
@@ -1783,7 +2230,7 @@ function openEditStaff(id){
   document.getElementById('staffOverlay').classList.add('open');
 }
 function closeStaffModal(){document.getElementById('staffOverlay').classList.remove('open');}
-function saveStaffMember(){
+async function saveStaffMember(){
   const name=document.getElementById('sName').value.trim();
   const username=document.getElementById('sUsername').value.trim();
   const password=document.getElementById('sPassword').value;
@@ -1794,12 +2241,20 @@ function saveStaffMember(){
     const idx=users.findIndex(u=>u.id===editingStaffId);
     if(idx>-1){
       users[idx].name=name;users[idx].username=username;users[idx].type=type;
-      if(password)users[idx].password=password;
+      if(password){
+        users[idx].password=password;
+        const _eSalt=genSalt();
+        const _eHash=await hashPw(password,_eSalt);
+        users[idx].passwordHash=_eHash;
+        users[idx].passwordSalt=_eSalt;
+      }
     }
   }else{
     if(password.length<6){alert('パスワードは6文字以上にしてください');return;}
     if(users.find(u=>u.username===username)){alert('このIDは既に使用されています');return;}
-    users.push({id:'s_'+Date.now(),name,username,password,role:'staff',type});
+    const _newSalt=genSalt();
+      const _newHash=await hashPw(password,_newSalt);
+      users.push({id:'s_'+Date.now(),name,username,password,passwordHash:_newHash,passwordSalt:_newSalt,role:'staff',type});
   }
   saveUsers(users);closeStaffModal();renderStaffPanel();
 }
@@ -1833,7 +2288,7 @@ function clearMasterPassword(){
   if(!confirm('マスターパスワードを削除しますか？\n削除後はこの機能が無効になります。'))return;
   localStorage.removeItem(MASTER_PW_KEY);
   /* Firebaseからも削除 */
-  try{_fbDb.ref('pekin/db').update({[MASTER_PW_KEY]:null,_v:Date.now()});}catch(e){console.warn('fb rm master pw:',e);}
+  try{_fbDb.ref(FB_NS).update({[MASTER_PW_KEY]:null,_v:Date.now()});}catch(e){console.warn('fb rm master pw:',e);}
   document.getElementById('masterPwInput').value='';
   document.getElementById('masterPwStatus').innerHTML='<span style="color:#991b1b">🗑 マスターパスワードを削除しました</span>';
   setTimeout(()=>{document.getElementById('masterPwStatus').textContent='';renderMasterPwStatus();},2000);
@@ -1854,13 +2309,15 @@ let _deletedStaff=null;
 let _deleteUndoTimer=null;
 
 function deleteStaff(id){
-  if(!confirm('このスタッフを削除しますか？'))return;
+  if(!confirm('このスタッフをアーカイブしますか？\n過去の希望・シフトデータは保持されます。'))return;
   const users=getUsers();
-  _deletedStaff=users.find(u=>u.id===id);
-  if(!_deletedStaff)return;
-  saveUsers(users.filter(u=>u.id!==id));
+  const idx=users.findIndex(u=>u.id===id);
+  if(idx<0)return;
+  _deletedStaff={...users[idx]};
+  users[idx].archived=true;
+  users[idx].archivedAt=Date.now();
+  saveUsers(users);
   renderStaffPanel();
-  /* シフト管理・希望カレンダーも即時更新 */
   render();
   if(document.getElementById('panel-overview').classList.contains('active'))renderOverview();
   if(document.getElementById('panel-avail').classList.contains('active'))renderAvailPanel();
@@ -1931,25 +2388,23 @@ function _showDeleteExpiredWarning(name){
 
 function _undoDeleteStaff(){
   if(!_deletedStaff)return;
+  const id=_deletedStaff.id;
   clearTimeout(_deleteUndoTimer);
-  const restored=_deletedStaff;
   _deletedStaff=null;
-
-  /* ユーザーリストに戻す（希望データはlocalStorageに残っているのでそのまま復元） */
   const users=getUsers();
-  users.push(restored);
-  saveUsers(users);
-
-  /* 全タブを再描画 */
+  const idx=users.findIndex(u=>u.id===id);
+  if(idx>-1){
+    delete users[idx].archived;
+    delete users[idx].archivedAt;
+    saveUsers(users);
+  }
   renderStaffPanel();
   render();
   if(document.getElementById('panel-overview').classList.contains('active'))renderOverview();
   if(document.getElementById('panel-avail').classList.contains('active'))renderAvailPanel();
-
-  /* Undoトーストを閉じて成功トースト表示 */
   const undo=document.getElementById('undoDeleteToast');
   if(undo){undo.style.opacity='0';setTimeout(()=>undo.remove(),350);}
-  showUpdateToast(`↩ 「${restored.name}」を復元しました`);
+  showUpdateToast('↩ 復元しました');
 }
 
 /* ════════════════════════════════════════
@@ -1969,7 +2424,7 @@ function resetToDefault(){
   shiftData=applyTemplate(Y,M);_pushShiftHistory();saveShift();render();
 }
 
-const TAB_NAMES=['shift','overview','avail','staff','settings','template'];
+const TAB_NAMES=['shift','overview','avail','staff','settings','template','stats'];
 function switchTab(name){
   document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active',TAB_NAMES[i]===name));
   document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
@@ -1978,8 +2433,9 @@ function switchTab(name){
   if(name==='overview')renderOverview();
   if(name==='avail')renderAvailPanel();
   if(name==='staff')renderStaffPanel();
-  if(name==='settings'){renderSettingsPanel();renderMasterPwStatus();}
+  if(name==='settings'){renderSettingsPanel();if(typeof renderDeadlinePanel==='function')renderDeadlinePanel();renderMasterPwStatus();}
   if(name==='template')renderTemplatePanel();
+  if(name==='stats')renderStatsPanel();
 }
 
 /* ════════════════════════════════════════
@@ -2229,14 +2685,14 @@ function toggleQuickClose(y,m,d){
       if(confirm(`${y}年${m+1}月${d}日の「営業日設定」を解除し、定休日に戻しますか？`)){
         delete s.specialDates[k];
         saveSettings(s);loadShift();render();
-        if(document.getElementById('panel-settings').classList.contains('active'))renderSettingsPanel();
+        if(document.getElementById('panel-settings').classList.contains('active'))renderSettingsPanel();if(typeof renderDeadlinePanel==='function')renderDeadlinePanel();
       }
     }else{
       /* 特別休日 → 解除 */
       if(confirm(`${y}年${m+1}月${d}日の休業設定を解除しますか？`)){
         delete s.specialDates[k];
         saveSettings(s);loadShift();render();
-        if(document.getElementById('panel-settings').classList.contains('active'))renderSettingsPanel();
+        if(document.getElementById('panel-settings').classList.contains('active'))renderSettingsPanel();if(typeof renderDeadlinePanel==='function')renderDeadlinePanel();
       }
     }
   }else{
@@ -2248,7 +2704,7 @@ function toggleQuickClose(y,m,d){
         if(!s.specialDates)s.specialDates={};
         s.specialDates[k]={type:'open',label:'営業'};
         saveSettings(s);loadShift();render();
-        if(document.getElementById('panel-settings').classList.contains('active'))renderSettingsPanel();
+        if(document.getElementById('panel-settings').classList.contains('active'))renderSettingsPanel();if(typeof renderDeadlinePanel==='function')renderDeadlinePanel();
       }
     }else{
       /* 通常営業日 → 休業設定モーダルをその日付で開く */
@@ -2362,7 +2818,7 @@ function showUpdateToast(msg){
 /* refreshAll — Firebaseから最新データを取得して再描画 */
 function refreshAll(){
   try{
-    _fbDb.ref('pekin/db').get().then(snap=>{
+    _fbDb.ref(FB_NS).get().then(snap=>{
       if(snap&&snap.exists()){_applyDb(snap.val(),true);_reRenderAllPanels();}
     }).catch(e=>console.warn('refreshAll:',e));
   }catch(e){console.warn('refreshAll:',e);}
@@ -2413,7 +2869,7 @@ async function tryAcquireLock(force){
   const now=Date.now();
   try{
     /* Firebase transaction で原子的にチェック&セット */
-    const ref=_fbDb.ref('pekin/db/'+lockKey);
+    const ref=_fbDb.ref(FB_NS+'/'+lockKey);
     const result=await ref.transaction(curr=>{
       let currObj=null;
       if(curr){
@@ -2433,7 +2889,7 @@ async function tryAcquireLock(force){
       return true;
     }
     /* 取得失敗 → 現在の保持者情報を表示 */
-    const snap=await _fbDb.ref('pekin/db/'+lockKey).get();
+    const snap=await _fbDb.ref(FB_NS+'/'+lockKey).get();
     if(snap.exists()){
       const v=snap.val();
       const obj=typeof v==='string'?JSON.parse(v):v;
@@ -2459,7 +2915,7 @@ async function releaseLock(){
   const k=_activeLockKey;
   _activeLockKey=null;
   try{
-    await _fbDb.ref('pekin/db').update({[k]:null});
+    await _fbDb.ref(FB_NS).update({[k]:null});
   }catch(e){console.warn('releaseLock:',e);}
   try{localStorage.removeItem(k);}catch(e){}
 }
@@ -2473,7 +2929,7 @@ function startHeartbeat(){
     const myName=(typeof sess!=='undefined'&&sess&&sess.name)||'管理者';
     const payload={heldBy:me,heldByName:myName,heartbeatAt:Date.now(),
       acquiredAt:(_currentLock&&_currentLock.acquiredAt)||Date.now()};
-    try{_fbDb.ref('pekin/db').update({[_activeLockKey]:JSON.stringify(payload)});}
+    try{_fbDb.ref(FB_NS).update({[_activeLockKey]:JSON.stringify(payload)});}
     catch(e){console.warn('heartbeat:',e);}
   },HEARTBEAT_INTERVAL_MS);
 }
@@ -2559,7 +3015,7 @@ function _attachMonthListeners(){
     'pekin_meta_'+ym
   ];
   keys.forEach(k=>{
-    const ref=_fbDb.ref('pekin/db/'+k);
+    const ref=_fbDb.ref(FB_NS+'/'+k);
     const cb=ref.on('value',snap=>{
       try{
         const val=snap.val();
@@ -2579,7 +3035,28 @@ function _attachMonthListeners(){
           renderMetaInfo();
           return;
         }
-        /* shift/published/availの更新 */
+        /* avail関連の値処理（新形式：サブパスのオブジェクト、旧形式：JSON文字列） */
+        if(k.startsWith('pekin_avail_')){
+          let reconstructed={};
+          if(val&&typeof val==='string'){
+            try{reconstructed=JSON.parse(val);}catch(e){}
+          } else if(val&&typeof val==='object'){
+            for(const [sid,sjson] of Object.entries(val)){
+              try{reconstructed[sid]=typeof sjson==='string'?JSON.parse(sjson):sjson;}catch(e){reconstructed[sid]={};}
+            }
+          }
+          const newJson=JSON.stringify(reconstructed);
+          const cur=localStorage.getItem(k);
+          if(cur!==newJson){
+            localStorage.setItem(k,newJson);
+            const ap=document.getElementById('panel-avail');
+            const op=document.getElementById('panel-overview');
+            if(ap&&ap.classList.contains('active')&&typeof renderAvailPanel==='function')renderAvailPanel();
+            if(op&&op.classList.contains('active')&&typeof renderOverview==='function')renderOverview();
+          }
+          return;
+        }
+        /* shift/publishedの更新 */
         const json=val===null||val===undefined?null:(typeof val==='string'?val:JSON.stringify(val));
         const cur=localStorage.getItem(k);
         if(json===null){
@@ -2593,7 +3070,14 @@ function _attachMonthListeners(){
           }
           localStorage.setItem(k,json);
           /* シフトデータが変わった → 再ロード&再描画 */
-          if(k.startsWith('pekin_shift_'))loadShift();
+          if(k.startsWith('pekin_shift_')){
+            loadShift();
+            /* 統計タブが開いてたら再計算 */
+            const sp=document.getElementById('panel-stats');
+            if(sp&&sp.classList.contains('active')&&typeof renderStatsPanel==='function'){
+              try{renderStatsPanel();}catch(e){}
+            }
+          }
           if(typeof render==='function')render();
           if(k.startsWith('pekin_avail_')){
             const ap=document.getElementById('panel-avail');
@@ -2629,11 +3113,14 @@ try{
 ════════════════════════════════════════ */
 const _origChangeMonth=changeMonth;
 changeMonth=function(d){
+  /* 統計タブがアクティブなら月変更後に再計算 */
+  const _statsActive=document.getElementById('panel-stats')?.classList.contains('active');
   /* 編集中なら一旦解放 */
   if(_isEditMode){releaseLock();_isEditMode=false;_updateEditModeUI();}
   _origChangeMonth(d);
   _attachMonthListeners();
   updatePublishStatus();
+  if(_statsActive&&typeof renderStatsPanel==='function'){try{renderStatsPanel();}catch(e){}}
 };
 const _origSwitchTab=switchTab;
 switchTab=function(name){
@@ -2645,6 +3132,11 @@ switchTab=function(name){
 const _origSaveShift=saveShift;
 saveShift=function(){
   _origSaveShift();
+  /* 統計タブがアクティブなら自動再計算 */
+  const sp=document.getElementById('panel-stats');
+  if(sp&&sp.classList.contains('active')&&typeof renderStatsPanel==='function'){
+    try{renderStatsPanel();}catch(e){console.warn('stats auto-refresh:',e);}
+  }
   /* 編集モード中のみメタ更新（閲覧モードでの偶発書き込みを避ける） */
   if(_isEditMode){
     const meta=getMeta();
@@ -2684,10 +3176,178 @@ window.addEventListener('beforeunload',()=>{
   if(_activeLockKey){
     try{
       /* navigator.sendBeacon が使えればベストだがFirebaseは update() を fire-and-forget で */
-      _fbDb.ref('pekin/db').update({[_activeLockKey]:null});
+      _fbDb.ref(FB_NS).update({[_activeLockKey]:null});
     }catch(e){}
   }
 });
+
+
+/* ════════════════════════════════════════
+   STATS PANEL — 出勤時間・割合・連勤
+   1コマ=4時間、連勤判定は営業日のみ
+════════════════════════════════════════ */
+let _statsSource='draft'; /* デフォルトを下書きに変更（公開前にバランス確認） */
+function setStatsSource(s){
+  _statsSource=s;
+  document.getElementById('statsSrcPub').className=s==='published'?'cbtn cbtn-blue':'cbtn cbtn-outline';
+  document.getElementById('statsSrcDraft').className=s==='draft'?'cbtn cbtn-blue':'cbtn cbtn-outline';
+  if(s==='published')document.getElementById('statsSrcPub').textContent='✓ 公開済み';
+  else document.getElementById('statsSrcPub').textContent='公開済み';
+  if(s==='draft')document.getElementById('statsSrcDraft').textContent='✓ 下書き（編集中）';
+  else document.getElementById('statsSrcDraft').textContent='下書き（編集中）';
+  renderStatsPanel();
+}
+
+function _calcStats(y,m,shiftData){
+  const days=new Date(y,m+1,0).getDate();
+  const stats={};/* name -> {lunch, dinner, days:Set<int>, slots:[{d,slot}]} */
+  let businessDays=0,lunchSlotTotal=0,dinnerSlotTotal=0;
+  const businessDayList=[];
+  for(let d=1;d<=days;d++){
+    if(isClosedDay(y,m,d))continue;
+    businessDays++;
+    businessDayList.push(d);
+    const k=dKey(y,m,d);
+    const e=shiftData[k];
+    if(!e)continue;
+    const ln=(e.lunch&&e.lunch.names||[]).filter(n=>n);
+    const dn=(e.dinner&&e.dinner.names||[]).filter(n=>n);
+    lunchSlotTotal+=ln.length;
+    dinnerSlotTotal+=dn.length;
+    ln.forEach(n=>{
+      if(!stats[n])stats[n]={lunch:0,dinner:0,days:new Set(),slots:[]};
+      stats[n].lunch++;
+      stats[n].days.add(d);
+      stats[n].slots.push({d,slot:'lunch'});
+    });
+    dn.forEach(n=>{
+      if(!stats[n])stats[n]={lunch:0,dinner:0,days:new Set(),slots:[]};
+      stats[n].dinner++;
+      stats[n].days.add(d);
+      stats[n].slots.push({d,slot:'dinner'});
+    });
+  }
+  /* 連勤判定: 営業日リスト上で連続位置を見る */
+  for(const[name,st]of Object.entries(stats)){
+    const workedDays=Array.from(st.days).sort((a,b)=>a-b);
+    const positions=workedDays.map(d=>businessDayList.indexOf(d)).filter(p=>p>=0);
+    let maxStreak=0,curStart=0,curLen=0;
+    let streakStartDay=null,streakEndDay=null;
+    for(let i=0;i<positions.length;i++){
+      if(i===0||positions[i]===positions[i-1]+1){
+        if(curLen===0)curStart=i;
+        curLen++;
+      }else{
+        if(curLen>maxStreak){
+          maxStreak=curLen;
+          streakStartDay=workedDays[curStart];
+          streakEndDay=workedDays[i-1];
+        }
+        curStart=i;curLen=1;
+      }
+    }
+    if(curLen>maxStreak){
+      maxStreak=curLen;
+      streakStartDay=workedDays[curStart];
+      streakEndDay=workedDays[positions.length-1>=0?workedDays.length-1:0];
+    }
+    st.maxStreak=maxStreak;
+    st.streakStartDay=streakStartDay;
+    st.streakEndDay=streakEndDay;
+  }
+  return {stats,businessDays,lunchSlotTotal,dinnerSlotTotal};
+}
+
+function renderStatsPanel(){
+  const lbl=document.getElementById('statsMonthLabel');
+  if(lbl)lbl.textContent=`${Y}年 ${M+1}月`;
+  const body=document.getElementById('statsBody');
+  if(!body)return;
+  /* データ取得 */
+  let shiftData={};
+  if(_statsSource==='published'){
+    const raw=localStorage.getItem(getPublishKey());
+    if(raw==='1'){shiftData=JSON.parse(localStorage.getItem(shiftKey())||'{}');}
+    else if(raw){try{shiftData=JSON.parse(raw);}catch(e){shiftData={};}}
+    else shiftData=null;
+  }else{
+    shiftData=JSON.parse(localStorage.getItem(shiftKey())||'{}');
+  }
+  if(shiftData===null){
+    body.innerHTML='<div class="stats-empty">この月はまだ公開されていません。<br>下書きで集計するには右上の「下書き」を選択してください。</div>';
+    return;
+  }
+  if(Object.keys(shiftData).length===0){
+    body.innerHTML='<div class="stats-empty">この月のシフトデータがありません。</div>';
+    return;
+  }
+  const{stats,businessDays,lunchSlotTotal,dinnerSlotTotal}=_calcStats(Y,M,shiftData);
+  const totalSlots=lunchSlotTotal+dinnerSlotTotal;
+  const totalHours=totalSlots*4;
+  /* 集計サマリーカード */
+  let html=`<div class="stats-summary">
+    <div class="stats-card"><div class="stats-card-label">営業日数</div><div class="stats-card-val">${businessDays}日</div></div>
+    <div class="stats-card"><div class="stats-card-label">☀ 昼コマ合計</div><div class="stats-card-val">${lunchSlotTotal}コマ</div><div class="stats-card-sub">${lunchSlotTotal*4}時間</div></div>
+    <div class="stats-card"><div class="stats-card-label">🌙 夜コマ合計</div><div class="stats-card-val">${dinnerSlotTotal}コマ</div><div class="stats-card-sub">${dinnerSlotTotal*4}時間</div></div>
+    <div class="stats-card"><div class="stats-card-label">合計人時</div><div class="stats-card-val">${totalHours}h</div><div class="stats-card-sub">人 × 時間</div></div>
+    <div class="stats-card"><div class="stats-card-label">出勤スタッフ数</div><div class="stats-card-val">${Object.keys(stats).length}人</div></div>
+  </div>`;
+  if(totalSlots===0){
+    body.innerHTML=html+'<div class="stats-empty">割り当てがありません。</div>';return;
+  }
+  /* スタッフ別時間・割合テーブル */
+  const sortedStaff=Object.entries(stats).sort((a,b)=>(b[1].lunch+b[1].dinner)-(a[1].lunch+a[1].dinner));
+  html+=`<h3 style="font-size:.95em;margin:12px 0 8px;color:#475569;font-weight:700">スタッフ別 出勤時間・割合</h3>`;
+  html+=`<div style="overflow-x:auto"><table class="stats-table">
+    <thead><tr>
+      <th>スタッフ</th>
+      <th>☀ 昼<br><span style="font-weight:400;font-size:.85em;color:#94a3b8">コマ / 時間</span></th>
+      <th>☀ 昼の占有率<br><span style="font-weight:400;font-size:.85em;color:#94a3b8">(全昼コマに対する%)</span></th>
+      <th>🌙 夜<br><span style="font-weight:400;font-size:.85em;color:#94a3b8">コマ / 時間</span></th>
+      <th>🌙 夜の占有率<br><span style="font-weight:400;font-size:.85em;color:#94a3b8">(全夜コマに対する%)</span></th>
+      <th>合計<br><span style="font-weight:400;font-size:.85em;color:#94a3b8">時間</span></th>
+      <th>全体シェア<br><span style="font-weight:400;font-size:.85em;color:#94a3b8">(人時/合計%)</span></th>
+    </tr></thead><tbody>`;
+  for(const[name,st]of sortedStaff){
+    const ls=st.lunch,ds=st.dinner;
+    const lh=ls*4,dh=ds*4,th=lh+dh;
+    const lpct=lunchSlotTotal?(ls/lunchSlotTotal*100):0;
+    const dpct=dinnerSlotTotal?(ds/dinnerSlotTotal*100):0;
+    const tpct=totalSlots?((ls+ds)/totalSlots*100):0;
+    html+=`<tr>
+      <td class="tname">${name}</td>
+      <td>${ls} <span style="color:#94a3b8">/ ${lh}h</span></td>
+      <td><span class="stats-bar lunch" style="--p:${lpct.toFixed(1)}%"></span>${lpct.toFixed(1)}%</td>
+      <td>${ds} <span style="color:#94a3b8">/ ${dh}h</span></td>
+      <td><span class="stats-bar dinner" style="--p:${dpct.toFixed(1)}%"></span>${dpct.toFixed(1)}%</td>
+      <td style="font-weight:700">${th}h</td>
+      <td><span class="stats-bar" style="--p:${tpct.toFixed(1)}%"></span>${tpct.toFixed(1)}%</td>
+    </tr>`;
+  }
+  html+='</tbody></table></div>';
+  /* 連勤テーブル */
+  html+=`<h3 style="font-size:.95em;margin:18px 0 8px;color:#475569;font-weight:700">最長連勤日数（昼夜どちらかでも出勤、定休日はスキップ）</h3>`;
+  const streakRows=sortedStaff.filter(([n,st])=>st.maxStreak>0).sort((a,b)=>b[1].maxStreak-a[1].maxStreak);
+  if(streakRows.length===0){
+    html+='<div class="stats-empty">該当データなし</div>';
+  }else{
+    html+=`<div style="overflow-x:auto"><table class="stats-table">
+      <thead><tr><th>スタッフ</th><th>最長連勤</th><th>該当期間</th><th>警告</th></tr></thead><tbody>`;
+    for(const[name,st]of streakRows){
+      const cls=st.maxStreak>=5?'streak-danger':st.maxStreak>=3?'streak-warn':'streak-low';
+      const warn=st.maxStreak>=5?'⚠ 5日以上 要注意':st.maxStreak>=3?'⚠ 3日以上':'—';
+      const period=st.streakStartDay&&st.streakEndDay?`${M+1}/${st.streakStartDay}〜${M+1}/${st.streakEndDay}`:'—';
+      html+=`<tr>
+        <td class="tname">${name}</td>
+        <td><span class="streak-badge ${cls}">${st.maxStreak}連勤</span></td>
+        <td>${period}</td>
+        <td style="font-size:.8em;color:#64748b">${warn}</td>
+      </tr>`;
+    }
+    html+='</tbody></table></div>';
+  }
+  body.innerHTML=html;
+}
 
 /* 初期 attach（初回同期後にも実行されるよう少し遅らせる） */
 setTimeout(()=>{try{_attachMonthListeners();updatePublishStatus();}catch(e){console.warn('init attach:',e);}},1200);
