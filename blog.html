@@ -1,192 +1,105 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ブログ | 海鮮餃子 北京</title>
-    <meta name="description" content="海鮮餃子 北京のブログ。メディア情報やお知らせをお届けします。">
-    <link rel="stylesheet" href="css/style.css">
-    <style>
-        /* ブログ記事のアコーディオン */
-        .blog-article {
-            margin-bottom: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            overflow: hidden;
-        }
-        .blog-article-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px 16px;
-            background: #fff;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-        .blog-article-header:hover {
-            background: #fff8e1;
-        }
-        .blog-article-header .date {
-            color: #888;
-            font-size: 0.85em;
-            margin-right: 12px;
-            white-space: nowrap;
-        }
-        .blog-article-header .title {
-            flex: 1;
-            font-weight: bold;
-            color: #333;
-        }
-        .blog-article-header .tag {
-            display: inline-block;
-            padding: 2px 8px;
-            border-radius: 3px;
-            font-size: 0.75em;
-            margin-left: 8px;
-            white-space: nowrap;
-        }
-        .tag-media { background: #e3f2fd; color: #1565c0; }
-        .tag-notice { background: #fff3e0; color: #e65100; }
-        .tag-holiday { background: #fce4ec; color: #c62828; }
-        .tag-food { background: #e8f5e9; color: #2e7d32; }
-        .blog-article-header .toggle {
-            margin-left: 10px;
-            transition: transform 0.3s;
-            color: #999;
-        }
-        .blog-article.open .toggle {
-            transform: rotate(180deg);
-        }
-        .blog-article-body {
-            display: none;
-            padding: 16px;
-            background: #fafafa;
-            border-top: 1px solid #eee;
-            line-height: 1.8;
-        }
-        .blog-article.open .blog-article-body {
-            display: block;
-        }
-        .blog-category {
-            margin-bottom: 30px;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ブログ | 海鮮餃子 北京</title>
+<meta name="description" content="海鮮餃子 北京 のブログ。最新のお知らせページへリダイレクト中です。">
+
+<!-- SEO: お知らせページを正規URLとして認識させる -->
+<link rel="canonical" href="https://gyozapekin.github.io/news/">
+
+<!-- 自動リダイレクト（2秒後） -->
+<meta http-equiv="refresh" content="2; url=/news/">
+
+<style>
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Hiragino Sans", "Yu Gothic", Meiryo, sans-serif;
+  background: #fdfaf5;
+  color: #333;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.redirect-box {
+  max-width: 500px;
+  padding: 40px 32px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+  text-align: center;
+  margin: 20px;
+}
+h1 {
+  color: #c0392b;
+  font-size: 1.5rem;
+  margin: 0 0 16px;
+  font-family: "Hiragino Mincho ProN", "Yu Mincho", serif;
+}
+p {
+  line-height: 1.7;
+  color: #555;
+  margin: 12px 0;
+}
+.loading {
+  display: inline-block;
+  width: 32px;
+  height: 32px;
+  border: 3px solid #f1c40f;
+  border-top-color: #c0392b;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 16px auto;
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+.cta {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 12px 28px;
+  background: #c0392b;
+  color: #fff;
+  border-radius: 4px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: background 0.2s;
+}
+.cta:hover { background: #e74c3c; }
+.note {
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px dashed #ccc;
+  font-size: 0.85rem;
+  color: #888;
+}
+</style>
 </head>
 <body>
-    <div class="site-wrapper">
-        <header class="site-header">
-            <a href="index.html">
-                <img src="images/logo_banner.png" alt="海鮮餃子 北京" class="logo">
-            </a>
-        </header>
-        <nav class="site-nav">
-            <ul>
-                <li><a href="index.html">ホーム</a></li>
-                <li><a href="order.html">ネットショップ：ECサイト</a></li>
-                <li><a href="menu.html">メニュー</a></li>
-                <li><a href="about.html">店舗紹介</a></li>
-                <li><a href="howto.html">餃子の焼き方</a></li>
-                <li><a href="blog.html" class="active">ブログ</a></li>
-                <li><a href="gallery.html">ギャラリー</a></li>
-                <li><a href="contact.html">お問合わせ</a></li>
-            </ul>
-        </nav>
-        <main>
-            <section class="section">
-                <h2>ブログ</h2>
-            </section>
+<div class="redirect-box">
+  <h1>新しいお知らせページへ</h1>
+  <div class="loading" aria-hidden="true"></div>
+  <p>海鮮餃子 北京 のブログは<br><strong>「お知らせ」ページ</strong>に移動しました。</p>
+  <p>自動的に新しいページに移動します...</p>
+  <a href="/news/" class="cta">お知らせページを開く</a>
+  <p class="note">
+    過去のブログ記事も新しいお知らせページからご覧いただけます。<br>
+    このページは2秒後に自動的に移動します。
+  </p>
+</div>
 
-            <!-- メディア情報 -->
-            <div class="blog-category">
-                <h3>メディア情報</h3>
-
-                <div class="blog-article">
-                    <div class="blog-article-header" onclick="this.parentElement.classList.toggle('open')">
-                        <span class="date">2023年</span>
-                        <span class="title">しごとぎや「たまゆら」さんのYoutubeで紹介いただきました</span>
-                        <span class="tag tag-media">メディア</span>
-                        <span class="toggle">▼</span>
-                    </div>
-                    <div class="blog-article-body">
-                        <p>YouTubeチャンネル「しごとぎや たまゆら」さんに、海鮮餃子 北京を取り上げていただきました。</p>
-                        <p>当店自慢の海鮮餃子や店内の雰囲気を紹介していただいています。ぜひご覧ください。</p>
-                    </div>
-                </div>
-
-                <div class="blog-article">
-                    <div class="blog-article-header" onclick="this.parentElement.classList.toggle('open')">
-                        <span class="date">2022年</span>
-                        <span class="title">なるみ・岡村の過ぎるTVで紹介頂きました</span>
-                        <span class="tag tag-media">メディア</span>
-                        <span class="toggle">▼</span>
-                    </div>
-                    <div class="blog-article-body">
-                        <p>朝日放送テレビ「なるみ・岡村の過ぎるTV」にて、海鮮餃子 北京が紹介されました。</p>
-                        <p>番組では当店の海鮮餃子の美味しさを取り上げていただき、多くのお客様にご来店いただきました。ありがとうございます。</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- お休みのお知らせ -->
-            <div class="blog-category">
-                <h3>お休みのお知らせ</h3>
-
-                <div class="blog-article">
-                    <div class="blog-article-header" onclick="this.parentElement.classList.toggle('open')">
-                        <span class="date">2023年10月</span>
-                        <span class="title">お休みのお知らせ 10月</span>
-                        <span class="tag tag-holiday">お知らせ</span>
-                        <span class="toggle">▼</span>
-                    </div>
-                    <div class="blog-article-body">
-                        <p>10月の臨時休業日のお知らせです。</p>
-                        <p>毎週火曜日の定休日に加え、臨時休業日がある場合はトップページのカレンダーでもご確認いただけます。</p>
-                        <p>→ <a href="index.html">トップページのカレンダーを確認する</a></p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- お知らせ -->
-            <div class="blog-category">
-                <h3>お知らせ</h3>
-
-                <div class="blog-article">
-                    <div class="blog-article-header" onclick="this.parentElement.classList.toggle('open')">
-                        <span class="date">2020年</span>
-                        <span class="title">北京の新型コロナウイルス対策について</span>
-                        <span class="tag tag-notice">お知らせ</span>
-                        <span class="toggle">▼</span>
-                    </div>
-                    <div class="blog-article-body">
-                        <p>当店では、お客様とスタッフの安全を最優先に、以下の感染予防対策を実施しております。</p>
-                        <ul>
-                            <li>スタッフのマスク着用・手洗い・消毒の徹底</li>
-                            <li>店内の定期的な換気</li>
-                            <li>テーブル・ドアノブ等の消毒</li>
-                            <li>入口にアルコール消毒液の設置</li>
-                        </ul>
-                        <p>安心してお食事をお楽しみいただけるよう努めてまいります。</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- つぶやき・お料理 -->
-            <div class="blog-category">
-                <h3>つぶやき・お料理</h3>
-                <p style="color: #888;">日々のお料理や店内の様子は<a href="gallery.html">ギャラリー</a>でもご覧いただけます。</p>
-            </div>
-
-        </main>
-        <footer class="site-footer">
-            <div class="footer-links">
-                <a href="index.html">ホーム</a>
-                <a href="menu.html">メニュー</a>
-                <a href="about.html">店舗紹介</a>
-                <a href="contact.html">お問合わせ</a>
-                <a href="privacy.html">プライバシーポリシー</a>
-            </div>
-            <p class="copyright">&copy; 海鮮餃子 北京 All Rights Reserved.</p>
-        </footer>
-    </div>
+<!-- JavaScript による即時リダイレクト（フォールバック） -->
+<script>
+  // ブラウザが meta refresh を尊重しない場合の保険として JavaScript でもリダイレクト
+  setTimeout(function() {
+    if (window.location.pathname.indexOf('/news/') === -1) {
+      window.location.replace('/news/');
+    }
+  }, 2000);
+</script>
 </body>
-                      </html>
+</html>

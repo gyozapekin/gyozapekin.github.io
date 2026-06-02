@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<title>ペキン スタッフページ</title>
+<title>【TEST】ペキン スタッフページ</title>
 <style>
 :root{--red:#c0392b;--blue:#1d4ed8;--green:#065f46;--bg:#f0f2f5;--card:#fff;--border:#e2e8f0;--text:#1a202c;--muted:#718096}
 *{box-sizing:border-box;margin:0;padding:0}
@@ -161,6 +161,199 @@ body{font-family:'Helvetica Neue','Hiragino Sans','Yu Gothic UI',Arial,sans-seri
 </style>
 </head>
 <body>
+<div id="dev-banner" style="position:fixed;top:0;left:0;right:0;background:#fbbf24;color:#1f2937;padding:6px 12px;text-align:center;font-weight:bold;z-index:99999;font-size:13px;border-bottom:3px solid #b45309;box-shadow:0 2px 8px rgba(0,0,0,.2);font-family:sans-serif;">
+  <div style="display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;">
+    <span>⚠ テスト環境 (dev) v6 ⚠ /dev/shift/</span>
+    <span id="dev-backup-status" style="background:#dc2626;color:#fff;padding:2px 8px;border-radius:4px;font-size:11px;">バックアップ未取得</span>
+    <button id="dev-btn-backup" onclick="exportDevBackup()" style="background:#065f46;color:#fef3c7;border:none;padding:5px 12px;border-radius:6px;cursor:pointer;font-weight:bold;font-size:12px;">⬇ ① まずバックアップ</button>
+    <button id="dev-btn-copy" onclick="resetDevFromProd()" style="background:#1f2937;color:#fbbf24;border:none;padding:5px 12px;border-radius:6px;cursor:pointer;font-weight:bold;font-size:12px;">↺ ② 本番から再コピー</button>
+    <button id="dev-btn-restore" onclick="importDevBackup()" style="background:#1f2937;color:#fbbf24;border:none;padding:5px 12px;border-radius:6px;cursor:pointer;font-weight:bold;font-size:12px;">📁 ③ バックアップから復元</button>
+  </div>
+  <div id="dev-status-line" style="margin-top:4px;font-size:11px;color:#7c2d12;min-height:14px;"></div>
+</div>
+<style>body{padding-top:68px !important;}@media print{#dev-banner{display:none}}</style>
+<script>
+const __FB_BASE = "https://pekin-shift-default-rtdb.asia-southeast1.firebasedatabase.app";
+const __BACKUP_TS_KEY = "__pekin_dev_last_backup_ts";
+const __BACKUP_NAME_KEY = "__pekin_dev_last_backup_name";
+
+function __setStatus(msg, color){
+  const el = document.getElementById("dev-status-line");
+  if (el) { el.textContent = msg; el.style.color = color || "#7c2d12"; }
+}
+function __setButtonState(id, enabled, text){
+  const b = document.getElementById(id);
+  if (!b) return;
+  b.disabled = !enabled;
+  b.style.opacity = enabled ? "1" : "0.5";
+  b.style.cursor = enabled ? "pointer" : "wait";
+  if (text) b.textContent = text;
+}
+function __updateBackupStatus(){
+  const ts = localStorage.getItem(__BACKUP_TS_KEY);
+  const name = localStorage.getItem(__BACKUP_NAME_KEY);
+  const el = document.getElementById("dev-backup-status");
+  if (!el) return;
+  if (ts) {
+    const d = new Date(parseInt(ts));
+    el.textContent = "✓ バックアップあり (" + d.toLocaleString("ja-JP") + ")";
+    el.style.background = "#16a34a";
+    el.title = name || "";
+  } else {
+    el.textContent = "⚠ バックアップ未取得";
+    el.style.background = "#dc2626";
+  }
+}
+setTimeout(__updateBackupStatus, 500);
+
+function __clearLocalPekin(){
+  const keys = [];
+  for (let i = 0; i < localStorage.length; i++) {
+    const k = localStorage.key(i);
+    if (k && k.startsWith("pekin_")) keys.push(k);
+  }
+  keys.forEach(function(k){ localStorage.removeItem(k); });
+  return keys.length;
+}
+function __writeFbDataToLocal(data){
+  let count = 0;
+  for (const key in data) {
+    if (key === "_v") {
+      localStorage.setItem("pekin_db_v", String(data[key]));
+    } else {
+      const val = data[key];
+      if (val === null || val === undefined) continue;
+      localStorage.setItem(key, typeof val === "string" ? val : JSON.stringify(val));
+      count++;
+    }
+  }
+  return count;
+}
+
+async function exportDevBackup(){
+  if (!confirm(`【① テスト環境をバックアップ】
+
+テスト環境(pekin/db_dev)の現在のデータをJSONファイルとして保存します。
+Downloadsフォルダーに保存されます。
+
+よろしいですか？`)) return;
+  __setButtonState("dev-btn-backup", false, "処理中…");
+  __setStatus("① バックアップ取得中…", "#7c2d12");
+  try {
+    const r = await fetch(__FB_BASE + "/pekin/db_dev.json?t=" + Date.now(), {cache: "no-store"});
+    if (!r.ok) throw new Error("テスト環境取得失敗 (" + r.status + ")");
+    const data = await r.json();
+    const sz = JSON.stringify(data).length;
+    const blob = new Blob([JSON.stringify(data, null, 2)], {type: "application/json"});
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    const ts = new Date().toISOString().replace(/[:.]/g, "-").slice(0, 19);
+    a.download = "pekin_db_dev_backup_" + ts + ".json";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    localStorage.setItem(__BACKUP_TS_KEY, String(Date.now()));
+    localStorage.setItem(__BACKUP_NAME_KEY, a.download);
+    __updateBackupStatus();
+    __setButtonState("dev-btn-backup", true, "⬇ ① まずバックアップ");
+    __setStatus("✓ ① バックアップ完了: " + a.download + " (" + Math.round(sz/1024) + "KB)", "#16a34a");
+    alert(`✓ バックアップ完了
+
+ファイル名: ${a.download}
+サイズ: ${Math.round(sz/1024)}KB
+
+Downloadsフォルダーを確認してください。`);
+  } catch(e) {
+    __setButtonState("dev-btn-backup", true, "⬇ ① まずバックアップ");
+    __setStatus("✗ ① 失敗: " + e.message, "#dc2626");
+    alert("エラー: " + e.message);
+  }
+}
+
+async function resetDevFromProd(){
+  if (!confirm(`【② 本番から再コピー】
+
+本番(pekin/db)のデータでテスト環境(pekin/db_dev)を完全上書きします。
+● シフト・スタッフ希望・設定・スタッフ情報・テンプレートすべて
+● テスト環境の現データは消えます
+
+先に「① まずバックアップ」を取りましたか？
+バックアップ済みなら OK、必要ならキャンセルしてバックアップへ。`)) return;
+  if (!confirm("最終確認: 本番から再コピーを実行します。本当に進めますか？")) return;
+  __setButtonState("dev-btn-copy", false, "処理中…");
+  __setStatus("② 本番から再コピー中…", "#7c2d12");
+  try {
+    __setStatus("② [1/4] 本番データ取得中…", "#7c2d12");
+    const r = await fetch(__FB_BASE + "/pekin/db.json?t=" + Date.now(), {cache: "no-store"});
+    if (!r.ok) throw new Error("本番取得失敗 (" + r.status + ")");
+    const data = await r.json();
+    if (!data || typeof data !== "object") throw new Error("本番データが空");
+    const keyCount = Object.keys(data).length;
+    const newV = Date.now();
+    data._v = newV;
+    __setStatus("② [2/4] テスト環境Firebaseに書き込み中…", "#7c2d12");
+    const r2 = await fetch(__FB_BASE + "/pekin/db_dev.json", {method: "PUT", headers: {"Content-Type": "application/json"}, body: JSON.stringify(data)});
+    if (!r2.ok) throw new Error("書き込み失敗 (" + r2.status + ")");
+    __setStatus("② [3/4] ローカルストレージ更新中…", "#7c2d12");
+    const cleared = __clearLocalPekin();
+    const written = __writeFbDataToLocal(data);
+    __setStatus("② [4/4] 完了 → 2秒後リロード(クリア:" + cleared + "/書込:" + written + "キー)", "#16a34a");
+    alert(`✓ 本番から再コピー完了
+
+● 取得キー: ${keyCount}
+● ローカル削除: ${cleared}キー
+● ローカル書込: ${written}キー
+● _v: ${newV}
+
+2秒後にリロードします。`);
+    setTimeout(function(){ location.reload(); }, 2000);
+  } catch(e) {
+    __setButtonState("dev-btn-copy", true, "↺ ② 本番から再コピー");
+    __setStatus("✗ ② 失敗: " + e.message, "#dc2626");
+    alert("エラー: " + e.message);
+    console.error(e);
+  }
+}
+
+function importDevBackup(){
+  if (!confirm(`【③ バックアップから復元】
+
+バックアップJSONファイルでテスト環境を上書き復元します。
+● 現在のテスト環境のデータは消えます
+● 必要なら先に「① まずバックアップ」を実行してください
+
+OKを押すとファイル選択画面が開きます。`)) return;
+  const input = document.createElement("input");
+  input.type = "file";
+  input.accept = "application/json,.json";
+  input.onchange = async function(e){
+    const file = e.target.files[0];
+    if (!file) return;
+    if (!confirm("ファイル「" + file.name + "」(" + Math.round(file.size/1024) + "KB) でテスト環境を復元します。よろしいですか？")) return;
+    __setButtonState("dev-btn-restore", false, "処理中…");
+    __setStatus("③ バックアップ復元中…", "#7c2d12");
+    try {
+      const text = await file.text();
+      const data = JSON.parse(text);
+      if (!data || typeof data !== "object") throw new Error("JSONがオブジェクトではない");
+      data._v = Date.now();
+      const r = await fetch(__FB_BASE + "/pekin/db_dev.json", {method: "PUT", headers: {"Content-Type": "application/json"}, body: JSON.stringify(data)});
+      if (!r.ok) throw new Error("書き込み失敗 (" + r.status + ")");
+      __clearLocalPekin();
+      __writeFbDataToLocal(data);
+      __setStatus("✓ ③ 復元完了 → 2秒後にリロード", "#16a34a");
+      alert("✓ 復元完了。ファイル: " + file.name + " → 2秒後にリロード。");
+      setTimeout(function(){ location.reload(); }, 2000);
+    } catch(err) {
+      __setButtonState("dev-btn-restore", true, "📁 ③ バックアップから復元");
+      __setStatus("✗ ③ 失敗: " + err.message, "#dc2626");
+      alert("エラー: " + err.message);
+    }
+  };
+  input.click();
+}
+</script>
+
 
 <!-- ローディングオーバーレイ -->
 <div id="loadOverlay" style="position:fixed;inset:0;background:rgba(255,255,255,.95);z-index:99999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px">
@@ -177,7 +370,6 @@ body{font-family:'Helvetica Neue','Hiragino Sans','Yu Gothic UI',Arial,sans-seri
   </div>
   <div class="nav-right">
     <span class="nav-user" id="navUser"></span>
-    <button class="nbtn" onclick="window.open('staff_manual.html','_blank')" style="background:#fff;color:#c0392b;border:1px solid rgba(255,255,255,.4)" title="スタッフ操作マニュアルを開く">📖 マニュアル</button>
     <button class="nbtn nbtn-red" onclick="logout()">ログアウト</button>
   </div>
 </nav>
@@ -266,7 +458,6 @@ body{font-family:'Helvetica Neue','Hiragino Sans','Yu Gothic UI',Arial,sans-seri
 
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
 <script>
 /* ════════════════════════════════════════
    DATA SYNC — Firebase優先・db.jsonフォールバック
@@ -275,18 +466,8 @@ const _STATIC_KEYS=['pekin_shift_template','pekin_settings','pekin_users','pekin
 const _fbCfg={apiKey:"AIzaSyBygnsi6cByYRZigxlhR7d0ydVfpFGx8FQ",databaseURL:"https://pekin-shift-default-rtdb.asia-southeast1.firebasedatabase.app",projectId:"pekin-shift",appId:"1:600393805417:web:126fb18e1c5b64fc677cf8"};
 if(!firebase.apps.length)firebase.initializeApp(_fbCfg);
 const _fbDb=firebase.database();
-try{firebase.auth().signInAnonymously().catch(e=>console.warn('anonAuth:',e));}catch(e){console.warn('auth init:',e);}
-/* ========== Dev/Prod 環境判定（Firebase namespace 切替） ==========
-   URL に /gyozapekin2.github.io/ が含まれる場合は Dev 環境 → /pekin/db_dev/
-   それ以外（gyozapekin.com 等）は Prod → /pekin/db/                */
-const IS_DEV=(location.pathname.indexOf('/gyozapekin2.github.io/')!==-1)
-  ||(location.hostname==='localhost')||(location.hostname.indexOf('gyozapekin2.')===0);
-const FB_NS=IS_DEV?'pekin/db_dev':'pekin/db';
-console.log('[ENV]',IS_DEV?'DEV':'PROD','using',FB_NS);
 
-
-/* dbをlocalStorageに書き込む。force=trueで全データ強制上書き
-   ※ pekin_lock_* はスタッフ側では使わないので無視 */
+/* dbをlocalStorageに書き込む。force=trueで全データ強制上書き */
 function _applyDb(db,force=false){
   const remoteV=db._v||0;
   const localV=parseInt(localStorage.getItem('pekin_db_v')||'0');
@@ -297,7 +478,6 @@ function _applyDb(db,force=false){
   if(force||remoteV>=localV){
     Object.entries(db).forEach(([k,v])=>{
       if(k.startsWith('_')||_STATIC_KEYS.includes(k))return;
-      if(k.startsWith('pekin_lock_'))return; /* ロック情報はスタッフは保持しない */
       localStorage.setItem(k,typeof v==='string'?v:JSON.stringify(v));
     });
     localStorage.setItem('pekin_db_v',String(remoteV));
@@ -325,7 +505,7 @@ function _finishSync(){
 async function _doInitialSync(){
   try{
     const snap=await Promise.race([
-      _fbDb.ref(FB_NS).get(),
+      _fbDb.ref('pekin/db_dev').get(),
       new Promise((_,rej)=>setTimeout(()=>rej(new Error('timeout')),5000))
     ]);
     if(snap&&snap.exists()){_applyDb(snap.val(),true);console.log('Firebase sync ✓');}
@@ -345,10 +525,9 @@ setTimeout(_finishSync,6000);
 _doInitialSync();
 
 /* リアルタイムリスナー（シフト公開通知用）
-   avail データは上書きしない（スタッフの未保存入力を守るため）
-   pekin_published_* の変更を検知 → renderShiftView で snapshot 反映 */
+   avoidデータは上書きしない（スタッフの未保存入力を守るため） */
 let _fbListenerReady=false;
-_fbDb.ref(FB_NS).on('value',snap=>{
+_fbDb.ref('pekin/db_dev').on('value',snap=>{
   if(!snap||!snap.exists())return;
   if(!_fbListenerReady){_fbListenerReady=true;return;} /* 初回はinitialSyncで処理済み */
   const db=snap.val();
@@ -356,40 +535,15 @@ _fbDb.ref(FB_NS).on('value',snap=>{
     if(db[k]!==undefined)
       localStorage.setItem(k,typeof db[k]==='string'?db[k]:JSON.stringify(db[k]));
   });
-  let publishedChanged=false;
   Object.entries(db).forEach(([k,v])=>{
     if(k.startsWith('_')||_STATIC_KEYS.includes(k))return;
     if(k.startsWith('pekin_avail_'))return; /* スタッフの希望は上書きしない */
-    if(k.startsWith('pekin_lock_'))return;  /* ロック情報はスタッフは無視 */
-    const json=typeof v==='string'?v:JSON.stringify(v);
-    const cur=localStorage.getItem(k);
-    if(cur!==json){
-      localStorage.setItem(k,json);
-      if(k.startsWith('pekin_published_'))publishedChanged=true;
-    }
+    localStorage.setItem(k,typeof v==='string'?v:JSON.stringify(v));
   });
-  /* 公開状態が変わった、または unpublish で消えた場合の検知 */
   if(typeof renderRequestList==='function')renderRequestList();
   if(document.getElementById('panel-shift')?.classList.contains('active')&&typeof renderShiftView==='function')renderShiftView();
-  if(publishedChanged&&typeof showUpdateToast==='function')showUpdateToast('📅 シフトが更新されました');
+  if(typeof showUpdateToast==='function')showUpdateToast('🔄 シフトが更新されました');
 });
-
-/* showUpdateToast — スタッフ画面用シンプル版 */
-function showUpdateToast(msg){
-  try{
-    const old=document.getElementById('_simpleToast');
-    if(old)old.remove();
-    const t=document.createElement('div');
-    t.id='_simpleToast';
-    t.textContent=msg;
-    t.style.cssText='position:fixed;bottom:24px;left:50%;transform:translateX(-50%);'
-      +'background:#1e293b;color:#fff;padding:10px 18px;border-radius:10px;'
-      +'font-size:.82em;font-weight:600;z-index:9998;box-shadow:0 6px 22px rgba(0,0,0,.32);'
-      +'max-width:90vw;white-space:nowrap;overflow:hidden;text-overflow:ellipsis';
-    document.body.appendChild(t);
-    setTimeout(()=>{t.style.opacity='0';t.style.transition='opacity .35s';setTimeout(()=>t.remove(),380);},2400);
-  }catch(e){}
-}
 
 /* ── AUTH ── */
 function getSession(){
@@ -451,11 +605,10 @@ function saveAvail(y,m,data){
   const key=availKey(y,m);
   const json=JSON.stringify(data);
   localStorage.setItem(key,json);
-  /* Firebaseには自分のサブパスのみ書き込む（他人の希望を上書きしないため） */
+  /* Firebaseにも保存（管理画面でリアルタイム反映） */
   try{
-    const mine=data[sess.userId]||{};
-    _fbDb.ref(FB_NS+'/'+key+'/'+sess.userId).set(JSON.stringify(mine));
-    console.log('Avail saved to Firebase (subpath):',key,sess.userId);
+    _fbDb.ref('pekin/db_dev').update({[key]:json});
+    console.log('Avail saved to Firebase:',key);
   }catch(e){console.warn('Firebase avail save failed:',e);}
 }
 let myAvail={};
@@ -480,36 +633,48 @@ const dKey=(y,m,d)=>`${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,
 const DOW_STR=['日','月','火','水','木','金','土'];
 const DOW_CLS2=['sun','mon','tue','wed','thu','fri','sat'];
 
-/* ── DEADLINE CHECK ── */
+/* ── DEADLINE CHECK ──
+   settings.deadline.day を「対象月の前月N日」として扱う
+   settings.extensions[staffId][YYYY-MM] が今日以降なら延長扱い
+   締切オフ（enabled=false）なら常に「受付中」 */
 function updateDeadlineUI(){
-  /* デフォルト: リクエスト月の「前月20日」が締切 */
-  let deadline=new Date(reqY,reqM-1,20,23,59,59);
-  /* 優先順: 個別スタッフ別 > 月別共通 > デフォルト */
-  try{
-    const s=JSON.parse(localStorage.getItem('pekin_settings')||'{}');
-    const ymKey=`${reqY}-${String(reqM+1).padStart(2,'0')}`;
-    let raw=null;
-    /* 1) 個別スタッフ */
-    if(s.deadlinesPerStaff&&s.deadlinesPerStaff[ymKey]&&sess&&sess.userId&&s.deadlinesPerStaff[ymKey][sess.userId]){
-      raw=s.deadlinesPerStaff[ymKey][sess.userId];
-    }
-    /* 2) 月別共通 */
-    else if(s.deadlines&&s.deadlines[ymKey]){
-      raw=s.deadlines[ymKey];
-    }
-    if(raw){
-      const ov=new Date(raw+'T23:59:59');
-      if(!isNaN(ov.getTime()))deadline=ov;
-    }
-  }catch(e){}
-  const _now=new Date();
-  const closed=_now>deadline;
-  document.getElementById('reqStatusBadge').textContent=closed?'受付終了':'受付中';
-  document.getElementById('reqStatusBadge').className='status-badge '+(closed?'status-closed':'status-open');
+  const settings=JSON.parse(localStorage.getItem('pekin_settings')||'{}');
+  const dl=settings.deadline||{enabled:true,day:20};
+  const day=Math.max(1,Math.min(31,parseInt(dl.day,10)||20));
+  /* 対象月（reqY, reqM）の前月N日23:59 が締切 */
+  let dy=reqY, dm=reqM-1;
+  if(dm<0){dm=11;dy--;}
+  const baseDeadline=new Date(dy,dm,day,23,59,59);
+  /* 延長設定 */
+  const ym=`${reqY}-${String(reqM+1).padStart(2,'0')}`;
+  const exts=settings.extensions||{};
+  const extStr=(exts[sess.userId]&&exts[sess.userId][ym])||'';
+  let extendedTo=null;
+  if(extStr){
+    const parts=extStr.split('-').map(n=>parseInt(n,10));
+    if(parts.length===3&&parts[0]&&parts[1]&&parts[2])
+      extendedTo=new Date(parts[0],parts[1]-1,parts[2],23,59,59);
+  }
+  const effective=extendedTo&&extendedTo>baseDeadline?extendedTo:baseDeadline;
+  const enabled=dl.enabled!==false;
+  const closed=enabled&&now>effective;
+  /* バッジ表示 */
+  const badge=document.getElementById('reqStatusBadge');
+  if(!enabled){
+    badge.textContent='受付中（締切なし）';badge.className='status-badge status-open';
+  }else if(extendedTo&&extendedTo>baseDeadline){
+    badge.textContent=closed?'受付終了':'受付中（延長中）';
+    badge.className='status-badge '+(closed?'status-closed':'status-open');
+  }else{
+    badge.textContent=closed?'受付終了':'受付中';
+    badge.className='status-badge '+(closed?'status-closed':'status-open');
+  }
   document.getElementById('submitBtn').disabled=closed;
-  const dy=deadline.getFullYear(),dm=deadline.getMonth()+1,dd=deadline.getDate();
-  const yPrefix=dy!==reqY?`${dy}年`:'';
-  document.getElementById('reqDeadline').textContent=`${yPrefix}${dm}月${dd}日`;
+  /* 締切日表示 */
+  const eff=effective;
+  const dlText=`${eff.getMonth()+1}月${eff.getDate()}日 23:59`+
+    (extendedTo&&extendedTo>baseDeadline?'（延長）':'');
+  document.getElementById('reqDeadline').textContent=enabled?dlText:'設定なし';
 }
 
 /* ── RENDER REQUEST LIST ──
@@ -689,33 +854,17 @@ function submitRequest(){
   alert(`${sess.name}さんの希望を送信しました！\n管理者の画面にも反映されます。`);
 }
 
-/* ── SHIFT VIEW ──
-   pekin_published_YYYY-MM の中身:
-     - null/未存在 → 未公開
-     - '1' （旧形式）→ pekin_shift_YYYY-MM を見る（後方互換）
-     - JSON文字列（新形式）→ そのスナップショットを表示
-*/
-function getPublishedShiftData(y,m){
-  const raw=localStorage.getItem(publishKey(y,m));
-  if(!raw)return null;
-  if(raw==='1'){
-    /* 旧形式 → ドラフトから取得（後方互換） */
-    return JSON.parse(localStorage.getItem(shiftKey(y,m))||'{}');
-  }
-  try{return JSON.parse(raw);}catch(e){return null;}
-}
+/* ── SHIFT VIEW ── */
 function renderShiftView(){
   document.getElementById('viewMonthLabel').textContent=`${viewY}年 ${viewM+1}月`;
-  const publishedSnap=getPublishedShiftData(viewY,viewM);
-  const published=publishedSnap!==null;
+  const published=localStorage.getItem(publishKey(viewY,viewM))==='1';
   const notice=document.getElementById('shiftNotice');
   notice.textContent=published
     ?`${viewY}年${viewM+1}月のシフトが公開されています。あなたのシフトは青枠で表示されます。`
     :'シフトはまだ公開されていません。確定後にここで確認できます。';
   notice.className='shift-view-notice'+(published?'':' draft');
 
-  /* 公開済みなら snapshot を、未公開なら空オブジェクトを使う */
-  const shiftData=published?publishedSnap:{};
+  const shiftData=JSON.parse(localStorage.getItem(shiftKey(viewY,viewM))||'{}');
   const grid=document.getElementById('calGrid');
   grid.innerHTML='';
   const first=new Date(viewY,viewM,1).getDay();
@@ -793,7 +942,7 @@ function getUsers(){
 }
 function saveUsers(users){localStorage.setItem('pekin_users',JSON.stringify(users));}
 
-async function changePassword(){
+function changePassword(){
   const currentPw=document.getElementById('acctCurrentPw').value;
   const newPw=document.getElementById('acctNewPw').value;
   const newPw2=document.getElementById('acctNewPw2').value;
@@ -814,21 +963,14 @@ async function changePassword(){
   const myUser=users.find(u=>u.id===sess.userId);
   if(!myUser){showMsg('err','ユーザーが見つかりません');return;}
 
-  /* 現在のパスワード確認（デフォルトPW or 変更済みPW、ハッシュ/平文両対応） */
-  const okDefault=await _checkPwStaff(myUser,currentPw,'password');
-  const okCustom=await _checkPwStaff(myUser,currentPw,'customPassword');
-  if(!okDefault&&!okCustom){showMsg('err','現在のパスワードが違います');return;}
+  /* 現在のパスワード確認（デフォルトPW か 変更済みPW のどちらかと一致すればOK） */
+  const isValid=(myUser.password===currentPw)||(myUser.customPassword&&myUser.customPassword===currentPw);
+  if(!isValid){showMsg('err','現在のパスワードが違います');return;}
 
-  /* 新PW=デフォルトと同じ場合は弾く */
-  if(await _checkPwStaff(myUser,newPw,'password')&&!myUser.customPassword&&!myUser.customPasswordHash){
+  if(newPw===myUser.password&&!myUser.customPassword){
     showMsg('err','新しいパスワードはデフォルトパスワードと異なるものにしてください');return;
   }
-  /* ハッシュ化して保存 */
-  const newSalt=genSalt();
-  const newHash=await hashPw(newPw,newSalt);
-  myUser.customPasswordHash=newHash;
-  myUser.customPasswordSalt=newSalt;
-  delete myUser.customPassword; /* 平文は保存しない */
+  myUser.customPassword=newPw;
   saveUsers(users);
   document.getElementById('acctCurrentPw').value='';
   document.getElementById('acctNewPw').value='';
@@ -836,28 +978,9 @@ async function changePassword(){
   showMsg('ok','✅ パスワードを変更しました');
 }
 
-
-async function hashPw(plain, salt){
-  const data=new TextEncoder().encode(salt+':'+(plain||''));
-  const buf=await crypto.subtle.digest('SHA-256',data);
-  return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
-}
-function genSalt(){
-  const arr=new Uint8Array(12);
-  crypto.getRandomValues(arr);
-  return Array.from(arr).map(b=>b.toString(16).padStart(2,'0')).join('');
-}
-async function _checkPwStaff(user,pwInput,field){
-  if(!user[field]&&!user[field+'Hash'])return false;
-  if(user[field+'Hash']&&user[field+'Salt']){
-    const h=await hashPw(pwInput,user[field+'Salt']);
-    return h===user[field+'Hash'];
-  }
-  return user[field]===pwInput;
-}
 /* ── INIT ── */
 loadMyAvail();
 renderRequestList();
 </script>
 </body>
-</html>
+</html>�
