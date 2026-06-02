@@ -5,4 +5,4 @@ Allow: /
 Disallow: /shift/
 Disallow: /shift.html
 
-Sitemap: https://gyozapekin.github.io/sitemap.xml
+Sitemap: https://gyozapekin.com/sitemap.xml
