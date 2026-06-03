@@ -10,15 +10,21 @@
 <meta name="description" content="{{ page.description | default: site.description }}">
 <meta name="author" content="{{ site.title }}">
 
+<!-- 正規URL（重複コンテンツ対策） -->
+<link rel="canonical" href="{{ page.url | absolute_url }}">
+
 <!-- OGP / Twitter Card -->
 <meta property="og:site_name" content="{{ site.title }}">
-<meta property="og:title" content="{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}">
+<meta property="og:title" content="{% if page.title %}{{ page.title }} | {{ site.title }}{% else %}{{ site.title }}{% endif %}">
 <meta property="og:description" content="{{ page.description | default: site.description }}">
 <meta property="og:type" content="{% if page.layout == 'post' %}article{% else %}website{% endif %}">
-<meta property="og:url" content="{{ site.url }}{{ page.url }}">
-<meta property="og:image" content="{% if page.image %}{{ site.url }}{{ page.image }}{% else %}{{ site.url }}/images/ogp-default.jpg{% endif %}">
+<meta property="og:url" content="{{ page.url | absolute_url }}">
+<meta property="og:image" content="{% if page.image %}{{ page.image | absolute_url }}{% else %}{{ '/images/ogp-default.jpg' | absolute_url }}{% endif %}">
 <meta property="og:locale" content="ja_JP">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{% if page.title %}{{ page.title }} | {{ site.title }}{% else %}{{ site.title }}{% endif %}">
+<meta name="twitter:description" content="{{ page.description | default: site.description }}">
+<meta name="twitter:image" content="{% if page.image %}{{ page.image | absolute_url }}{% else %}{{ '/images/ogp-default.jpg' | absolute_url }}{% endif %}">
 
 <!-- 構造化データ: LocalBusiness（飲食店） -->
 <script type="application/ld+json">
@@ -26,9 +32,11 @@
   "@context": "https://schema.org",
   "@type": "Restaurant",
   "name": "{{ site.restaurant.name }}",
-  "url": "{{ site.url }}",
+  "url": "{{ '/' | absolute_url }}",
+  "image": "{{ '/images/ogp-default.jpg' | absolute_url }}",
   "telephone": "{{ site.restaurant.phone }}",
   "email": "{{ site.restaurant.email }}",
+  "priceRange": "¥1,000-¥3,000",
   "address": {
     "@type": "PostalAddress",
     "streetAddress": "宮之阪 1-19-2",
@@ -37,18 +45,35 @@
     "postalCode": "573-0022",
     "addressCountry": "JP"
   },
-  "servesCuisine": ["中華料理", "餃子", "海鮮餃子"]
+  "servesCuisine": ["中華料理", "餃子", "海鮮餃子"],
+  "openingHoursSpecification": [{
+    "@type": "OpeningHoursSpecification",
+    "dayOfWeek": ["Monday", "Thursday", "Friday", "Saturday", "Sunday"],
+    "opens": "11:30",
+    "closes": "22:00"
+  }],
+  "hasMenu": "{{ '/menu.html' | absolute_url }}",
+  "sameAs": [
+    "{{ site.social.x }}",
+    "{{ site.social.instagram }}",
+    "{{ site.social.youtube }}"
+  ],
+  "potentialAction": {
+    "@type": "OrderAction",
+    "target": "{{ site.social.ec }}",
+    "deliveryMethod": "http://purl.org/goodrelations/v1#DeliveryModeMail"
+  }
 }
 </script>
 
 <!-- スタイル -->
-<link rel="stylesheet" href="/css/news.css">
+<link rel="stylesheet" href="{{ '/css/news.css' | relative_url }}">
 
 <!-- ヘッダー/ナビ/背景をメインサイト（index.html）と統一 -->
 <style>
   /* 餃子写真の背景（メインページと統一） */
   html,body{margin:0;padding:0;}
-  body{background-color:#1a0800;background-image:url('/images/bg.PNG');background-attachment:fixed;background-size:cover;background-position:center center;background-repeat:no-repeat;}
+  body{background-color:#1a0800;background-image:url('{{ "/images/bg.PNG" | relative_url }}');background-attachment:fixed;background-size:cover;background-position:center center;background-repeat:no-repeat;}
   /* 幅860pxの半透明ラッパー（メインページと統一） */
   .site-wrapper{max-width:860px;margin:0 auto;background:rgba(255,255,255,0.6);box-shadow:0 0 28px rgba(0,0,0,0.55);min-height:100vh;backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px);overflow:hidden;}
   .site-header{background:#F2B800;text-align:center;overflow:hidden;padding:0;}
@@ -68,10 +93,10 @@
 </style>
 
 <!-- Favicon -->
-<link rel="icon" type="image/png" href="/images/favicon.png">
+<link rel="icon" type="image/png" href="{{ '/images/favicon.png' | relative_url }}">
 
 <!-- RSSフィード -->
-<link rel="alternate" type="application/rss+xml" title="{{ site.title }} お知らせ" href="/feed.xml">
+<link rel="alternate" type="application/rss+xml" title="{{ site.title }} お知らせ" href="{{ '/feed.xml' | relative_url }}">
 </head>
 
 <body>
@@ -81,8 +106,8 @@
 
 <!-- ヘッダー（メインサイトと統一：黄色バナー） -->
 <header class="site-header">
-  <a href="/" class="logo-link" aria-label="海鮮餃子 北京 ホーム">
-    <img src="/images/logo_banner.png" alt="海鮮餃子 北京" class="logo"
+  <a href="{{ '/' | relative_url }}" class="logo-link" aria-label="海鮮餃子 北京 ホーム">
+    <img src="{{ '/images/logo_banner.png' | relative_url }}" alt="海鮮餃子 北京" class="logo"
          onerror="this.style.display='none'; this.parentElement.innerHTML='<h1 style=\'margin:0;color:#c0392b;font-size:2rem;\'>海鮮餃子 北京</h1>';">
   </a>
 </header>
@@ -90,15 +115,15 @@
 <!-- メインナビゲーション（メインサイトと統一） -->
 <nav class="site-nav" aria-label="メインメニュー">
   <ul>
-    <li><a href="/">ホーム</a></li>
-    <li><a href="/order.html">ネットショップ：ECサイト</a></li>
-    <li><a href="/menu.html">メニュー</a></li>
-    <li><a href="/about.html">店舗紹介</a></li>
-    <li><a href="/howto.html">餃子の焼き方</a></li>
-    <li><a href="/news/" class="active">ブログ</a></li>
-    <li><a href="/gallery.html">ギャラリー</a></li>
-    <li><a href="/contact.html">お問合わせ</a></li>
-    <li><a href="/en/" class="lang-switch">English</a></li>
+    <li><a href="{{ '/' | relative_url }}">ホーム</a></li>
+    <li><a href="{{ '/order.html' | relative_url }}">ネットショップ：ECサイト</a></li>
+    <li><a href="{{ '/menu.html' | relative_url }}">メニュー</a></li>
+    <li><a href="{{ '/about.html' | relative_url }}">店舗紹介</a></li>
+    <li><a href="{{ '/howto.html' | relative_url }}">餃子の焼き方</a></li>
+    <li><a href="{{ '/news/' | relative_url }}" class="active">ブログ</a></li>
+    <li><a href="{{ '/gallery.html' | relative_url }}">ギャラリー</a></li>
+    <li><a href="{{ '/contact.html' | relative_url }}">お問合わせ</a></li>
+    <li><a href="{{ '/en/' | relative_url }}" class="lang-switch">English</a></li>
   </ul>
 </nav>
 
@@ -110,11 +135,11 @@
 <!-- フッター -->
 <footer class="site-footer">
   <nav class="footer-nav">
-    <a href="/">ホーム</a>
-    <a href="/menu.html">メニュー</a>
-    <a href="/about.html">店舗紹介</a>
-    <a href="/contact.html">お問合わせ</a>
-    <a href="/news/">ブログ</a>
+    <a href="{{ '/' | relative_url }}">ホーム</a>
+    <a href="{{ '/menu.html' | relative_url }}">メニュー</a>
+    <a href="{{ '/about.html' | relative_url }}">店舗紹介</a>
+    <a href="{{ '/contact.html' | relative_url }}">お問合わせ</a>
+    <a href="{{ '/news/' | relative_url }}">ブログ</a>
   </nav>
   <p class="copyright">&copy; 海鮮餃子 北京 All Rights Reserved.</p>
   <p class="address">{{ site.restaurant.address }}　電話: <a href="tel:{{ site.restaurant.phone }}">{{ site.restaurant.phone }}</a></p>

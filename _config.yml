@@ -4,7 +4,7 @@
 title: 海鮮餃子 北京
 title_en: Gyoza Pekin
 description: 大阪府枚方市の中華料理店。手作りの海鮮餃子が名物。テレビ番組でも紹介された地元で愛される餃子専門店です。
-url: "https://gyozapekin.github.io"
+url: "https://gyozapekin.com"
 lang: ja
 timezone: Asia/Tokyo
 
@@ -55,10 +55,10 @@ restaurant:
   hours: 火曜・水曜定休（臨時変更あり）
 
 social:
-  instagram: https://www.instagram.com/
-  x: https://x.com/
-  line_official: https://line.me/R/
-  ec: https://thebase.in/
+  instagram: https://www.instagram.com/kaisengyoza/
+  x: https://x.com/kaisengyoza
+  youtube: https://www.youtube.com/@kaisengyoza
+  ec: https://gyozapekin.official.ec/
 
 # 記事カテゴリ（news_categoriesという名前にしてJekyllの予約変数categoriesとの衝突を回避）
 news_categories:

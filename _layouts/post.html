@@ -5,9 +5,9 @@ layout: default
 
   <!-- パンくずリスト -->
   <nav class="breadcrumb" aria-label="パンくず">
-    <a href="/">ホーム</a>
+    <a href="{{ '/' | relative_url }}">ホーム</a>
     <span class="sep">&gt;</span>
-    <a href="/news/">お知らせ</a>
+    <a href="{{ '/news/' | relative_url }}">お知らせ</a>
     <span class="sep">&gt;</span>
     <span>{{ page.title }}</span>
   </nav>
@@ -50,27 +50,37 @@ layout: default
     {{ content }}
   </div>
 
+  <!-- 通販・来店CTA -->
+  <aside class="post-cta" style="margin:36px 0 8px; padding:20px 22px; background:rgba(242,184,0,0.13); border:2px solid #F2B800; border-radius:10px;">
+    <p style="margin:0 0 10px; font-weight:bold; font-size:16px;">北京の手作り餃子、ご自宅でもお店でも</p>
+    <p style="margin:0 0 14px; font-size:14px; line-height:1.7;">看板の海王餃子・海鮮餃子は、生餃子のまま全国へお届けできます。大阪・枚方のお店では、できたて熱々をご用意してお待ちしています。</p>
+    <p style="margin:0; display:flex; flex-wrap:wrap; gap:10px;">
+      <a href="{{ '/order.html' | relative_url }}" style="display:inline-block; padding:10px 22px; background:#e63946; color:#fff; font-weight:bold; border-radius:6px; text-decoration:none;">餃子のお取り寄せ（全国発送）</a>
+      <a href="{{ '/about.html' | relative_url }}" style="display:inline-block; padding:10px 22px; background:#F2B800; color:#333; font-weight:bold; border-radius:6px; text-decoration:none;">ご来店のご案内（店舗紹介）</a>
+    </p>
+  </aside>
+
   <!-- シェアボタン -->
   <div class="post-share">
     <span class="share-label">この記事をシェア:</span>
-    <a href="https://x.com/intent/tweet?url={{ site.url }}{{ page.url | url_encode }}&text={{ page.title | url_encode }}"
+    <a href="https://x.com/intent/tweet?url={{ page.url | absolute_url | url_encode }}&text={{ page.title | url_encode }}"
        target="_blank" rel="noopener" aria-label="Xでシェア" class="share-x">X</a>
-    <a href="https://www.facebook.com/sharer/sharer.php?u={{ site.url }}{{ page.url | url_encode }}"
+    <a href="https://www.facebook.com/sharer/sharer.php?u={{ page.url | absolute_url | url_encode }}"
        target="_blank" rel="noopener" aria-label="Facebookでシェア" class="share-fb">Facebook</a>
-    <a href="https://social-plugins.line.me/lineit/share?url={{ site.url }}{{ page.url | url_encode }}"
+    <a href="https://social-plugins.line.me/lineit/share?url={{ page.url | absolute_url | url_encode }}"
        target="_blank" rel="noopener" aria-label="LINEでシェア" class="share-line">LINE</a>
   </div>
 
   <!-- 前後の記事 -->
   <nav class="post-navigation" aria-label="前後の記事">
     {% if page.previous %}
-      <a href="{{ page.previous.url }}" class="prev">
+      <a href="{{ page.previous.url | relative_url }}" class="prev">
         <span class="label">前の記事</span>
         <span class="title">{{ page.previous.title }}</span>
       </a>
     {% endif %}
     {% if page.next %}
-      <a href="{{ page.next.url }}" class="next">
+      <a href="{{ page.next.url | relative_url }}" class="next">
         <span class="label">次の記事</span>
         <span class="title">{{ page.next.title }}</span>
       </a>
@@ -79,7 +89,33 @@ layout: default
 
   <!-- 一覧に戻る -->
   <div class="back-to-list">
-    <a href="/news/">&laquo; お知らせ一覧へ戻る</a>
+    <a href="{{ '/news/' | relative_url }}">&laquo; お知らせ一覧へ戻る</a>
   </div>
 
 </article>
+
+<!-- 構造化データ: Article -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "NewsArticle",
+  "headline": {{ page.title | jsonify }},
+  "datePublished": "{{ page.date | date_to_xmlschema }}",
+  "dateModified": "{{ page.last_modified_at | default: page.date | date_to_xmlschema }}",
+  "mainEntityOfPage": "{{ page.url | absolute_url }}",
+  "image": "{% if page.image %}{{ page.image | absolute_url }}{% else %}{{ '/images/ogp-default.jpg' | absolute_url }}{% endif %}",
+  "author": {
+    "@type": "Organization",
+    "name": "{{ site.restaurant.name }}"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "{{ site.restaurant.name }}",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "{{ '/images/logo_banner.png' | absolute_url }}"
+    }
+  },
+  "description": {{ page.description | default: site.description | jsonify }}
+}
+</script>
