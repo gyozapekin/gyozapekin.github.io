@@ -44,6 +44,21 @@
 <!-- スタイル -->
 <link rel="stylesheet" href="/css/news.css">
 
+<!-- ヘッダー/ナビをメインサイト（index.html）と統一 -->
+<style>
+  .site-header{background:#F2B800;text-align:center;overflow:hidden;padding:0;}
+  .site-header a{display:block;}
+  .site-header img.logo{width:100%;max-width:620px;height:auto;display:block;margin:0 auto;}
+  .site-nav{background:#ffffff;border-bottom:2px solid #ddd;border-top:1px solid #ccc;}
+  .site-nav ul{list-style:none;display:flex;flex-wrap:wrap;justify-content:center;margin:0;padding:0;}
+  .site-nav ul li{margin:0;}
+  .site-nav ul li a{display:block;padding:10px 13px;font-size:13px;font-weight:500;color:#111;text-decoration:none;white-space:nowrap;transition:background .2s;}
+  .site-nav ul li a:hover,.site-nav ul li a.active{background:#F2B800;color:#333;font-weight:bold;text-decoration:none;}
+  .site-nav ul li a.lang-switch{background:#c0392b;color:#fff;font-weight:bold;border-radius:4px;margin:4px;padding:6px 14px;}
+  .site-nav ul li a.lang-switch:hover{background:#e74c3c;color:#fff;}
+  @media(max-width:640px){.site-nav ul li a{padding:8px 8px;font-size:11px;}}
+</style>
+
 <!-- Favicon -->
 <link rel="icon" type="image/png" href="/images/favicon.png">
 
@@ -53,23 +68,23 @@
 
 <body>
 
-<!-- ヘッダー（既存サイトと統一） -->
+<!-- ヘッダー（メインサイトと統一：黄色バナー） -->
 <header class="site-header">
   <a href="/" class="logo-link" aria-label="海鮮餃子 北京 ホーム">
-    <img src="/images/logo-banner.jpg" alt="海鮮餃子 北京" class="logo-banner"
+    <img src="/images/logo_banner.png" alt="海鮮餃子 北京" class="logo"
          onerror="this.style.display='none'; this.parentElement.innerHTML='<h1 style=\'margin:0;color:#c0392b;font-size:2rem;\'>海鮮餃子 北京</h1>';">
   </a>
 </header>
 
-<!-- メインナビゲーション -->
-<nav class="main-nav" aria-label="メインメニュー">
+<!-- メインナビゲーション（メインサイトと統一） -->
+<nav class="site-nav" aria-label="メインメニュー">
   <ul>
     <li><a href="/">ホーム</a></li>
-    <li><a href="/order.html">ネットショップ</a></li>
+    <li><a href="/order.html">ネットショップ：ECサイト</a></li>
     <li><a href="/menu.html">メニュー</a></li>
     <li><a href="/about.html">店舗紹介</a></li>
     <li><a href="/howto.html">餃子の焼き方</a></li>
-    <li><a href="/news/" class="current">お知らせ</a></li>
+    <li><a href="/news/" class="active">ブログ</a></li>
     <li><a href="/gallery.html">ギャラリー</a></li>
     <li><a href="/contact.html">お問合わせ</a></li>
     <li><a href="/en/" class="lang-switch">English</a></li>
@@ -88,7 +103,7 @@
     <a href="/menu.html">メニュー</a>
     <a href="/about.html">店舗紹介</a>
     <a href="/contact.html">お問合わせ</a>
-    <a href="/news/">お知らせ</a>
+    <a href="/news/">ブログ</a>
   </nav>
   <p class="copyright">&copy; 海鮮餃子 北京 All Rights Reserved.</p>
   <p class="address">{{ site.restaurant.address }}　電話: <a href="tel:{{ site.restaurant.phone }}">{{ site.restaurant.phone }}</a></p>
