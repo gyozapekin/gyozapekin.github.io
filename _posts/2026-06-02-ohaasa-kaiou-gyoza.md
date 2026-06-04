@@ -3,8 +3,7 @@ layout: post
 title: "「おはよう朝日です」で紹介いただきました ― 看板の海王餃子が5点満点"
 date: 2026-06-02 12:00:00 +0900
 news_category: media
-image: /kaiou-gyoza.jpg
-image_caption: "特大の海王餃子（2,060円）"
+image: /images/ogp-ohaasa-2026-06.jpg
 description: "朝日放送テレビ「おはよう朝日です」の町中華 徹底リサーチで海鮮餃子 北京が紹介され、看板の海王餃子が5点満点をいただきました。海鮮トリオ、酢豚、名物コンビの掛け合いも。"
 ---
 
