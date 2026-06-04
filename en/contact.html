@@ -65,11 +65,10 @@
             <section class="section">
                 <h2>Contact Form</h2>
                 <!--
-                日本語版と同じく Formspree を利用する静的フォーム。
-                Formspree の action URL は日本語版と共通の YOUR_FORM_ID を流用する。
-                未設定なら下部のメール・電話リンクからの連絡を案内する。
+                日本語版と同じく FormSubmit（無料・登録不要）を利用する静的フォーム。
+                送信内容は kaisen.gyoza.pekin@gmail.com に届く。
                 -->
-                <form class="contact-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+                <form class="contact-form" action="https://formsubmit.co/kaisen.gyoza.pekin@gmail.com" method="POST">
                     <label for="name">
                         Your Name <span class="required">*required</span>
                     </label>
@@ -91,10 +90,15 @@
                     <textarea id="message" name="message" placeholder="Please enter your message here." required></textarea>
 
                     <!-- スパム対策（ハニーポット） -->
-                    <input type="text" name="_gotcha" style="display:none">
+                    <input type="text" name="_honey" style="display:none">
 
-                    <!-- 送信後リダイレクト先（英語版ページに戻す） -->
-                    <input type="hidden" name="_next" value="https://gyozapekin.com/en/contact.html?sent=1">
+                    <!-- FormSubmit設定: メール件名・表形式・CAPTCHA無効 -->
+                    <input type="hidden" name="_subject" value="[gyozapekin.com] Contact Form (EN)">
+                    <input type="hidden" name="_template" value="table">
+                    <input type="hidden" name="_captcha" value="false">
+
+                    <!-- 送信後リダイレクト先（JSで現在のURLに合わせて自動設定: DEV/本番両対応） -->
+                    <input type="hidden" name="_next" id="next-url" value="https://gyozapekin.com/en/contact.html?sent=1">
 
                     <button type="submit">Send</button>
                 </form>
@@ -138,11 +142,4 @@
         </footer>
     </div>
     <script>
-        // 送信完了メッセージの表示制御（日本語版と同じロジック）
-        if (window.location.search.includes('sent=1')) {
-            document.getElementById('sent-msg').style.display = 'block';
-            window.scrollTo(0, document.getElementById('sent-msg').offsetTop - 100);
-        }
-    </script>
-</body>
-</html>
+        // 送信完了メッセージの表�

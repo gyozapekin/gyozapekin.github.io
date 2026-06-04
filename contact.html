@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>お問合わせ | 海鮮餃子 北京</title>
     <meta name="description" content="海鮮餃子 北京へのお問合わせページ。ご予約・ご質問はお気軽にどうぞ。">
-    <link rel="canonical" href="https://gyozapekin.com/contact.html">
     <link rel="alternate" hreflang="ja" href="https://gyozapekin.com/contact.html">
     <link rel="alternate" hreflang="en" href="https://gyozapekin.com/en/contact.html">
     <link rel="alternate" hreflang="x-default" href="https://gyozapekin.com/contact.html">
@@ -65,14 +64,11 @@
             <section class="section">
                 <h2>お問合わせフォーム</h2>
                 <!--
-                GitHub Pagesは静的サイトのためフォームの送信にはFormspreeを利用します。
-                以下の action="https://formspree.io/f/YOUR_FORM_ID" を実際のIDに変更してください。
-                Formspree: https://formspree.io （無料プランあり）
-
-                Formspree未設定の場合はメールリンクで代替：
-                <p>お問合わせは <a href="mailto:kaisen.gyoza.pekin@gmail.com">kaisen.gyoza.pekin@gmail.com</a> までメールでお送りください。</p>
+                GitHub Pagesは静的サイトのため、フォーム送信にはFormSubmit（無料・登録不要）を利用。
+                送信内容は kaisen.gyoza.pekin@gmail.com に届く。
+                初回送信時のみFormSubmitから有効化メールが届くので、リンクを1回クリックすること。
                 -->
-                <form class="contact-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+                <form class="contact-form" action="https://formsubmit.co/kaisen.gyoza.pekin@gmail.com" method="POST">
                     <label for="name">
                         お名前 <span class="required">*必須</span>
                     </label>
@@ -94,10 +90,15 @@
                     <textarea id="message" name="message" placeholder="お問合わせ内容をご記入ください。" required></textarea>
 
                     <!-- スパム対策（ハニーポット） -->
-                    <input type="text" name="_gotcha" style="display:none">
+                    <input type="text" name="_honey" style="display:none">
 
-                    <!-- 送信後リダイレクト先 -->
-                    <input type="hidden" name="_next" value="https://gyozapekin.com/contact.html?sent=1">
+                    <!-- FormSubmit設定: メール件名・表形式・CAPTCHA無効 -->
+                    <input type="hidden" name="_subject" value="【gyozapekin.com】お問合わせフォーム">
+                    <input type="hidden" name="_template" value="table">
+                    <input type="hidden" name="_captcha" value="false">
+
+                    <!-- 送信後リダイレクト先（JSで現在のURLに合わせて自動設定: DEV/本番両対応） -->
+                    <input type="hidden" name="_next" id="next-url" value="https://gyozapekin.com/contact.html?sent=1">
 
                     <button type="submit">送信する</button>
                 </form>
@@ -108,7 +109,7 @@
                     お問合わせありがとうございます。確認後、ご連絡いたします。
                 </div>
 
-                <!-- Formspree未設定の場合の代替表示 -->
+                <!-- フォーム以外の連絡手段 -->
                 <div style="margin-top:20px; padding:14px; background:#fff8e1; border:1px solid #ffcc80; border-radius:4px;">
                     <p style="margin:0;">お電話でのお問合わせ：<a href="tel:0728490433" style="font-weight:bold; font-size:1.1em;">072-849-0433</a></p>
                     <p style="margin:5px 0 0;">メール：<a href="mailto:kaisen.gyoza.pekin@gmail.com">kaisen.gyoza.pekin@gmail.com</a></p>
@@ -142,10 +143,4 @@
     </div>
     <script>
         // 送信完了メッセージ表示
-        if (window.location.search.includes('sent=1')) {
-            document.getElementById('sent-msg').style.display = 'block';
-            window.scrollTo(0, document.getElementById('sent-msg').offsetTop - 100);
-        }
-    </script>
-</body>
-  </html>
+        if (window.locat
