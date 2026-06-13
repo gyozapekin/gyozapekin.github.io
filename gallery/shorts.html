@@ -73,94 +73,44 @@
 
   <!-- このページ専用の追加スタイル（縦型ショート動画グリッド） -->
   <style>
-    .breadcrumb {
-      font-size: 12.5px;
-      color: #666;
-      margin-bottom: 14px;
-    }
+    .breadcrumb { font-size: 12.5px; color: #666; margin-bottom: 14px; }
     .shorts-intro {
       background: rgba(255,255,255,0.55);
       border-left: 4px solid #F2B800;
-      padding: 14px 16px;
-      margin-bottom: 20px;
-      font-size: 14px;
+      padding: 14px 16px; margin-bottom: 20px; font-size: 14px;
     }
     .shorts-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
-      gap: 16px;
-      padding: 8px;
+      gap: 16px; padding: 8px;
     }
     .short-card {
-      background: #fff;
-      border: 1px solid #e0d8c5;
-      border-radius: 8px;
-      overflow: hidden;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.12);
-      display: flex;
-      flex-direction: column;
+      background: #fff; border: 1px solid #e0d8c5; border-radius: 8px;
+      overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+      display: flex; flex-direction: column;
     }
-    .short-vwrap {
-      position: relative;
-      width: 100%;
-      aspect-ratio: 9 / 16;
-      background: #000;
-    }
-    .short-vwrap iframe {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      border: 0;
-    }
+    .short-vwrap { position: relative; width: 100%; aspect-ratio: 9 / 16; background: #000; }
+    .short-vwrap iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
     .short-body { padding: 12px 14px 14px; }
-    .short-body h3 {
-      font-size: 13.5px;
-      color: #7a1212;
-      margin: 0 0 4px;
-      line-height: 1.5;
-    }
-    .short-date {
-      font-size: 11px;
-      color: #999;
-      margin: 0 0 6px;
-    }
-    .short-body p {
-      font-size: 12.5px;
-      color: #555;
-      margin: 0 0 8px;
-      line-height: 1.7;
-    }
+    .short-body h3 { font-size: 13.5px; color: #7a1212; margin: 0 0 4px; line-height: 1.5; }
+    .short-date { font-size: 11px; color: #999; margin: 0 0 6px; }
+    .short-body p { font-size: 12.5px; color: #555; margin: 0 0 8px; line-height: 1.7; }
     .short-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 8px; }
     .short-tags span {
-      font-size: 11px;
-      color: #8a6d00;
-      background: #fdf6e3;
-      border: 1px solid #ecdca0;
-      padding: 2px 7px;
-      border-radius: 4px;
+      font-size: 11px; color: #8a6d00; background: #fdf6e3;
+      border: 1px solid #ecdca0; padding: 2px 7px; border-radius: 4px;
     }
     .short-watch { font-size: 12.5px; font-weight: bold; }
     .shorts-cta {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 12px;
-      margin-top: 8px;
+      gap: 12px; margin-top: 8px;
     }
-    .shorts-cta .cta-box {
-      background: #f9f7f0;
-      border: 1px solid #ddd;
-      border-radius: 6px;
-      padding: 16px;
-    }
+    .shorts-cta .cta-box { background: #f9f7f0; border: 1px solid #ddd; border-radius: 6px; padding: 16px; }
     .shorts-cta .cta-box h3 { font-size: 14px; color: #002299; margin: 0 0 6px; }
     .shorts-cta .cta-box p { font-size: 12.5px; color: #555; margin: 0 0 10px; }
-    @media (max-width: 600px) {
-      .shorts-grid { grid-template-columns: repeat(2, 1fr); }
-    }
-    @media (max-width: 400px) {
-      .shorts-grid { grid-template-columns: 1fr; }
-    }
+    @media (max-width: 600px) { .shorts-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 400px) { .shorts-grid { grid-template-columns: 1fr; } }
   </style>
 </head>
 <body>
@@ -181,7 +131,13 @@
       <li><a href="../about.html">店舗紹介</a></li>
       <li><a href="../howto.html">餃子の焼き方</a></li>
       <li><a href="../news/">ブログ</a></li>
-      <li><a href="../gallery.html" class="active">ギャラリー</a></li>
+      <li class="has-dropdown">
+        <a href="../gallery.html" class="active">ギャラリー<span class="caret">▼</span></a>
+        <ul class="dropdown">
+          <li><a href="../gallery.html">写真ギャラリー</a></li>
+          <li><a href="shorts.html">ショート動画</a></li>
+        </ul>
+      </li>
       <li><a href="../contact.html">お問合わせ</a></li>
     </ul>
   </nav>
@@ -616,6 +572,11 @@ function toggleAccordion(btn) {
     item.classList.add('open');
   }
 }
+document.querySelectorAll('.site-nav li.has-dropdown > a').forEach(function(a){
+  a.addEventListener('click', function(e){
+    if (window.matchMedia('(max-width: 640px)').matches) { e.preventDefault(); a.parentElement.classList.toggle('open'); }
+  });
+});
 </script>
 
 </body>
