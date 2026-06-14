@@ -5,4 +5,7 @@ Allow: /
 Disallow: /shift/
 Disallow: /shift.html
 
+# テスト版（確認用）はクロールさせない
+Disallow: /gyozapekin2.github.io/
+
 Sitemap: https://gyozapekin.com/sitemap.xml
