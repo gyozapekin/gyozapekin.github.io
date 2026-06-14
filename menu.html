@@ -22,7 +22,13 @@
             <ul>
                 <li><a href="index.html">ホーム</a></li>
                 <li><a href="order.html">ネットショップ：ECサイト</a></li>
-                <li><a href="menu.html" class="active">メニュー</a></li>
+                <li class="has-dropdown">
+                    <a href="menu.html" class="active">メニュー<span class="caret">▼</span></a>
+                    <ul class="dropdown">
+                        <li><a href="menu.html">日本語メニュー</a></li>
+                        <li><a href="en/menu.html">英語メニュー / English</a></li>
+                    </ul>
+                </li>
                 <li><a href="about.html">店舗紹介</a></li>
                 <li><a href="howto.html">餃子の焼き方</a></li>
                 <li><a href="news/">ブログ</a></li>
@@ -34,13 +40,6 @@
                     </ul>
                 </li>
                 <li><a href="contact.html">お問合わせ</a></li>
-                <li class="has-dropdown lang-dropdown">
-                    <a href="#" class="lang-top">言語<span class="caret">▼</span></a>
-                    <ul class="dropdown">
-                        <li><a href="menu.html">日本語</a></li>
-                        <li><a href="en/menu.html">English</a></li>
-                    </ul>
-                </li>
             </ul>
         </nav>
         <main>
@@ -238,12 +237,6 @@
                 </table>
             </div>
 
-            <!-- 英語メニューへのリンク（最下部・残置） -->
-            <section class="section">
-                <h2>English Menu</h2>
-                <p>An English version of this menu is also available.</p>
-                <a href="en/menu.html">→ View English Menu</a>
-            </section>
         </main>
         <footer class="site-footer">
             <div class="footer-links">
