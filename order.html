@@ -76,17 +76,29 @@
   </header>
 
   <nav class="site-nav">
-    <ul>
-      <li><a href="index.html">ホーム</a></li>
-      <li><a href="order.html" class="active">ネットショップ（ECサイト）</a></li>
-      <li><a href="menu.html">メニュー</a></li>
-      <li><a href="about.html">店舗紹介</a></li>
-      <li><a href="howto.html">餃子の焼き方</a></li>
-      <li><a href="news/">ブログ</a></li>
-      <li><a href="gallery.html">ギャラリー</a></li>
-      <li><a href="contact.html">お問合せ</a></li>
-    </ul>
-  </nav>
+            <ul>
+                <li><a href="index.html">ホーム</a></li>
+                <li><a href="order.html" class="active">ネットショップ：ECサイト</a></li>
+                <li class="has-dropdown">
+                    <a href="menu.html">メニュー<span class="caret">▼</span></a>
+                    <ul class="dropdown">
+                        <li><a href="menu.html">日本語メニュー</a></li>
+                        <li><a href="en/menu.html">英語メニュー / English</a></li>
+                    </ul>
+                </li>
+                <li><a href="about.html">店舗紹介</a></li>
+                <li><a href="howto.html">餃子の焼き方</a></li>
+                <li><a href="news/">ブログ</a></li>
+                <li class="has-dropdown">
+                    <a href="gallery.html">ギャラリー<span class="caret">▼</span></a>
+                    <ul class="dropdown">
+                        <li><a href="gallery.html">写真ギャラリー</a></li>
+                        <li><a href="gallery/shorts.html">ショート動画</a></li>
+                    </ul>
+                </li>
+                <li><a href="contact.html">お問合わせ</a></li>
+            </ul>
+        </nav>
 
   <main>
 
@@ -149,5 +161,16 @@
 
 </div>
 
+    <script>
+      // ナビのドロップダウン（スマホはタップで開閉）
+      document.querySelectorAll('.site-nav li.has-dropdown > a').forEach(function(a){
+        a.addEventListener('click', function(e){
+          if (window.matchMedia('(max-width: 640px)').matches) {
+            e.preventDefault();
+            a.parentElement.classList.toggle('open');
+          }
+        });
+      });
+    </script>
 </body>
 </html>
