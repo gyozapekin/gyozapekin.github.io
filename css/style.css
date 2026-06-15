@@ -32,11 +32,11 @@ body {
 .site-wrapper {
   max-width: 860px;
   margin: 0 auto;
-  background: rgba(255, 255, 255, 0.6);
+  background: rgba(255, 255, 255, 0.40);
   box-shadow: 0 0 28px rgba(0,0,0,0.55);
   min-height: 100vh;
-  backdrop-filter: blur(2px);
-  -webkit-backdrop-filter: blur(2px);
+  backdrop-filter: blur(3px) saturate(1.05);
+  -webkit-backdrop-filter: blur(3px) saturate(1.05);
 }
 
 /* ヘッダー（ロゴバナー） */
@@ -45,7 +45,7 @@ body {
 .site-header img.logo { width: 100%; max-width: 620px; height: auto; display: block; margin: 0 auto; }
 
 /* ナビゲーション */
-.site-nav { background: #ffffff; border-bottom: 2px solid #ddd; border-top: 1px solid #ccc; }
+.site-nav { background: rgba(255,255,255,0.82); border-bottom: 2px solid #ddd; border-top: 1px solid #ccc; }
 .site-nav ul { list-style: none; display: flex; flex-wrap: wrap; justify-content: center; margin: 0; padding: 0; }
 .site-nav ul li a {
   display: block;
@@ -254,17 +254,16 @@ a:hover { text-decoration: underline; }
 /* (A) メニュー見出し横の英語バッジ（四角アイコン付き） */
 .lang-badge {
   display: inline-flex; align-items: center; gap: 6px;
-  font-size: 12px; font-weight: 700; color: #fff !important;
-  background: #c0392b; border: 2px solid #8c2418; border-radius: 6px;
-  padding: 3px 10px 3px 6px; margin-left: 12px; vertical-align: middle;
+  font-size: 11.5px; font-weight: 600; color: #7a1212 !important;
+  background: #fdf6e3; border: 1px solid #e0d8c5; border-radius: 5px;
+  padding: 2px 9px 2px 5px; margin-left: 12px; vertical-align: middle;
   letter-spacing: 0.02em; text-decoration: none !important; line-height: 1.4;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.25);
 }
 .lang-badge::before {
-  content: "EN"; display: inline-block; background: #fff; color: #c0392b;
-  font-weight: 900; font-size: 10px; border-radius: 3px; padding: 1px 5px;
+  content: "EN"; display: inline-block; background: #F2B800; color: #5a3b00;
+  font-weight: 800; font-size: 9.5px; border-radius: 3px; padding: 1px 5px;
 }
-.lang-badge:hover { background: #e74c3c; }
+.lang-badge:hover { background: #f6ecd0; }
 
 /* (B)(C) ナビのドロップダウン（言語・ギャラリー共通） */
 .site-nav li.has-dropdown { position: relative; }
@@ -302,4 +301,52 @@ a:hover { text-decoration: underline; }
 /* スマホ：ドロップダウンは通常フローで展開 */
 @media (max-width: 640px) {
   .site-nav li.has-dropdown .dropdown { position: static; box-shadow: none; border-top: 1px solid #eee; min-width: 0; }
+}
+
+/* =====================================================
+   角丸・柔らかみ調整（2026-06-14）
+   英語バッジの丸みに合わせ、ナビ・ボタン・枠の角を柔らかく
+   ===================================================== */
+/* ナビ項目：ホバー/選択中ハイライトを角丸ピル風に */
+.site-nav ul li a { border-radius: 12px; margin: 4px 3px; }
+/* ドロップダウン：箱の角を丸く */
+.site-nav li.has-dropdown .dropdown { border-radius: 12px; overflow: hidden; }
+/* 言語/旧言語ボタン：柔らかく */
+.site-nav li.lang-dropdown > a, .site-nav ul li a.lang-switch { border-radius: 12px; }
+/* 各種ボタン：英語バッジに合わせて丸く */
+.btn-order { border-radius: 16px; }
+.contact-form button[type="submit"] { border-radius: 16px; }
+/* メニューのカテゴリ見出し（黄色帯）：角を取る */
+.menu-category h3 { border-radius: 10px; }
+/* 表：外枠の角を丸める（横罫線のみのすっきり表示） */
+.menu-table, .store-info-table {
+  border-collapse: separate; border-spacing: 0;
+  border: 1px solid #e3ddd0; border-radius: 14px; overflow: hidden;
+}
+.menu-table th, .menu-table td,
+.store-info-table th, .store-info-table td { border: none; border-bottom: 1px solid #eee; }
+.menu-table tr:last-child td, .store-info-table tr:last-child td { border-bottom: none; }
+/* 情報ボックス・アコーディオン枠を柔らかく */
+.contact-info { border-radius: 14px; }
+.accordion-item { border-radius: 12px; }
+/* 英語バッジ：基準の丸みをほんの少し強調 */
+.lang-badge { border-radius: 10px; }
+
+/* =====================================================
+   白パネルも透過して餃子を見せる（2026-06-14）
+   ===================================================== */
+/* メニューの料理表：白を半透明にして餃子を透かす（文字は読める範囲で） */
+.menu-table { background: transparent; }
+.menu-table th { background: rgba(245,240,228,0.50); }
+.menu-table td { background: rgba(255,255,255,0.30); }
+.menu-table tr:nth-child(even) td { background: rgba(255,255,255,0.44); }
+/* 店舗情報表・問い合わせ枠も同様に少し透過 */
+.store-info-table { background: transparent; }
+.store-info-table th { background: rgba(249,247,240,0.55); }
+.store-info-table td { background: rgba(255,255,255,0.32); }
+.contact-info { background: rgba(249,247,240,0.55); }
+/* メニュー/ギャラリーのドロップダウンの白も少しだけ透過＋すりガラス */
+.site-nav li.has-dropdown .dropdown {
+  background: rgba(255,255,255,0.92);
+  backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
 }
