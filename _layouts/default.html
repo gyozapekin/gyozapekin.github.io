@@ -90,6 +90,17 @@
   .site-main{max-width:none;margin:0;padding:28px 26px 44px;background:transparent;border-radius:0;box-shadow:none;}
   .site-footer{margin-top:0;}
   @media(max-width:640px){.site-nav ul li a{padding:8px 8px;font-size:11px;}.site-main{padding:20px 16px 32px;}}
+  /* ドロップダウン＋角丸（2026-06-14） */
+  .site-nav ul li a{border-radius:12px;margin:4px 3px;}
+  .site-nav li.has-dropdown{position:relative;}
+  .site-nav li.has-dropdown>a .caret{font-size:9px;margin-left:4px;vertical-align:middle;}
+  .site-nav li.has-dropdown .dropdown{display:none;position:absolute;top:100%;left:0;min-width:168px;background:#fff;border:1px solid #ccc;border-top:3px solid #F2B800;box-shadow:0 6px 16px rgba(0,0,0,.22);z-index:200;list-style:none;padding:0;margin:0;border-radius:12px;overflow:hidden;}
+  .site-nav li.has-dropdown:hover .dropdown,.site-nav li.has-dropdown:focus-within .dropdown,.site-nav li.has-dropdown.open .dropdown{display:block;}
+  .site-nav li.has-dropdown .dropdown li{display:block;}
+  .site-nav li.has-dropdown .dropdown li a{display:block;padding:10px 16px;font-size:13px;color:#111;white-space:nowrap;border-bottom:1px solid #eee;border-radius:0;margin:0;}
+  .site-nav li.has-dropdown .dropdown li:last-child a{border-bottom:none;}
+  .site-nav li.has-dropdown .dropdown li a:hover{background:#fdf6e3;}
+  @media(max-width:640px){.site-nav li.has-dropdown .dropdown{position:static;box-shadow:none;border-top:1px solid #eee;min-width:0;}}
 </style>
 
 <!-- Favicon -->
@@ -117,13 +128,24 @@
   <ul>
     <li><a href="{{ '/' | relative_url }}">ホーム</a></li>
     <li><a href="{{ '/order.html' | relative_url }}">ネットショップ：ECサイト</a></li>
-    <li><a href="{{ '/menu.html' | relative_url }}">メニュー</a></li>
+    <li class="has-dropdown">
+      <a href="{{ '/menu.html' | relative_url }}">メニュー<span class="caret">▼</span></a>
+      <ul class="dropdown">
+        <li><a href="{{ '/menu.html' | relative_url }}">日本語メニュー</a></li>
+        <li><a href="{{ '/en/menu.html' | relative_url }}">英語メニュー / English</a></li>
+      </ul>
+    </li>
     <li><a href="{{ '/about.html' | relative_url }}">店舗紹介</a></li>
     <li><a href="{{ '/howto.html' | relative_url }}">餃子の焼き方</a></li>
     <li><a href="{{ '/news/' | relative_url }}" class="active">ブログ</a></li>
-    <li><a href="{{ '/gallery.html' | relative_url }}">ギャラリー</a></li>
+    <li class="has-dropdown">
+      <a href="{{ '/gallery.html' | relative_url }}">ギャラリー<span class="caret">▼</span></a>
+      <ul class="dropdown">
+        <li><a href="{{ '/gallery.html' | relative_url }}">写真ギャラリー</a></li>
+        <li><a href="{{ '/gallery/shorts.html' | relative_url }}">ショート動画</a></li>
+      </ul>
+    </li>
     <li><a href="{{ '/contact.html' | relative_url }}">お問合わせ</a></li>
-    <li><a href="{{ '/en/' | relative_url }}" class="lang-switch">English</a></li>
   </ul>
 </nav>
 
@@ -146,5 +168,8 @@
 </footer>
 
 </div>
+<script>
+document.querySelectorAll('.site-nav li.has-dropdown > a').forEach(function(a){a.addEventListener('click',function(e){if(window.matchMedia('(max-width: 640px)').matches){e.preventDefault();a.parentElement.classList.toggle('open');}});});
+</script>
 </body>
 </html>
