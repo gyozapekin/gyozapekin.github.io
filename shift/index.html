@@ -111,17 +111,26 @@ function _applyDb(db){
   }catch(e){}
 })();
 
-/* -- 認証ヘルパー -- */
+/* -- パスワードハッシュ (admin.html と同方式: SHA-256 + salt) -- */
+async function hashPw(plain,salt){
+  const data=new TextEncoder().encode(salt+':'+(plain||''));
+  const buf=await crypto.subtle.digest('SHA-256',data);
+  return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
+}
+
+/* -- 認証ヘルパー --
+   公開ファイルには平文パスワードを置かない。実際の認証情報はFirebase側（非公開）にあり、
+   ログイン時はハッシュで照合する。下の初期配列は表示用の最小情報のみ（パスワードは持たない）。 */
 function getUsers(){
   const def=[
-    {id:'admin',name:'管理者',username:'admin',password:'pekin2026',role:'admin',type:'admin'},
-    {id:'s_1775908177910',name:'ふさちゃん',username:'fusa',password:'fusa0433',role:'staff',type:'part'},
-    {id:'s_1775908211262',name:'みきちゃん',username:'miki',password:'miki0433',role:'staff',type:'part'},
-    {id:'s_1775908408369',name:'ちなちゃん',username:'china',password:'china0433',role:'staff',type:'alt'},
-    {id:'s_1775908464379',name:'ひろせくん',username:'hirose',password:'hirose04343',role:'staff',type:'alt'},
-    {id:'s_1775908503865',name:'まーちゃん',username:'mafune',password:'mafune0433',role:'staff',type:'alt'},
-    {id:'s_1775908539755',name:'るいくん',username:'rui',password:'rui0433',role:'staff',type:'alt'},
-    {id:'s_1775948185859',name:'ぶんくん',username:'bun',password:'bun0433',role:'staff',type:'alt'}
+    {id:'admin',name:'管理者',username:'admin',role:'admin',type:'admin'},
+    {id:'s_1775908177910',name:'ふさちゃん',username:'fusa',role:'staff',type:'part'},
+    {id:'s_1775908211262',name:'みきちゃん',username:'miki',role:'staff',type:'part'},
+    {id:'s_1775908408369',name:'ちなちゃん',username:'china',role:'staff',type:'alt'},
+    {id:'s_1775908464379',name:'ひろせくん',username:'hirose',role:'staff',type:'alt'},
+    {id:'s_1775908503865',name:'まーちゃん',username:'mafune',role:'staff',type:'alt'},
+    {id:'s_1775908539755',name:'るいくん',username:'rui',role:'staff',type:'alt'},
+    {id:'s_1775948185859',name:'ぶんくん',username:'bun',role:'staff',type:'alt'}
   ];
   return JSON.parse(localStorage.getItem('pekin_users')||JSON.stringify(def));
 }
@@ -133,24 +142,36 @@ function setSession(u){
   }));
 }
 
-function doLogin(){
+/* ログイン照合：
+   1) passwordHash があればハッシュ照合（本筋）
+   2) customPassword があれば一致を許可
+   3) 移行期のフォールバックとして平文 password が残っていれば一致を許可
+   4) スタッフ（admin以外）はマスターパスワードでも可
+   平文が消えても 1) で動作する。*/
+async function doLogin(){
   const id=document.getElementById('loginId').value.trim();
   const pw=document.getElementById('loginPw').value;
   const users=getUsers();
   const masterPw=localStorage.getItem('pekin_master_pw')||'';
-  const u=users.find(x=>{
-    if(x.username!==id)return false;
-    if(x.role==='admin')return x.password===pw;
-    if(x.customPassword)return pw===x.customPassword||(masterPw&&pw===masterPw);
-    return pw===x.password||(masterPw&&pw===masterPw);
-  });
-  if(!u){
+  let matched=null;
+  for(const x of users){
+    if(x.username!==id)continue;
+    let ok=false;
+    if(x.passwordHash&&x.passwordSalt){
+      try{ok=(await hashPw(pw,x.passwordSalt))===x.passwordHash;}catch(e){ok=false;}
+    }
+    if(!ok&&x.customPassword){ok=(pw===x.customPassword);}
+    if(!ok&&x.password){ok=(pw===x.password);}
+    if(!ok&&x.role!=='admin'&&masterPw&&pw===masterPw){ok=true;}
+    if(ok){matched=x;break;}
+  }
+  if(!matched){
     document.getElementById('errMsg').style.display='block';
     document.getElementById('loginPw').value='';
     return;
   }
-  setSession(u);
-  location.href=u.role==='admin'?'admin.html':'staff.html';
+  setSession(matched);
+  location.href=matched.role==='admin'?'admin.html':'staff.html';
 }
 
 document.getElementById('loginPw').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
