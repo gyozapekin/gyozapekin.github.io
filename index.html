@@ -213,18 +213,19 @@
                         num.className = 'cal-num';
                         num.textContent = d;
                         cell.appendChild(num);
-                        if (special && special.type === 'closed') {
-                            cell.classList.add('cal-closed');
-                            cell.classList.add('cal-extra');
-                            var label = document.createElement('span');
-                            label.className = 'cal-rest';
-                            label.textContent = special.label || '臨';
-                            cell.appendChild(label);
-                        } else if (special && special.type === 'open') {
+                        if (special && special.type === 'open') {
                             var openLabel = document.createElement('span');
                             openLabel.className = 'cal-special-open';
                             openLabel.textContent = special.label || '営業';
                             cell.appendChild(openLabel);
+                        } else if (special) {
+                            // open 以外の特別日(closed/holiday/振 等)はすべて休みとして赤字表示
+                            cell.classList.add('cal-closed');
+                            cell.classList.add('cal-extra');
+                            var label = document.createElement('span');
+                            label.className = 'cal-rest';
+                            label.textContent = special.label || '休';
+                            cell.appendChild(label);
                         } else if (closedDays.indexOf(dayOfWeek) !== -1) {
                             cell.classList.add('cal-closed');
                             var rest = document.createElement('span');
