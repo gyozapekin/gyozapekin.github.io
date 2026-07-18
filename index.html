@@ -253,13 +253,18 @@
                 }
                 // 設定はFirebase Realtime Databaseから直接取得（adminの設定変更がリアルタイム反映される）
                 // 失敗時のフォールバックとして /shift/db.json も試す
-                var FB_URL = 'https://pekin-shift-default-rtdb.asia-southeast1.firebasedatabase.app/pekin/db.json';
+                var FB_URL = 'https://pekin-shift-default-rtdb.asia-southeast1.firebasedatabase.app/pekin/db/pekin_settings.json';
                 function applySettings(data) {
-                    var settings = (data && data.pekin_settings) || {};
-                    // Firebaseでは pekin_settings が JSON文字列、静的db.jsonでは objectなので両対応
+                    // Firebaseは pekin_settings を直接返す（object か JSON文字列）。
+                    // 静的db.json は全体オブジェクトなので .pekin_settings を取り出す。両対応。
+                    var settings = data;
+                    if (settings && typeof settings === 'object' && settings.pekin_settings) {
+                        settings = settings.pekin_settings;
+                    }
                     if (typeof settings === 'string') {
                         try { settings = JSON.parse(settings); } catch (e) { settings = {}; }
                     }
+                    if (!settings || typeof settings !== 'object') { settings = {}; }
                     if (settings.defaultClosedDays && Array.isArray(settings.defaultClosedDays)) {
                         defaultClosedDays = settings.defaultClosedDays;
                     }
