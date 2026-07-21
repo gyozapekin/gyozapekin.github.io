@@ -74,3 +74,6 @@ news_categories:
   - id: oryori
     name: つぶやき・お料理
     color: "#85C1E9"
+  - id: footgolf
+    name: フットゴルフ
+    color: "#BB8FCE"
