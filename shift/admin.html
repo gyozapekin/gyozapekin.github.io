@@ -277,23 +277,40 @@ body{font-family:'Helvetica Neue','Hiragino Sans','Yu Gothic UI',Arial,sans-seri
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 
 <style>
-/* ==== 2026-08-17 スマホ表示修正(北京ちゃん) ====
-   症状: 携帯で曜日ヘッダと日付グリッドの列がずれ、日付だけ横に動く
-   原因: セル内の文字幅で列が1/7より広がり、グリッドが画面からはみ出すため
-   対策: 列幅を強制的に均等(minmax(0,1fr))にし、セル内は折り返す。狭い画面はセルを軽量化 */
+/* ==== 2026-08-17 スマホ表示修正v2(北京ちゃん) ====
+   縦画面: 曜日ヘッダと日付グリッドを一緒に横スクロール(セルは大きいまま・ずれない)
+   横画面/PC: 7列を画面幅にフィット(1週間まるごと表示)
+   カレンダー上に「横向き推奨」の案内(スマホ縦のみ表示) */
 .cal-head{grid-template-columns:repeat(7,minmax(0,1fr)) !important}
 .cal-grid{grid-template-columns:repeat(7,minmax(0,1fr)) !important}
-.day-cell,.ov-cell{min-width:0;overflow:hidden}
-.day-cell .sblock,.ov-cell .ov-section,.ov-cell .ov-shift-line{min-width:0;overflow:hidden}
-.day-cell .sblock *,.ov-cell *{overflow-wrap:anywhere;word-break:break-word;white-space:normal}
+.day-cell,.ov-cell{min-width:0}
+.yoko-hint{display:none}
 @media (max-width:600px){
-  .day-cell{min-height:70px;padding:3px 2px;gap:2px}
-  .ov-cell{min-height:80px;padding:3px 2px;font-size:.68em}
-  .day-num{font-size:.78em;width:18px;height:18px}
-  .sblock{padding:2px 2px;font-size:.82em}
-  .cal-head-cell{font-size:.66em;letter-spacing:0}
+  .cal-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:6px}
+  .cal-scroll .cal-head,.cal-scroll .cal-grid{min-width:640px}
+  .yoko-hint{display:flex;align-items:center;gap:6px;background:#eff6ff;border:1px solid #bfdbfe;
+    border-radius:8px;padding:8px 12px;margin:0 0 8px;font-size:.78em;color:#1e40af;line-height:1.5}
 }
 </style>
+<script>
+/* 2026-08-17 スマホ表示修正v2: 曜日ヘッダと日付グリッドを横スクロールの箱で包む+案内文(追記のみ・既存コード無変更) */
+document.addEventListener('DOMContentLoaded',function(){
+  try{
+    document.querySelectorAll('.cal-head').forEach(function(head){
+      if(head.closest('.cal-scroll'))return;
+      var grid=head.nextElementSibling;
+      while(grid&&!(grid.classList&&grid.classList.contains('cal-grid')))grid=grid.nextElementSibling;
+      if(!grid)return;
+      var wrap=document.createElement('div');wrap.className='cal-scroll';
+      head.parentNode.insertBefore(wrap,head);
+      wrap.appendChild(head);wrap.appendChild(grid);
+      var hint=document.createElement('div');hint.className='yoko-hint';
+      hint.textContent='スマホは横向きにすると、1週間がまとめて見られます(縦のままでも左右にスクロールできます)';
+      wrap.parentNode.insertBefore(hint,wrap);
+    });
+  }catch(e){}
+});
+</script>
 </head>
 <body>
 
