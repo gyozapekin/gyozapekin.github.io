@@ -23,46 +23,267 @@
     <meta name="twitter:image" content="https://gyozapekin.com/images/logo_banner.png">
 
     <!-- JSON-LD 構造化データ -->
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": ["Restaurant", "LocalBusiness"],
-        "name": "海鮮餃子 北京",
-        "description": "大阪府枚方市宮之阪の中華料理店。新鮮な海老・たこ・貝柱を使った手作り海鮮餃子が看板メニュー。",
-        "url": "https://gyozapekin.com/",
-        "image": "https://gyozapekin.com/images/logo_banner.png",
-        "telephone": "072-849-0433",
-        "address": {
-            "@type": "PostalAddress",
-            "postalCode": "573-0022",
-            "addressRegion": "大阪府",
-            "addressLocality": "枚方市",
-            "streetAddress": "宮之阪１－１９－２",
-            "addressCountry": "JP"
-        },
-        "geo": {
-            "@type": "GeoCoordinates",
-            "latitude": 34.8137,
-            "longitude": 135.6553
-        },
-        "openingHoursSpecification": [
-            {
-                "@type": "OpeningHoursSpecification",
-                "dayOfWeek": ["Monday", "Thursday", "Friday", "Saturday", "Sunday"],
-                "opens": "11:30",
-                "closes": "22:00"
-            }
+<script type="application/ld+json">
+[
+  {
+    "@context": "https://schema.org",
+    "@type": "Restaurant",
+    "@id": "https://gyozapekin.com/#restaurant",
+    "name": "海鮮餃子 北京",
+    "alternateName": "Kaisen Gyoza Pekin",
+    "description": "大阪府枚方市宮之阪にある中華料理店。新鮮な豚肉と減農薬野菜を使った手作りの海鮮餃子が看板。餃子以外の一品料理・麺類・定食も豊富。お持ち帰りと冷凍餃子の全国発送に対応。",
+    "url": "https://gyozapekin.com/",
+    "telephone": "+81-72-849-0433",
+    "faxNumber": "072-849-0606",
+    "email": "kaisen.gyoza.pekin@gmail.com",
+    "image": [
+      "https://gyozapekin.com/images/food_photo1.jpg",
+      "https://gyozapekin.com/images/interior_photo1.jpg"
+    ],
+    "priceRange": "¥¥",
+    "currenciesAccepted": "JPY",
+    "paymentAccepted": "現金",
+    "servesCuisine": [
+      "中華料理",
+      "餃子",
+      "Chinese"
+    ],
+    "address": {
+      "@type": "PostalAddress",
+      "postalCode": "573-0022",
+      "addressCountry": "JP",
+      "addressRegion": "大阪府",
+      "addressLocality": "枚方市",
+      "streetAddress": "宮之阪１－１９－２"
+    },
+    "hasMap": "https://maps.google.com/maps?q=海鮮餃子 北京+大阪府枚方市宮之阪１－１９－２",
+    "openingHoursSpecification": [
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": [
+          "https://schema.org/Monday",
+          "https://schema.org/Thursday",
+          "https://schema.org/Friday",
+          "https://schema.org/Saturday",
+          "https://schema.org/Sunday"
         ],
-        "priceRange": "¥¥",
-        "servesCuisine": ["中華料理", "餃子"],
-        "menu": "https://gyozapekin.com/menu.html"
+        "opens": "11:30",
+        "closes": "22:00"
+      },
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": "https://schema.org/Tuesday",
+        "opens": "00:00",
+        "closes": "00:00"
+      },
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": "https://schema.org/Wednesday",
+        "opens": "00:00",
+        "closes": "00:00"
+      }
+    ],
+    "hasMenu": "https://gyozapekin.com/menu.html",
+    "acceptsReservations": false,
+    "publicAccess": true,
+    "isAccessibleForFree": false,
+    "sameAs": [
+      "https://gyozapekin.official.ec/",
+      "https://x.com/Gyozapekin",
+      "https://www.instagram.com/gyozapekin/",
+      "https://www.threads.net/@gyozapekin",
+      "https://www.tiktok.com/@kaisen_gyoza_pekin",
+      "https://www.youtube.com/@gyozapekin"
+    ],
+    "amenityFeature": [
+      {
+        "@type": "LocationFeatureSpecification",
+        "name": "テイクアウト",
+        "value": true
+      },
+      {
+        "@type": "LocationFeatureSpecification",
+        "name": "全国発送",
+        "value": true
+      },
+      {
+        "@type": "LocationFeatureSpecification",
+        "name": "英語メニュー",
+        "value": true
+      },
+      {
+        "@type": "LocationFeatureSpecification",
+        "name": "お子様連れ歓迎",
+        "value": true
+      },
+      {
+        "@type": "LocationFeatureSpecification",
+        "name": "駐車場（4台）",
+        "value": true
+      }
+    ],
+    "additionalProperty": [
+      {
+        "@type": "PropertyValue",
+        "name": "定休日",
+        "value": "火曜日（水曜日は不定休）"
+      },
+      {
+        "@type": "PropertyValue",
+        "name": "ラストオーダー",
+        "value": "21:30"
+      },
+      {
+        "@type": "PropertyValue",
+        "name": "アクセス",
+        "value": "京阪電車 交野線「宮之阪駅」から徒歩約2分 / 京阪電車「枚方市駅」から徒歩約10分"
+      }
+    ],
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": 34.8137,
+      "longitude": 135.6553
+    },
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "お持ち帰り・お取り寄せ",
+      "url": "https://gyozapekin.com/order.html"
     }
-    </script>
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "@id": "https://gyozapekin.com/#website",
+    "name": "海鮮餃子 北京",
+    "url": "https://gyozapekin.com/",
+    "inLanguage": [
+      "ja",
+      "en"
+    ],
+    "publisher": {
+      "@id": "https://gyozapekin.com/#restaurant"
+    }
+  }
+]
+</script>
 
     <link rel="alternate" hreflang="ja" href="https://gyozapekin.com/index.html">
     <link rel="alternate" hreflang="en" href="https://gyozapekin.com/en/index.html">
     <link rel="alternate" hreflang="x-default" href="https://gyozapekin.com/index.html">
     <link rel="stylesheet" href="css/style.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "@id": "https://gyozapekin.com/#faq",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "定休日はいつですか",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "定休日は火曜日です。水曜日は不定休で、現在は休業しています。当月と翌月のお休みはホームページのトップにカレンダーで掲載していますので、そちらをご確認ください。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "営業時間は何時から何時までですか",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "11:30から22:00までです。ラストオーダーは21:30です。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "駐車場はありますか",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "店舗の駐車場が4台分あります。満車の場合は隣のコインパーキングをご利用ください。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "最寄り駅からの道順を教えてください",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "京阪電車 交野線「宮之阪駅」から徒歩約2分です。京阪電車「枚方市駅」からは徒歩約10分です。住所は大阪府枚方市宮之阪1-19-2です。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "テイクアウト（お持ち帰り）はできますか",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "できます。お電話（072-849-0433）でご注文いただけます。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "餃子を全国に送ってもらえますか",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "はい。冷凍餃子のお取り寄せを全国発送で承っています。ネットショップ（BASE）からご注文いただけます。海王餃子セット7,760円、海鮮餃子セット6,220円、肉餃子セット3,850円（いずれも箱代込み・税込、送料別）です。ご注文から3〜5営業日以内に冷凍便で発送します。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "冷凍餃子のおいしい焼き方を教えてください",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "ホームページの「餃子の焼き方」ページで手順をご案内しています。凍ったままフライパンに並べ、水を加えて蒸し焼きにし、水分が飛んだら仕上げに焼き色をつけます。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "予約はできますか",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "オンライン予約は行っていません。ご相談はお電話（072-849-0433）でお願いします。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "英語のメニューはありますか",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "あります。ホームページの英語メニューページ（/en/menu.html）でご覧いただけます。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "支払い方法は何が使えますか",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "店舗でのお支払いは現金です。ネットショップ（BASE）でのお取り寄せはBASEが対応する各種決済方法をご利用いただけます。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "おすすめのメニューは何ですか",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "看板は海王餃子です。テレビ番組で5点満点をいただきました。海老餃子、たこ餃子、しそ入り貝柱餃子を2個ずつ盛った海鮮トリオ餃子も人気です。餃子以外では酢豚、かしわの唐揚げ、揚げそば、焼きめしもおすすめです。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "子ども連れでも入れますか",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "はい、お子様連れでもご利用いただけます。ホームページにはお子様向けのぬりえもご用意しています。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "1パック単位で細かく注文できますか",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "FAXでのご注文を承っています。order.htmlの注文用紙をダウンロード・印刷してご記入のうえ、FAX 072-849-0606 までお送りください。当店で受信後、消費税・送料を含めたお支払総額と出荷日をお電話でご連絡します。"
+      }
+    }
+  ]
+}
+</script>
 </head>
 <body>
     <div class="site-wrapper">
@@ -148,7 +369,7 @@
             <!-- カレンダーセクション -->
             <section class="section">
                 <h2>今月・来月の休み</h2>
-                <p id="calendar-desc" style="font-size:12px; color:#666; margin-bottom:12px;">毎週火曜日・水曜日が定休日です。臨は赤字、臨時営業は緑字で表示されます。</p>
+                <p id="calendar-desc" style="font-size:12px; color:#666; margin-bottom:12px;">定休日は火曜日です。水曜日は不定休で、現在は休業しています。臨は赤字、臨時営業は緑字で表示されます。</p>
                 <div id="calendar-area" style="display:flex; flex-wrap:wrap; gap:16px; justify-content:center;"></div>
             </section>
             <!-- カレンダーJavaScript（db.jsonから定休日・臨・臨時営業を取得） -->
@@ -172,7 +393,7 @@
                 function updateDesc(closedDays) {
                     var el = document.getElementById('calendar-desc');
                     if (el) {
-                        el.textContent = '毎週' + closedDayNames(closedDays) + 'が定休日です。臨時休業は赤字、臨時営業は緑字で表示されます。';
+                        el.textContent = '定休日は火曜日です。水曜日は不定休で、現在は休業しています。臨時休業は赤字、臨時営業は緑字で表示されます。';
                     }
                 }
                 function renderMonth(year, month, closedDays) {
@@ -311,6 +532,65 @@
                 </div>
             </section>
 
+            <!-- よくあるご質問（FAQPage構造化データと文言を一致させること） -->
+<section class="section" id="faq">
+  <h2>よくあるご質問</h2>
+  <div class="faq-list">
+    <details class="faq-item">
+      <summary>定休日はいつですか</summary>
+      <p>定休日は火曜日です。水曜日は不定休で、現在は休業しています。当月と翌月のお休みはホームページのトップにカレンダーで掲載していますので、そちらをご確認ください。</p>
+    </details>
+    <details class="faq-item">
+      <summary>営業時間は何時から何時までですか</summary>
+      <p>11:30から22:00までです。ラストオーダーは21:30です。</p>
+    </details>
+    <details class="faq-item">
+      <summary>駐車場はありますか</summary>
+      <p>店舗の駐車場が4台分あります。満車の場合は隣のコインパーキングをご利用ください。</p>
+    </details>
+    <details class="faq-item">
+      <summary>最寄り駅からの道順を教えてください</summary>
+      <p>京阪電車 交野線「宮之阪駅」から徒歩約2分です。京阪電車「枚方市駅」からは徒歩約10分です。住所は大阪府枚方市宮之阪1-19-2です。</p>
+    </details>
+    <details class="faq-item">
+      <summary>テイクアウト（お持ち帰り）はできますか</summary>
+      <p>できます。お電話（072-849-0433）でご注文いただけます。</p>
+    </details>
+    <details class="faq-item">
+      <summary>餃子を全国に送ってもらえますか</summary>
+      <p>はい。冷凍餃子のお取り寄せを全国発送で承っています。ネットショップ（BASE）からご注文いただけます。海王餃子セット7,760円、海鮮餃子セット6,220円、肉餃子セット3,850円（いずれも箱代込み・税込、送料別）です。ご注文から3〜5営業日以内に冷凍便で発送します。</p>
+    </details>
+    <details class="faq-item">
+      <summary>冷凍餃子のおいしい焼き方を教えてください</summary>
+      <p>ホームページの「餃子の焼き方」ページで手順をご案内しています。凍ったままフライパンに並べ、水を加えて蒸し焼きにし、水分が飛んだら仕上げに焼き色をつけます。</p>
+    </details>
+    <details class="faq-item">
+      <summary>予約はできますか</summary>
+      <p>オンライン予約は行っていません。ご相談はお電話（072-849-0433）でお願いします。</p>
+    </details>
+    <details class="faq-item">
+      <summary>英語のメニューはありますか</summary>
+      <p>あります。ホームページの英語メニューページ（/en/menu.html）でご覧いただけます。</p>
+    </details>
+    <details class="faq-item">
+      <summary>支払い方法は何が使えますか</summary>
+      <p>店舗でのお支払いは現金です。ネットショップ（BASE）でのお取り寄せはBASEが対応する各種決済方法をご利用いただけます。</p>
+    </details>
+    <details class="faq-item">
+      <summary>おすすめのメニューは何ですか</summary>
+      <p>看板は海王餃子です。テレビ番組で5点満点をいただきました。海老餃子、たこ餃子、しそ入り貝柱餃子を2個ずつ盛った海鮮トリオ餃子も人気です。餃子以外では酢豚、かしわの唐揚げ、揚げそば、焼きめしもおすすめです。</p>
+    </details>
+    <details class="faq-item">
+      <summary>子ども連れでも入れますか</summary>
+      <p>はい、お子様連れでもご利用いただけます。ホームページにはお子様向けのぬりえもご用意しています。</p>
+    </details>
+    <details class="faq-item">
+      <summary>1パック単位で細かく注文できますか</summary>
+      <p>FAXでのご注文を承っています。order.htmlの注文用紙をダウンロード・印刷してご記入のうえ、FAX 072-849-0606 までお送りください。当店で受信後、消費税・送料を含めたお支払総額と出荷日をお電話でご連絡します。</p>
+    </details>
+  </div>
+</section>
+
             <!-- 店舗情報 -->
             <section class="section">
                 <h2>店舗情報</h2>
@@ -320,7 +600,7 @@
                     <tr><th>電話</th><td><a href="tel:0728490433">072-849-0433</a></td></tr>
                     <tr><th>FAX</th><td>072-849-0606</td></tr>
                     <tr><th>営業時間</th><td>11:30〜22:00（ラストオーダー 21:30）</td></tr>
-                    <tr><th>定休日</th><td>火曜日・水曜日</td></tr>
+                    <tr><th>定休日</th><td>火曜日（水曜日は不定休）</td></tr>
                     <tr><th>アクセス</th><td>京阪電車「宮之阪駅」徒歩約2分<br>京阪電車「枚方市駅」徒歩約10分</td></tr>
                     <tr><th>駐車場</th><td>有（4台）※満車の場合は隣のコインパーキングをご利用ください</td></tr>
                 </table>
