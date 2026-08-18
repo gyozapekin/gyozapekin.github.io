@@ -1,0 +1,7 @@
+# AIクローラの方針（2026-08-18 社長決定）
+# 生成AI・AI検索のクローラ（GPTBot / ClaudeBot / PerplexityBot / Google-Extended 等）は
+# 上の User-agent: * の Allow: / で許可しています。個別グループは作りません。
+# 個別グループを書くと * の除外設定を上書きしてしまい、シフト管理ページが対象外になるためです。
+
+# AI向けサイト要約
+# https://gyozapekin.com/llms.txt
