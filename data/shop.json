@@ -57,7 +57,9 @@
     "Chinese"
   ],
   "paymentAccepted": [
-    "現金"
+    "現金",
+    "クレジットカード",
+    "PayPay"
   ],
   "currenciesAccepted": "JPY",
   "parking": {
