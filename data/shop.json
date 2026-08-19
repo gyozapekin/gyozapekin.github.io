@@ -21,8 +21,8 @@
     "streetAddress": "宮之阪１－１９－２"
   },
   "geo": {
-    "latitude": 34.8137,
-    "longitude": 135.6553
+    "latitude": 34.8154879,
+    "longitude": 135.6557909
   },
   "hours": {
     "open": "11:30",
@@ -71,14 +71,17 @@
   ],
   "features": {
     "takeout": true,
-    "delivery": false,
+    "delivery": true,
+    "deliveryNote": "Uber Eatsでの宅配に対応しています。",
     "nationwideShipping": true,
+    "nationwideShippingNote": "全国発送は冷凍餃子のみです。一品料理や麺類は店内とお持ち帰りのみです。",
     "acceptsReservations": false,
     "reservationNote": "予約はお電話でご相談ください。オンライン予約は未対応です。",
     "englishMenu": true,
     "kidsFriendly": true
   },
   "sameAs": [
+    "https://maps.google.com/?cid=15475441869198282611",
     "https://gyozapekin.official.ec/",
     "https://x.com/Gyozapekin",
     "https://www.instagram.com/gyozapekin/",
@@ -98,7 +101,8 @@
     "news": "https://gyozapekin.com/news/",
     "gallery": "https://gyozapekin.com/gallery.html",
     "hirakata": "https://gyozapekin.com/hirakata/",
-    "gyozalink": "https://gyozapekin.com/gyozalink/"
+    "gyozalink": "https://gyozapekin.com/gyozalink/",
+    "googleMaps": "https://maps.google.com/?cid=15475441869198282611"
   },
   "media": [
     {
