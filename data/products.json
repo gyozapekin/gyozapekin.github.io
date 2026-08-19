@@ -1,0 +1,47 @@
+{
+  "shopUrl": "https://gyozapekin.official.ec/",
+  "orderPageUrl": "https://gyozapekin.com/order.html",
+  "currency": "JPY",
+  "taxIncluded": true,
+  "shippingNote": "価格は箱代込み・税込です。送料は地域により別途申し受けます。冷凍便でお届けし、ご注文から3〜5営業日以内に発送します。",
+  "faxOrder": {
+    "available": true,
+    "fax": "072-849-0606",
+    "note": "1パック単位で細かく注文したい場合はFAX注文も可。注文用紙PDFは order.html からダウンロード(2026-07-01更新版)。"
+  },
+  "sourceCheckedAt": "2026-08-18",
+  "items": [
+    {
+      "id": "kaiou-set",
+      "name": "海王餃子セット",
+      "price": 7760,
+      "contents": "海王餃子×1、しそ入り貝柱餃子×1、タコ餃子×1、エビ餃子×1、肉餃子×1",
+      "description": "北京の看板・海王餃子を含む一番豪華なお取り寄せセット。海王餃子はテレビ番組で5点満点をいただきました。海王餃子×1、しそ入り貝柱餃子×1、タコ餃子×1、エビ餃子×1、肉餃子×1。",
+      "availability": "InStock"
+    },
+    {
+      "id": "kaisen-set",
+      "name": "海鮮餃子セット",
+      "price": 6220,
+      "contents": "しそ入り貝柱餃子×1、タコ餃子×1、エビ餃子×1、肉餃子×2",
+      "description": "海鮮の餃子を詰め合わせたセット。しそ入り貝柱餃子×1、タコ餃子×1、エビ餃子×1、肉餃子×2。",
+      "availability": "InStock"
+    },
+    {
+      "id": "niku-set",
+      "name": "肉餃子セット",
+      "price": 3850,
+      "contents": "肉餃子×5",
+      "description": "新鮮な豚肉と減農薬野菜の手作り肉餃子のセット。肉餃子×5。はじめての方にも贈りものにも。",
+      "availability": "InStock"
+    },
+    {
+      "id": "otsumami-set",
+      "name": "おつまみ餃子セット",
+      "price": null,
+      "contents": "肉餃子×2、ピリ辛餃子×2、海鮮トリオ餃子×1",
+      "description": "近日発売予定のセット。肉餃子×2、ピリ辛餃子×2、海鮮トリオ餃子×1。",
+      "availability": "PreOrder"
+    }
+  ]
+}

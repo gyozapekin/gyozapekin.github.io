@@ -1,0 +1,141 @@
+{
+  "name": "海鮮餃子 北京",
+  "nameEn": "Kaisen Gyoza Pekin",
+  "description": "大阪府枚方市宮之阪にある中華料理店。新鮮な豚肉と減農薬野菜を使った手作りの海鮮餃子が看板。餃子以外の一品料理・麺類・定食も豊富。お持ち帰りと冷凍餃子の全国発送に対応。",
+  "descriptionEn": "A Chinese restaurant in Miyanosaka, Hirakata, Osaka. Known for handmade seafood gyoza made with fresh pork and low-pesticide vegetables. Takeout and nationwide frozen shipping available.",
+  "url": "https://gyozapekin.com/",
+  "logo": "https://gyozapekin.com/images/logo.png",
+  "image": [
+    "https://gyozapekin.com/images/food_photo1.jpg",
+    "https://gyozapekin.com/images/interior_photo1.jpg"
+  ],
+  "telephone": "+81-72-849-0433",
+  "telephoneDisplay": "072-849-0433",
+  "faxNumber": "072-849-0606",
+  "email": "kaisen.gyoza.pekin@gmail.com",
+  "address": {
+    "postalCode": "573-0022",
+    "addressCountry": "JP",
+    "addressRegion": "大阪府",
+    "addressLocality": "枚方市",
+    "streetAddress": "宮之阪１－１９－２"
+  },
+  "geo": {
+    "latitude": 34.8137,
+    "longitude": 135.6553
+  },
+  "hours": {
+    "open": "11:30",
+    "close": "22:00",
+    "lastOrder": "21:30",
+    "openDays": [
+      "Monday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+      "Sunday"
+    ],
+    "closedDays": [
+      "Tuesday",
+      "Wednesday"
+    ],
+    "closedLabel": "火曜日（水曜日は不定休）",
+    "closedNote": "定休日は火曜日です。水曜日は不定休で、現在は調理スタッフの都合により休業しています。調理スタッフが増えた際は水曜日の営業を予定しています。当月と翌月の休みはトップページのカレンダーに掲載しています。",
+    "calendarSource": {
+      "primary": "https://pekin-shift-default-rtdb.asia-southeast1.firebasedatabase.app/pekin/db/pekin_settings.json",
+      "fallback": "https://gyozapekin.com/shift/db.json",
+      "keys": {
+        "defaultClosedDays": "0=日曜 から 6=土曜 の配列。現在は [2, 3]",
+        "specialDates": "YYYY-MM-DD ごとの臨時休業・臨時営業"
+      }
+    }
+  },
+  "priceRange": "¥¥",
+  "servesCuisine": [
+    "中華料理",
+    "餃子",
+    "Chinese"
+  ],
+  "paymentAccepted": [
+    "現金"
+  ],
+  "currenciesAccepted": "JPY",
+  "parking": {
+    "available": true,
+    "spaces": 4,
+    "note": "満車の場合は隣のコインパーキングをご利用ください"
+  },
+  "access": [
+    "京阪電車 交野線「宮之阪駅」から徒歩約2分",
+    "京阪電車「枚方市駅」から徒歩約10分"
+  ],
+  "features": {
+    "takeout": true,
+    "delivery": false,
+    "nationwideShipping": true,
+    "acceptsReservations": false,
+    "reservationNote": "予約はお電話でご相談ください。オンライン予約は未対応です。",
+    "englishMenu": true,
+    "kidsFriendly": true
+  },
+  "sameAs": [
+    "https://gyozapekin.official.ec/",
+    "https://x.com/Gyozapekin",
+    "https://www.instagram.com/gyozapekin/",
+    "https://www.threads.net/@gyozapekin",
+    "https://www.tiktok.com/@kaisen_gyoza_pekin",
+    "https://www.youtube.com/@gyozapekin"
+  ],
+  "keyPages": {
+    "home": "https://gyozapekin.com/",
+    "menu": "https://gyozapekin.com/menu.html",
+    "menuEn": "https://gyozapekin.com/en/menu.html",
+    "order": "https://gyozapekin.com/order.html",
+    "shop": "https://gyozapekin.official.ec/",
+    "howto": "https://gyozapekin.com/howto.html",
+    "about": "https://gyozapekin.com/about.html",
+    "contact": "https://gyozapekin.com/contact.html",
+    "news": "https://gyozapekin.com/news/",
+    "gallery": "https://gyozapekin.com/gallery.html",
+    "hirakata": "https://gyozapekin.com/hirakata/",
+    "gyozalink": "https://gyozapekin.com/gyozalink/"
+  },
+  "media": [
+    {
+      "date": "2026-06-02",
+      "outlet": "ABC「おはよう朝日です」",
+      "note": "海王餃子が5点満点",
+      "url": "https://gyozapekin.com/news/2026/06/02/ohaasa-kaiou-gyoza/"
+    },
+    {
+      "date": "2024-12-20",
+      "outlet": "うまうまめし フーディチャンネル(YouTube)",
+      "url": "https://gyozapekin.com/news/2024/12/20/umauma-foodie-youtube/"
+    },
+    {
+      "date": "2024-11-03",
+      "outlet": "FOOD TOURISM JAPAN(YouTube)",
+      "url": "https://gyozapekin.com/news/2024/11/03/foodtourism-youtube/"
+    },
+    {
+      "date": "2024-10-18",
+      "outlet": "餃子王ちゃんねる(YouTube)",
+      "url": "https://gyozapekin.com/news/2024/10/18/gyozaking-youtube/"
+    },
+    {
+      "date": "2023-11-15",
+      "outlet": "しごとぎや「たまゆら」(YouTube)",
+      "url": "https://gyozapekin.com/news/2023/11/15/shigotogiya-youtube/"
+    },
+    {
+      "date": "2022-06-01",
+      "outlet": "なるみ・岡村の過ぎるTV",
+      "url": "https://gyozapekin.com/news/2022/06/01/narumi-okamura-tv/"
+    },
+    {
+      "date": "2020-04-01",
+      "outlet": "枚方つーしん(ひらつー)YouTube",
+      "url": "https://gyozapekin.com/news/2020/04/01/hiratsu-youtube/"
+    }
+  ]
+}
