@@ -394,46 +394,13 @@ def build_llms(shop, menu, products, faq):
 
 
 ROBOTS_APPEND = """
-# --- AIクローラの方針（2026-08-18 社長決定: 全許可） ---
-# 生成AIの検索・要約に引用されることを目的として明示的に許可する。
-User-agent: GPTBot
-Allow: /
+# AIクローラの方針（2026-08-18 社長決定）
+# 生成AI・AI検索のクローラ（GPTBot / ClaudeBot / PerplexityBot / Google-Extended 等）は
+# 上の User-agent: * の Allow: / で許可しています。個別グループは作りません。
+# 個別グループを書くと * の除外設定を上書きしてしまい、シフト管理ページが対象外になるためです。
 
-User-agent: OAI-SearchBot
-Allow: /
-
-User-agent: ChatGPT-User
-Allow: /
-
-User-agent: ClaudeBot
-Allow: /
-
-User-agent: Claude-User
-Allow: /
-
-User-agent: Claude-SearchBot
-Allow: /
-
-User-agent: anthropic-ai
-Allow: /
-
-User-agent: PerplexityBot
-Allow: /
-
-User-agent: Perplexity-User
-Allow: /
-
-User-agent: Google-Extended
-Allow: /
-
-User-agent: Applebot-Extended
-Allow: /
-
-User-agent: Bingbot
-Allow: /
-
-User-agent: CCBot
-Allow: /
+# AI向けサイト要約
+# https://gyozapekin.com/llms.txt
 """
 
 
@@ -474,6 +441,13 @@ def main():
     write(os.path.join(outdir, "llms.txt"), short)
     write(os.path.join(outdir, "llms-full.txt"), full)
     write(os.path.join(outdir, "robots_append.txt"), ROBOTS_APPEND.lstrip("\n"))
+
+    # WebMCPのツールが実行時に読む公開用コピー（サイトの /data/ に置く）
+    public_dir = os.path.join(outdir, "public_data")
+    os.makedirs(public_dir, exist_ok=True)
+    for name, obj in (("shop", shop), ("menu", menu), ("products", products), ("faq", faq)):
+        write(os.path.join(public_dir, name + ".json"),
+              json.dumps(obj, ensure_ascii=False, indent=2) + "\n")
 
     print("生成しました:")
     for p in written:

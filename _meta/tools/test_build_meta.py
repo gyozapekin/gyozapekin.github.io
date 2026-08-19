@@ -124,11 +124,29 @@ def main():
             check("_comment" not in body and "_todo" not in body,
                   "%s に内部コメントが漏れていない" % fn)
 
+    # --- 公開用データ（WebMCPが実行時に読む） ---
+    for name in ("shop", "menu", "products", "faq"):
+        path = os.path.join(out, "public_data", name + ".json")
+        check(os.path.exists(path), "public_data: %s.json が生成されている" % name)
+        obj = json.load(open(path, encoding="utf-8"))
+        flat = json.dumps(obj, ensure_ascii=False)
+        check("_comment" not in flat and "_todo" not in flat,
+              "public_data: %s.json に内部コメントが残っていない" % name)
+    pub_shop = json.load(open(os.path.join(out, "public_data", "shop.json"), encoding="utf-8"))
+    check(pub_shop["hours"]["calendarSource"]["primary"].startswith("https://"),
+          "public_data: 休みの参照先(Firebase)が入っている")
+    pub_prod = json.load(open(os.path.join(out, "public_data", "products.json"), encoding="utf-8"))
+    check(any(x["name"] == "\u6d77\u738b\u9903\u5b50\u30bb\u30c3\u30c8" and x["price"] == 7760 for x in pub_prod["items"]),
+          "public_data: 通販価格が本番と一致(7,760円)")
+
     # --- robots 追記分 ---
     rob = open(os.path.join(out, "robots_append.txt"), encoding="utf-8").read()
     for bot in ("GPTBot", "ClaudeBot", "PerplexityBot", "Google-Extended"):
-        check("User-agent: %s" % bot in rob, "robots: %s の許可がある" % bot)
+        check(bot in rob, "robots: %s に言及がある" % bot)
+    check("User-agent:" not in rob.replace("User-agent: * の", ""),
+          "robots: 個別のUser-agentグループを作っていない（* の除外設定を上書きしないため）")
     check("Disallow" not in rob, "robots: 追記分に誤ってDisallowが入っていない")
+    check("llms.txt" in rob, "robots: llms.txt への案内がある")
 
     print("")
     print("チェック %d件 / 失敗 %d件" % (CHECKS[0], len(FAILS)))
