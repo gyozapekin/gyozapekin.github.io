@@ -5,6 +5,9 @@ Allow: /
 Disallow: /shift/
 Disallow: /shift.html
 
+# 社内向けの数字まとめはクロールさせない
+Disallow: /kpi/
+
 # テスト版（確認用）はクロールさせない
 Disallow: /gyozapekin2.github.io/
 
