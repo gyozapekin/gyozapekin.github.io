@@ -1,0 +1,31 @@
+{
+  "updated_at": "2026-08-21T20:40:00+09:00",
+  "updated_label": "2026-08-21 20:40",
+  "hp": {
+    "status": "pending",
+    "message": "2026-08-21にアクセス解析を入れました。数字がまとまるのは8月22日からです。",
+    "source": { "as_of": "2026-08-21", "note": "Googleアナリティクス" },
+    "trend": [],
+    "top_pages": [],
+    "channels": []
+  },
+  "google": {
+    "status": "pending",
+    "message": "自動での取り込みがまだです。クチコミは8月19日時点で4.1／284件でした。",
+    "source": { "as_of": "2026-08-19", "note": "ビジネスプロフィール" },
+    "rating": null,
+    "reviews": null
+  },
+  "sns": {
+    "status": "pending",
+    "message": "投稿台帳のフォルダ（GyozaPekin_SNS）が未接続のため読めていません。",
+    "source": { "as_of": "", "note": "投稿台帳" },
+    "posts": []
+  },
+  "sources_note": [
+    { "name": "ホームページ", "detail": "Googleアナリティクス（測定ID G-M8C788MDLN）から取り込み。1日1回の更新を予定。" },
+    { "name": "Google", "detail": "ビジネスプロフィールの数字。表示回数・ルート検索・電話・クチコミ。" },
+    { "name": "SNS", "detail": "投稿台帳（post_perf）から直近の投稿と反応。" },
+    { "name": "更新のしかた", "detail": "定期タスクが数字を読み取り、このページが見ている /data/kpi.json を書き換えます。" }
+  ]
+}
