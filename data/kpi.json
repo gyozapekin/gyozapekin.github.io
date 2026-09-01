@@ -1,52 +1,54 @@
 {
-  "updated_at": "2026-08-24T01:50:00+09:00",
-  "updated_label": "2026-08-24 01:50",
-  "hp": {
-    "status": "pending",
-    "message": "アクセス解析は8月21日から動いています。数字の自動取り込みはこれからです。",
-    "source": {
-      "as_of": "2026-08-23",
-      "note": "Googleアナリティクス"
+    "updated_at": "2026-09-01T09:45:00+09:00",
+    "updated_label": "2026-09-01 09:45",
+    "hp": {
+          "status": "ok",
+          "message": "8月31日(月)の実績。前週の同じ曜日(8月24日)との比較つき。直近14日間の日別推移はGoogleアナリティクスの操作画面で取得できなかったため今回は未掲載です。",
+          "source": { "as_of": "2026-08-31", "note": "Googleアナリティクス" },
+          "yesterday": {
+                  "users": 16,
+                  "users_change_pct": -27.3,
+                  "sessions": 20,
+                  "sessions_change_pct": -23.1,
+                  "pageviews": 36,
+                  "pageviews_change_pct": -12.2,
+                  "avg_engagement_time": "1分08秒",
+                  "avg_engagement_time_change_pct": 46.9,
+                  "compare_date": "2026-08-24"
+          },
+          "trend": [],
+          "top_pages": [
+                  { "title": "海鮮餃子 北京 | 大阪府枚方市の中華料理店 - 手作り海鮮餃子", "views": 18 },
+                  { "title": "メニュー | 海鮮餃子 北京", "views": 6 },
+                  { "title": "店舗紹介 | 海鮮餃子 北京", "views": 3 },
+                  { "title": "yasuくんと、ここへ来てくれるあなたへ。Acid Black Cherry 19周年に、感謝を込めて｜枚方・宮之阪の町中華 海鮮餃子 北京", "views": 1 },
+                  { "title": "お知らせ | 海鮮餃子 北京", "views": 1 }
+          ],
+          "channels": [
+                  { "name": "Google検索", "sessions": 7 },
+                  { "name": "直接アクセス", "sessions": 5 },
+                  { "name": "Yahoo検索", "sessions": 4 },
+                  { "name": "Instagram", "sessions": 3 },
+                  { "name": "その他(bing/organic・Facebook・Xなど)", "sessions": 0 }
+          ]
     },
-    "trend": [],
-    "top_pages": [],
-    "channels": []
-  },
-  "google": {
-    "status": "pending",
-    "message": "自動での取り込みがまだです。クチコミは8月19日時点で4.1／284件でした。",
-    "source": {
-      "as_of": "2026-08-19",
-      "note": "ビジネスプロフィール"
+    "google": {
+          "status": "pending",
+          "message": "自動での取り込みがまだです。クチコミは8月19日時点で4.1／284件でした。",
+          "source": { "as_of": "2026-08-19", "note": "ビジネスプロフィール" },
+          "rating": null,
+          "reviews": null
     },
-    "rating": null,
-    "reviews": null
-  },
-  "sns": {
-    "status": "pending",
-    "message": "投稿台帳のフォルダ（GyozaPekin_SNS）が未接続のため読めていません。",
-    "source": {
-      "as_of": "",
-      "note": "投稿台帳"
+    "sns": {
+          "status": "pending",
+          "message": "投稿台帳のフォルダ（GyozaPekin_SNS）が未接続のため読めていません。",
+          "source": { "as_of": "", "note": "投稿台帳" },
+          "posts": []
     },
-    "posts": []
-  },
-  "sources_note": [
-    {
-      "name": "ホームページ",
-      "detail": "Googleアナリティクス（測定ID G-M8C788MDLN）から取り込み。1日1回の更新を予定。"
-    },
-    {
-      "name": "Google",
-      "detail": "ビジネスプロフィールの数字。表示回数・ルート検索・電話・クチコミ。"
-    },
-    {
-      "name": "SNS",
-      "detail": "投稿台帳（post_perf）から直近の投稿と反応。"
-    },
-    {
-      "name": "更新のしかた",
-      "detail": "定期タスクが数字を読み取り、このページが見ている /data/kpi.json を書き換えます。"
-    }
-  ]
+    "sources_note": [
+          { "name": "ホームページ", "detail": "Googleアナリティクス（測定ID G-M8C788MDLN）から取り込み。1日1回の更新を予定。" },
+          { "name": "Google", "detail": "ビジネスプロフィールの数字。表示回数・ルート検索・電話・クチコミ。" },
+          { "name": "SNS", "detail": "投稿台帳（post_perf）から直近の投稿と反応。" },
+          { "name": "更新のしかた", "detail": "定期タスクが数字を読み取り、このページが見ている /data/kpi.json を書き換えます。" }
+    ]
 }
