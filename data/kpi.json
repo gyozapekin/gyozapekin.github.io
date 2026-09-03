@@ -1,174 +1,70 @@
 {
-  "updated_at": "2026-09-02T09:20:00+09:00",
-  "updated_label": "2026-09-02 09:20",
-  "hp": {
-    "status": "ok",
-    "message": "9月1日(火)の実績。前週の同じ曜日(8月25日)との比較つき。直近14日間はGA4導入(8月21日)からのため12日分を掲載。表示回数・どこから来たかの内訳は、ダッシュボードの描画コードが読む項目名(label/value)に合わせて今回から書き直しました。",
-    "source": {
-      "as_of": "2026-09-01",
-      "note": "Googleアナリティクス"
-    },
-    "yesterday": {
-      "users": 21,
-      "users_delta": {
-        "pct": 40,
-        "label": "前週同曜日比"
+      "updated_at": "2026-09-03T09:33:00+09:00",
+      "updated_label": "2026-09-03 09:33",
+      "hp": {
+                  "status": "ok",
+                  "message": "9月2日(水)の実績。前週の同じ曜日(8月26日)との比較つき。直近14日間の日別ユーザー数も掲載。",
+                  "source": { "as_of": "2026-09-02", "note": "Googleアナリティクス" },
+                  "yesterday": {
+                                      "users": 18,
+                                      "users_delta": { "pct": 50.0, "label": "前週同曜日比" },
+                                      "sessions": 20,
+                                      "sessions_delta": { "pct": 42.86, "label": "前週同曜日比" },
+                                      "pageviews": 33,
+                                      "pageviews_delta": { "pct": 26.92, "label": "前週同曜日比" },
+                                      "avg_engagement_sec": 36,
+                                      "avg_engagement_delta": { "pct": 82.15, "label": "前週同曜日比" },
+                                      "compare_date": "2026-08-26"
+                  },
+                  "trend": [
+                                      { "label": "8/20", "full": "2026-08-20", "value": 0 },
+                                      { "label": "8/21", "full": "2026-08-21", "value": 4 },
+                                      { "label": "8/22", "full": "2026-08-22", "value": 21 },
+                                      { "label": "8/23", "full": "2026-08-23", "value": 15 },
+                                      { "label": "8/24", "full": "2026-08-24", "value": 22 },
+                                      { "label": "8/25", "full": "2026-08-25", "value": 17 },
+                                      { "label": "8/26", "full": "2026-08-26", "value": 12 },
+                                      { "label": "8/27", "full": "2026-08-27", "value": 27 },
+                                      { "label": "8/28", "full": "2026-08-28", "value": 24 },
+                                      { "label": "8/29", "full": "2026-08-29", "value": 24 },
+                                      { "label": "8/30", "full": "2026-08-30", "value": 16 },
+                                      { "label": "8/31", "full": "2026-08-31", "value": 16 },
+                                      { "label": "9/1", "full": "2026-09-01", "value": 21 },
+                                      { "label": "9/2", "full": "2026-09-02", "value": 18 }
+                  ],
+                  "top_pages": [
+                                      { "label": "海鮮餃子 北京 | 大阪府枚方市の中華料理店 - 手作り海鮮餃子", "value": 19, "full": "海鮮餃子 北京 | 大阪府枚方市の中華料理店 - 手作り海鮮餃子" },
+                                      { "label": "メニュー | 海鮮餃子 北京", "value": 8, "full": "メニュー | 海鮮餃子 北京" },
+                                      { "label": "店舗紹介 | 海鮮餃子 北京", "value": 4, "full": "店舗紹介 | 海鮮餃子 北京" },
+                                      { "label": "ギャラリー | 海鮮餃子 北京", "value": 1, "full": "ギャラリー | 海鮮餃子 北京" },
+                                      { "label": "餃子の通販・お取り寄せ（全国発送） | 海鮮餃子 北京（大阪府枚方市）", "value": 1, "full": "餃子の通販・お取り寄せ（全国発送） | 海鮮餃子 北京（大阪府枚方市）" }
+                  ],
+                  "channels": [
+                                      { "label": "Google検索", "value": 10, "full": "google / organic" },
+                                      { "label": "(未設定)", "value": 7, "full": "(not set)" },
+                                      { "label": "直接アクセス", "value": 4, "full": "(direct) / (none)" },
+                                      { "label": "Yahoo検索", "value": 3, "full": "yahoo / organic" },
+                                      { "label": "ChatGPT", "value": 2, "full": "chatgpt.com / ai-assistant" }
+                  ]
       },
-      "sessions": 24,
-      "sessions_delta": {
-        "pct": 33.3,
-        "label": "前週同曜日比"
+      "google": {
+                  "status": "pending",
+                  "message": "自動での取り込みがまだです。クチコミは8月19日時点で4.1／284件でした。",
+                  "source": { "as_of": "2026-08-19", "note": "ビジネスプロフィール" },
+                  "rating": null,
+                  "reviews": null
       },
-      "pageviews": 54,
-      "pageviews_delta": {
-        "pct": 68.8,
-        "label": "前週同曜日比"
+      "sns": {
+                  "status": "pending",
+                  "message": "投稿台帳のフォルダ（GyozaPekin_SNS）が未接続のため読めていません。",
+                  "source": { "as_of": "", "note": "投稿台帳" },
+                  "posts": []
       },
-      "avg_engagement_sec": 59,
-      "compare_date": "2026-08-25"
-    },
-    "trend": [
-      {
-        "label": "8/21",
-        "full": "2026-08-21",
-        "value": 4
-      },
-      {
-        "label": "8/22",
-        "full": "2026-08-22",
-        "value": 21
-      },
-      {
-        "label": "8/23",
-        "full": "2026-08-23",
-        "value": 15
-      },
-      {
-        "label": "8/24",
-        "full": "2026-08-24",
-        "value": 22
-      },
-      {
-        "label": "8/25",
-        "full": "2026-08-25",
-        "value": 17
-      },
-      {
-        "label": "8/26",
-        "full": "2026-08-26",
-        "value": 12
-      },
-      {
-        "label": "8/27",
-        "full": "2026-08-27",
-        "value": 27
-      },
-      {
-        "label": "8/28",
-        "full": "2026-08-28",
-        "value": 24
-      },
-      {
-        "label": "8/29",
-        "full": "2026-08-29",
-        "value": 24
-      },
-      {
-        "label": "8/30",
-        "full": "2026-08-30",
-        "value": 16
-      },
-      {
-        "label": "8/31",
-        "full": "2026-08-31",
-        "value": 16
-      },
-      {
-        "label": "9/1",
-        "full": "2026-09-01",
-        "value": 21
-      }
-    ],
-    "top_pages": [
-      {
-        "label": "海鮮餃子 北京 | 大阪府枚方市の中華料理店 - 手作り海鮮餃子",
-        "value": 29
-      },
-      {
-        "label": "メニュー | 海鮮餃子 北京",
-        "value": 9
-      },
-      {
-        "label": "店舗紹介 | 海鮮餃子 北京",
-        "value": 3
-      },
-      {
-        "label": "お知らせ | 海鮮餃子 北京",
-        "value": 2
-      },
-      {
-        "label": "餃子の通販・お取り寄せ（全国発送） | 海鮮餃子 北京（大阪府枚方市）",
-        "value": 2
-      }
-    ],
-    "channels": [
-      {
-        "label": "不明(タグ未設定・(not set))",
-        "value": 15
-      },
-      {
-        "label": "Google検索",
-        "value": 7
-      },
-      {
-        "label": "直接アクセス",
-        "value": 6
-      },
-      {
-        "label": "Instagram",
-        "value": 3
-      },
-      {
-        "label": "Yahoo検索",
-        "value": 2
-      }
-    ]
-  },
-  "google": {
-    "status": "pending",
-    "message": "自動での取り込みがまだです。クチコミは8月19日時点で4.1／284件でした。",
-    "source": {
-      "as_of": "2026-08-19",
-      "note": "ビジネスプロフィール"
-    },
-    "rating": null,
-    "reviews": null
-  },
-  "sns": {
-    "status": "pending",
-    "message": "投稿台帳のフォルダ（GyozaPekin_SNS）が未接続のため読めていません。",
-    "source": {
-      "as_of": "",
-      "note": "投稿台帳"
-    },
-    "posts": []
-  },
-  "sources_note": [
-    {
-      "name": "ホームページ",
-      "detail": "Googleアナリティクス（測定ID G-M8C788MDLN）から取り込み。1日1回の更新を予定。"
-    },
-    {
-      "name": "Google",
-      "detail": "ビジネスプロフィールの数字。表示回数・ルート検索・電話・クチコミ。"
-    },
-    {
-      "name": "SNS",
-      "detail": "投稿台帳（post_perf）から直近の投稿と反応。"
-    },
-    {
-      "name": "更新のしかた",
-      "detail": "定期タスクが数字を読み取り、このページが見ている /data/kpi.json を書き換えます。"
-    }
-  ]
+      "sources_note": [
+                  { "name": "ホームページ", "detail": "Googleアナリティクス（測定ID G-M8C788MDLN）から取り込み。1日1回の更新を予定。" },
+                  { "name": "Google", "detail": "ビジネスプロフィールの数字。表示回数・ルート検索・電話・クチコミ。" },
+                  { "name": "SNS", "detail": "投稿台帳（post_perf）から直近の投稿と反応。" },
+                  { "name": "更新のしかた", "detail": "定期タスクが数字を読み取り、このページが見ている /data/kpi.json を書き換えます。" }
+      ]
+}
 }
