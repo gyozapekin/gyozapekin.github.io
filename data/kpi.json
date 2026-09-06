@@ -1,23 +1,22 @@
 {
-	"updated_at": "2026-09-05T09:30:00+09:00",
-	"updated_label": "2026-09-05 09:30",
+	"updated_at": "2026-09-06T09:20:00+09:00",
+	"updated_label": "2026-09-06 09:20",
 	"hp": {
 		  "status": "ok",
-		  "message": "9月4日(金)の実績。前週の同じ曜日(8月28日)との比較つき。直近14日間の日別ユーザー数も掲載。",
-		  "source": { "as_of": "2026-09-04", "note": "Googleアナリティクス" },
+		  "message": "9月5日(土)の実績。前週の同じ曜日(8月29日)との比較つき。直近14日間の日別ユーザー数も掲載。",
+		  "source": { "as_of": "2026-09-05", "note": "Googleアナリティクス" },
 		  "yesterday": {
-			      "users": 15,
-			      "users_delta": { "pct": -37.5, "label": "前週同曜日比" },
-			      "sessions": 18,
-			      "sessions_delta": { "pct": -35.71, "label": "前週同曜日比" },
-			      "pageviews": 37,
-			      "pageviews_delta": { "pct": -19.57, "label": "前週同曜日比" },
-			      "avg_engagement_sec": 94,
-			      "avg_engagement_delta": { "pct": 46.88, "label": "前週同曜日比" },
-			      "compare_date": "2026-08-28"
+			      "users": 18,
+			      "users_delta": { "pct": -25.0, "label": "前週同曜日比" },
+			      "sessions": 20,
+			      "sessions_delta": { "pct": -16.67, "label": "前週同曜日比" },
+			      "pageviews": 38,
+			      "pageviews_delta": { "pct": -2.56, "label": "前週同曜日比" },
+			      "avg_engagement_sec": 59,
+			      "avg_engagement_delta": { "pct": 40.48, "label": "前週同曜日比" },
+			      "compare_date": "2026-08-29"
 		  },
 		  "trend": [
-			      { "label": "8/22", "full": "2026-08-22", "value": 21 },
 			      { "label": "8/23", "full": "2026-08-23", "value": 15 },
 			      { "label": "8/24", "full": "2026-08-24", "value": 22 },
 			      { "label": "8/25", "full": "2026-08-25", "value": 17 },
@@ -30,19 +29,20 @@
 			      { "label": "9/1", "full": "2026-09-01", "value": 21 },
 			      { "label": "9/2", "full": "2026-09-02", "value": 21 },
 			      { "label": "9/3", "full": "2026-09-03", "value": 8 },
-			      { "label": "9/4", "full": "2026-09-04", "value": 15 }
+			      { "label": "9/4", "full": "2026-09-04", "value": 15 },
+			      { "label": "9/5", "full": "2026-09-05", "value": 18 }
 		  ],
 		  "top_pages": [
-			      { "label": "トップページ", "value": 13, "full": "海鮮餃子 北京 | 大阪府枚方市の中華料理店 - 手作り海鮮餃子" },
-			      { "label": "メニュー", "value": 8, "full": "メニュー | 海鮮餃子 北京" },
-			      { "label": "フットゴルフ大会のお知らせ記事", "value": 4, "full": "8月9日、枚方で「海鮮餃子北京オープン」開催。北京の名前を冠したフットゴルフ大会、エントリー受付中です" },
-			      { "label": "通販・お取り寄せ", "value": 4, "full": "餃子の通販・お取り寄せ（全国発送） | 海鮮餃子 北京（大阪府枚方市）" },
-			      { "label": "e名刺", "value": 2, "full": "海鮮餃子北京 e名刺" }
+			      { "label": "トップページ", "value": 23, "full": "海鮮餃子 北京 | 大阪府枚方市の中華料理店 - 手作り海鮮餃子" },
+			      { "label": "メニュー", "value": 7, "full": "メニュー | 海鮮餃子 北京" },
+			      { "label": "通販・お取り寄せ", "value": 3, "full": "餃子の通販・お取り寄せ（全国発送） | 海鮮餃子 北京（大阪府枚方市）" },
+			      { "label": "ぬりえ", "value": 2, "full": "ぬりえ｜海鮮餃子 北京（大阪府枚方市）" },
+			      { "label": "おはよう朝日です紹介記事", "value": 1, "full": "「おはよう朝日です」で紹介いただきました ― 看板の海王餃子が5点満点 | 海鮮餃子 北京" }
 		  ],
 		  "channels": [
-			      { "label": "直接アクセス", "value": 8, "full": "(direct) / (none)" },
-			      { "label": "Google検索", "value": 4, "full": "google / organic" },
-			      { "label": "取得できず", "value": 3, "full": "(data not available)" },
+			      { "label": "直接アクセス", "value": 12, "full": "(direct) / (none)" },
+			      { "label": "Google検索", "value": 6, "full": "google / organic" },
+			      { "label": "取得できず", "value": 1, "full": "(data not available)" },
 			      { "label": "Yahoo検索", "value": 1, "full": "yahoo / organic" }
 		  ]
 	},
