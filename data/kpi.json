@@ -1,42 +1,37 @@
 {
-  "updated_at": "2026-09-07T09:20:00+09:00",
-  "updated_label": "2026-09-07 09:20",
+  "updated_at": "2026-09-08T09:20:00+09:00",
+  "updated_label": "2026-09-08 09:20",
   "hp": {
     "status": "ok",
-    "message": "9月6日(日)の実績。前週の同じ曜日(8月30日)との比較つき。直近14日間の日別ユーザー数も掲載。",
+    "message": "9月7日(日)の実績。前週の同じ曜日(8月31日)との比較つき。直近14日間の日別ユーザー数も掲載。",
     "source": {
-      "as_of": "2026-09-06",
+      "as_of": "2026-09-07",
       "note": "Googleアナリティクス"
     },
     "yesterday": {
-      "users": 24,
+      "users": 8,
       "users_delta": {
-        "pct": 50,
+        "pct": -50,
         "label": "前週同曜日比"
       },
-      "sessions": 26,
+      "sessions": 9,
       "sessions_delta": {
-        "pct": 44.44,
+        "pct": -55,
         "label": "前週同曜日比"
       },
-      "pageviews": 44,
+      "pageviews": 13,
       "pageviews_delta": {
-        "pct": 62.96,
+        "pct": -61.76,
         "label": "前週同曜日比"
       },
-      "avg_engagement_sec": 36,
+      "avg_engagement_sec": 25,
       "avg_engagement_delta": {
-        "pct": -7.69,
+        "pct": -70.59,
         "label": "前週同曜日比"
       },
-      "compare_date": "2026-08-30"
+      "compare_date": "2026-08-31"
     },
     "trend": [
-      {
-        "label": "8/24",
-        "full": "2026-08-24",
-        "value": 22
-      },
       {
         "label": "8/25",
         "full": "2026-08-25",
@@ -101,60 +96,45 @@
         "label": "9/6",
         "full": "2026-09-06",
         "value": 24
+      },
+      {
+        "label": "9/7",
+        "full": "2026-09-07",
+        "value": 8
       }
     ],
     "top_pages": [
       {
         "label": "トップページ",
-        "value": 23,
+        "value": 10,
         "full": "海鮮餃子 北京 | 大阪府枚方市の中華料理店 - 手作り海鮮餃子"
       },
       {
         "label": "メニュー",
-        "value": 7,
+        "value": 2,
         "full": "メニュー | 海鮮餃子 北京"
       },
       {
-        "label": "店舗紹介",
-        "value": 4,
-        "full": "店舗紹介 | 海鮮餃子 北京"
-      },
-      {
         "label": "おはよう朝日です紹介記事",
-        "value": 2,
+        "value": 1,
         "full": "「おはよう朝日です」で紹介いただきました ― 看板の海王餃子が5点満点 | 海鮮餃子 北京"
-      },
-      {
-        "label": "ギャラリー",
-        "value": 2,
-        "full": "ギャラリー・ショート動画（合計） | 海鮮餃子 北京"
       }
     ],
     "channels": [
       {
-        "label": "直接アクセス",
-        "value": 10,
-        "full": "(direct) / (none)"
-      },
-      {
         "label": "Google検索",
-        "value": 9,
+        "value": 6,
         "full": "google / organic"
       },
       {
+        "label": "直接アクセス",
+        "value": 2,
+        "full": "(direct) / (none)"
+      },
+      {
         "label": "Yahoo検索",
-        "value": 2,
-        "full": "yahoo / organic"
-      },
-      {
-        "label": "X",
-        "value": 2,
-        "full": "t.co / referral ＋ x / social"
-      },
-      {
-        "label": "Bing検索",
         "value": 1,
-        "full": "bing / organic"
+        "full": "yahoo / organic"
       }
     ]
   },
