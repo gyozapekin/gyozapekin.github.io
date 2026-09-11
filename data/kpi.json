@@ -1,72 +1,193 @@
 {
-  "updated_at": "2026-09-10T09:30:00+09:00",
-  "updated_label": "2026-09-10 09:30",
+  "updated_at": "2026-09-11T09:20:00+09:00",
+  "updated_label": "2026-09-11 09:20",
   "hp": {
     "status": "ok",
-    "message": "9月9日(火)の実績。前週の同じ曜日(9月2日)との比較つき。直近14日間の日別ユーザー数も掲載。",
+    "message": "9月10日(木)の実績。前週の同じ曜日(9月3日)との比較つき。直近14日間の日別ユーザー数も掲載。",
     "source": {
-      "as_of": "2026-09-09",
+      "as_of": "2026-09-10",
       "note": "Googleアナリティクス"
     },
     "yesterday": {
-      "users": 11,
-      "users_delta": { "pct": -47.62, "label": "前週同曜日比" },
-      "sessions": 12,
-      "sessions_delta": { "pct": -50.0, "label": "前週同曜日比" },
-      "pageviews": 20,
-      "pageviews_delta": { "pct": -48.72, "label": "前週同曜日比" },
-      "avg_engagement_sec": 33,
-      "avg_engagement_delta": { "pct": 10.0, "label": "前週同曜日比" },
-      "compare_date": "2026-09-02"
+      "users": 17,
+      "users_delta": {
+        "pct": 112.5,
+        "label": "前週同曜日比"
+      },
+      "sessions": 18,
+      "sessions_delta": {
+        "pct": 63.64,
+        "label": "前週同曜日比"
+      },
+      "pageviews": 26,
+      "pageviews_delta": {
+        "pct": 85.71,
+        "label": "前週同曜日比"
+      },
+      "avg_engagement_sec": 37,
+      "avg_engagement_delta": {
+        "pct": 516.67,
+        "label": "前週同曜日比"
+      },
+      "compare_date": "2026-09-03"
     },
     "trend": [
-      { "label": "8/27", "full": "2026-08-27", "value": 27 },
-      { "label": "8/28", "full": "2026-08-28", "value": 24 },
-      { "label": "8/29", "full": "2026-08-29", "value": 24 },
-      { "label": "8/30", "full": "2026-08-30", "value": 16 },
-      { "label": "8/31", "full": "2026-08-31", "value": 16 },
-      { "label": "9/1", "full": "2026-09-01", "value": 21 },
-      { "label": "9/2", "full": "2026-09-02", "value": 21 },
-      { "label": "9/3", "full": "2026-09-03", "value": 8 },
-      { "label": "9/4", "full": "2026-09-04", "value": 15 },
-      { "label": "9/5", "full": "2026-09-05", "value": 18 },
-      { "label": "9/6", "full": "2026-09-06", "value": 24 },
-      { "label": "9/7", "full": "2026-09-07", "value": 8 },
-      { "label": "9/8", "full": "2026-09-08", "value": 44 },
-      { "label": "9/9", "full": "2026-09-09", "value": 11 }
+      {
+        "label": "8/28",
+        "full": "2026-08-28",
+        "value": 24
+      },
+      {
+        "label": "8/29",
+        "full": "2026-08-29",
+        "value": 24
+      },
+      {
+        "label": "8/30",
+        "full": "2026-08-30",
+        "value": 16
+      },
+      {
+        "label": "8/31",
+        "full": "2026-08-31",
+        "value": 16
+      },
+      {
+        "label": "9/1",
+        "full": "2026-09-01",
+        "value": 21
+      },
+      {
+        "label": "9/2",
+        "full": "2026-09-02",
+        "value": 21
+      },
+      {
+        "label": "9/3",
+        "full": "2026-09-03",
+        "value": 8
+      },
+      {
+        "label": "9/4",
+        "full": "2026-09-04",
+        "value": 16
+      },
+      {
+        "label": "9/5",
+        "full": "2026-09-05",
+        "value": 19
+      },
+      {
+        "label": "9/6",
+        "full": "2026-09-06",
+        "value": 26
+      },
+      {
+        "label": "9/7",
+        "full": "2026-09-07",
+        "value": 8
+      },
+      {
+        "label": "9/8",
+        "full": "2026-09-08",
+        "value": 45
+      },
+      {
+        "label": "9/9",
+        "full": "2026-09-09",
+        "value": 14
+      },
+      {
+        "label": "9/10",
+        "full": "2026-09-10",
+        "value": 17
+      }
     ],
     "top_pages": [
-      { "label": "トップページ", "value": 10, "full": "海鮮餃子 北京 | 大阪府枚方市の中華料理店 - 手作り海鮮餃子" },
-      { "label": "メニュー", "value": 3, "full": "メニュー | 海鮮餃子 北京" },
-      { "label": "おはよう朝日です紹介記事", "value": 2, "full": "「おはよう朝日です」で紹介いただきました ― 看板の海王餃子が5点満点 | 海鮮餃子 北京" },
-      { "label": "通販・お取り寄せ", "value": 2, "full": "餃子の通販・お取り寄せ（全国発送） | 海鮮餃子 北京（大阪府枚方市）" },
-      { "label": "フットゴルフ大会の記事", "value": 1, "full": "8月9日、枚方で「海鮮餃子北京オープン」開催。北京の名前を冠したフットゴルフ大会、エントリー受付中です" }
+      {
+        "label": "トップページ",
+        "value": 11,
+        "full": "海鮮餃子 北京 | 大阪府枚方市の中華料理店 - 手作り海鮮餃子"
+      },
+      {
+        "label": "おいしい餃子の焼き方",
+        "value": 4,
+        "full": "おいしい餃子の焼き方 | 海鮮餃子 北京"
+      },
+      {
+        "label": "メニュー",
+        "value": 4,
+        "full": "メニュー | 海鮮餃子 北京"
+      },
+      {
+        "label": "おはよう朝日です紹介記事",
+        "value": 3,
+        "full": "「おはよう朝日です」で紹介いただきました ― 看板の海王餃子が5点満点 | 海鮮餃子 北京"
+      },
+      {
+        "label": "大エビ天の記事",
+        "value": 2,
+        "full": "大エビ天｜尻尾までサクサク、ぷりっと海老の天ぷら｜枚方・宮之阪の町中華 海鮮餃子 北京"
+      }
     ],
     "channels": [
-      { "label": "直接アクセス", "value": 4, "full": "(direct) / (none)" },
-      { "label": "Yahoo検索", "value": 4, "full": "yahoo / organic" },
-      { "label": "Google検索", "value": 2, "full": "google / organic" },
-      { "label": "判別できなかった流入", "value": 1, "full": "(data not available)" },
-      { "label": "Facebook", "value": 1, "full": "m.facebook.com / referral" }
+      {
+        "label": "判別できなかった流入",
+        "value": 8,
+        "full": "(data not available)"
+      },
+      {
+        "label": "直接アクセス",
+        "value": 2,
+        "full": "(direct) / (none)"
+      },
+      {
+        "label": "Google検索",
+        "value": 2,
+        "full": "google / organic"
+      },
+      {
+        "label": "Yahoo検索",
+        "value": 1,
+        "full": "yahoo / organic"
+      }
     ]
   },
   "google": {
     "status": "pending",
     "message": "自動での取り込みがまだです。クチコミは8月19日時点で4.1／284件でした。",
-    "source": { "as_of": "2026-08-19", "note": "ビジネスプロフィール" },
+    "source": {
+      "as_of": "2026-08-19",
+      "note": "ビジネスプロフィール"
+    },
     "rating": null,
     "reviews": null
   },
   "sns": {
     "status": "pending",
     "message": "投稿台帳のフォルダ（GyozaPekin_SNS）から自動で読み取る配線がまだです。",
-    "source": { "as_of": "", "note": "投稿台帳" },
+    "source": {
+      "as_of": "",
+      "note": "投稿台帳"
+    },
     "posts": []
   },
   "sources_note": [
-    { "name": "ホームページ", "detail": "Googleアナリティクス（測定ID G-M8C788MDLN）から取り込み。1日1回の更新を予定。" },
-    { "name": "Google", "detail": "ビジネスプロフィールの数字。表示回数・ルート検索・電話・クチコミ。" },
-    { "name": "SNS", "detail": "投稿台帳（post_perf）から直近の投稿と反応。" },
-    { "name": "更新のしかた", "detail": "定期タスクが数字を読み取り、このページが見ている /data/kpi.json を書き換えます。" }
+    {
+      "name": "ホームページ",
+      "detail": "Googleアナリティクス（測定ID G-M8C788MDLN）から取り込み。1日1回の更新を予定。"
+    },
+    {
+      "name": "Google",
+      "detail": "ビジネスプロフィールの数字。表示回数・ルート検索・電話・クチコミ。"
+    },
+    {
+      "name": "SNS",
+      "detail": "投稿台帳（post_perf）から直近の投稿と反応。"
+    },
+    {
+      "name": "更新のしかた",
+      "detail": "定期タスクが数字を読み取り、このページが見ている /data/kpi.json を書き換えます。"
+    }
   ]
 }
