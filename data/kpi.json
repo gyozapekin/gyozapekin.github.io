@@ -1,42 +1,37 @@
 {
-  "updated_at": "2026-09-12T09:30:00+09:00",
-  "updated_label": "2026-09-12 09:30",
+  "updated_at": "2026-09-13T09:30:00+09:00",
+  "updated_label": "2026-09-13 09:30",
   "hp": {
     "status": "ok",
-    "message": "9月11日(金)の実績。前週の同じ曜日(9月4日)との比較つき。直近14日間の日別ユーザー数も掲載。",
+    "message": "9月12日(土)の実績。前週の同じ曜日(9月5日)との比較つき。直近14日間の日別ユーザー数も掲載。",
     "source": {
-      "as_of": "2026-09-11",
+      "as_of": "2026-09-12",
       "note": "Googleアナリティクス"
     },
     "yesterday": {
-      "users": 9,
+      "users": 24,
       "users_delta": {
-        "pct": -43.75,
+        "pct": 26.32,
         "label": "前週同曜日比"
       },
-      "sessions": 9,
+      "sessions": 27,
       "sessions_delta": {
-        "pct": -55,
+        "pct": 28.57,
         "label": "前週同曜日比"
       },
-      "pageviews": 31,
+      "pageviews": 43,
       "pageviews_delta": {
-        "pct": -13.89,
+        "pct": -2.27,
         "label": "前週同曜日比"
       },
-      "avg_engagement_sec": 210,
+      "avg_engagement_sec": 33,
       "avg_engagement_delta": {
-        "pct": 125.81,
+        "pct": -46.77,
         "label": "前週同曜日比"
       },
-      "compare_date": "2026-09-04"
+      "compare_date": "2026-09-05"
     },
     "trend": [
-      {
-        "label": "8/29",
-        "full": "2026-08-29",
-        "value": 24
-      },
       {
         "label": "8/30",
         "full": "2026-08-30",
@@ -70,12 +65,12 @@
       {
         "label": "9/5",
         "full": "2026-09-05",
-        "value": 18
+        "value": 19
       },
       {
         "label": "9/6",
         "full": "2026-09-06",
-        "value": 24
+        "value": 26
       },
       {
         "label": "9/7",
@@ -85,12 +80,12 @@
       {
         "label": "9/8",
         "full": "2026-09-08",
-        "value": 44
+        "value": 45
       },
       {
         "label": "9/9",
         "full": "2026-09-09",
-        "value": 11
+        "value": 14
       },
       {
         "label": "9/10",
@@ -101,12 +96,17 @@
         "label": "9/11",
         "full": "2026-09-11",
         "value": 9
+      },
+      {
+        "label": "9/12",
+        "full": "2026-09-12",
+        "value": 24
       }
     ],
     "top_pages": [
       {
         "label": "トップページ",
-        "value": 13,
+        "value": 24,
         "full": "海鮮餃子 北京 | 大阪府枚方市の中華料理店 - 手作り海鮮餃子"
       },
       {
@@ -115,36 +115,46 @@
         "full": "メニュー | 海鮮餃子 北京"
       },
       {
-        "label": "FOOD TOURISM JAPAN紹介記事",
-        "value": 4,
-        "full": "FOOD TOURISM JAPANさんのYouTubeで紹介いただきました ― 海鮮餃子・海王餃子・七輪の自家製焼豚"
-      },
-      {
         "label": "おはよう朝日です紹介記事",
-        "value": 2,
+        "value": 4,
         "full": "「おはよう朝日です」で紹介いただきました ― 看板の海王餃子が5点満点"
       },
       {
-        "label": "ギャラリー",
+        "label": "Acid Black Cherry 19周年の記事",
         "value": 2,
-        "full": "ギャラリー | 海鮮餃子 北京"
+        "full": "yasuくんと、ここへ来てくれるあなたへ。Acid Black Cherry 19周年に、感謝を込めて"
+      },
+      {
+        "label": "おいしい餃子の焼き方",
+        "value": 2,
+        "full": "おいしい餃子の焼き方 | 海鮮餃子 北京"
       }
     ],
     "channels": [
       {
         "label": "直接アクセス",
-        "value": 5,
+        "value": 10,
         "full": "(direct) / (none)"
+      },
+      {
+        "label": "Google検索",
+        "value": 7,
+        "full": "google / organic"
+      },
+      {
+        "label": "Yahoo検索",
+        "value": 5,
+        "full": "yahoo / organic"
+      },
+      {
+        "label": "Facebook",
+        "value": 2,
+        "full": "facebook.com / referral と m.facebook.com / referral の合計"
       },
       {
         "label": "判別できなかった流入",
         "value": 2,
         "full": "(data not available)"
-      },
-      {
-        "label": "Google検索",
-        "value": 2,
-        "full": "google / organic"
       }
     ]
   },
