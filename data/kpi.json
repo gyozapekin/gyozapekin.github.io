@@ -1,42 +1,37 @@
 {
-  "updated_at": "2026-09-13T09:30:00+09:00",
-  "updated_label": "2026-09-13 09:30",
+  "updated_at": "2026-09-14T09:15:00+09:00",
+  "updated_label": "2026-09-14 09:15",
   "hp": {
     "status": "ok",
-    "message": "9月12日(土)の実績。前週の同じ曜日(9月5日)との比較つき。直近14日間の日別ユーザー数も掲載。",
+    "message": "9月13日(日)の実績。前週の同じ曜日(9月6日)との比較つき。直近14日間の日別ユーザー数も掲載。",
     "source": {
-      "as_of": "2026-09-12",
+      "as_of": "2026-09-13",
       "note": "Googleアナリティクス"
     },
     "yesterday": {
       "users": 24,
       "users_delta": {
-        "pct": 26.32,
+        "pct": -7.69,
         "label": "前週同曜日比"
       },
-      "sessions": 27,
+      "sessions": 29,
       "sessions_delta": {
-        "pct": 28.57,
+        "pct": 3.57,
         "label": "前週同曜日比"
       },
-      "pageviews": 43,
+      "pageviews": 54,
       "pageviews_delta": {
-        "pct": -2.27,
+        "pct": 3.85,
         "label": "前週同曜日比"
       },
-      "avg_engagement_sec": 33,
+      "avg_engagement_sec": 72,
       "avg_engagement_delta": {
-        "pct": -46.77,
+        "pct": 118.18,
         "label": "前週同曜日比"
       },
-      "compare_date": "2026-09-05"
+      "compare_date": "2026-09-06"
     },
     "trend": [
-      {
-        "label": "8/30",
-        "full": "2026-08-30",
-        "value": 16
-      },
       {
         "label": "8/31",
         "full": "2026-08-31",
@@ -101,39 +96,49 @@
         "label": "9/12",
         "full": "2026-09-12",
         "value": 24
+      },
+      {
+        "label": "9/13",
+        "full": "2026-09-13",
+        "value": 24
       }
     ],
     "top_pages": [
       {
         "label": "トップページ",
-        "value": 24,
+        "value": 28,
         "full": "海鮮餃子 北京 | 大阪府枚方市の中華料理店 - 手作り海鮮餃子"
       },
       {
-        "label": "メニュー",
-        "value": 7,
-        "full": "メニュー | 海鮮餃子 北京"
-      },
-      {
         "label": "おはよう朝日です紹介記事",
-        "value": 4,
+        "value": 5,
         "full": "「おはよう朝日です」で紹介いただきました ― 看板の海王餃子が5点満点"
       },
       {
-        "label": "Acid Black Cherry 19周年の記事",
-        "value": 2,
-        "full": "yasuくんと、ここへ来てくれるあなたへ。Acid Black Cherry 19周年に、感謝を込めて"
+        "label": "メニュー",
+        "value": 5,
+        "full": "メニュー | 海鮮餃子 北京"
       },
       {
-        "label": "おいしい餃子の焼き方",
-        "value": 2,
-        "full": "おいしい餃子の焼き方 | 海鮮餃子 北京"
+        "label": "店舗紹介",
+        "value": 5,
+        "full": "店舗紹介 | 海鮮餃子 北京"
+      },
+      {
+        "label": "通販ページ",
+        "value": 5,
+        "full": "餃子の通販・お取り寄せ（全国発送） | 海鮮餃子 北京"
       }
     ],
     "channels": [
       {
+        "label": "判別できず",
+        "value": 8,
+        "full": "(data not available)"
+      },
+      {
         "label": "直接アクセス",
-        "value": 10,
+        "value": 8,
         "full": "(direct) / (none)"
       },
       {
@@ -143,18 +148,13 @@
       },
       {
         "label": "Yahoo検索",
-        "value": 5,
+        "value": 4,
         "full": "yahoo / organic"
       },
       {
-        "label": "Facebook",
-        "value": 2,
-        "full": "facebook.com / referral と m.facebook.com / referral の合計"
-      },
-      {
-        "label": "判別できなかった流入",
-        "value": 2,
-        "full": "(data not available)"
+        "label": "Instagram",
+        "value": 1,
+        "full": "ig / social"
       }
     ]
   },
