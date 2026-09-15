@@ -1,42 +1,37 @@
 {
-  "updated_at": "2026-09-14T09:15:00+09:00",
-  "updated_label": "2026-09-14 09:15",
+  "updated_at": "2026-09-15T09:20:00+09:00",
+  "updated_label": "2026-09-15 09:20",
   "hp": {
     "status": "ok",
-    "message": "9月13日(日)の実績。前週の同じ曜日(9月6日)との比較つき。直近14日間の日別ユーザー数も掲載。",
+    "message": "9月14日(月)の実績。前週の同じ曜日(9月7日)との比較つき。直近14日間の日別ユーザー数も掲載。",
     "source": {
-      "as_of": "2026-09-13",
+      "as_of": "2026-09-14",
       "note": "Googleアナリティクス"
     },
     "yesterday": {
-      "users": 24,
+      "users": 18,
       "users_delta": {
-        "pct": -7.69,
+        "pct": 125.0,
         "label": "前週同曜日比"
       },
-      "sessions": 29,
+      "sessions": 19,
       "sessions_delta": {
-        "pct": 3.57,
+        "pct": 111.11,
         "label": "前週同曜日比"
       },
-      "pageviews": 54,
+      "pageviews": 35,
       "pageviews_delta": {
-        "pct": 3.85,
+        "pct": 150.0,
         "label": "前週同曜日比"
       },
-      "avg_engagement_sec": 72,
+      "avg_engagement_sec": 30,
       "avg_engagement_delta": {
-        "pct": 118.18,
+        "pct": 20.0,
         "label": "前週同曜日比"
       },
-      "compare_date": "2026-09-06"
+      "compare_date": "2026-09-07"
     },
     "trend": [
-      {
-        "label": "8/31",
-        "full": "2026-08-31",
-        "value": 16
-      },
       {
         "label": "9/1",
         "full": "2026-09-01",
@@ -101,60 +96,65 @@
         "label": "9/13",
         "full": "2026-09-13",
         "value": 24
+      },
+      {
+        "label": "9/14",
+        "full": "2026-09-14",
+        "value": 18
       }
     ],
     "top_pages": [
       {
         "label": "トップページ",
-        "value": 28,
+        "value": 20,
         "full": "海鮮餃子 北京 | 大阪府枚方市の中華料理店 - 手作り海鮮餃子"
       },
       {
-        "label": "おはよう朝日です紹介記事",
-        "value": 5,
-        "full": "「おはよう朝日です」で紹介いただきました ― 看板の海王餃子が5点満点"
-      },
-      {
         "label": "メニュー",
-        "value": 5,
+        "value": 11,
         "full": "メニュー | 海鮮餃子 北京"
       },
       {
-        "label": "店舗紹介",
-        "value": 5,
-        "full": "店舗紹介 | 海鮮餃子 北京"
+        "label": "メニュー(英語)",
+        "value": 1,
+        "full": "Menu | Kaisen Gyoza Pekin"
+      },
+      {
+        "label": "ギャラリー",
+        "value": 1,
+        "full": "ギャラリー | 海鮮餃子 北京"
       },
       {
         "label": "通販ページ",
-        "value": 5,
-        "full": "餃子の通販・お取り寄せ（全国発送） | 海鮮餃子 北京"
+        "value": 1,
+        "full": "餃子の通販・お取り寄せ（全国発送） | 海鮮餃子 北京（大阪府枚方市）"
       }
     ],
     "channels": [
       {
-        "label": "判別できず",
-        "value": 8,
-        "full": "(data not available)"
-      },
-      {
         "label": "直接アクセス",
-        "value": 8,
+        "value": 11,
         "full": "(direct) / (none)"
       },
       {
         "label": "Google検索",
-        "value": 7,
+        "value": 5,
         "full": "google / organic"
       },
       {
-        "label": "Yahoo検索",
-        "value": 4,
-        "full": "yahoo / organic"
+        "label": "Bing検索",
+        "value": 1,
+        "full": "bing / organic"
       },
       {
-        "label": "Instagram",
+        "label": "ChatGPT",
         "value": 1,
-        "full": "ig / social"
+        "full": "chatgpt.com / ai-assistant"
+      },
+      {
+        "label": "ドコモ経由",
+        "value": 1,
+        "full": "service.smt.docomo.ne.jp / referral"
       }
     ]
   },
