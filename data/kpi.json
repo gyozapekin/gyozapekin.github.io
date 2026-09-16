@@ -1,160 +1,94 @@
 {
-  "updated_at": "2026-09-15T09:20:00+09:00",
-  "updated_label": "2026-09-15 09:20",
+  "updated_at": "2026-09-16T09:20:00+09:00",
+  "updated_label": "2026-09-16 09:20",
   "hp": {
     "status": "ok",
-    "message": "9月14日(月)の実績。前週の同じ曜日(9月7日)との比較つき。直近14日間の日別ユーザー数も掲載。",
+    "message": "9月15日(火)の実績。前週の同じ曜日(9月8日)との比較つき。直近14日間の日別ユーザー数も掲載。9月8日はテレビ紹介の記事が大きく読まれた日なので、比較の落ち込みはその反動です。",
     "source": {
-      "as_of": "2026-09-14",
+      "as_of": "2026-09-15",
       "note": "Googleアナリティクス"
     },
     "yesterday": {
-      "users": 18,
+      "users": 10,
       "users_delta": {
-        "pct": 125.0,
+        "pct": -77.78,
         "label": "前週同曜日比"
       },
-      "sessions": 19,
+      "sessions": 13,
       "sessions_delta": {
-        "pct": 111.11,
+        "pct": -72.34,
         "label": "前週同曜日比"
       },
-      "pageviews": 35,
+      "pageviews": 19,
       "pageviews_delta": {
-        "pct": 150.0,
+        "pct": -69.84,
         "label": "前週同曜日比"
       },
-      "avg_engagement_sec": 30,
+      "avg_engagement_sec": 57,
       "avg_engagement_delta": {
-        "pct": 20.0,
+        "pct": 147.83,
         "label": "前週同曜日比"
       },
-      "compare_date": "2026-09-07"
+      "compare_date": "2026-09-08"
     },
     "trend": [
-      {
-        "label": "9/1",
-        "full": "2026-09-01",
-        "value": 21
-      },
-      {
-        "label": "9/2",
-        "full": "2026-09-02",
-        "value": 21
-      },
-      {
-        "label": "9/3",
-        "full": "2026-09-03",
-        "value": 8
-      },
-      {
-        "label": "9/4",
-        "full": "2026-09-04",
-        "value": 16
-      },
-      {
-        "label": "9/5",
-        "full": "2026-09-05",
-        "value": 19
-      },
-      {
-        "label": "9/6",
-        "full": "2026-09-06",
-        "value": 26
-      },
-      {
-        "label": "9/7",
-        "full": "2026-09-07",
-        "value": 8
-      },
-      {
-        "label": "9/8",
-        "full": "2026-09-08",
-        "value": 45
-      },
-      {
-        "label": "9/9",
-        "full": "2026-09-09",
-        "value": 14
-      },
-      {
-        "label": "9/10",
-        "full": "2026-09-10",
-        "value": 18
-      },
-      {
-        "label": "9/11",
-        "full": "2026-09-11",
-        "value": 9
-      },
-      {
-        "label": "9/12",
-        "full": "2026-09-12",
-        "value": 24
-      },
-      {
-        "label": "9/13",
-        "full": "2026-09-13",
-        "value": 24
-      },
-      {
-        "label": "9/14",
-        "full": "2026-09-14",
-        "value": 18
-      }
+      { "label": "9/2", "full": "2026-09-02", "value": 21 },
+      { "label": "9/3", "full": "2026-09-03", "value": 8 },
+      { "label": "9/4", "full": "2026-09-04", "value": 16 },
+      { "label": "9/5", "full": "2026-09-05", "value": 19 },
+      { "label": "9/6", "full": "2026-09-06", "value": 26 },
+      { "label": "9/7", "full": "2026-09-07", "value": 8 },
+      { "label": "9/8", "full": "2026-09-08", "value": 45 },
+      { "label": "9/9", "full": "2026-09-09", "value": 14 },
+      { "label": "9/10", "full": "2026-09-10", "value": 18 },
+      { "label": "9/11", "full": "2026-09-11", "value": 9 },
+      { "label": "9/12", "full": "2026-09-12", "value": 24 },
+      { "label": "9/13", "full": "2026-09-13", "value": 24 },
+      { "label": "9/14", "full": "2026-09-14", "value": 18 },
+      { "label": "9/15", "full": "2026-09-15", "value": 10 }
     ],
     "top_pages": [
       {
         "label": "トップページ",
-        "value": 20,
+        "value": 14,
         "full": "海鮮餃子 北京 | 大阪府枚方市の中華料理店 - 手作り海鮮餃子"
       },
       {
         "label": "メニュー",
-        "value": 11,
+        "value": 4,
         "full": "メニュー | 海鮮餃子 北京"
       },
       {
-        "label": "メニュー(英語)",
+        "label": "店舗紹介",
         "value": 1,
-        "full": "Menu | Kaisen Gyoza Pekin"
-      },
-      {
-        "label": "ギャラリー",
-        "value": 1,
-        "full": "ギャラリー | 海鮮餃子 北京"
-      },
-      {
-        "label": "通販ページ",
-        "value": 1,
-        "full": "餃子の通販・お取り寄せ（全国発送） | 海鮮餃子 北京（大阪府枚方市）"
+        "full": "店舗紹介 | 海鮮餃子 北京"
       }
     ],
     "channels": [
       {
+        "label": "未判別",
+        "value": 6,
+        "full": "(not set) / 集計がまだ確定していない分"
+      },
+      {
         "label": "直接アクセス",
-        "value": 11,
+        "value": 4,
         "full": "(direct) / (none)"
       },
       {
         "label": "Google検索",
-        "value": 5,
+        "value": 3,
         "full": "google / organic"
+      },
+      {
+        "label": "Yahoo検索",
+        "value": 3,
+        "full": "yahoo / organic"
       },
       {
         "label": "Bing検索",
         "value": 1,
         "full": "bing / organic"
-      },
-      {
-        "label": "ChatGPT",
-        "value": 1,
-        "full": "chatgpt.com / ai-assistant"
-      },
-      {
-        "label": "ドコモ経由",
-        "value": 1,
-        "full": "service.smt.docomo.ne.jp / referral"
       }
     ]
   },
