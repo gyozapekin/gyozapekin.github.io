@@ -1,68 +1,198 @@
 {
-	"updated_at": "2026-09-20T09:15:00+09:00",
-	"updated_label": "2026-09-20 09:15",
-	"hp": {
-		  "status": "ok",
-		  "message": "9月19日(土)の実績。前週の同じ曜日(9月12日)との比較つき。直近14日間の日別ユーザー数も掲載。",
-		  "source": { "as_of": "2026-09-19", "note": "Googleアナリティクス" },
-		  "yesterday": {
-			      "users": 13,
-			      "users_delta": { "pct": -53.57, "label": "前週同曜日比" },
-			      "sessions": 15,
-			      "sessions_delta": { "pct": -48.28, "label": "前週同曜日比" },
-			      "pageviews": 19,
-			      "pageviews_delta": { "pct": -53.66, "label": "前週同曜日比" },
-			      "avg_engagement_sec": 29,
-			      "avg_engagement_delta": { "pct": -14.71, "label": "前週同曜日比" },
-			      "compare_date": "2026-09-12"
-		  },
-		  "trend": [
-			      { "label": "9/6", "full": "2026-09-06", "value": 26 },
-			      { "label": "9/7", "full": "2026-09-07", "value": 8 },
-			      { "label": "9/8", "full": "2026-09-08", "value": 47 },
-			      { "label": "9/9", "full": "2026-09-09", "value": 14 },
-			      { "label": "9/10", "full": "2026-09-10", "value": 18 },
-			      { "label": "9/11", "full": "2026-09-11", "value": 10 },
-			      { "label": "9/12", "full": "2026-09-12", "value": 28 },
-			      { "label": "9/13", "full": "2026-09-13", "value": 27 },
-			      { "label": "9/14", "full": "2026-09-14", "value": 19 },
-			      { "label": "9/15", "full": "2026-09-15", "value": 12 },
-			      { "label": "9/16", "full": "2026-09-16", "value": 16 },
-			      { "label": "9/17", "full": "2026-09-17", "value": 11 },
-			      { "label": "9/18", "full": "2026-09-18", "value": 18 },
-			      { "label": "9/19", "full": "2026-09-19", "value": 13 }
-		  ],
-		  "top_pages": [
-			      { "label": "トップページ", "value": 8, "full": "/ 海鮮餃子 北京 | 大阪府枚方市の中華料理店" },
-			      { "label": "メニュー", "value": 5, "full": "/menu.html メニュー | 海鮮餃子 北京" },
-			      { "label": "おはよう朝日・海王餃子の記事", "value": 3, "full": "/news/2026/06/02/ohaasa-kaiou-gyoza/" },
-			      { "label": "トップページ(index.html)", "value": 2, "full": "/index.html" },
-			      { "label": "通販・お取り寄せ", "value": 1, "full": "/order.html 餃子の通販・お取り寄せ（全国発送）" }
-		  ],
-		  "channels": [
-			      { "label": "直接アクセス", "value": 7, "full": "(direct) / (none)" },
-			      { "label": "Yahoo検索", "value": 6, "full": "yahoo / organic" },
-			      { "label": "ChatGPT", "value": 1, "full": "chatgpt.com / ai-assistant" },
-			      { "label": "ひらつー(hira2.jp)からの紹介", "value": 1, "full": "hira2.jp / referral" }
-		  ]
-	},
-	"google": {
-		  "status": "pending",
-		  "message": "自動での取り込みがまだです。クチコミは8月19日時点で4.1／284件でした。",
-		  "source": { "as_of": "2026-08-19", "note": "ビジネスプロフィール" },
-		  "rating": null,
-		  "reviews": null
-	},
-	"sns": {
-		  "status": "pending",
-		  "message": "投稿台帳のフォルダ（GyozaPekin_SNS）から自動で読み取る配線がまだです。",
-		  "source": { "as_of": "", "note": "投稿台帳" },
-		  "posts": []
-	},
-	"sources_note": [
-		  { "name": "ホームページ", "detail": "Googleアナリティクス（測定ID G-M8C788MDLN）から取り込み。1日1回の更新を予定。" },
-		  { "name": "Google", "detail": "ビジネスプロフィールの数字。表示回数・ルート検索・電話・クチコミ。" },
-		  { "name": "SNS", "detail": "投稿台帳（post_perf）から直近の投稿と反応。" },
-		  { "name": "更新のしかた", "detail": "定期タスクが数字を読み取り、このページが見ている /data/kpi.json を書き換えます。" }
-	]
+  "updated_at": "2026-09-24T09:04:00+09:00",
+  "updated_label": "2026-09-24 09:04",
+  "hp": {
+    "status": "ok",
+    "message": "9月23日(水・祝)の実績。前週の同じ曜日(9月16日)との比較つき。9月23日分はGA4側でまだ集計が確定しておらず(エンゲージのあったセッションが0、参照元不明が多い)、後で数字が変わる可能性があります。直近14日間の日別ユーザー数も掲載。",
+    "source": {
+      "as_of": "2026-09-23",
+      "note": "Googleアナリティクス"
+    },
+    "yesterday": {
+      "users": 20,
+      "users_delta": {
+        "pct": 33.33,
+        "label": "前週同曜日比"
+      },
+      "sessions": 25,
+      "sessions_delta": {
+        "pct": 56.25,
+        "label": "前週同曜日比"
+      },
+      "pageviews": 46,
+      "pageviews_delta": {
+        "pct": 64.29,
+        "label": "前週同曜日比"
+      },
+      "avg_engagement_sec": 75,
+      "avg_engagement_delta": {
+        "pct": 200.0,
+        "label": "前週同曜日比"
+      },
+      "compare_date": "2026-09-16"
+    },
+    "trend": [
+      {
+        "label": "9/10",
+        "full": "2026-09-10",
+        "value": 18
+      },
+      {
+        "label": "9/11",
+        "full": "2026-09-11",
+        "value": 10
+      },
+      {
+        "label": "9/12",
+        "full": "2026-09-12",
+        "value": 28
+      },
+      {
+        "label": "9/13",
+        "full": "2026-09-13",
+        "value": 27
+      },
+      {
+        "label": "9/14",
+        "full": "2026-09-14",
+        "value": 19
+      },
+      {
+        "label": "9/15",
+        "full": "2026-09-15",
+        "value": 12
+      },
+      {
+        "label": "9/16",
+        "full": "2026-09-16",
+        "value": 16
+      },
+      {
+        "label": "9/17",
+        "full": "2026-09-17",
+        "value": 11
+      },
+      {
+        "label": "9/18",
+        "full": "2026-09-18",
+        "value": 18
+      },
+      {
+        "label": "9/19",
+        "full": "2026-09-19",
+        "value": 13
+      },
+      {
+        "label": "9/20",
+        "full": "2026-09-20",
+        "value": 25
+      },
+      {
+        "label": "9/21",
+        "full": "2026-09-21",
+        "value": 18
+      },
+      {
+        "label": "9/22",
+        "full": "2026-09-22",
+        "value": 28
+      },
+      {
+        "label": "9/23",
+        "full": "2026-09-23",
+        "value": 20
+      }
+    ],
+    "top_pages": [
+      {
+        "label": "トップページ",
+        "value": 21,
+        "full": "/ 海鮮餃子 北京 | 大阪府枚方市の中華料理店"
+      },
+      {
+        "label": "店舗紹介",
+        "value": 10,
+        "full": "/about.html 店舗紹介 | 海鮮餃子 北京"
+      },
+      {
+        "label": "メニュー",
+        "value": 6,
+        "full": "/menu.html メニュー | 海鮮餃子 北京"
+      },
+      {
+        "label": "トップページ(index.html)",
+        "value": 4,
+        "full": "/index.html"
+      },
+      {
+        "label": "お知らせ",
+        "value": 2,
+        "full": "/news/ お知らせ | 海鮮餃子 北京"
+      }
+    ],
+    "channels": [
+      {
+        "label": "参照元不明(集計中)",
+        "value": 14,
+        "full": "(not set)"
+      },
+      {
+        "label": "直接アクセス",
+        "value": 8,
+        "full": "(direct) / (none)"
+      },
+      {
+        "label": "データ未確定",
+        "value": 7,
+        "full": "(data not available)"
+      },
+      {
+        "label": "Yahoo検索",
+        "value": 5,
+        "full": "yahoo / organic"
+      },
+      {
+        "label": "ChatGPT",
+        "value": 1,
+        "full": "chatgpt.com / ai-assistant"
+      }
+    ]
+  },
+  "google": {
+    "status": "pending",
+    "message": "自動での取り込みがまだです。クチコミは8月19日時点で4.1／284件でした。",
+    "source": {
+      "as_of": "2026-08-19",
+      "note": "ビジネスプロフィール"
+    },
+    "rating": null,
+    "reviews": null
+  },
+  "sns": {
+    "status": "pending",
+    "message": "投稿台帳のフォルダ（GyozaPekin_SNS）から自動で読み取る配線がまだです。",
+    "source": {
+      "as_of": "",
+      "note": "投稿台帳"
+    },
+    "posts": []
+  },
+  "sources_note": [
+    {
+      "name": "ホームページ",
+      "detail": "Googleアナリティクス（測定ID G-M8C788MDLN）から取り込み。1日1回の更新を予定。"
+    },
+    {
+      "name": "Google",
+      "detail": "ビジネスプロフィールの数字。表示回数・ルート検索・電話・クチコミ。"
+    },
+    {
+      "name": "SNS",
+      "detail": "投稿台帳（post_perf）から直近の投稿と反応。"
+    },
+    {
+      "name": "更新のしかた",
+      "detail": "定期タスクが数字を読み取り、このページが見ている /data/kpi.json を書き換えます。"
+    }
+  ]
 }
