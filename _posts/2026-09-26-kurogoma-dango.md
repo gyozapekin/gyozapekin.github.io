@@ -5,6 +5,14 @@ date: 2026-09-26 13:00:00 +0900
 news_category: oryori
 description: "枚方・宮之阪の町中華「海鮮餃子 北京」の黒胡麻団子。もちもちの皮の中に、とろける黒ごまあんをたっぷり詰めた一粒。創業1977年、宮之阪駅から徒歩2分。餃子の後の一口デザートにどうぞ。"
 ---
+## 動画で見る、北京の黒胡麻団子
+
+<div style="position:relative;padding-bottom:177.78%;height:0;max-width:340px;margin:10px auto;border-radius:14px;overflow:hidden;">
+  <iframe src="https://www.youtube.com/embed/vIOXNMsFO0M" title="黒胡麻団子｜海鮮餃子 北京" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>
+</div>
+
+<p style="text-align:center;"><a href="/gallery/shorts.html">ショート動画ギャラリーはこちら</a></p>
+
 大阪・枚方の宮之阪に、創業1977年から続く町中華があります。「海鮮餃子 北京」。看板は餃子ですが、食事の締めくくりに人気なのがこの黒胡麻団子です。京阪・宮之阪駅から歩いて2分。餃子でお腹を満たした後、もうひと口だけ欲しくなる、そんな一品です。
 
 ## もちもちの皮に、とろける黒ごまあん
