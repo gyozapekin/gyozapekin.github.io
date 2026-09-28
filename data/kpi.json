@@ -1,23 +1,22 @@
 {
-	"updated_at": "2026-09-27T09:40:00+09:00",
-	"updated_label": "2026-09-27 09:40",
+	"updated_at": "2026-09-28T09:33:00+09:00",
+	"updated_label": "2026-09-28 09:33",
 	"hp": {
 		  "status": "ok",
-		  "message": "9月26日(土)の実績。前週の同じ曜日(9月19日)との比較つき。直近14日間の日別ユーザー数も掲載。",
-		  "source": { "as_of": "2026-09-26", "note": "Googleアナリティクス" },
+		  "message": "9月27日(日)の実績。前週の同じ曜日(9月20日)との比較つき。直近14日間の日別ユーザー数も掲載。",
+		  "source": { "as_of": "2026-09-27", "note": "Googleアナリティクス" },
 		  "yesterday": {
-			      "users": 25,
-			      "users_delta": { "pct": 92.31, "label": "前週同曜日比" },
-			      "sessions": 29,
-			      "sessions_delta": { "pct": 93.33, "label": "前週同曜日比" },
-			      "pageviews": 55,
-			      "pageviews_delta": { "pct": 189.47, "label": "前週同曜日比" },
-			      "avg_engagement_sec": 38,
-			      "avg_engagement_delta": { "pct": 31.03, "label": "前週同曜日比" },
-			      "compare_date": "2026-09-19"
+			      "users": 35,
+			      "users_delta": { "pct": 40.0, "label": "前週同曜日比" },
+			      "sessions": 45,
+			      "sessions_delta": { "pct": 45.16, "label": "前週同曜日比" },
+			      "pageviews": 65,
+			      "pageviews_delta": { "pct": 8.33, "label": "前週同曜日比" },
+			      "avg_engagement_sec": 32,
+			      "avg_engagement_delta": { "pct": -63.9, "label": "前週同曜日比" },
+			      "compare_date": "2026-09-20"
 		  },
 		  "trend": [
-			      { "label": "9/13", "full": "2026-09-13", "value": 25 },
 			      { "label": "9/14", "full": "2026-09-14", "value": 18 },
 			      { "label": "9/15", "full": "2026-09-15", "value": 10 },
 			      { "label": "9/16", "full": "2026-09-16", "value": 15 },
@@ -30,20 +29,22 @@
 			      { "label": "9/23", "full": "2026-09-23", "value": 20 },
 			      { "label": "9/24", "full": "2026-09-24", "value": 20 },
 			      { "label": "9/25", "full": "2026-09-25", "value": 14 },
-			      { "label": "9/26", "full": "2026-09-26", "value": 25 }
+			      { "label": "9/26", "full": "2026-09-26", "value": 27 },
+			      { "label": "9/27", "full": "2026-09-27", "value": 35 }
 		  ],
 		  "top_pages": [
-			      { "label": "トップページ", "value": 25, "full": "海鮮餃子 北京 | 大阪府枚方市の中華料理店 - 手作り海鮮餃子" },
-			      { "label": "黒胡麻団子の記事", "value": 6, "full": "黒胡麻団子｜とろける黒ごまあん、もちもちの一粒｜枚方・宮之阪の町中華 海鮮餃子 北京" },
-			      { "label": "店舗紹介", "value": 5, "full": "店舗紹介 | 海鮮餃子 北京" },
-			      { "label": "メニュー", "value": 4, "full": "メニュー | 海鮮餃子 北京" },
-			      { "label": "通販・お取り寄せ", "value": 3, "full": "餃子の通販・お取り寄せ（全国発送） | 海鮮餃子 北京（大阪府枚方市）" }
+			      { "label": "トップページ", "value": 37, "full": "/ (index.htmlを含む) 海鮮餃子 北京 | 大阪府枚方市の中華料理店" },
+			      { "label": "メニュー", "value": 7, "full": "/menu.html メニュー | 海鮮餃子 北京" },
+			      { "label": "ポンコツラーメンの記事", "value": 5, "full": "ポンコツラーメン｜名前でにんまり、やさしい白濁スープ｜枚方・宮之阪の町中華 海鮮餃子 北京" },
+			      { "label": "店舗紹介", "value": 3, "full": "/about.html 店舗紹介 | 海鮮餃子 北京" },
+			      { "label": "「おはよう朝日です」の記事", "value": 2, "full": "/news/2026/06/02/ohaasa-kaiou-gyoza/" }
 		  ],
 		  "channels": [
-			      { "label": "取得できず(data not available)", "value": 15, "full": "(data not available)" },
-			      { "label": "直接アクセス", "value": 11, "full": "(direct) / (none)" },
-			      { "label": "取得できず(not set)", "value": 9, "full": "(not set)" },
-			      { "label": "Yahoo検索", "value": 1, "full": "yahoo / organic" }
+			      { "label": "参照元不明(未設定)", "value": 17, "full": "(not set)" },
+			      { "label": "データ取得不可", "value": 16, "full": "(data not available)" },
+			      { "label": "直接アクセス", "value": 14, "full": "(direct) / (none)" },
+			      { "label": "Google検索", "value": 11, "full": "google / organic" },
+			      { "label": "Yahoo検索", "value": 2, "full": "yahoo / organic" }
 		  ]
 	},
 	"google": {
