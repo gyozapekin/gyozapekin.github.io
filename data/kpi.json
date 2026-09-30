@@ -1,69 +1,183 @@
 {
-	"updated_at": "2026-09-28T09:33:00+09:00",
-	"updated_label": "2026-09-28 09:33",
-	"hp": {
-		  "status": "ok",
-		  "message": "9月27日(日)の実績。前週の同じ曜日(9月20日)との比較つき。直近14日間の日別ユーザー数も掲載。",
-		  "source": { "as_of": "2026-09-27", "note": "Googleアナリティクス" },
-		  "yesterday": {
-			      "users": 35,
-			      "users_delta": { "pct": 40.0, "label": "前週同曜日比" },
-			      "sessions": 45,
-			      "sessions_delta": { "pct": 45.16, "label": "前週同曜日比" },
-			      "pageviews": 65,
-			      "pageviews_delta": { "pct": 8.33, "label": "前週同曜日比" },
-			      "avg_engagement_sec": 32,
-			      "avg_engagement_delta": { "pct": -63.9, "label": "前週同曜日比" },
-			      "compare_date": "2026-09-20"
-		  },
-		  "trend": [
-			      { "label": "9/14", "full": "2026-09-14", "value": 18 },
-			      { "label": "9/15", "full": "2026-09-15", "value": 10 },
-			      { "label": "9/16", "full": "2026-09-16", "value": 15 },
-			      { "label": "9/17", "full": "2026-09-17", "value": 11 },
-			      { "label": "9/18", "full": "2026-09-18", "value": 16 },
-			      { "label": "9/19", "full": "2026-09-19", "value": 13 },
-			      { "label": "9/20", "full": "2026-09-20", "value": 25 },
-			      { "label": "9/21", "full": "2026-09-21", "value": 18 },
-			      { "label": "9/22", "full": "2026-09-22", "value": 28 },
-			      { "label": "9/23", "full": "2026-09-23", "value": 20 },
-			      { "label": "9/24", "full": "2026-09-24", "value": 20 },
-			      { "label": "9/25", "full": "2026-09-25", "value": 14 },
-			      { "label": "9/26", "full": "2026-09-26", "value": 27 },
-			      { "label": "9/27", "full": "2026-09-27", "value": 35 }
-		  ],
-		  "top_pages": [
-			      { "label": "トップページ", "value": 37, "full": "/ (index.htmlを含む) 海鮮餃子 北京 | 大阪府枚方市の中華料理店" },
-			      { "label": "メニュー", "value": 7, "full": "/menu.html メニュー | 海鮮餃子 北京" },
-			      { "label": "ポンコツラーメンの記事", "value": 5, "full": "ポンコツラーメン｜名前でにんまり、やさしい白濁スープ｜枚方・宮之阪の町中華 海鮮餃子 北京" },
-			      { "label": "店舗紹介", "value": 3, "full": "/about.html 店舗紹介 | 海鮮餃子 北京" },
-			      { "label": "「おはよう朝日です」の記事", "value": 2, "full": "/news/2026/06/02/ohaasa-kaiou-gyoza/" }
-		  ],
-		  "channels": [
-			      { "label": "参照元不明(未設定)", "value": 17, "full": "(not set)" },
-			      { "label": "データ取得不可", "value": 16, "full": "(data not available)" },
-			      { "label": "直接アクセス", "value": 14, "full": "(direct) / (none)" },
-			      { "label": "Google検索", "value": 11, "full": "google / organic" },
-			      { "label": "Yahoo検索", "value": 2, "full": "yahoo / organic" }
-		  ]
-	},
-	"google": {
-		  "status": "pending",
-		  "message": "自動での取り込みがまだです。クチコミは8月19日時点で4.1／284件でした。",
-		  "source": { "as_of": "2026-08-19", "note": "ビジネスプロフィール" },
-		  "rating": null,
-		  "reviews": null
-	},
-	"sns": {
-		  "status": "pending",
-		  "message": "投稿台帳のフォルダ（GyozaPekin_SNS）から自動で読み取る配線がまだです。",
-		  "source": { "as_of": "", "note": "投稿台帳" },
-		  "posts": []
-	},
-	"sources_note": [
-		  { "name": "ホームページ", "detail": "Googleアナリティクス（測定ID G-M8C788MDLN）から取り込み。1日1回の更新を予定。" },
-		  { "name": "Google", "detail": "ビジネスプロフィールの数字。表示回数・ルート検索・電話・クチコミ。" },
-		  { "name": "SNS", "detail": "投稿台帳（post_perf）から直近の投稿と反応。" },
-		  { "name": "更新のしかた", "detail": "定期タスクが数字を読み取り、このページが見ている /data/kpi.json を書き換えます。" }
-	]
+  "updated_at": "2026-09-30T09:20:00+09:00",
+  "updated_label": "2026-09-30 09:20",
+  "hp": {
+    "status": "ok",
+    "message": "9月29日(火)の実績。前週の同じ曜日(9月22日)との比較つき。流入元はGoogle側の集計が未確定で、直接アクセス以外は判別できませんでした。",
+    "source": {
+      "as_of": "2026-09-29",
+      "note": "Googleアナリティクス"
+    },
+    "yesterday": {
+      "users": 20,
+      "users_delta": {
+        "pct": -28.57,
+        "label": "前週同曜日比"
+      },
+      "sessions": 26,
+      "sessions_delta": {
+        "pct": -18.75,
+        "label": "前週同曜日比"
+      },
+      "pageviews": 55,
+      "pageviews_delta": {
+        "pct": 12.24,
+        "label": "前週同曜日比"
+      },
+      "avg_engagement_sec": 28,
+      "avg_engagement_delta": {
+        "pct": 21.74,
+        "label": "前週同曜日比"
+      },
+      "compare_date": "2026-09-22"
+    },
+    "trend": [
+      {
+        "label": "9/16",
+        "full": "2026-09-16",
+        "value": 16
+      },
+      {
+        "label": "9/17",
+        "full": "2026-09-17",
+        "value": 11
+      },
+      {
+        "label": "9/18",
+        "full": "2026-09-18",
+        "value": 18
+      },
+      {
+        "label": "9/19",
+        "full": "2026-09-19",
+        "value": 13
+      },
+      {
+        "label": "9/20",
+        "full": "2026-09-20",
+        "value": 25
+      },
+      {
+        "label": "9/21",
+        "full": "2026-09-21",
+        "value": 18
+      },
+      {
+        "label": "9/22",
+        "full": "2026-09-22",
+        "value": 28
+      },
+      {
+        "label": "9/23",
+        "full": "2026-09-23",
+        "value": 20
+      },
+      {
+        "label": "9/24",
+        "full": "2026-09-24",
+        "value": 20
+      },
+      {
+        "label": "9/25",
+        "full": "2026-09-25",
+        "value": 14
+      },
+      {
+        "label": "9/26",
+        "full": "2026-09-26",
+        "value": 27
+      },
+      {
+        "label": "9/27",
+        "full": "2026-09-27",
+        "value": 38
+      },
+      {
+        "label": "9/28",
+        "full": "2026-09-28",
+        "value": 21
+      },
+      {
+        "label": "9/29",
+        "full": "2026-09-29",
+        "value": 20
+      }
+    ],
+    "top_pages": [
+      {
+        "label": "トップページ",
+        "value": 14,
+        "full": "/"
+      },
+      {
+        "label": "お知らせ一覧",
+        "value": 12,
+        "full": "/news/"
+      },
+      {
+        "label": "トップページ(index.html)",
+        "value": 3,
+        "full": "/index.html"
+      },
+      {
+        "label": "メニュー",
+        "value": 3,
+        "full": "/menu.html"
+      },
+      {
+        "label": "お知らせ記事(7月18日)",
+        "value": 3,
+        "full": "/news/2026/07/18/abc19/"
+      }
+    ],
+    "channels": [
+      {
+        "label": "直接アクセス",
+        "value": 15,
+        "full": "(direct) / (none)"
+      },
+      {
+        "label": "判別できず(集計未確定)",
+        "value": 15,
+        "full": "(data not available) / (not set)"
+      }
+    ]
+  },
+  "google": {
+    "status": "pending",
+    "message": "自動での取り込みがまだです。クチコミは8月19日時点で4.1／284件でした。",
+    "source": {
+      "as_of": "2026-08-19",
+      "note": "ビジネスプロフィール"
+    },
+    "rating": null,
+    "reviews": null
+  },
+  "sns": {
+    "status": "pending",
+    "message": "投稿台帳のフォルダ（GyozaPekin_SNS）から自動で読み取る配線がまだです。",
+    "source": {
+      "as_of": "",
+      "note": "投稿台帳"
+    },
+    "posts": []
+  },
+  "sources_note": [
+    {
+      "name": "ホームページ",
+      "detail": "Googleアナリティクス（測定ID G-M8C788MDLN）から取り込み。1日1回の更新を予定。"
+    },
+    {
+      "name": "Google",
+      "detail": "ビジネスプロフィールの数字。表示回数・ルート検索・電話・クチコミ。"
+    },
+    {
+      "name": "SNS",
+      "detail": "投稿台帳（post_perf）から直近の投稿と反応。"
+    },
+    {
+      "name": "更新のしかた",
+      "detail": "定期タスクが数字を読み取り、このページが見ている /data/kpi.json を書き換えます。"
+    }
+  ]
 }
