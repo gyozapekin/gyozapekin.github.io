@@ -1,42 +1,37 @@
 {
-  "updated_at": "2026-09-30T09:20:00+09:00",
-  "updated_label": "2026-09-30 09:20",
+  "updated_at": "2026-10-01T09:16:00+09:00",
+  "updated_label": "2026-10-01 09:16",
   "hp": {
     "status": "ok",
-    "message": "9月29日(火)の実績。前週の同じ曜日(9月22日)との比較つき。流入元はGoogle側の集計が未確定で、直接アクセス以外は判別できませんでした。",
+    "message": "9月30日(水)の実績。前週の同じ曜日(9月23日)との比較つき。直近14日間の日別ユーザー数も掲載。9月30日分は集計が確定しきっていない可能性があります。",
     "source": {
-      "as_of": "2026-09-29",
+      "as_of": "2026-09-30",
       "note": "Googleアナリティクス"
     },
     "yesterday": {
-      "users": 20,
+      "users": 17,
       "users_delta": {
-        "pct": -28.57,
+        "pct": -15.0,
         "label": "前週同曜日比"
       },
-      "sessions": 26,
+      "sessions": 17,
       "sessions_delta": {
-        "pct": -18.75,
+        "pct": -37.04,
         "label": "前週同曜日比"
       },
-      "pageviews": 55,
+      "pageviews": 24,
       "pageviews_delta": {
-        "pct": 12.24,
+        "pct": -52.94,
         "label": "前週同曜日比"
       },
-      "avg_engagement_sec": 28,
+      "avg_engagement_sec": 25,
       "avg_engagement_delta": {
-        "pct": 21.74,
+        "pct": -66.67,
         "label": "前週同曜日比"
       },
-      "compare_date": "2026-09-22"
+      "compare_date": "2026-09-23"
     },
     "trend": [
-      {
-        "label": "9/16",
-        "full": "2026-09-16",
-        "value": 16
-      },
       {
         "label": "9/17",
         "full": "2026-09-17",
@@ -65,7 +60,7 @@
       {
         "label": "9/22",
         "full": "2026-09-22",
-        "value": 28
+        "value": 30
       },
       {
         "label": "9/23",
@@ -80,7 +75,7 @@
       {
         "label": "9/25",
         "full": "2026-09-25",
-        "value": 14
+        "value": 15
       },
       {
         "label": "9/26",
@@ -90,56 +85,66 @@
       {
         "label": "9/27",
         "full": "2026-09-27",
-        "value": 38
+        "value": 41
       },
       {
         "label": "9/28",
         "full": "2026-09-28",
-        "value": 21
+        "value": 22
       },
       {
         "label": "9/29",
         "full": "2026-09-29",
-        "value": 20
+        "value": 22
+      },
+      {
+        "label": "9/30",
+        "full": "2026-09-30",
+        "value": 17
       }
     ],
     "top_pages": [
       {
-        "label": "トップページ",
-        "value": 14,
-        "full": "/"
+        "label": "海鮮餃子 北京 | 大阪府枚方市の中華料理店 - 手作り海鮮餃子",
+        "value": 11,
+        "full": "海鮮餃子 北京 | 大阪府枚方市の中華料理店 - 手作り海鮮餃子"
       },
       {
-        "label": "お知らせ一覧",
-        "value": 12,
-        "full": "/news/"
+        "label": "ニラレバ炒め｜しゃきり、香って。旨み、みなぎる｜枚方・宮之阪の町中華 海鮮餃子 北京 | 海鮮餃子 北京",
+        "value": 5,
+        "full": "ニラレバ炒め｜しゃきり、香って。旨み、みなぎる｜枚方・宮之阪の町中華 海鮮餃子 北京 | 海鮮餃子 北京"
       },
       {
-        "label": "トップページ(index.html)",
-        "value": 3,
-        "full": "/index.html"
+        "label": "店舗紹介 | 海鮮餃子 北京",
+        "value": 4,
+        "full": "店舗紹介 | 海鮮餃子 北京"
       },
       {
-        "label": "メニュー",
-        "value": 3,
-        "full": "/menu.html"
-      },
-      {
-        "label": "お知らせ記事(7月18日)",
-        "value": 3,
-        "full": "/news/2026/07/18/abc19/"
+        "label": "メニュー | 海鮮餃子 北京",
+        "value": 4,
+        "full": "メニュー | 海鮮餃子 北京"
       }
     ],
     "channels": [
       {
+        "label": "参照元不明",
+        "value": 10,
+        "full": "(data not available)"
+      },
+      {
+        "label": "(未設定)",
+        "value": 9,
+        "full": "(not set)"
+      },
+      {
         "label": "直接アクセス",
-        "value": 15,
+        "value": 6,
         "full": "(direct) / (none)"
       },
       {
-        "label": "判別できず(集計未確定)",
-        "value": 15,
-        "full": "(data not available) / (not set)"
+        "label": "X",
+        "value": 1,
+        "full": "t.co / referral"
       }
     ]
   },
