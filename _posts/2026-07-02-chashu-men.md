@@ -5,15 +5,15 @@ date: 2026-07-02 08:00:00 +0900
 news_category: oryori
 description: "枚方・宮之阪の町中華「海鮮餃子 北京」のチャーシュー麺。秘伝のかえしに漬けて一本ずつ炭火で焼き上げた炭火焼豚を、澄んだ醤油ラーメンにのせた一杯。創業1977年の手仕事と、香ばしい焼き目をご紹介します。お持ち帰りも。"
 ---
-## 動画で見る、北京のチャーシュー麺
+## 北京のチャーシュー麺
 
-<div style="position:relative;padding-bottom:177.78%;height:0;max-width:340px;margin:10px auto;border-radius:14px;overflow:hidden;">
+<div style="position:relative;padding-bottom:125%;height:0;max-width:380px;margin:10px auto;border-radius:14px;overflow:hidden;background:#000;">
   <iframe src="https://www.youtube.com/embed/cqVRlIGwEw4" title="チャーシュー麺｜海鮮餃子 北京" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>
 </div>
 
 <p style="text-align:center;"><a href="/gallery/shorts.html">ショート動画ギャラリーはこちら</a></p>
 
-大阪・枚方の宮之阪で、創業1977年から暖簾を守る町中華「海鮮餃子 北京」。看板は餃子ですが、季節を問わず変わらず愛されているのが、このチャーシュー麺です。京阪・宮之阪駅から徒歩2分。澄んだ醤油の一杯を、ゆっくりご紹介します。
+大阪・枚方の宮之阪で、創業1977年から暖簾を守る町中華「海鮮餃子 北京」。看板メニューは餃子ですが、季節を問わず変わらず愛されているのが、このチャーシュー麺です。京阪・宮之阪駅から徒歩2分。澄んだ醤油の一杯を、ゆっくりご紹介します。
 
 ## 主役は、炭火で一本ずつ焼いた焼豚
 
@@ -37,7 +37,7 @@ description: "枚方・宮之阪の町中華「海鮮餃子 北京」のチャ�
 
 ## 食べに来てください、お持ち帰りも
 
-炭火焼豚の香ばしさは、できたてを味わうのが一番です。ぜひ北京の店先で、チャーシュー麺をすすってください。お持ち帰りは事前にお電話いただけますと、待ち時間を短縮できます。看板の餃子は全国発送（お取り寄せ）も承っています。
+炭火焼豚の香ばしさは、できたてを味わうのが一番です。ぜひ北京の店先で、チャーシュー麺をすすってください。お持ち帰りは事前にお電話いただけますと、待ち時間を短縮できます。看板メニューの餃子は全国発送（お取り寄せ）も承っています。
 
 海鮮餃子 北京
 大阪府枚方市宮之阪1-19-2（京阪 宮之阪駅 徒歩2分）

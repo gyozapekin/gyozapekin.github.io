@@ -7,9 +7,9 @@ description: "枚方の人気メディア「枚方つーしん」の【ひらつ
 image: /images/2026-07-06-hiratsu-teishoku.jpg
 image_caption: "枚方つーしん【ひらつーグルメ】でご紹介いただきました"
 ---
-## 動画で見る、ご紹介いただきました
+## ご紹介いただきました
 
-<div style="position:relative;padding-bottom:177.78%;height:0;max-width:340px;margin:10px auto;border-radius:14px;overflow:hidden;">
+<div style="position:relative;padding-bottom:125%;height:0;max-width:380px;margin:10px auto;border-radius:14px;overflow:hidden;background:#000;">
   <iframe src="https://www.youtube.com/embed/NiWtrfrOalA" title="餃子定食Sセット｜枚方つーしんに紹介いただきました｜海鮮餃子 北京" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>
 </div>
 
@@ -35,11 +35,11 @@ image_caption: "枚方つーしん【ひらつーグルメ】でご紹介いた�
 
 ## 昭和52年（1977年）から、枚方・宮之阪で
 
-北京は、枚方の宮之阪で1977年から続く町中華です。テレビや雑誌、そして枚方つーしんさんのようなローカルメディアに、これまで何度も取り上げていただきました。地元の皆さんに育てていただいたお店です。看板は餃子ですが、ラーメンも、チャーハンも、定食も、変わらずコツコツ作り続けています。
+北京は、枚方の宮之阪で1977年から続く町中華です。テレビや雑誌、そして枚方つーしんさんのようなローカルメディアに、これまで何度も取り上げていただきました。地元の皆さんに育てていただいたお店です。看板メニューは餃子ですが、ラーメンも、チャーハンも、定食も、変わらずコツコツ作り続けています。
 
 ## ランチにも、ぜひ
 
-「餃子定食 Sセット」は、お昼のちょっとした贅沢にぴったりです。京阪・宮之阪駅から徒歩2分。お店の裏に駐車場もあります。お近くにお越しの際は、ぜひランチにお立ち寄りください。看板の餃子は、通販（全国発送）でもお取り寄せいただけます。
+「餃子定食 Sセット」は、お昼のちょっとした贅沢にぴったりです。京阪・宮之阪駅から徒歩2分。お店の裏に駐車場もあります。お近くにお越しの際は、ぜひランチにお立ち寄りください。看板メニューの餃子は、通販（全国発送）でもお取り寄せいただけます。
 
 ## ちょっと豆知識
 

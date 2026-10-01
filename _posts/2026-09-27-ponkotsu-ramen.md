@@ -5,15 +5,15 @@ date: 2026-09-27 06:00:00 +0900
 news_category: oryori
 description: "枚方・宮之阪の町中華「海鮮餃子 北京」のポンコツラーメン。鶏と豚を合わせたやさしい白濁スープに、チャーシュー・メンマ・もやし・青ねぎ。名前でにんまり、味もにんまりの一杯。創業1977年、宮之阪駅から徒歩2分。"
 ---
-## 動画で見る、北京のポンコツラーメン
+## 北京のポンコツラーメン
 
-<div style="position:relative;padding-bottom:177.78%;height:0;max-width:340px;margin:10px auto;border-radius:14px;overflow:hidden;">
+<div style="position:relative;padding-bottom:125%;height:0;max-width:380px;margin:10px auto;border-radius:14px;overflow:hidden;background:#000;">
   <iframe src="https://www.youtube.com/embed/x3qFYepFxUM" title="ポンコツラーメン｜海鮮餃子 北京" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>
 </div>
 
 <p style="text-align:center;"><a href="/gallery/shorts.html">ショート動画ギャラリーはこちら</a></p>
 
-大阪・枚方の宮之阪に、創業1977年から続く町中華があります。「海鮮餃子 北京」。看板は餃子ですが、「その名前、なに？」と必ず聞かれる一杯があります。それがポンコツラーメンです。京阪・宮之阪駅から歩いて2分。名前で笑って、ひと口目でほっとする。そんなラーメンです。
+大阪・枚方の宮之阪に、創業1977年から続く町中華があります。「海鮮餃子 北京」。看板メニューは餃子ですが、「その名前、なに？」と必ず聞かれる一杯があります。それがポンコツラーメンです。京阪・宮之阪駅から歩いて2分。名前で笑って、ひと口目でほっとする。そんなラーメンです。
 
 ## 名前は頼りなく、スープはしっかり
 
@@ -31,7 +31,7 @@ description: "枚方・宮之阪の町中華「海鮮餃子 北京」のポン�
 
 ## 名前でにんまり、味もにんまり
 
-ポンコツラーメンは、肩の力を抜いて楽しんでいただきたい一杯です。枚方・宮之阪にお越しの際は、ぜひ餃子と一緒にどうぞ。看板の餃子は冷凍で全国発送（お取り寄せ）も承っています。
+ポンコツラーメンは、肩の力を抜いて楽しんでいただきたい一杯です。枚方・宮之阪にお越しの際は、ぜひ餃子と一緒にどうぞ。看板メニューの餃子は冷凍で全国発送（お取り寄せ）も承っています。
 
 - ご来店・地図: [アクセスはこちら](https://gyozapekin.com/)（京阪 宮之阪駅 徒歩2分）
 - メニュー: [お品書きを見る](https://gyozapekin.com/menu.html)

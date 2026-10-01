@@ -7,15 +7,15 @@ news_category: oryori
 description: "枚方・宮之阪の町中華「海鮮餃子 北京」の長崎ちゃんぽん。白濁スープに魚介と野菜をたっぷり煮込んだ具だくさんの一杯。あんかけちゃんぽんとはまた違う味わい。創業1977年、宮之阪駅から徒歩2分。餃子とご一緒にどうぞ。"
 ---
 
-## 動画で見る、北京の長崎ちゃんぽん
+## 北京の長崎ちゃんぽん
 
-<div style="position:relative;padding-bottom:177.78%;height:0;max-width:340px;margin:10px auto;border-radius:14px;overflow:hidden;">
+<div style="position:relative;padding-bottom:125%;height:0;max-width:380px;margin:10px auto;border-radius:14px;overflow:hidden;background:#000;">
 <iframe src="https://www.youtube.com/embed/p1U4VsNxGF4" title="長崎ちゃんぽん｜海鮮餃子 北京" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>
 </div>
 
 <p style="text-align:center;"><a href="/gallery/shorts.html">ショート動画ギャラリーはこちら</a></p>
 
-海鮮餃子 北京は、1977年の創業からずっと枚方・宮之阪で餃子を焼き続けてきた町中華です。看板はもちろん餃子ですが、麺・飯物の一杯一杯にも、店の手仕事が詰まっています。今日ご紹介するのは、具だくさんの一杯、長崎ちゃんぽんです。
+海鮮餃子 北京は、1977年の創業からずっと枚方・宮之阪で餃子を焼き続けてきた町中華です。看板メニューはもちろん餃子ですが、麺・飯物の一杯一杯にも、店の手仕事が詰まっています。今日ご紹介するのは、具だくさんの一杯、長崎ちゃんぽんです。
 
 ## 野菜も、海鮮も。ひと皿に詰め込む具だくさん
 
@@ -35,7 +35,7 @@ description: "枚方・宮之阪の町中華「海鮮餃子 北京」の長崎�
 
 ## 食べに来てください、お持ち帰りも
 
-野菜も海鮮も詰め込んだ、具だくさんの長崎ちゃんぽん。餃子と合わせて、ぜひ宮之阪の北京へ足を運んでみてください。看板の餃子は冷凍で全国発送（お取り寄せ）も承っていますので、おうちの食卓にもどうぞ。
+野菜も海鮮も詰め込んだ、具だくさんの長崎ちゃんぽん。餃子と合わせて、ぜひ宮之阪の北京へ足を運んでみてください。看板メニューの餃子は冷凍で全国発送（お取り寄せ）も承っていますので、おうちの食卓にもどうぞ。
 
 - ご来店・地図: [アクセスはこちら](https://gyozapekin.com/)（京阪 宮之阪駅 徒歩2分）
 - メニュー: [お品書きを見る](https://gyozapekin.com/menu.html)

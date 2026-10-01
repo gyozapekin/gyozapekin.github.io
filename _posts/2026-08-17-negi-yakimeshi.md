@@ -5,15 +5,15 @@ date: 2026-08-17 09:00:00 +0900
 news_category: oryori
 description: "枚方・宮之阪の町中華「海鮮餃子 北京」のネギやきめし。ふんわりほぐれた卵とたっぷりのネギを、鉄板の高温でパラパラに仕上げた一皿。創業1977年、宮之阪駅から徒歩2分。餃子と一緒にどうぞ。"
 ---
-## 動画で見る、北京のネギやきめし
+## 北京のネギやきめし
 
-<div style="position:relative;padding-bottom:177.78%;height:0;max-width:340px;margin:10px auto;border-radius:14px;overflow:hidden;">
+<div style="position:relative;padding-bottom:125%;height:0;max-width:380px;margin:10px auto;border-radius:14px;overflow:hidden;background:#000;">
   <iframe src="https://www.youtube.com/embed/3IMkA7hopRg" title="ネギやきめし｜海鮮餃子 北京" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>
 </div>
 
 <p style="text-align:center;"><a href="/gallery/shorts.html">ショート動画ギャラリーはこちら</a></p>
 
-大阪・枚方の宮之阪に、創業1977年から続く町中華があります。「海鮮餃子 北京」。看板はもちろん餃子ですが、その餃子と一緒に、必ずと言っていいほど頼まれるのがこのネギやきめしです。京阪・宮之阪駅から歩いて2分。飾らない一皿だからこそ、毎日食べても飽きない味を、ずっと守ってきました。
+大阪・枚方の宮之阪に、創業1977年から続く町中華があります。「海鮮餃子 北京」。看板メニューはもちろん餃子ですが、その餃子と一緒に、必ずと言っていいほど頼まれるのがこのネギやきめしです。京阪・宮之阪駅から歩いて2分。飾らない一皿だからこそ、毎日食べても飽きない味を、ずっと守ってきました。
 
 ## 主役はネギと卵。鉄板の高温で、パラパラに
 
@@ -33,7 +33,7 @@ description: "枚方・宮之阪の町中華「海鮮餃子 北京」のネギ�
 
 ## 熱々のうちに、お店で
 
-ネギやきめしは、湯気の立つ熱々のうちに頬張っていただきたい一皿です。餃子との組み合わせはもちろん、単品でもしっかり満足できます。枚方・宮之阪にお越しの際は、ぜひ餃子と一緒にどうぞ。看板の餃子は冷凍で全国発送（お取り寄せ）も承っています。
+ネギやきめしは、湯気の立つ熱々のうちに頬張っていただきたい一皿です。餃子との組み合わせはもちろん、単品でもしっかり満足できます。枚方・宮之阪にお越しの際は、ぜひ餃子と一緒にどうぞ。看板メニューの餃子は冷凍で全国発送（お取り寄せ）も承っています。
 
 - ご来店・地図: [アクセスはこちら](https://gyozapekin.com/)（京阪 宮之阪駅 徒歩2分）
 - メニュー: [お品書きを見る](https://gyozapekin.com/menu.html)

@@ -18,7 +18,7 @@ description: "海外でも人気のYouTube『FOOD TOURISM JAPAN』さんに、�
 
 ## 海老・タコ・帆立の海鮮餃子
 
-北京の看板は、なんといっても海鮮餃子。新鮮な **海老・タコ・帆立** をぜいたくに使い、皮から手作りした自慢の一品です。海鮮の旨みと甘みがぎゅっと詰まった、北京ならではの味わいです。
+北京の看板メニューは、なんといっても海鮮餃子。新鮮な **海老・タコ・帆立** をぜいたくに使い、皮から手作りした自慢の一品です。海鮮の旨みと甘みがぎゅっと詰まった、北京ならではの味わいです。
 
 <figure style="margin:1.5em 0;text-align:center;">
   <img src="{{ '/ft-kaisen-gyoza.jpg' | relative_url }}" alt="海老・タコ・帆立の海鮮餃子" style="max-width:560px;width:100%;height:auto;border-radius:10px;">

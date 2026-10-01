@@ -6,9 +6,9 @@ permalink: /news/2026/07/04/miso-ramen/
 news_category: oryori
 description: "枚方・宮之阪の町中華「海鮮餃子 北京」の味噌ラーメン。豚骨と鶏ガラのだしに味噌ダレを合わせ、強火で炒めたもやし・白菜・にんじん・豚をどっさり。炒め野菜の甘みが溶け込んだコク深いスープは、寒い日も暑い日も汗をかいて食べたい一杯。創業1977年、宮之阪駅から徒歩2分。餃子とご一緒にどうぞ。"
 ---
-## 動画で見る、北京の味噌ラーメン
+## 北京の味噌ラーメン
 
-<div style="position:relative;padding-bottom:177.78%;height:0;max-width:340px;margin:10px auto;border-radius:14px;overflow:hidden;">
+<div style="position:relative;padding-bottom:125%;height:0;max-width:380px;margin:10px auto;border-radius:14px;overflow:hidden;background:#000;">
   <iframe src="https://www.youtube.com/embed/0b3CWYqcDgw" title="味噌ラーメン｜海鮮餃子 北京" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>
 </div>
 
@@ -16,7 +16,7 @@ description: "枚方・宮之阪の町中華「海鮮餃子 北京」の味噌�
 
 
 
-大阪・枚方の宮之阪に、創業1977年から続く町中華があります。「海鮮餃子 北京」。看板はもちろん餃子ですが、麺もの目当てに通ってくださる常連さんも多いんです。京阪・宮之阪駅から歩いて2分。半世紀近くこの街で同じ味を作り続けてきたお店から、今日は寒い日も暑い日も人気の一杯、味噌ラーメンをご紹介します。
+大阪・枚方の宮之阪に、創業1977年から続く町中華があります。「海鮮餃子 北京」。看板メニューはもちろん餃子ですが、麺もの目当てに通ってくださる常連さんも多いんです。京阪・宮之阪駅から歩いて2分。半世紀近くこの街で同じ味を作り続けてきたお店から、今日は寒い日も暑い日も人気の一杯、味噌ラーメンをご紹介します。
 
 ## コク深い味噌スープに、野菜どっさり
 
@@ -38,7 +38,7 @@ description: "枚方・宮之阪の町中華「海鮮餃子 北京」の味噌�
 
 ## 食べに来てください、お持ち帰りも
 
-味噌ラーメンは、湯気の立つあつあつをお店で味わうのがいちばんです。枚方にうまい店あり。ぜひ北京の店先で、コク深い一杯をすすってください。看板の餃子は冷凍で全国発送（お取り寄せ）も承っていますので、おうちの食卓にもどうぞ。
+味噌ラーメンは、湯気の立つあつあつをお店で味わうのがいちばんです。枚方にうまい店あり。ぜひ北京の店先で、コク深い一杯をすすってください。看板メニューの餃子は冷凍で全国発送（お取り寄せ）も承っていますので、おうちの食卓にもどうぞ。
 
 - ご来店・地図: [アクセスはこちら](https://gyozapekin.com/)（京阪 宮之阪駅 徒歩2分）
 - メニュー: [お品書きを見る](https://gyozapekin.com/menu.html)

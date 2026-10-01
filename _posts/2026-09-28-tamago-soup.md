@@ -5,15 +5,15 @@ date: 2026-09-28 12:00:00 +0900
 news_category: oryori
 description: "枚方・宮之阪の町中華「海鮮餃子 北京」の卵スープ。ふわふわの卵に、にんじん・玉ねぎ・ピーマンなどの具が浮かぶ、体の芯まであたたまるやさしい一杯。創業1977年、宮之阪駅から徒歩2分。"
 ---
-## 動画で見る、北京の卵スープ
+## 北京の卵スープ
 
-<div style="position:relative;padding-bottom:177.78%;height:0;max-width:340px;margin:10px auto;border-radius:14px;overflow:hidden;">
+<div style="position:relative;padding-bottom:125%;height:0;max-width:380px;margin:10px auto;border-radius:14px;overflow:hidden;background:#000;">
   <iframe src="https://www.youtube.com/embed/Y3tDMZ88oog" title="卵スープ｜海鮮餃子 北京" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>
 </div>
 
 <p style="text-align:center;"><a href="/gallery/shorts.html">ショート動画ギャラリーはこちら</a></p>
 
-大阪・枚方の宮之阪に、創業1977年から続く町中華があります。「海鮮餃子 北京」。看板は餃子ですが、テーブルの脇でそっといい仕事をしているのが、今日ご紹介する卵スープです。京阪・宮之阪駅から歩いて2分、半世紀近くこの街で餃子を包み続けてきた店の、やさしい一杯です。
+大阪・枚方の宮之阪に、創業1977年から続く町中華があります。「海鮮餃子 北京」。看板メニューは餃子ですが、テーブルの脇でそっといい仕事をしているのが、今日ご紹介する卵スープです。京阪・宮之阪駅から歩いて2分、半世紀近くこの街で餃子を包み続けてきた店の、やさしい一杯です。
 
 ## ふわふわの卵が、ふわり
 
@@ -31,7 +31,7 @@ description: "枚方・宮之阪の町中華「海鮮餃子 北京」の卵ス�
 
 ## 食べに来てください、お持ち帰りも
 
-卵スープは、店で味わうあつあつがいちばんです。餃子と一緒に、ぜひどうぞ。看板の餃子は冷凍で全国発送（お取り寄せ）も承っています。
+卵スープは、店で味わうあつあつがいちばんです。餃子と一緒に、ぜひどうぞ。看板メニューの餃子は冷凍で全国発送（お取り寄せ）も承っています。
 
 - ご来店・地図: [アクセスはこちら](https://gyozapekin.com/)（京阪 宮之阪駅 徒歩2分）
 - メニュー: [お品書きを見る](https://gyozapekin.com/menu.html)

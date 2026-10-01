@@ -5,15 +5,15 @@ date: 2026-10-01 05:00:00 +0900
 news_category: oryori
 description: "枚方・宮之阪の町中華「海鮮餃子 北京」の天津麺。こんがり焼き色のついたふわふわ玉子に青ねぎをたっぷり。とろみをつけない、さらりとした中華スープで、肌寒い日にうれしい一杯。創業1977年、宮之阪駅から徒歩2分。"
 ---
-## 動画で見る、北京の天津麺
+## 北京の天津麺
 
-<div style="position:relative;padding-bottom:177.78%;height:0;max-width:340px;margin:10px auto;border-radius:14px;overflow:hidden;">
+<div style="position:relative;padding-bottom:125%;height:0;max-width:380px;margin:10px auto;border-radius:14px;overflow:hidden;background:#000;">
   <iframe src="https://www.youtube.com/embed/H-l9f7jpS3M" title="天津麺｜海鮮餃子 北京" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>
 </div>
 
 <p style="text-align:center;"><a href="/gallery/shorts.html">ショート動画ギャラリーはこちら</a></p>
 
-大阪・枚方の宮之阪に、創業1977年から続く町中華があります。「海鮮餃子 北京」。看板は餃子ですが、丼をのぞいた瞬間に思わず顔がほころぶ麺ものもそろっています。今日ご紹介するのは、ふわふわの玉子がどーんとのった天津麺です。京阪・宮之阪駅から歩いて2分の、町中華らしいごちそう麺です。
+大阪・枚方の宮之阪に、創業1977年から続く町中華があります。「海鮮餃子 北京」。看板メニューは餃子ですが、丼をのぞいた瞬間に思わず顔がほころぶ麺ものもそろっています。今日ご紹介するのは、ふわふわの玉子がどーんとのった天津麺です。京阪・宮之阪駅から歩いて2分の、町中華らしいごちそう麺です。
 
 ## 丼いっぱいの、ふわふわ玉子
 
@@ -31,7 +31,7 @@ description: "枚方・宮之阪の町中華「海鮮餃子 北京」の天津�
 
 ## 食べに来てください、お持ち帰りも
 
-天津麺は、店で味わうあつあつがいちばんです。看板の餃子はお持ち帰りも、冷凍での全国発送（お取り寄せ）も承っています。
+天津麺は、店で味わうあつあつがいちばんです。看板メニューの餃子はお持ち帰りも、冷凍での全国発送（お取り寄せ）も承っています。
 
 - ご来店・地図: [アクセスはこちら](https://gyozapekin.com/)（京阪 宮之阪駅 徒歩2分）
 - メニュー: [お品書きを見る](https://gyozapekin.com/menu.html)

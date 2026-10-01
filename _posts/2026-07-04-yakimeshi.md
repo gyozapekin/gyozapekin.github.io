@@ -5,15 +5,15 @@ date: 2026-07-04 08:00:00 +0900
 news_category: oryori
 description: "枚方・宮之阪の町中華「海鮮餃子 北京」の焼き飯（やきめし）。ふっくら炊いた近江米コシヒカリを二度焼きしてパラっとふわっと仕上げる、創業1977年の手仕事の一皿。鍋肌から回す醤油の香ばしさ、ネギ焼き飯のアレンジ、お持ち帰り・全国発送までご紹介します。"
 ---
-## 動画で見る、北京の焼き飯
+## 北京の焼き飯
 
-<div style="position:relative;padding-bottom:177.78%;height:0;max-width:340px;margin:10px auto;border-radius:14px;overflow:hidden;">
+<div style="position:relative;padding-bottom:125%;height:0;max-width:380px;margin:10px auto;border-radius:14px;overflow:hidden;background:#000;">
   <iframe src="https://www.youtube.com/embed/ALDsfMcjm7k" title="焼き飯（やきめし）｜海鮮餃子 北京" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>
 </div>
 
 <p style="text-align:center;"><a href="/gallery/shorts.html">ショート動画ギャラリーはこちら</a></p>
 
-大阪・枚方の宮之阪に、創業1977年から続く町中華があります。「海鮮餃子 北京」。看板はもちろん餃子ですが、常連さんがそっと頼んでいく定番が、今日ご紹介する焼き飯（やきめし）です。京阪・宮之阪駅から歩いて2分。半世紀近く、この街でずっと同じ味を焼き続けてきた一皿を、あらためてご紹介します。
+大阪・枚方の宮之阪に、創業1977年から続く町中華があります。「海鮮餃子 北京」。看板メニューはもちろん餃子ですが、常連さんがそっと頼んでいく定番が、今日ご紹介する焼き飯（やきめし）です。京阪・宮之阪駅から歩いて2分。半世紀近く、この街でずっと同じ味を焼き続けてきた一皿を、あらためてご紹介します。
 
 ## 主役は、二度焼きの近江米
 
@@ -39,7 +39,7 @@ description: "枚方・宮之阪の町中華「海鮮餃子 北京」の焼き�
 
 ## 食べに来てください、お持ち帰りも
 
-焼き飯は、できたての湯気がいちばんのごちそう。ぜひ北京の店先で、あつあつのひと皿を味わってください。お持ち帰りは事前にお電話いただけますと、待ち時間を短縮できます。看板の餃子は全国発送（お取り寄せ）も承っています。
+焼き飯は、できたての湯気がいちばんのごちそう。ぜひ北京の店先で、あつあつのひと皿を味わってください。お持ち帰りは事前にお電話いただけますと、待ち時間を短縮できます。看板メニューの餃子は全国発送（お取り寄せ）も承っています。
 
 海鮮餃子 北京
 大阪府枚方市宮之阪1-19-2（京阪 宮之阪駅 徒歩2分）

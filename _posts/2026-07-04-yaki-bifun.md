@@ -6,9 +6,9 @@ permalink: /news/2026/07/04/yaki-bifun/
 news_category: oryori
 description: "枚方・宮之阪の町中華「海鮮餃子 北京」の焼きビーフン。鉄鍋で香ばしく炒めた米粉の細麺に、海老・豚・キャベツ・もやし・にんじん。豚と野菜のうまみが細い麺にからむ、軽やかで香ばしい一皿。ビーフンは小麦を使わないグルテンフリーの米麺。創業1977年、宮之阪駅から徒歩2分。餃子とご一緒にどうぞ。"
 ---
-## 動画で見る、北京の焼きビーフン
+## 北京の焼きビーフン
 
-<div style="position:relative;padding-bottom:177.78%;height:0;max-width:340px;margin:10px auto;border-radius:14px;overflow:hidden;">
+<div style="position:relative;padding-bottom:125%;height:0;max-width:380px;margin:10px auto;border-radius:14px;overflow:hidden;background:#000;">
   <iframe src="https://www.youtube.com/embed/PtFbOIG3ssU" title="焼きビーフン｜海鮮餃子 北京" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>iframe>
 </div>div>
 
@@ -16,7 +16,7 @@ description: "枚方・宮之阪の町中華「海鮮餃子 北京」の焼き�
 
 
 
-大阪・枚方の宮之阪に、創業1977年から続く町中華があります。「海鮮餃子 北京」。看板の餃子や麺ものにまじって、常連さんがそっと頼んでいく一皿があります。京阪・宮之阪駅から歩いて2分。今日は、北京自慢の焼きビーフンをご紹介します。
+大阪・枚方の宮之阪に、創業1977年から続く町中華があります。「海鮮餃子 北京」。看板メニューの餃子や麺ものにまじって、常連さんがそっと頼んでいく一皿があります。京阪・宮之阪駅から歩いて2分。今日は、北京自慢の焼きビーフンをご紹介します。
 
 ## 香ばしく炒めた、米粉の細麺
 
@@ -38,7 +38,7 @@ description: "枚方・宮之阪の町中華「海鮮餃子 北京」の焼き�
 
 ## 食べに来てください、お持ち帰りも
 
-焼きビーフンは、炒めたての香ばしさが命。湯気の立つできたてを、ぜひお店で味わってください。枚方にうまい店あり。看板の餃子は冷凍で全国発送（お取り寄せ）も承っていますので、おうちの食卓にもどうぞ。
+焼きビーフンは、炒めたての香ばしさが命。湯気の立つできたてを、ぜひお店で味わってください。枚方にうまい店あり。看板メニューの餃子は冷凍で全国発送（お取り寄せ）も承っていますので、おうちの食卓にもどうぞ。
 
 - ご来店・地図: [アクセスはこちら](https://gyozapekin.com/)（京阪 宮之阪駅 徒歩2分）
 - - メニュー: [お品書きを見る](https://gyozapekin.com/menu.html)

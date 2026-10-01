@@ -6,15 +6,15 @@ permalink: /news/2026/07/23/charshu-men/
 news_category: oryori
 description: "枚方・宮之阪の海鮮餃子 北京の「チャーシュー麺」。炭火でじっくり焼き上げた焼豚をたっぷりのせた、澄んだ醤油スープの一杯。すする一杯に北京の手仕事が詰まっています。"
 ---
-## 動画で見る、北京のチャーシュー麺
+## 北京のチャーシュー麺
 
-<div style="position:relative;padding-bottom:177.78%;height:0;max-width:340px;margin:10px auto;border-radius:14px;overflow:hidden;">
+<div style="position:relative;padding-bottom:125%;height:0;max-width:380px;margin:10px auto;border-radius:14px;overflow:hidden;background:#000;">
   <iframe src="https://www.youtube.com/embed/10r1ZA-OGlU" title="チャーシュー麺｜海鮮餃子 北京" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>
 </div>
 
 <p style="text-align:center;"><a href="/gallery/shorts.html">ショート動画ギャラリーはこちら</a></p>
 
-枚方・宮之阪で1977年から続く町中華、海鮮餃子 北京。看板は餃子ですが、実は麺類にも常連さんのファンが多くいます。今日ご紹介するのは「チャーシュー麺」です。
+枚方・宮之阪で1977年から続く町中華、海鮮餃子 北京。看板メニューは餃子ですが、実は麺類にも常連さんのファンが多くいます。今日ご紹介するのは「チャーシュー麺」です。
 
 ## 主役は、炭火焼豚のチャーシュー
 

@@ -1,18 +1,18 @@
 ---
 layout: post
-title: "看板の肉餃子。外はパリッと中はジューシー、減農薬野菜たっぷり。"
+title: "看板メニューの肉餃子。外はパリッと中はジューシー、減農薬野菜たっぷり。"
 date: 2026-06-15 08:00:00 +0900
 news_category: oryori
-description: "枚方・宮之阪の町中華 海鮮餃子 北京の看板、肉餃子。新鮮な豚肉と減農薬野菜の手作りで、野菜多めあっさり、外はパリッと中はジューシー。そのままでも、店の自家製のタレでも。リール動画でシズルをどうぞ。通販もご来店も。"
+description: "枚方・宮之阪の町中華 海鮮餃子 北京の看板メニュー、肉餃子。新鮮な豚肉と減農薬野菜の手作りで、野菜多めあっさり、外はパリッと中はジューシー。そのままでも、店の自家製のタレでも。リール動画でシズルをどうぞ。通販もご来店も。"
 ---
 
 枚方・宮之阪の海鮮餃子 北京。創業1977年、地元の常連さんに愛されてきた町中華です。海鮮餃子で知られる北京ですが、毎日いちばん多く焼いているのは、実は王道の肉餃子。今日はこの看板餃子のお話を。まずは、動画でそのシズルを感じてください。
 
-## 動画で見る、北京の肉餃子
+## 北京の肉餃子
 
 <!-- 連携: YouTubeショート alIg2okeSDI(北京ちゃん入りQR版) を埋め込み。 -->
-<div style="position:relative;padding-bottom:177.78%;height:0;max-width:340px;margin:10px auto;border-radius:14px;overflow:hidden;">
-  <iframe src="https://www.youtube.com/embed/alIg2okeSDI" title="看板の肉餃子｜海鮮餃子 北京" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>
+<div style="position:relative;padding-bottom:125%;height:0;max-width:380px;margin:10px auto;border-radius:14px;overflow:hidden;background:#000;">
+  <iframe src="https://www.youtube.com/embed/alIg2okeSDI" title="看板メニューの肉餃子｜海鮮餃子 北京" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>
 </div>
 
 <p style="text-align:center;"><a href="/gallery/shorts.html">ショート動画ギャラリーはこちら</a></p>
@@ -21,7 +21,7 @@ description: "枚方・宮之阪の町中華 海鮮餃子 北京の看板、肉�
 
 北京の肉餃子は、新鮮な豚肉と減農薬野菜を使った手作りです。野菜を多めに使うから、餡はあっさり。脂っこさが残らず、何個でもパクパク食べられるのが身上です。焼き上がりは、外はパリッと、中はジューシー。皮の香ばしい焼き目をかじると、肉と野菜のうまみがあふれてきます。
 
-創業から49年、毎日同じ手仕事で包み続けてきた、北京のいちばん古い看板。流行りに振り回されず、変わらない味を守ってきたからこそ、地元の人がずっと通ってくれる一皿です。
+創業から49年、毎日同じ手仕事で包み続けてきた、北京のいちばん古い看板メニュー。流行りに振り回されず、変わらない味を守ってきたからこそ、地元の人がずっと通ってくれる一皿です。
 
 ## そのままでも、自家製のタレでも
 
@@ -33,7 +33,7 @@ description: "枚方・宮之阪の町中華 海鮮餃子 北京の看板、肉�
 
 ## 食べに来てください、お取り寄せも
 
-外はパリッと中はジューシーな肉餃子は、焼きたてが一番です。ぜひ北京の店先で、できたてをほおばってください。看板の餃子は全国発送（お取り寄せ）も承っています。ご家庭でも、北京の手作り餃子を焼きたてで楽しんでいただけます。マイカタちゃいます、ヒラカタです。
+外はパリッと中はジューシーな肉餃子は、焼きたてが一番です。ぜひ北京の店先で、できたてをほおばってください。看板メニューの餃子は全国発送（お取り寄せ）も承っています。ご家庭でも、北京の手作り餃子を焼きたてで楽しんでいただけます。マイカタちゃいます、ヒラカタです。
 
 - ご来店: [アクセス・地図はこちら](https://gyozapekin.com/)（枚方市宮之阪1-19-2 / 宮之阪駅 徒歩2分 / 火曜定休）
 - メニュー: [お品書きを見る](https://gyozapekin.com/menu.html)

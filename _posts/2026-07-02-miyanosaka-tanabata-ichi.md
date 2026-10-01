@@ -8,9 +8,9 @@ description: "2026年7月4日(土)16:00〜20:30、枚方・宮之阪で「みや
 
 宮之阪が、夏の夕方いちばんにぎやかになる日がやってきます。2026年7月4日(土)の16:00から20:30まで、宮之阪中央商店街振興組合の「みやのさか七夕市」が開かれます。会場は、海鮮餃子 北京の隣にあるコインパーキング。京阪・宮之阪駅からすぐの、いつもの町がお祭りに変わります（小雨決行）。
 
-## 動画で見る、みやのさか七夕市
+## みやのさか七夕市
 
-<div style="position:relative;padding-bottom:177.78%;height:0;max-width:340px;margin:10px auto;border-radius:14px;overflow:hidden;">
+<div style="position:relative;padding-bottom:125%;height:0;max-width:380px;margin:10px auto;border-radius:14px;overflow:hidden;background:#000;">
   <iframe src="https://www.youtube.com/embed/adbi8KwenqA" title="みやのさか七夕市｜海鮮餃子 北京" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>
 </div>
 
@@ -26,7 +26,7 @@ description: "2026年7月4日(土)16:00〜20:30、枚方・宮之阪で「みや
 
 ## 北京は餃子と唐揚げで出店します
 
-北京は、この日、餃子と唐揚げで出店します。アツアツでジュワーの餃子と、カリッと揚げたての唐揚げ。夕涼みのお供に、ぜひどうぞ。お祭りの前後は、そのままお店にもお立ち寄りください。7月4日も、北京は元気に営業しています。遠くの方は、看板の餃子をお取り寄せ（全国発送）でも楽しんでいただけます。
+北京は、この日、餃子と唐揚げで出店します。アツアツでジュワーの餃子と、カリッと揚げたての唐揚げ。夕涼みのお供に、ぜひどうぞ。お祭りの前後は、そのままお店にもお立ち寄りください。7月4日も、北京は元気に営業しています。遠くの方は、看板メニューの餃子をお取り寄せ（全国発送）でも楽しんでいただけます。
 
 ## アクセス
 
