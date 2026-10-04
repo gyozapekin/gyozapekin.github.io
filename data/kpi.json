@@ -1,42 +1,37 @@
 {
- "updated_at": "2026-10-03T09:10:00+09:00",
- "updated_label": "2026-10-03 09:10",
+ "updated_at": "2026-10-04T09:20:00+09:00",
+ "updated_label": "2026-10-04 09:20",
  "hp": {
   "status": "ok",
-  "message": "10月2日(金)の実績。前週の同じ曜日(9月25日)との比較は、ユーザー数のみ(日別ユーザー数から算出)。セッション・表示回数・滞在時間の前週比は取得できず。10月2日分はGoogle側の集計が確定しきっておらず、流入元の一部が未判定です。",
+  "message": "10月3日(土)の実績。前週の同じ曜日(9月26日)との比較はユーザー数・セッション数。表示回数・滞在時間の前週比は取得できず。流入元の一部(not set / data not available)は参照元が未判定です。",
   "source": {
-   "as_of": "2026-10-02",
+   "as_of": "2026-10-03",
    "note": "Googleアナリティクス"
   },
   "yesterday": {
-   "users": 18,
+   "users": 14,
    "users_delta": {
-    "pct": 28.57,
+    "pct": -48.15,
     "label": "前週同曜日比"
    },
-   "sessions": 27,
+   "sessions": 14,
    "sessions_delta": {
-    "pct": null,
+    "pct": -56.25,
     "label": "前週同曜日比"
    },
-   "pageviews": 50,
+   "pageviews": 32,
    "pageviews_delta": {
     "pct": null,
     "label": "前週同曜日比"
    },
-   "avg_engagement_sec": 44,
+   "avg_engagement_sec": 40,
    "avg_engagement_delta": {
     "pct": null,
     "label": "前週同曜日比"
    },
-   "compare_date": "2026-09-25"
+   "compare_date": "2026-09-26"
   },
   "trend": [
-   {
-    "label": "9/19",
-    "full": "2026-09-19",
-    "value": 13
-   },
    {
     "label": "9/20",
     "full": "2026-09-20",
@@ -101,54 +96,54 @@
     "label": "10/2",
     "full": "2026-10-02",
     "value": 18
+   },
+   {
+    "label": "10/3",
+    "full": "2026-10-03",
+    "value": 14
    }
   ],
   "top_pages": [
    {
     "label": "トップページ",
-    "value": 18,
-    "full": "海鮮餃子 北京 | 大阪府枚方市の中華料理店 - 手作り海鮮餃子"
+    "value": 15,
+    "full": "海鮮餃子 北京 | 大阪府枚方市の中華料理店 - 手作り海鮮餃子(/ と /index.html の合算)"
+   },
+   {
+    "label": "ギャラリー",
+    "value": 3,
+    "full": "ギャラリー | 海鮮餃子 北京"
+   },
+   {
+    "label": "おはよう朝日です紹介記事",
+    "value": 3,
+    "full": "「おはよう朝日です」で紹介いただきました ― 看板の海王餃子が5点満点 | 海鮮餃子 北京"
    },
    {
     "label": "メニュー",
-    "value": 13,
+    "value": 2,
     "full": "メニュー | 海鮮餃子 北京"
    },
    {
-    "label": "お問合わせ",
-    "value": 9,
-    "full": "お問合わせ | 海鮮餃子 北京"
-   },
-   {
-    "label": "おいしい餃子の焼き方",
+    "label": "キッズ",
     "value": 2,
-    "full": "おいしい餃子の焼き方 | 海鮮餃子 北京"
-   },
-   {
-    "label": "ぬりえ",
-    "value": 2,
-    "full": "ぬりえ｜海鮮餃子 北京（大阪府枚方市）"
+    "full": "/kids/index.html"
    }
   ],
   "channels": [
    {
-    "label": "直接アクセス",
+    "label": "参照元が未判定(集計中)",
     "value": 9,
+    "full": "(data not available) 9 / (not set) 10 は重複行"
+   },
+   {
+    "label": "直接アクセス",
+    "value": 4,
     "full": "(direct) / (none)"
    },
    {
-    "label": "参照元が未判定(集計中)",
-    "value": 15,
-    "full": "(not set) 8 / (data not available) 7"
-   },
-   {
-    "label": "Yahoo検索",
-    "value": 5,
-    "full": "yahoo / organic"
-   },
-   {
     "label": "Google検索",
-    "value": 4,
+    "value": 1,
     "full": "google / organic"
    }
   ]
