@@ -1,42 +1,37 @@
 {
- "updated_at": "2026-10-04T09:20:00+09:00",
- "updated_label": "2026-10-04 09:20",
+ "updated_at": "2026-10-05T09:15:00+09:00",
+ "updated_label": "2026-10-05 09:15",
  "hp": {
   "status": "ok",
-  "message": "10月3日(土)の実績。前週の同じ曜日(9月26日)との比較はユーザー数・セッション数。表示回数・滞在時間の前週比は取得できず。流入元の一部(not set / data not available)は参照元が未判定です。",
+  "message": "10月4日(日)の実績。前週の同じ曜日(9月27日)との比較つき。10月4日分はGoogle側の集計が確定しきっておらず、流入元の一部が未判定です。前週が多かったため減少幅が大きく見えます。",
   "source": {
-   "as_of": "2026-10-03",
+   "as_of": "2026-10-04",
    "note": "Googleアナリティクス"
   },
   "yesterday": {
-   "users": 14,
+   "users": 11,
    "users_delta": {
-    "pct": -48.15,
+    "pct": -71.05,
     "label": "前週同曜日比"
    },
-   "sessions": 14,
+   "sessions": 18,
    "sessions_delta": {
-    "pct": -56.25,
+    "pct": -62.5,
     "label": "前週同曜日比"
    },
-   "pageviews": 32,
+   "pageviews": 23,
    "pageviews_delta": {
-    "pct": null,
+    "pct": -68.49,
     "label": "前週同曜日比"
    },
-   "avg_engagement_sec": 40,
+   "avg_engagement_sec": 195,
    "avg_engagement_delta": {
-    "pct": null,
+    "pct": 461.82,
     "label": "前週同曜日比"
    },
-   "compare_date": "2026-09-26"
+   "compare_date": "2026-09-27"
   },
   "trend": [
-   {
-    "label": "9/20",
-    "full": "2026-09-20",
-    "value": 25
-   },
    {
     "label": "9/21",
     "full": "2026-09-21",
@@ -100,51 +95,61 @@
    {
     "label": "10/3",
     "full": "2026-10-03",
-    "value": 14
+    "value": 16
+   },
+   {
+    "label": "10/4",
+    "full": "2026-10-04",
+    "value": 11
    }
   ],
   "top_pages": [
    {
     "label": "トップページ",
-    "value": 15,
-    "full": "海鮮餃子 北京 | 大阪府枚方市の中華料理店 - 手作り海鮮餃子(/ と /index.html の合算)"
-   },
-   {
-    "label": "ギャラリー",
-    "value": 3,
-    "full": "ギャラリー | 海鮮餃子 北京"
-   },
-   {
-    "label": "おはよう朝日です紹介記事",
-    "value": 3,
-    "full": "「おはよう朝日です」で紹介いただきました ― 看板の海王餃子が5点満点 | 海鮮餃子 北京"
+    "value": 14,
+    "full": "/ と /index.html 海鮮餃子 北京 | 大阪府枚方市の中華料理店"
    },
    {
     "label": "メニュー",
-    "value": 2,
-    "full": "メニュー | 海鮮餃子 北京"
+    "value": 4,
+    "full": "/menu.html メニュー | 海鮮餃子 北京"
    },
    {
-    "label": "キッズ",
+    "label": "店舗紹介",
     "value": 2,
-    "full": "/kids/index.html"
+    "full": "/about.html"
+   },
+   {
+    "label": "お問合わせ",
+    "value": 2,
+    "full": "/contact.html"
+   },
+   {
+    "label": "英語版メニュー",
+    "value": 1,
+    "full": "/en/menu.html"
    }
   ],
   "channels": [
    {
-    "label": "参照元が未判定(集計中)",
-    "value": 9,
-    "full": "(data not available) 9 / (not set) 10 は重複行"
+    "label": "直接アクセス",
+    "value": 8,
+    "full": "(direct) / (none)"
    },
    {
-    "label": "直接アクセス",
-    "value": 4,
-    "full": "(direct) / (none)"
+    "label": "Yahoo検索",
+    "value": 2,
+    "full": "yahoo / organic"
    },
    {
     "label": "Google検索",
     "value": 1,
     "full": "google / organic"
+   },
+   {
+    "label": "参照元が未判定(集計中)",
+    "value": 11,
+    "full": "(not set) 7 / (data not available) 4"
    }
   ]
  },
