@@ -1,42 +1,37 @@
 {
-	"updated_at": "2026-10-06T09:14:00+09:00",
-	"updated_label": "2026-10-06 09:14",
+	"updated_at": "2026-10-07T09:20:00+09:00",
+	"updated_label": "2026-10-07 09:20",
 	"hp": {
 		"status": "ok",
-		"message": "10月5日(月)の実績。前週の同じ曜日(9月28日)との比較つき。10月5日分はGoogle側の集計が確定しきっておらず、流入元の多くが未判定です。",
+		"message": "10月6日(火)の実績。前週の同じ曜日(9月29日)との比較つき。10月6日分はGoogle側の集計が確定しきっておらず、流入元の一部が未判定です。平均エンゲージメント時間は1人あたりの秒数です。",
 		"source": {
-			"as_of": "2026-10-05",
+			"as_of": "2026-10-06",
 			"note": "Googleアナリティクス"
 		},
 		"yesterday": {
-			"users": 12,
+			"users": 14,
 			"users_delta": {
-				"pct": -42.86,
+				"pct": -33.33,
 				"label": "前週同曜日比"
 			},
-			"sessions": 15,
+			"sessions": 16,
 			"sessions_delta": {
-				"pct": -44.44,
+				"pct": -44.83,
 				"label": "前週同曜日比"
 			},
-			"pageviews": 23,
+			"pageviews": 17,
 			"pageviews_delta": {
-				"pct": -54.0,
+				"pct": -72.13,
 				"label": "前週同曜日比"
 			},
-			"avg_engagement_sec": 75,
+			"avg_engagement_sec": 28,
 			"avg_engagement_delta": {
-				"pct": 114.29,
+				"pct": -15.43,
 				"label": "前週同曜日比"
 			},
-			"compare_date": "2026-09-28"
+			"compare_date": "2026-09-29"
 		},
 		"trend": [
-			{
-				"label": "9/22",
-				"full": "2026-09-22",
-				"value": 28
-			},
 			{
 				"label": "9/23",
 				"full": "2026-09-23",
@@ -100,56 +95,66 @@
 			{
 				"label": "10/5",
 				"full": "2026-10-05",
-				"value": 12
+				"value": 14
+			},
+			{
+				"label": "10/6",
+				"full": "2026-10-06",
+				"value": 14
 			}
 		],
 		"top_pages": [
 			{
 				"label": "トップページ",
-				"value": 11,
-				"full": "/ と /index.html の合計(6+5)"
+				"value": 8,
+				"full": "/"
 			},
 			{
-				"label": "英語メニュー",
-				"value": 1,
-				"full": "/en/menu.html"
-			},
-			{
-				"label": "ギャラリー",
-				"value": 1,
-				"full": "/gallery.html"
+				"label": "トップページ(index.html)",
+				"value": 3,
+				"full": "/index.html"
 			},
 			{
 				"label": "メニュー",
-				"value": 1,
+				"value": 2,
 				"full": "/menu.html"
 			},
 			{
-				"label": "会社概要",
-				"value": 1,
-				"full": "/about.html"
+				"label": "お知らせ一覧",
+				"value": 2,
+				"full": "/news/"
+			},
+			{
+				"label": "お知らせ記事(7月18日)",
+				"value": 2,
+				"full": "/news/2026/07/18/abc19/"
 			}
 		],
 		"channels": [
 			{
 				"label": "Google検索",
-				"value": 2,
+				"value": 3,
 				"full": "google / organic"
 			},
 			{
 				"label": "直接アクセス",
-				"value": 1,
+				"value": 2,
 				"full": "(direct) / (none)"
 			},
 			{
 				"label": "Yahoo検索",
-				"value": 1,
+				"value": 2,
 				"full": "yahoo / organic"
 			},
 			{
+				"label": "X",
+				"value": 1,
+				"full": "t.co / referral"
+			},
+			{
 				"label": "参照元が未判定(集計中)",
-				"value": 15,
-				"full": "(not set) 7 / (data not available) 8"
+				"value": 16,
+				"full": "(not set) 9 / (data not available) 7"
 			}
 		]
 	},
