@@ -1,42 +1,37 @@
 {
-	"updated_at": "2026-10-07T09:20:00+09:00",
-	"updated_label": "2026-10-07 09:20",
+	"updated_at": "2026-10-08T09:10:00+09:00",
+	"updated_label": "2026-10-08 09:10",
 	"hp": {
 		"status": "ok",
-		"message": "10月6日(火)の実績。前週の同じ曜日(9月29日)との比較つき。10月6日分はGoogle側の集計が確定しきっておらず、流入元の一部が未判定です。平均エンゲージメント時間は1人あたりの秒数です。",
+		"message": "10月7日(水)の実績。前週の同じ曜日(9月30日)との比較つき。10月7日分はGoogle側の集計が確定しきっておらず、流入元の一部が未判定です。平均エンゲージメント時間は1人あたりの秒数です。",
 		"source": {
-			"as_of": "2026-10-06",
+			"as_of": "2026-10-07",
 			"note": "Googleアナリティクス"
 		},
 		"yesterday": {
-			"users": 14,
+			"users": 15,
 			"users_delta": {
-				"pct": -33.33,
+				"pct": -16.67,
 				"label": "前週同曜日比"
 			},
-			"sessions": 16,
+			"sessions": 15,
 			"sessions_delta": {
-				"pct": -44.83,
+				"pct": -21.05,
 				"label": "前週同曜日比"
 			},
-			"pageviews": 17,
+			"pageviews": 32,
 			"pageviews_delta": {
-				"pct": -72.13,
+				"pct": 33.33,
 				"label": "前週同曜日比"
 			},
-			"avg_engagement_sec": 28,
+			"avg_engagement_sec": 68,
 			"avg_engagement_delta": {
-				"pct": -15.43,
+				"pct": 277.78,
 				"label": "前週同曜日比"
 			},
-			"compare_date": "2026-09-29"
+			"compare_date": "2026-09-30"
 		},
 		"trend": [
-			{
-				"label": "9/23",
-				"full": "2026-09-23",
-				"value": 20
-			},
 			{
 				"label": "9/24",
 				"full": "2026-09-24",
@@ -101,60 +96,55 @@
 				"label": "10/6",
 				"full": "2026-10-06",
 				"value": 14
+			},
+			{
+				"label": "10/7",
+				"full": "2026-10-07",
+				"value": 15
 			}
 		],
 		"top_pages": [
 			{
 				"label": "トップページ",
-				"value": 8,
-				"full": "/"
-			},
-			{
-				"label": "トップページ(index.html)",
-				"value": 3,
-				"full": "/index.html"
+				"value": 19,
+				"full": "海鮮餃子 北京 | 大阪府枚方市の中華料理店"
 			},
 			{
 				"label": "メニュー",
-				"value": 2,
+				"value": 5,
 				"full": "/menu.html"
 			},
 			{
-				"label": "お知らせ一覧",
-				"value": 2,
-				"full": "/news/"
+				"label": "餃子の通販・お取り寄せ",
+				"value": 4,
+				"full": "通販ページ"
 			},
 			{
-				"label": "お知らせ記事(7月18日)",
+				"label": "店舗紹介",
 				"value": 2,
-				"full": "/news/2026/07/18/abc19/"
+				"full": "/shop"
+			},
+			{
+				"label": "お知らせ記事(Acid Black Cherry 19周年)",
+				"value": 1,
+				"full": "yasuくんと、ここへ来てくれるあなたへ"
 			}
 		],
 		"channels": [
 			{
-				"label": "Google検索",
-				"value": 3,
-				"full": "google / organic"
-			},
-			{
 				"label": "直接アクセス",
-				"value": 2,
+				"value": 6,
 				"full": "(direct) / (none)"
 			},
 			{
-				"label": "Yahoo検索",
+				"label": "Google検索",
 				"value": 2,
-				"full": "yahoo / organic"
-			},
-			{
-				"label": "X",
-				"value": 1,
-				"full": "t.co / referral"
+				"full": "google / organic"
 			},
 			{
 				"label": "参照元が未判定(集計中)",
-				"value": 16,
-				"full": "(not set) 9 / (data not available) 7"
+				"value": 7,
+				"full": "(data not available) 7"
 			}
 		]
 	},
