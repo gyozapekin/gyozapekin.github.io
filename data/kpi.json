@@ -1,42 +1,37 @@
 {
-	"updated_at": "2026-10-18T09:20:00+09:00",
-	"updated_label": "2026-10-18 09:20",
+	"updated_at": "2026-10-19T09:20:00+09:00",
+	"updated_label": "2026-10-19 09:20",
 	"hp": {
 		"status": "ok",
-		"message": "10月17日(土)の実績。前週の同じ曜日(10月10日)との比較つき。",
+		"message": "10月18日(日)の実績。前週の同じ曜日(10月11日)との比較つき。",
 		"source": {
-			"as_of": "2026-10-17",
+			"as_of": "2026-10-18",
 			"note": "Googleアナリティクス"
 		},
 		"yesterday": {
-			"users": 12,
+			"users": 11,
 			"users_delta": {
-				"pct": -36.84,
+				"pct": -42.11,
 				"label": "前週同曜日比"
 			},
-			"sessions": 13,
+			"sessions": 15,
 			"sessions_delta": {
-				"pct": -45.83,
+				"pct": -31.82,
 				"label": "前週同曜日比"
 			},
-			"pageviews": 30,
+			"pageviews": 29,
 			"pageviews_delta": {
-				"pct": -18.92,
+				"pct": -38.3,
 				"label": "前週同曜日比"
 			},
-			"avg_engagement_sec": 28,
+			"avg_engagement_sec": 72,
 			"avg_engagement_delta": {
-				"pct": -61.11,
+				"pct": 10.77,
 				"label": "前週同曜日比"
 			},
-			"compare_date": "2026-10-10"
+			"compare_date": "2026-10-11"
 		},
 		"trend": [
-			{
-				"label": "10/4",
-				"full": "2026-10-04",
-				"value": 12
-			},
 			{
 				"label": "10/5",
 				"full": "2026-10-05",
@@ -101,23 +96,28 @@
 				"label": "10/17",
 				"full": "2026-10-17",
 				"value": 12
+			},
+			{
+				"label": "10/18",
+				"full": "2026-10-18",
+				"value": 11
 			}
 		],
 		"top_pages": [
 			{
 				"label": "トップページ",
-				"value": 11,
+				"value": 10,
 				"full": "/"
 			},
 			{
-				"label": "お店について",
-				"value": 3,
-				"full": "/about.html"
+				"label": "トップページ(index)",
+				"value": 9,
+				"full": "/index.html"
 			},
 			{
-				"label": "トップページ(index)",
-				"value": 3,
-				"full": "/index.html"
+				"label": "お店について",
+				"value": 4,
+				"full": "/about.html"
 			},
 			{
 				"label": "メニュー",
@@ -125,31 +125,31 @@
 				"full": "/menu.html"
 			},
 			{
-				"label": "トップページ(英語)",
-				"value": 2,
-				"full": "/en/index.html"
+				"label": "お知らせ記事(7月18日)",
+				"value": 1,
+				"full": "/news/2026/07/18/abc19/"
 			}
 		],
 		"channels": [
+			{
+				"label": "直接アクセス",
+				"value": 7,
+				"full": "(direct) / (none)"
+			},
 			{
 				"label": "Google検索",
 				"value": 5,
 				"full": "google / organic"
 			},
 			{
-				"label": "直接アクセス",
-				"value": 5,
-				"full": "(direct) / (none)"
+				"label": "Instagram",
+				"value": 2,
+				"full": "ig / social"
 			},
 			{
 				"label": "Yahoo検索",
-				"value": 2,
-				"full": "yahoo / organic"
-			},
-			{
-				"label": "Instagram",
 				"value": 1,
-				"full": "ig / social"
+				"full": "yahoo / organic"
 			}
 		]
 	},
