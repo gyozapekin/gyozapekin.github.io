@@ -1,42 +1,28 @@
 {
- "updated_at": "2026-10-24T09:10:00+09:00",
- "updated_label": "2026-10-24 09:10",
+ "updated_at": "2026-10-25T09:11:12+09:00",
+ "updated_label": "2026-10-25 09:11",
  "hp": {
   "status": "ok",
-  "message": "10月23日(金)の実績。前週の同じ曜日(10月16日)との比較つき。",
+  "message": "10月24日(土)の実績。前週の同じ曜日(10月17日)との比較はユーザー数のみ(他は取得できず)。ユーザー数が前日までの約10倍に増えています。原因は未確認です。",
   "source": {
-   "as_of": "2026-10-23",
+   "as_of": "2026-10-24",
    "note": "Googleアナリティクス"
   },
   "yesterday": {
-   "users": 17,
+   "users": 179,
    "users_delta": {
-    "pct": 0.0,
+    "pct": 1093.33,
     "label": "前週同曜日比"
    },
-   "sessions": 23,
-   "sessions_delta": {
-    "pct": 27.78,
-    "label": "前週同曜日比"
-   },
-   "pageviews": 38,
-   "pageviews_delta": {
-    "pct": 5.56,
-    "label": "前週同曜日比"
-   },
-   "avg_engagement_sec": 25,
-   "avg_engagement_delta": {
-    "pct": -70.59,
-    "label": "前週同曜日比"
-   },
-   "compare_date": "2026-10-16"
+   "sessions": 200,
+   "sessions_delta": null,
+   "pageviews": 345,
+   "pageviews_delta": null,
+   "avg_engagement_sec": 60,
+   "avg_engagement_delta": null,
+   "compare_date": "2026-10-17"
   },
   "trend": [
-   {
-    "label": "10/10",
-    "full": "2026-10-10",
-    "value": 19
-   },
    {
     "label": "10/11",
     "full": "2026-10-11",
@@ -101,60 +87,65 @@
     "label": "10/23",
     "full": "2026-10-23",
     "value": 17
+   },
+   {
+    "label": "10/24",
+    "full": "2026-10-24",
+    "value": 179
    }
   ],
   "top_pages": [
    {
     "label": "トップページ",
-    "value": 11,
+    "value": 112,
     "full": "/"
    },
    {
     "label": "トップページ(index)",
-    "value": 6,
+    "value": 100,
     "full": "/index.html"
    },
    {
-    "label": "おはよう朝日です記事",
-    "value": 5,
-    "full": "/news/2026/06/02/ohaasa-kaiou-gyoza/"
-   },
-   {
     "label": "メニュー",
-    "value": 4,
+    "value": 56,
     "full": "/menu.html"
    },
    {
+    "label": "店舗紹介",
+    "value": 22,
+    "full": "/about.html"
+   },
+   {
     "label": "ご注文・通販",
-    "value": 4,
+    "value": 18,
     "full": "/order.html"
    }
   ],
   "channels": [
    {
     "label": "Google検索",
-    "value": 8,
+    "value": 87,
     "full": "google / organic"
    },
    {
     "label": "Yahoo検索",
-    "value": 7,
+    "value": 51,
     "full": "yahoo / organic"
    },
    {
     "label": "直接アクセス",
-    "value": 6,
+    "value": 50,
     "full": "(direct) / (none)"
    },
    {
-    "label": "Instagram",
-    "value": 1,
-    "full": "ig / social"
+    "label": "判定できず",
+    "value": 17,
+    "full": "(not set)"
    },
    {
-    "label": "楽天検索",
-    "value": 1,
-    "full": "websearch.rakuten.co.jp / referral"
+    "label": "X",
+    "value": 3,
+    "full": "x / social"
    }
   ]
  },
