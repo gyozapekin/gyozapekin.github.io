@@ -1,33 +1,37 @@
 {
- "updated_at": "2026-10-25T09:11:12+09:00",
- "updated_label": "2026-10-25 09:11",
+ "updated_at": "2026-10-26T09:10:00+09:00",
+ "updated_label": "2026-10-26 09:10",
  "hp": {
   "status": "ok",
-  "message": "10月24日(土)の実績。前週の同じ曜日(10月17日)との比較はユーザー数のみ(他は取得できず)。ユーザー数が前日までの約10倍に増えています。原因は未確認です。",
+  "message": "10月25日(日)の実績。前週の同じ曜日(10月18日)との比較つき。10月24日は一時的にアクセスが急増しています。",
   "source": {
-   "as_of": "2026-10-24",
+   "as_of": "2026-10-25",
    "note": "Googleアナリティクス"
   },
   "yesterday": {
-   "users": 179,
+   "users": 56,
    "users_delta": {
-    "pct": 1093.33,
+    "pct": 273.33,
     "label": "前週同曜日比"
    },
-   "sessions": 200,
-   "sessions_delta": null,
-   "pageviews": 345,
-   "pageviews_delta": null,
-   "avg_engagement_sec": 60,
-   "avg_engagement_delta": null,
-   "compare_date": "2026-10-17"
+   "sessions": 73,
+   "sessions_delta": {
+    "pct": 265.0,
+    "label": "前週同曜日比"
+   },
+   "pageviews": 124,
+   "pageviews_delta": {
+    "pct": 235.14,
+    "label": "前週同曜日比"
+   },
+   "avg_engagement_sec": 38,
+   "avg_engagement_delta": {
+    "pct": -44.12,
+    "label": "前週同曜日比"
+   },
+   "compare_date": "2026-10-18"
   },
   "trend": [
-   {
-    "label": "10/11",
-    "full": "2026-10-11",
-    "value": 19
-   },
    {
     "label": "10/12",
     "full": "2026-10-12",
@@ -92,60 +96,65 @@
     "label": "10/24",
     "full": "2026-10-24",
     "value": 179
+   },
+   {
+    "label": "10/25",
+    "full": "2026-10-25",
+    "value": 56
    }
   ],
   "top_pages": [
    {
     "label": "トップページ",
-    "value": 112,
+    "value": 51,
     "full": "/"
    },
    {
-    "label": "トップページ(index)",
-    "value": 100,
-    "full": "/index.html"
-   },
-   {
     "label": "メニュー",
-    "value": 56,
+    "value": 27,
     "full": "/menu.html"
    },
    {
-    "label": "店舗紹介",
-    "value": 22,
-    "full": "/about.html"
+    "label": "トップページ(index)",
+    "value": 16,
+    "full": "/index.html"
    },
    {
     "label": "ご注文・通販",
-    "value": 18,
+    "value": 8,
     "full": "/order.html"
+   },
+   {
+    "label": "店舗紹介",
+    "value": 6,
+    "full": "/about.html"
    }
   ],
   "channels": [
    {
     "label": "Google検索",
-    "value": 87,
+    "value": 30,
     "full": "google / organic"
    },
    {
-    "label": "Yahoo検索",
-    "value": 51,
-    "full": "yahoo / organic"
-   },
-   {
     "label": "直接アクセス",
-    "value": 50,
+    "value": 25,
     "full": "(direct) / (none)"
    },
    {
-    "label": "判定できず",
-    "value": 17,
-    "full": "(not set)"
+    "label": "Yahoo検索",
+    "value": 10,
+    "full": "yahoo / organic"
    },
    {
     "label": "X",
-    "value": 3,
+    "value": 5,
     "full": "x / social"
+   },
+   {
+    "label": "Instagram",
+    "value": 1,
+    "full": "ig / social"
    }
   ]
  },
