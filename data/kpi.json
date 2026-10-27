@@ -1,198 +1,121 @@
 {
- "updated_at": "2026-10-26T09:10:00+09:00",
- "updated_label": "2026-10-26 09:10",
- "hp": {
-  "status": "ok",
-  "message": "10月25日(日)の実績。前週の同じ曜日(10月18日)との比較つき。10月24日は一時的にアクセスが急増しています。",
-  "source": {
-   "as_of": "2026-10-25",
-   "note": "Googleアナリティクス"
+  "updated_at": "2026-10-27T10:03:00+09:00",
+  "updated_label": "2026-10-27 10:03",
+  "hp": {
+    "status": "ok",
+    "message": "10月26日(月)の実績。前週の同じ曜日(10月19日)との比較つき。日別推移は取得できず、確認できた2日分のみ。",
+    "source": {
+      "as_of": "2026-10-26",
+      "note": "Googleアナリティクス"
+    },
+    "yesterday": {
+      "users": 21,
+      "users_delta": {
+        "pct": 16.67,
+        "label": "前週同曜日比"
+      },
+      "sessions": 25,
+      "sessions_delta": {
+        "pct": 8.7,
+        "label": "前週同曜日比"
+      },
+      "pageviews": 41,
+      "pageviews_delta": {
+        "pct": 13.89,
+        "label": "前週同曜日比"
+      },
+      "avg_engagement_sec": 19,
+      "avg_engagement_delta": {
+        "pct": -68.22,
+        "label": "前週同曜日比"
+      },
+      "compare_date": "2026-10-19"
+    },
+    "trend": [
+      {
+        "label": "10/19",
+        "full": "2026-10-19",
+        "value": 18
+      },
+      {
+        "label": "10/26",
+        "full": "2026-10-26",
+        "value": 21
+      }
+    ],
+    "top_pages": [
+      {
+        "label": "トップページ",
+        "value": 15,
+        "full": "/"
+      },
+      {
+        "label": "メニュー",
+        "value": 11,
+        "full": "/menu.html"
+      },
+      {
+        "label": "トップページ(index)",
+        "value": 6,
+        "full": "/index.html"
+      },
+      {
+        "label": "店舗紹介",
+        "value": 1,
+        "full": "/about.html"
+      },
+      {
+        "label": "英語版お問い合わせ",
+        "value": 1,
+        "full": "/en/contact.html"
+      }
+    ],
+    "channels": [
+      {
+        "label": "直接アクセス",
+        "value": 13,
+        "full": "Direct"
+      },
+      {
+        "label": "検索(自然検索)",
+        "value": 11,
+        "full": "Organic Search"
+      },
+      {
+        "label": "SNS",
+        "value": 1,
+        "full": "Organic Social"
+      },
+      {
+        "label": "その他",
+        "value": 1,
+        "full": "Unassigned"
+      }
+    ]
   },
-  "yesterday": {
-   "users": 56,
-   "users_delta": {
-    "pct": 273.33,
-    "label": "前週同曜日比"
-   },
-   "sessions": 73,
-   "sessions_delta": {
-    "pct": 265.0,
-    "label": "前週同曜日比"
-   },
-   "pageviews": 124,
-   "pageviews_delta": {
-    "pct": 235.14,
-    "label": "前週同曜日比"
-   },
-   "avg_engagement_sec": 38,
-   "avg_engagement_delta": {
-    "pct": -44.12,
-    "label": "前週同曜日比"
-   },
-   "compare_date": "2026-10-18"
+  "google": {
+    "status": "pending",
+    "message": "自動での取り込みがまだです。クチコミは8月19日時点で4.1／284件でした。",
+    "source": {
+      "as_of": "2026-08-19",
+      "note": "ビジネスプロフィール"
+    },
+    "rating": null,
+    "reviews": null
   },
-  "trend": [
-   {
-    "label": "10/12",
-    "full": "2026-10-12",
-    "value": 17
-   },
-   {
-    "label": "10/13",
-    "full": "2026-10-13",
-    "value": 8
-   },
-   {
-    "label": "10/14",
-    "full": "2026-10-14",
-    "value": 11
-   },
-   {
-    "label": "10/15",
-    "full": "2026-10-15",
-    "value": 13
-   },
-   {
-    "label": "10/16",
-    "full": "2026-10-16",
-    "value": 17
-   },
-   {
-    "label": "10/17",
-    "full": "2026-10-17",
-    "value": 15
-   },
-   {
-    "label": "10/18",
-    "full": "2026-10-18",
-    "value": 15
-   },
-   {
-    "label": "10/19",
-    "full": "2026-10-19",
-    "value": 18
-   },
-   {
-    "label": "10/20",
-    "full": "2026-10-20",
-    "value": 29
-   },
-   {
-    "label": "10/21",
-    "full": "2026-10-21",
-    "value": 16
-   },
-   {
-    "label": "10/22",
-    "full": "2026-10-22",
-    "value": 20
-   },
-   {
-    "label": "10/23",
-    "full": "2026-10-23",
-    "value": 17
-   },
-   {
-    "label": "10/24",
-    "full": "2026-10-24",
-    "value": 179
-   },
-   {
-    "label": "10/25",
-    "full": "2026-10-25",
-    "value": 56
-   }
-  ],
-  "top_pages": [
-   {
-    "label": "トップページ",
-    "value": 51,
-    "full": "/"
-   },
-   {
-    "label": "メニュー",
-    "value": 27,
-    "full": "/menu.html"
-   },
-   {
-    "label": "トップページ(index)",
-    "value": 16,
-    "full": "/index.html"
-   },
-   {
-    "label": "ご注文・通販",
-    "value": 8,
-    "full": "/order.html"
-   },
-   {
-    "label": "店舗紹介",
-    "value": 6,
-    "full": "/about.html"
-   }
-  ],
-  "channels": [
-   {
-    "label": "Google検索",
-    "value": 30,
-    "full": "google / organic"
-   },
-   {
-    "label": "直接アクセス",
-    "value": 25,
-    "full": "(direct) / (none)"
-   },
-   {
-    "label": "Yahoo検索",
-    "value": 10,
-    "full": "yahoo / organic"
-   },
-   {
-    "label": "X",
-    "value": 5,
-    "full": "x / social"
-   },
-   {
-    "label": "Instagram",
-    "value": 1,
-    "full": "ig / social"
-   }
+  "sns": {
+    "status": "pending",
+    "message": "投稿台帳のフォルダ（GyozaPekin_SNS）から自動で読み取る配線がまだです。",
+    "source": {
+      "as_of": "",
+      "note": "投稿台帳"
+    },
+    "posts": []
+  },
+  "sources_note": [
+    {
+      "name": "ホームページ",
+      "detail": "Googleアナリティクス（測定ID G-M8C788MDLN）から取り込み。1日1回の更新を予定。"
+    }
   ]
- },
- "google": {
-  "status": "pending",
-  "message": "自動での取り込みがまだです。クチコミは8月19日時点で4.1／284件でした。",
-  "source": {
-   "as_of": "2026-08-19",
-   "note": "ビジネスプロフィール"
-  },
-  "rating": null,
-  "reviews": null
- },
- "sns": {
-  "status": "pending",
-  "message": "投稿台帳のフォルダ（GyozaPekin_SNS）から自動で読み取る配線がまだです。",
-  "source": {
-   "as_of": "",
-   "note": "投稿台帳"
-  },
-  "posts": []
- },
- "sources_note": [
-  {
-   "name": "ホームページ",
-   "detail": "Googleアナリティクス（測定ID G-M8C788MDLN）から取り込み。1日1回の更新を予定。"
-  },
-  {
-   "name": "Google",
-   "detail": "ビジネスプロフィールの数字。表示回数・ルート検索・電話・クチコミ。"
-  },
-  {
-   "name": "SNS",
-   "detail": "投稿台帳（post_perf）から直近の投稿と反応。"
-  },
-  {
-   "name": "更新のしかた",
-   "detail": "定期タスクが数字を読み取り、このページが見ている /data/kpi.json を書き換えます。"
-  }
- ]
 }
