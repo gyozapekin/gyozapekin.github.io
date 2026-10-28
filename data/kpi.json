@@ -1,42 +1,37 @@
 {
-  "updated_at": "2026-10-27T10:10:00+09:00",
-  "updated_label": "2026-10-27 10:10",
+  "updated_at": "2026-10-28T09:20:00+09:00",
+  "updated_label": "2026-10-28 09:20",
   "hp": {
     "status": "ok",
-    "message": "10月26日(月)の実績。前週の同じ曜日(10月19日)との比較つき。10月24日は一時的にアクセスが急増しています。流入元は大まかな分類(チャネル)で取得しています。",
+    "message": "10月27日(火)の実績。前週の同じ曜日(10月20日)との比較つき。10月24日は一時的にアクセスが急増しています。流入元は参照元/メディア単位で取得、ページ名はページのパスから読み替えています。",
     "source": {
-      "as_of": "2026-10-26",
+      "as_of": "2026-10-27",
       "note": "Googleアナリティクス"
     },
     "yesterday": {
-      "users": 21,
+      "users": 13,
       "users_delta": {
-        "pct": 16.67,
+        "pct": -55.17,
         "label": "前週同曜日比"
       },
-      "sessions": 25,
+      "sessions": 14,
       "sessions_delta": {
-        "pct": 8.7,
+        "pct": -56.25,
         "label": "前週同曜日比"
       },
-      "pageviews": 41,
+      "pageviews": 22,
       "pageviews_delta": {
-        "pct": 13.89,
+        "pct": -56.0,
         "label": "前週同曜日比"
       },
-      "avg_engagement_sec": 19,
+      "avg_engagement_sec": 31,
       "avg_engagement_delta": {
-        "pct": -68.22,
+        "pct": -8.82,
         "label": "前週同曜日比"
       },
-      "compare_date": "2026-10-19"
+      "compare_date": "2026-10-20"
     },
     "trend": [
-      {
-        "label": "10/13",
-        "full": "2026-10-13",
-        "value": 8
-      },
       {
         "label": "10/14",
         "full": "2026-10-14",
@@ -101,55 +96,60 @@
         "label": "10/26",
         "full": "2026-10-26",
         "value": 21
+      },
+      {
+        "label": "10/27",
+        "full": "2026-10-27",
+        "value": 13
       }
     ],
     "top_pages": [
       {
         "label": "トップページ",
         "value": 15,
-        "full": "/"
-      },
-      {
-        "label": "メニュー",
-        "value": 11,
-        "full": "/menu.html"
-      },
-      {
-        "label": "トップページ(index)",
-        "value": 6,
-        "full": "/index.html"
+        "full": "/ + /index.html"
       },
       {
         "label": "店舗紹介",
-        "value": 1,
+        "value": 2,
         "full": "/about.html"
       },
       {
-        "label": "英語版お問い合わせ",
+        "label": "メニュー",
+        "value": 2,
+        "full": "/menu.html"
+      },
+      {
+        "label": "お知らせ一覧",
         "value": 1,
-        "full": "/en/contact.html"
+        "full": "/news/"
+      },
+      {
+        "label": "お知らせ記事",
+        "value": 1,
+        "full": "/news/2026/07/18/abc19/"
       }
     ],
     "channels": [
       {
+        "label": "Google検索",
+        "value": 6,
+        "full": "google / organic"
+      },
+      {
         "label": "直接アクセス",
-        "value": 13,
-        "full": "Direct"
+        "value": 5,
+        "full": "(direct) / (none)"
       },
       {
-        "label": "検索(自然検索)",
-        "value": 11,
-        "full": "Organic Search"
+        "label": "Yahoo検索",
+        "value": 2,
+        "full": "yahoo / organic"
       },
       {
-        "label": "SNS",
+        "label": "Facebook",
         "value": 1,
-        "full": "Organic Social"
-      },
-      {
-        "label": "その他",
-        "value": 1,
-        "full": "Unassigned"
+        "full": "m.facebook.com / referral"
       }
     ]
   },
