@@ -1,42 +1,37 @@
 {
- "updated_at": "2026-10-29T09:10:00+09:00",
- "updated_label": "2026-10-29 09:10",
+ "updated_at": "2026-10-30T09:10:00+09:00",
+ "updated_label": "2026-10-30 09:10",
  "hp": {
   "status": "ok",
-  "message": "10月28日(水)の実績。前週の同じ曜日(10月21日)との比較つき。",
+  "message": "10月29日(木)の実績。前週の同じ曜日(10月22日)との比較つき。",
   "source": {
-   "as_of": "2026-10-28",
+   "as_of": "2026-10-29",
    "note": "Googleアナリティクス"
   },
   "yesterday": {
-   "users": 14,
+   "users": 35,
    "users_delta": {
-    "pct": -12.5,
+    "pct": 75.0,
     "label": "前週同曜日比"
    },
-   "sessions": 18,
+   "sessions": 40,
    "sessions_delta": {
-    "pct": -21.74,
+    "pct": 48.15,
     "label": "前週同曜日比"
    },
-   "pageviews": 26,
+   "pageviews": 71,
    "pageviews_delta": {
-    "pct": -18.75,
+    "pct": 51.06,
     "label": "前週同曜日比"
    },
-   "avg_engagement_sec": 34,
+   "avg_engagement_sec": 43,
    "avg_engagement_delta": {
-    "pct": -50.0,
+    "pct": -42.67,
     "label": "前週同曜日比"
    },
-   "compare_date": "2026-10-21"
+   "compare_date": "2026-10-22"
   },
   "trend": [
-   {
-    "label": "10/15",
-    "full": "2026-10-15",
-    "value": 13
-   },
    {
     "label": "10/16",
     "full": "2026-10-16",
@@ -101,60 +96,65 @@
     "label": "10/28",
     "full": "2026-10-28",
     "value": 14
+   },
+   {
+    "label": "10/29",
+    "full": "2026-10-29",
+    "value": 35
    }
   ],
   "top_pages": [
    {
     "label": "トップページ",
-    "value": 12,
+    "value": 28,
     "full": "/"
    },
    {
     "label": "メニュー",
-    "value": 4,
+    "value": 12,
     "full": "/menu.html"
    },
    {
     "label": "トップページ(index)",
-    "value": 3,
+    "value": 11,
     "full": "/index.html"
    },
    {
-    "label": "食べ方・焼き方",
-    "value": 2,
-    "full": "/howto.html"
+    "label": "ニュース(10月22日)",
+    "value": 9,
+    "full": "/news/2026/10/22/tv-momoko/"
    },
    {
-    "label": "枚方のページ",
-    "value": 1,
-    "full": "/hirakata/"
+    "label": "店舗紹介",
+    "value": 6,
+    "full": "/about.html"
    }
   ],
   "channels": [
    {
-    "label": "Google検索",
-    "value": 10,
-    "full": "google / organic"
-   },
-   {
     "label": "直接アクセス",
-    "value": 4,
+    "value": 19,
     "full": "(direct) / (none)"
    },
    {
-    "label": "Bing検索",
-    "value": 1,
-    "full": "bing / organic"
+    "label": "Google検索",
+    "value": 7,
+    "full": "google / organic"
+   },
+   {
+    "label": "Yahoo検索",
+    "value": 6,
+    "full": "yahoo / organic"
+   },
+   {
+    "label": "Facebook",
+    "value": 4,
+    "full": "l.facebook.com / referral"
    },
    {
     "label": "Instagram",
-    "value": 1,
-    "full": "ig / social"
-   },
-   {
-    "label": "X",
-    "value": 1,
-    "full": "x / social"
+    "value": 4,
+    "full": "ig / social + instagram.com / referral"
    }
   ]
  },
