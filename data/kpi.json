@@ -1,42 +1,37 @@
 {
-	"updated_at": "2026-10-31T10:07:00+09:00",
-	"updated_label": "2026-10-31 10:07",
+	"updated_at": "2026-11-01T09:05:00+09:00",
+	"updated_label": "2026-11-01 09:05",
 	"hp": {
 		"status": "ok",
-		"message": "10月30日(金)の実績。前週の同じ曜日(10月23日)との比較つき。10月24日(テレビ放映日)に一時的なアクセス増があり、その後は通常水準に戻っています。",
+		"message": "10月31日(土)の実績。前週の同じ曜日(10月24日)との比較つき。10月24日はテレビ放映日で一時的にアクセスが急増しており、比較の相手が特異に大きい点にご注意ください。",
 		"source": {
-			"as_of": "2026-10-30",
+			"as_of": "2026-10-31",
 			"note": "Googleアナリティクス"
 		},
 		"yesterday": {
-			"users": 19,
+			"users": 17,
 			"users_delta": {
-				"pct": 11.76,
+				"pct": -90.5,
 				"label": "前週同曜日比"
 			},
-			"sessions": 20,
+			"sessions": 19,
 			"sessions_delta": {
-				"pct": -13.04,
+				"pct": -90.5,
 				"label": "前週同曜日比"
 			},
-			"pageviews": 25,
+			"pageviews": 41,
 			"pageviews_delta": {
-				"pct": -34.21,
+				"pct": -88.12,
 				"label": "前週同曜日比"
 			},
-			"avg_engagement_sec": 31,
+			"avg_engagement_sec": 44,
 			"avg_engagement_delta": {
-				"pct": 24.0,
+				"pct": -26.67,
 				"label": "前週同曜日比"
 			},
-			"compare_date": "2026-10-23"
+			"compare_date": "2026-10-24"
 		},
 		"trend": [
-			{
-				"label": "10/17",
-				"full": "2026-10-17",
-				"value": 15
-			},
 			{
 				"label": "10/18",
 				"full": "2026-10-18",
@@ -101,55 +96,65 @@
 				"label": "10/30",
 				"full": "2026-10-30",
 				"value": 19
+			},
+			{
+				"label": "10/31",
+				"full": "2026-10-31",
+				"value": 17
 			}
 		],
 		"top_pages": [
 			{
 				"label": "トップページ",
-				"value": 16,
+				"value": 14,
 				"full": "/ + /index.html"
 			},
 			{
-				"label": "おはよう朝日です紹介記事",
-				"value": 4,
-				"full": "/news/2026/06/02/ohaasa-kaiou-gyoza/"
-			},
-			{
 				"label": "メニュー",
-				"value": 3,
+				"value": 7,
 				"full": "/menu.html"
 			},
 			{
-				"label": "Acid Black Cherry 19周年記事",
-				"value": 1,
-				"full": "/news/2026/07/18/abc19/"
+				"label": "モモコのOH!ソレ!み〜よ!紹介記事",
+				"value": 6,
+				"full": "/news/2026/10/22/tv-momoko/"
 			},
 			{
-				"label": "モモコのOH!ソレ!み〜よ!紹介記事",
-				"value": 1,
-				"full": "/news/2026/10/22/tv-momoko/"
+				"label": "お店について",
+				"value": 3,
+				"full": "/about.html"
+			},
+			{
+				"label": "ご注文",
+				"value": 3,
+				"full": "/order.html"
 			}
 		],
 		"channels": [
 			{
-				"label": "Google検索",
-				"value": 11,
-				"full": "google / organic"
-			},
-			{
 				"label": "直接アクセス",
-				"value": 4,
+				"value": 10,
 				"full": "(direct) / (none)"
 			},
 			{
+				"label": "Google検索",
+				"value": 5,
+				"full": "google / organic"
+			},
+			{
 				"label": "Instagram",
-				"value": 3,
+				"value": 2,
 				"full": "ig / social + instagram.com / referral"
 			},
 			{
 				"label": "Yahoo検索",
-				"value": 2,
+				"value": 1,
 				"full": "yahoo / organic"
+			},
+			{
+				"label": "ドコモ検索経由",
+				"value": 1,
+				"full": "service.smt.docomo.ne.jp / referral"
 			}
 		]
 	},
