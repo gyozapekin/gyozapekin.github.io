@@ -1,42 +1,37 @@
 {
-	"updated_at": "2026-11-07T09:10:00+09:00",
-	"updated_label": "2026-11-07 09:10",
+	"updated_at": "2026-11-08T09:10:00+09:00",
+	"updated_label": "2026-11-08 09:10",
 	"hp": {
 		"status": "ok",
-		"message": "11月6日(金)の実績。前週の同じ曜日(10月30日)との比較つき。直近14日間の日別ユーザー数も掲載。",
+		"message": "11月7日(土)の実績。前週の同じ曜日(10月31日)との比較つき。直近14日間の日別ユーザー数も掲載。",
 		"source": {
-			"as_of": "2026-11-06",
+			"as_of": "2026-11-07",
 			"note": "Googleアナリティクス"
 		},
 		"yesterday": {
-			"users": 26,
+			"users": 31,
 			"users_delta": {
-				"pct": 36.84,
+				"pct": 82.35,
 				"label": "前週同曜日比"
 			},
-			"sessions": 30,
+			"sessions": 34,
 			"sessions_delta": {
-				"pct": 50.0,
+				"pct": 78.95,
 				"label": "前週同曜日比"
 			},
-			"pageviews": 53,
+			"pageviews": 68,
 			"pageviews_delta": {
-				"pct": 112.0,
+				"pct": 65.85,
 				"label": "前週同曜日比"
 			},
-			"avg_engagement_sec": 27,
+			"avg_engagement_sec": 41,
 			"avg_engagement_delta": {
-				"pct": -12.9,
+				"pct": -6.82,
 				"label": "前週同曜日比"
 			},
-			"compare_date": "2026-10-30"
+			"compare_date": "2026-10-31"
 		},
 		"trend": [
-			{
-				"label": "10/24",
-				"full": "2026-10-24",
-				"value": 179
-			},
 			{
 				"label": "10/25",
 				"full": "2026-10-25",
@@ -101,60 +96,65 @@
 				"label": "11/6",
 				"full": "2026-11-06",
 				"value": 26
+			},
+			{
+				"label": "11/7",
+				"full": "2026-11-07",
+				"value": 31
 			}
 		],
 		"top_pages": [
 			{
-				"label": "メニュー | 海鮮餃子 北京",
-				"full": "メニュー | 海鮮餃子 北京",
-				"value": 20
-			},
-			{
 				"label": "海鮮餃子 北京 | 大阪府枚方市の中華料理店 - 手作り海鮮餃子",
 				"full": "海鮮餃子 北京 | 大阪府枚方市の中華料理店 - 手作り海鮮餃子",
-				"value": 18
+				"value": 27
+			},
+			{
+				"label": "メニュー | 海鮮餃子 北京",
+				"full": "メニュー | 海鮮餃子 北京",
+				"value": 14
 			},
 			{
 				"label": "店舗紹介 | 海鮮餃子 北京",
 				"full": "店舗紹介 | 海鮮餃子 北京",
+				"value": 9
+			},
+			{
+				"label": "「おはよう朝日です」で紹介いただきました ― 看板メニューの海王餃子が5点満点 | 海鮮餃子 北京",
+				"full": "「おはよう朝日です」で紹介いただきました ― 看板メニューの海王餃子が5点満点 | 海鮮餃子 北京",
 				"value": 4
 			},
 			{
-				"label": "おいしい餃子の焼き方 | 海鮮餃子 北京",
-				"full": "おいしい餃子の焼き方 | 海鮮餃子 北京",
-				"value": 2
-			},
-			{
-				"label": "餃子の通販・お取り寄せ（全国発送） | 海鮮餃子 北京（大阪府枚方市）",
-				"full": "餃子の通販・お取り寄せ（全国発送） | 海鮮餃子 北京（大阪府枚方市）",
-				"value": 2
+				"label": "/news/2024/12/20/umauma-foodie-youtube/",
+				"full": "/news/2024/12/20/umauma-foodie-youtube/",
+				"value": 3
 			}
 		],
 		"channels": [
 			{
 				"label": "直接アクセス",
-				"value": 18,
+				"value": 16,
 				"full": "(direct) / (none)"
 			},
 			{
 				"label": "Google検索",
-				"value": 8,
+				"value": 11,
 				"full": "google / organic"
 			},
 			{
 				"label": "不明（参照元なし）",
-				"value": 6,
+				"value": 7,
 				"full": "(not set)"
 			},
 			{
 				"label": "Yahoo検索",
-				"value": 3,
+				"value": 4,
 				"full": "yahoo / organic"
 			},
 			{
-				"label": "楽天検索（参照）",
-				"value": 1,
-				"full": "websearch.rakuten.co.jp / referral"
+				"label": "Instagram",
+				"value": 2,
+				"full": "ig / social"
 			}
 		]
 	},
