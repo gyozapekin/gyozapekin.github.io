@@ -1,42 +1,37 @@
 {
-	"updated_at": "2026-11-08T09:10:00+09:00",
-	"updated_label": "2026-11-08 09:10",
+	"updated_at": "2026-11-09T09:20:00+09:00",
+	"updated_label": "2026-11-09 09:20",
 	"hp": {
 		"status": "ok",
-		"message": "11月7日(土)の実績。前週の同じ曜日(10月31日)との比較つき。直近14日間の日別ユーザー数も掲載。",
+		"message": "11月8日(日)の実績。前週の同じ曜日(11月1日)との比較つき。直近14日間の日別ユーザー数も掲載。",
 		"source": {
-			"as_of": "2026-11-07",
+			"as_of": "2026-11-08",
 			"note": "Googleアナリティクス"
 		},
 		"yesterday": {
-			"users": 31,
+			"users": 23,
 			"users_delta": {
-				"pct": 82.35,
+				"pct": -8.0,
 				"label": "前週同曜日比"
 			},
-			"sessions": 34,
+			"sessions": 26,
 			"sessions_delta": {
-				"pct": 78.95,
+				"pct": -7.14,
 				"label": "前週同曜日比"
 			},
-			"pageviews": 68,
+			"pageviews": 38,
 			"pageviews_delta": {
-				"pct": 65.85,
+				"pct": -26.92,
 				"label": "前週同曜日比"
 			},
-			"avg_engagement_sec": 41,
+			"avg_engagement_sec": 48,
 			"avg_engagement_delta": {
-				"pct": -6.82,
+				"pct": 118.18,
 				"label": "前週同曜日比"
 			},
-			"compare_date": "2026-10-31"
+			"compare_date": "2026-11-01"
 		},
 		"trend": [
-			{
-				"label": "10/25",
-				"full": "2026-10-25",
-				"value": 56
-			},
 			{
 				"label": "10/26",
 				"full": "2026-10-26",
@@ -101,50 +96,50 @@
 				"label": "11/7",
 				"full": "2026-11-07",
 				"value": 31
+			},
+			{
+				"label": "11/8",
+				"full": "2026-11-08",
+				"value": 23
 			}
 		],
 		"top_pages": [
 			{
 				"label": "海鮮餃子 北京 | 大阪府枚方市の中華料理店 - 手作り海鮮餃子",
 				"full": "海鮮餃子 北京 | 大阪府枚方市の中華料理店 - 手作り海鮮餃子",
-				"value": 27
+				"value": 20
 			},
 			{
 				"label": "メニュー | 海鮮餃子 北京",
 				"full": "メニュー | 海鮮餃子 北京",
-				"value": 14
+				"value": 6
+			},
+			{
+				"label": "/news/2026/07/18/abc19/",
+				"full": "/news/2026/07/18/abc19/",
+				"value": 3
 			},
 			{
 				"label": "店舗紹介 | 海鮮餃子 北京",
 				"full": "店舗紹介 | 海鮮餃子 北京",
-				"value": 9
+				"value": 2
 			},
 			{
-				"label": "「おはよう朝日です」で紹介いただきました ― 看板メニューの海王餃子が5点満点 | 海鮮餃子 北京",
-				"full": "「おはよう朝日です」で紹介いただきました ― 看板メニューの海王餃子が5点満点 | 海鮮餃子 北京",
-				"value": 4
-			},
-			{
-				"label": "/news/2024/12/20/umauma-foodie-youtube/",
-				"full": "/news/2024/12/20/umauma-foodie-youtube/",
-				"value": 3
+				"label": "/contact.html",
+				"full": "/contact.html",
+				"value": 1
 			}
 		],
 		"channels": [
 			{
-				"label": "直接アクセス",
-				"value": 16,
-				"full": "(direct) / (none)"
-			},
-			{
 				"label": "Google検索",
-				"value": 11,
+				"value": 10,
 				"full": "google / organic"
 			},
 			{
-				"label": "不明（参照元なし）",
-				"value": 7,
-				"full": "(not set)"
+				"label": "直接アクセス",
+				"value": 9,
+				"full": "(direct) / (none)"
 			},
 			{
 				"label": "Yahoo検索",
@@ -152,9 +147,14 @@
 				"full": "yahoo / organic"
 			},
 			{
-				"label": "Instagram",
-				"value": 2,
-				"full": "ig / social"
+				"label": "Instagram(リンク経由)",
+				"value": 1,
+				"full": "instagram.com / referral"
+			},
+			{
+				"label": "docomo検索ポータル",
+				"value": 1,
+				"full": "service.smt.docomo.ne.jp / referral"
 			}
 		]
 	},
