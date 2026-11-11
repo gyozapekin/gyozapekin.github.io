@@ -1,42 +1,37 @@
 {
-	"updated_at": "2026-11-10T09:10:00+09:00",
-	"updated_label": "2026-11-10 09:10",
+	"updated_at": "2026-11-11T10:05:00+09:00",
+	"updated_label": "2026-11-11 10:05",
 	"hp": {
 		"status": "ok",
-		"message": "11月9日(月)の実績。前週の同じ曜日(11月2日)との比較つき。",
+		"message": "11月10日(火)の実績。前週の同じ曜日(11月3日)との比較つき。14日推移のうち10月28日から11月9日は前回までの取得値を引き継ぎ。",
 		"source": {
-			"as_of": "2026-11-09",
+			"as_of": "2026-11-10",
 			"note": "Googleアナリティクス"
 		},
 		"yesterday": {
-			"users": 16,
+			"users": 18,
 			"users_delta": {
-				"pct": 0.0,
+				"pct": -10.0,
 				"label": "前週同曜日比"
 			},
-			"sessions": 20,
+			"sessions": 18,
 			"sessions_delta": {
-				"pct": 5.26,
+				"pct": -25.0,
 				"label": "前週同曜日比"
 			},
-			"pageviews": 36,
+			"pageviews": 24,
 			"pageviews_delta": {
-				"pct": 12.5,
+				"pct": -61.29,
 				"label": "前週同曜日比"
 			},
-			"avg_engagement_sec": 46,
+			"avg_engagement_sec": 17,
 			"avg_engagement_delta": {
-				"pct": 187.5,
+				"pct": -69.64,
 				"label": "前週同曜日比"
 			},
-			"compare_date": "2026-11-02"
+			"compare_date": "2026-11-03"
 		},
 		"trend": [
-			{
-				"label": "10/27",
-				"full": "2026-10-27",
-				"value": 13
-			},
 			{
 				"label": "10/28",
 				"full": "2026-10-28",
@@ -101,23 +96,23 @@
 				"label": "11/9",
 				"full": "2026-11-09",
 				"value": 16
+			},
+			{
+				"label": "11/10",
+				"full": "2026-11-10",
+				"value": 18
 			}
 		],
 		"top_pages": [
 			{
 				"label": "トップページ",
-				"value": 13,
-				"full": "/"
+				"value": 12,
+				"full": "/ と /index.html"
 			},
 			{
 				"label": "メニュー",
-				"value": 7,
+				"value": 4,
 				"full": "/menu.html"
-			},
-			{
-				"label": "お店について",
-				"value": 2,
-				"full": "/about.html"
 			},
 			{
 				"label": "お問い合わせ",
@@ -125,21 +120,36 @@
 				"full": "/contact.html"
 			},
 			{
-				"label": "食べ方・焼き方",
+				"label": "おはよう朝日です紹介記事",
 				"value": 2,
-				"full": "/howto.html"
+				"full": "/news/2026/06/02/ohaasa-kaiou-gyoza/"
+			},
+			{
+				"label": "お店について",
+				"value": 1,
+				"full": "/about.html"
 			}
 		],
 		"channels": [
 			{
 				"label": "直接アクセス",
-				"value": 12,
-				"full": "Direct"
+				"value": 8,
+				"full": "(direct) / (none)"
 			},
 			{
 				"label": "Google検索",
-				"value": 8,
-				"full": "Organic Search"
+				"value": 7,
+				"full": "google / organic"
+			},
+			{
+				"label": "Yahoo検索",
+				"value": 3,
+				"full": "yahoo / organic"
+			},
+			{
+				"label": "不明",
+				"value": 1,
+				"full": "(not set)"
 			}
 		]
 	},
