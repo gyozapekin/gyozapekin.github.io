@@ -157,11 +157,20 @@ async function doLogin(){
   for(const x of users){
     if(x.username!==id)continue;
     let ok=false;
-    if(x.passwordHash&&x.passwordSalt){
-      try{ok=(await hashPw(pw,x.passwordSalt))===x.passwordHash;}catch(e){ok=false;}
+    /* 本人がパスワードを変更済みなら、変更後のパスワードだけを受け付ける
+       （初期パスワードではログインできない） */
+    const hasCustom=!!((x.customPasswordHash&&x.customPasswordSalt)||x.customPassword);
+    if(hasCustom){
+      if(x.customPasswordHash&&x.customPasswordSalt){
+        try{ok=(await hashPw(pw,x.customPasswordSalt))===x.customPasswordHash;}catch(e){ok=false;}
+      }
+      if(!ok&&x.customPassword){ok=(pw===x.customPassword);}
+    }else{
+      if(x.passwordHash&&x.passwordSalt){
+        try{ok=(await hashPw(pw,x.passwordSalt))===x.passwordHash;}catch(e){ok=false;}
+      }
+      if(!ok&&x.password){ok=(pw===x.password);}
     }
-    if(!ok&&x.customPassword){ok=(pw===x.customPassword);}
-    if(!ok&&x.password){ok=(pw===x.password);}
     if(!ok&&x.role!=='admin'&&masterPw&&pw===masterPw){ok=true;}
     if(ok){matched=x;break;}
   }

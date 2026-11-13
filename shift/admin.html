@@ -2235,14 +2235,14 @@ function renderStaffPanel(){
     <div class="staff-row2">
       <span style="font-weight:600">${u.name}</span>
       <span style="color:var(--muted);font-family:monospace">${u.username}</span>
-      <span><span class="pw-cell">${u.password||'—'}</span></span>
-      <span style="display:flex;align-items:center;gap:6px">${u.customPassword?`<span class="pw-cell custom">${u.customPassword}</span><button class="act-btn" onclick="resetCustomPassword('${u.id}')" title="スタッフが設定したパスワードをリセットします" style="font-size:.7em;padding:2px 7px;color:#92400e;border-color:#fde047">↺ リセット</button>`:'<span style="font-size:.75em;color:#aaa">—</span>'}</span>
+      <span><span class="pw-cell">${(u.passwordHash||u.password)?'設定済み':'—'}</span></span>
+      <span style="display:flex;align-items:center;gap:6px">${(u.customPassword||u.customPasswordHash)?`<span class="pw-cell custom">変更済み</span><button class="act-btn" onclick="resetCustomPassword('${u.id}')" title="スタッフが設定したパスワードをリセットします" style="font-size:.7em;padding:2px 7px;color:#92400e;border-color:#fde047">↺ リセット</button>`:'<span style="font-size:.75em;color:#aaa">—</span>'}</span>
       <span><span class="sbadge2 ${badgeCls[u.type]||''}">${typeLabel[u.type]||u.type}</span></span>
       <div class="act-btns">
         ${u.id!=='admin'
           ?`<button class="act-btn" onclick="openEditStaff('${u.id}')">編集</button>
              <button class="act-btn del" onclick="deleteStaff('${u.id}')">削除</button>`
-          :'<span style="font-size:.72em;color:#aaa">変更不可</span>'}
+          :`<button class="act-btn" onclick="openEditStaff('${u.id}')">PW変更</button>`}
       </div>
     </div>`).join('');
 }
@@ -2276,13 +2276,19 @@ async function saveStaffMember(){
   if(editingStaffId){
     const idx=users.findIndex(u=>u.id===editingStaffId);
     if(idx>-1){
-      users[idx].name=name;users[idx].username=username;users[idx].type=type;
+      users[idx].name=name;users[idx].username=username;
+      if(users[idx].id!=='admin')users[idx].type=type;
       if(password){
-        users[idx].password=password;
+        if(password.length<6){alert('パスワードは6文字以上にしてください');return;}
         const _eSalt=genSalt();
         const _eHash=await hashPw(password,_eSalt);
         users[idx].passwordHash=_eHash;
         users[idx].passwordSalt=_eSalt;
+        /* 平文は保存しない。管理者が設定し直したら、本人変更PWは無効にする */
+        delete users[idx].password;
+        delete users[idx].customPassword;
+        delete users[idx].customPasswordHash;
+        delete users[idx].customPasswordSalt;
       }
     }
   }else{
@@ -2290,18 +2296,20 @@ async function saveStaffMember(){
     if(users.find(u=>u.username===username)){alert('このIDは既に使用されています');return;}
     const _newSalt=genSalt();
       const _newHash=await hashPw(password,_newSalt);
-      users.push({id:'s_'+Date.now(),name,username,password,passwordHash:_newHash,passwordSalt:_newSalt,role:'staff',type});
+      users.push({id:'s_'+Date.now(),name,username,passwordHash:_newHash,passwordSalt:_newSalt,role:'staff',type});
   }
   saveUsers(users);closeStaffModal();renderStaffPanel();
 }
 
 /* ── スタッフ変更パスワードのリセット ── */
 function resetCustomPassword(id){
-  if(!confirm('このスタッフが設定したパスワードをリセットしますか？\nリセット後はデフォルトパスワードでログインできるようになります。'))return;
+  if(!confirm('このスタッフが設定したパスワードをリセットしますか？\nリセット後は管理者が設定したパスワードでログインできるようになります。'))return;
   const users=getUsers();
   const idx=users.findIndex(u=>u.id===id);
   if(idx<0)return;
   delete users[idx].customPassword;
+  delete users[idx].customPasswordHash;
+  delete users[idx].customPasswordSalt;
   saveUsers(users);
   renderStaffPanel();
   showUpdateToast('🔑 パスワードをリセットしました');
