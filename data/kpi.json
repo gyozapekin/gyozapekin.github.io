@@ -1,42 +1,37 @@
 {
-	"updated_at": "2026-11-12T10:03:00+09:00",
-	"updated_label": "2026-11-12 10:03",
+	"updated_at": "2026-11-13T10:03:00+09:00",
+	"updated_label": "2026-11-13 10:03",
 	"hp": {
 		"status": "ok",
-		"message": "11月11日(水)の実績。前週の同じ曜日(11月4日)との比較つき。14日推移のうち10月29日から11月10日は前回までの取得値を引き継ぎ。",
+		"message": "11月12日(木)の実績。前週の同じ曜日(11月5日)との比較つき。14日推移のうち10月30日から11月11日は前回までの取得値を引き継ぎ。",
 		"source": {
-			"as_of": "2026-11-11",
+			"as_of": "2026-11-12",
 			"note": "Googleアナリティクス"
 		},
 		"yesterday": {
-			"users": 17,
+			"users": 30,
 			"users_delta": {
-				"pct": 6.25,
+				"pct": 42.86,
 				"label": "前週同曜日比"
 			},
-			"sessions": 19,
+			"sessions": 32,
 			"sessions_delta": {
-				"pct": 5.56,
+				"pct": 23.08,
 				"label": "前週同曜日比"
 			},
-			"pageviews": 32,
+			"pageviews": 65,
 			"pageviews_delta": {
-				"pct": 33.33,
+				"pct": 12.07,
 				"label": "前週同曜日比"
 			},
-			"avg_engagement_sec": 29,
+			"avg_engagement_sec": 45,
 			"avg_engagement_delta": {
-				"pct": 70.59,
+				"pct": 4.65,
 				"label": "前週同曜日比"
 			},
-			"compare_date": "2026-11-04"
+			"compare_date": "2026-11-05"
 		},
 		"trend": [
-			{
-				"label": "10/29",
-				"full": "2026-10-29",
-				"value": 35
-			},
 			{
 				"label": "10/30",
 				"full": "2026-10-30",
@@ -101,59 +96,64 @@
 				"label": "11/11",
 				"full": "2026-11-11",
 				"value": 17
+			},
+			{
+				"label": "11/12",
+				"full": "2026-11-12",
+				"value": 30
 			}
 		],
 		"top_pages": [
 			{
 				"label": "トップページ",
-				"value": 19,
+				"value": 23,
 				"full": "/ と /index.html"
 			},
 			{
 				"label": "メニュー",
-				"value": 3,
+				"value": 16,
 				"full": "/menu.html"
 			},
 			{
 				"label": "お店について",
-				"value": 2,
+				"value": 6,
 				"full": "/about.html"
 			},
 			{
-				"label": "おはよう朝日です紹介記事",
-				"value": 2,
-				"full": "/news/2026/06/02/ohaasa-kaiou-gyoza/"
+				"label": "Acid Black Cherry 19周年の記事",
+				"value": 5,
+				"full": "/news/2026/07/18/abc19/"
 			},
 			{
-				"label": "ご注文",
-				"value": 2,
-				"full": "/order.html"
+				"label": "おいしい餃子の焼き方",
+				"value": 4,
+				"full": "/howto.html"
 			}
 		],
 		"channels": [
 			{
 				"label": "直接アクセス",
-				"value": 10,
+				"value": 12,
 				"full": "(direct) / (none)"
 			},
 			{
 				"label": "Google検索",
-				"value": 5,
+				"value": 11,
 				"full": "google / organic"
 			},
 			{
-				"label": "Facebook",
+				"label": "Bing検索",
 				"value": 2,
-				"full": "facebook.com / referral と m.facebook.com / referral"
+				"full": "bing / organic"
 			},
 			{
-				"label": "不明",
+				"label": "Instagram",
 				"value": 2,
-				"full": "(not set)"
+				"full": "l.instagram.com / referral"
 			},
 			{
 				"label": "Yahoo検索",
-				"value": 1,
+				"value": 2,
 				"full": "yahoo / organic"
 			}
 		]
