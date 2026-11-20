@@ -43,7 +43,7 @@ body{font-family:'Helvetica Neue','Hiragino Sans','Yu Gothic UI',Arial,sans-seri
     <div class="error-msg" id="errMsg">IDまたはパスワードが違います。</div>
     <div class="form-group">
       <label>スタッフID</label>
-      <input type="text" id="loginId" placeholder="例：fusa" autocomplete="username">
+      <input type="text" id="loginId" placeholder="例：fusa" autocomplete="username" autocapitalize="none" autocorrect="off" spellcheck="false">
     </div>
     <div class="form-group">
       <label>パスワード</label>
@@ -84,6 +84,26 @@ function _applyDb(db){
     }
   });
   if(useFirebase&&db._v)localStorage.setItem('pekin_db_v',String(Math.max(remoteV,localV)));
+  _fillUserHashes(db);
+}
+
+/* 端末に残ったユーザー一覧にパスワード情報が欠けていれば、取得元の情報で補う（追加のみ・削除しない） */
+function _fillUserHashes(db){
+  try{
+    if(!db||!db.pekin_users)return;
+    const rem=typeof db.pekin_users==='string'?JSON.parse(db.pekin_users):db.pekin_users;
+    const loc=JSON.parse(localStorage.getItem('pekin_users')||'null');
+    if(!Array.isArray(rem)||!Array.isArray(loc))return;
+    let changed=false;
+    rem.forEach(r=>{
+      const u=loc.find(x=>x.username===r.username);
+      if(!u){loc.push(r);changed=true;return;}
+      if(!(u.passwordHash&&u.passwordSalt)&&r.passwordHash&&r.passwordSalt){
+        u.passwordHash=r.passwordHash;u.passwordSalt=r.passwordSalt;changed=true;
+      }
+    });
+    if(changed)localStorage.setItem('pekin_users',JSON.stringify(loc));
+  }catch(e){}
 }
 
 /* バックグラウンド同期 + セッション残存時は自動リダイレクト */
@@ -149,13 +169,13 @@ function setSession(u){
    4) スタッフ（admin以外）はマスターパスワードでも可
    平文が消えても 1) で動作する。*/
 async function doLogin(){
-  const id=document.getElementById('loginId').value.trim();
+  const id=document.getElementById('loginId').value.trim().toLowerCase();
   const pw=document.getElementById('loginPw').value;
   const users=getUsers();
   const masterPw=localStorage.getItem('pekin_master_pw')||'';
   let matched=null;
   for(const x of users){
-    if(x.username!==id)continue;
+    if(String(x.username||'').toLowerCase()!==id)continue;
     let ok=false;
     /* 本人がパスワードを変更済みなら、変更後のパスワードだけを受け付ける
        （初期パスワードではログインできない） */
