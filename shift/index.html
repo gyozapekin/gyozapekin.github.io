@@ -55,6 +55,7 @@ body{font-family:'Helvetica Neue','Hiragino Sans','Yu Gothic UI',Arial,sans-seri
 
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
 <script>
 /* -- FIREBASE 設定 -- */
 const _fbCfg={
@@ -107,7 +108,14 @@ function _fillUserHashes(db){
 }
 
 /* バックグラウンド同期 + セッション残存時は自動リダイレクト */
-(async function syncAndRedirect(){
+const _syncP=(async function syncAndRedirect(){
+  /* スタッフ画面と同じく匿名サインインしてから読む（最新のユーザー情報をFirebaseから取得するため） */
+  try{
+    await Promise.race([
+      firebase.auth().signInAnonymously(),
+      new Promise((_,rej)=>setTimeout(()=>rej(new Error('auth timeout')),4000))
+    ]);
+  }catch(e){console.warn('anonAuth:',e);}
   try{
     const snap=await Promise.race([
       _fbDb.ref('pekin/db').get(),
@@ -169,6 +177,8 @@ function setSession(u){
    4) スタッフ（admin以外）はマスターパスワードでも可
    平文が消えても 1) で動作する。*/
 async function doLogin(){
+  /* 最新のユーザー情報の取得が終わるまで少し待つ（最大8秒） */
+  try{await Promise.race([_syncP,new Promise(r=>setTimeout(r,8000))]);}catch(e){}
   const id=document.getElementById('loginId').value.trim().toLowerCase();
   const pw=document.getElementById('loginPw').value;
   const users=getUsers();
