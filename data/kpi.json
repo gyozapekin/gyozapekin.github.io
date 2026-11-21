@@ -1,77 +1,37 @@
 {
-	"updated_at": "2026-11-13T10:03:00+09:00",
-	"updated_label": "2026-11-13 10:03",
+	"updated_at": "2026-11-21T10:03:00+09:00",
+	"updated_label": "2026-11-21 10:03",
 	"hp": {
 		"status": "ok",
-		"message": "11月12日(木)の実績。前週の同じ曜日(11月5日)との比較つき。14日推移のうち10月30日から11月11日は前回までの取得値を引き継ぎ。",
+		"message": "11月20日(金)の実績。前週の同じ曜日(11月13日)との比較つき。取得は21日朝のため前日分が確定前の可能性あり(ユーザー8人と少なめ)。14日推移のうち11月7日から11月19日は前回までの取得値を引き継ぎ(11月13日は今回再確認して一致)。",
 		"source": {
-			"as_of": "2026-11-12",
+			"as_of": "2026-11-20",
 			"note": "Googleアナリティクス"
 		},
 		"yesterday": {
-			"users": 30,
+			"users": 8,
 			"users_delta": {
-				"pct": 42.86,
+				"pct": -50.0,
 				"label": "前週同曜日比"
 			},
-			"sessions": 32,
+			"sessions": 8,
 			"sessions_delta": {
-				"pct": 23.08,
+				"pct": -61.9,
 				"label": "前週同曜日比"
 			},
-			"pageviews": 65,
+			"pageviews": 17,
 			"pageviews_delta": {
-				"pct": 12.07,
+				"pct": -41.38,
 				"label": "前週同曜日比"
 			},
-			"avg_engagement_sec": 45,
+			"avg_engagement_sec": 36,
 			"avg_engagement_delta": {
-				"pct": 4.65,
+				"pct": 176.92,
 				"label": "前週同曜日比"
 			},
-			"compare_date": "2026-11-05"
+			"compare_date": "2026-11-13"
 		},
 		"trend": [
-			{
-				"label": "10/30",
-				"full": "2026-10-30",
-				"value": 19
-			},
-			{
-				"label": "10/31",
-				"full": "2026-10-31",
-				"value": 17
-			},
-			{
-				"label": "11/1",
-				"full": "2026-11-01",
-				"value": 25
-			},
-			{
-				"label": "11/2",
-				"full": "2026-11-02",
-				"value": 16
-			},
-			{
-				"label": "11/3",
-				"full": "2026-11-03",
-				"value": 20
-			},
-			{
-				"label": "11/4",
-				"full": "2026-11-04",
-				"value": 16
-			},
-			{
-				"label": "11/5",
-				"full": "2026-11-05",
-				"value": 21
-			},
-			{
-				"label": "11/6",
-				"full": "2026-11-06",
-				"value": 26
-			},
 			{
 				"label": "11/7",
 				"full": "2026-11-07",
@@ -101,60 +61,90 @@
 				"label": "11/12",
 				"full": "2026-11-12",
 				"value": 30
+			},
+			{
+				"label": "11/13",
+				"full": "2026-11-13",
+				"value": 16
+			},
+			{
+				"label": "11/14",
+				"full": "2026-11-14",
+				"value": 12
+			},
+			{
+				"label": "11/15",
+				"full": "2026-11-15",
+				"value": 16
+			},
+			{
+				"label": "11/16",
+				"full": "2026-11-16",
+				"value": 20
+			},
+			{
+				"label": "11/17",
+				"full": "2026-11-17",
+				"value": 17
+			},
+			{
+				"label": "11/18",
+				"full": "2026-11-18",
+				"value": 7
+			},
+			{
+				"label": "11/19",
+				"full": "2026-11-19",
+				"value": 22
+			},
+			{
+				"label": "11/20",
+				"full": "2026-11-20",
+				"value": 8
 			}
 		],
 		"top_pages": [
 			{
 				"label": "トップページ",
-				"value": 23,
-				"full": "/ と /index.html"
+				"value": 9,
+				"full": "/"
+			},
+			{
+				"label": "トップページ(index.html)",
+				"value": 3,
+				"full": "/index.html"
 			},
 			{
 				"label": "メニュー",
-				"value": 16,
+				"value": 3,
 				"full": "/menu.html"
 			},
 			{
-				"label": "お店について",
-				"value": 6,
-				"full": "/about.html"
+				"label": "餃子の焼き方(英語版)",
+				"value": 1,
+				"full": "/en/howto.html"
 			},
 			{
-				"label": "Acid Black Cherry 19周年の記事",
-				"value": 5,
-				"full": "/news/2026/07/18/abc19/"
-			},
-			{
-				"label": "おいしい餃子の焼き方",
-				"value": 4,
-				"full": "/howto.html"
+				"label": "通販・お取り寄せ",
+				"value": 1,
+				"full": "/order.html"
 			}
 		],
 		"channels": [
 			{
 				"label": "直接アクセス",
-				"value": 12,
+				"value": 6,
 				"full": "(direct) / (none)"
 			},
 			{
 				"label": "Google検索",
-				"value": 11,
+				"value": 1,
 				"full": "google / organic"
 			},
 			{
-				"label": "Bing検索",
-				"value": 2,
-				"full": "bing / organic"
-			},
-			{
 				"label": "Instagram",
-				"value": 2,
-				"full": "l.instagram.com / referral"
-			},
-			{
-				"label": "Yahoo検索",
-				"value": 2,
-				"full": "yahoo / organic"
+				"value": 1,
+				"full": "ig / social"
 			}
 		]
 	},
