@@ -8,6 +8,12 @@ image: /images/seniorfg-01-atsui.png
 image_caption: "いま熱い！ジャパンツアー シニア"
 ---
 
+## 動画で見る、北京ちゃんの紙芝居
+
+<div style="position:relative;padding-bottom:177.78%;height:0;max-width:340px;margin:10px auto;border-radius:14px;overflow:hidden;">
+  <iframe src="https://www.youtube.com/embed/tv20mkkb8xs" title="いま、フットゴルフのシニアがおもろい｜海鮮餃子 北京" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>
+</div>
+
 **本日の品書き**
 
 - お通し　フットゴルフってなに？
