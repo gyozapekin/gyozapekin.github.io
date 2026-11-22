@@ -1,42 +1,37 @@
 {
-	"updated_at": "2026-11-21T10:03:00+09:00",
-	"updated_label": "2026-11-21 10:03",
+	"updated_at": "2026-11-22T10:03:00+09:00",
+	"updated_label": "2026-11-22 10:03",
 	"hp": {
 		"status": "ok",
-		"message": "11月20日(金)の実績。前週の同じ曜日(11月13日)との比較つき。取得は21日朝のため前日分が確定前の可能性あり(ユーザー8人と少なめ)。14日推移のうち11月7日から11月19日は前回までの取得値を引き継ぎ(11月13日は今回再確認して一致)。",
+		"message": "11月21日(土)の実績。前週の同じ曜日(11月14日)との比較つき。取得は22日朝のため前日分が確定前の可能性あり。14日推移のうち11月8日から11月20日は前回までの取得値を引き継ぎ(11月14日と11月20日は今回再確認して一致)。",
 		"source": {
-			"as_of": "2026-11-20",
+			"as_of": "2026-11-21",
 			"note": "Googleアナリティクス"
 		},
 		"yesterday": {
-			"users": 8,
+			"users": 16,
 			"users_delta": {
-				"pct": -50.0,
+				"pct": 33.33,
 				"label": "前週同曜日比"
 			},
-			"sessions": 8,
+			"sessions": 21,
 			"sessions_delta": {
-				"pct": -61.9,
+				"pct": 31.25,
 				"label": "前週同曜日比"
 			},
-			"pageviews": 17,
+			"pageviews": 27,
 			"pageviews_delta": {
-				"pct": -41.38,
+				"pct": -22.86,
 				"label": "前週同曜日比"
 			},
-			"avg_engagement_sec": 36,
+			"avg_engagement_sec": 38,
 			"avg_engagement_delta": {
-				"pct": 176.92,
+				"pct": -51.28,
 				"label": "前週同曜日比"
 			},
-			"compare_date": "2026-11-13"
+			"compare_date": "2026-11-14"
 		},
 		"trend": [
-			{
-				"label": "11/7",
-				"full": "2026-11-07",
-				"value": 31
-			},
 			{
 				"label": "11/8",
 				"full": "2026-11-08",
@@ -101,6 +96,11 @@
 				"label": "11/20",
 				"full": "2026-11-20",
 				"value": 8
+			},
+			{
+				"label": "11/21",
+				"full": "2026-11-21",
+				"value": 16
 			}
 		],
 		"top_pages": [
@@ -111,40 +111,40 @@
 			},
 			{
 				"label": "トップページ(index.html)",
-				"value": 3,
+				"value": 9,
 				"full": "/index.html"
 			},
 			{
 				"label": "メニュー",
-				"value": 3,
+				"value": 4,
 				"full": "/menu.html"
 			},
 			{
-				"label": "餃子の焼き方(英語版)",
-				"value": 1,
-				"full": "/en/howto.html"
+				"label": "Acid Black Cherry 19周年の記事",
+				"value": 3,
+				"full": "/news/2026/07/18/abc19/"
 			},
 			{
-				"label": "通販・お取り寄せ",
+				"label": "お店について",
 				"value": 1,
-				"full": "/order.html"
+				"full": "/about.html"
 			}
 		],
 		"channels": [
 			{
-				"label": "直接アクセス",
-				"value": 6,
-				"full": "(direct) / (none)"
-			},
-			{
 				"label": "Google検索",
-				"value": 1,
+				"value": 10,
 				"full": "google / organic"
 			},
 			{
-				"label": "Instagram",
-				"value": 1,
-				"full": "ig / social"
+				"label": "直接アクセス",
+				"value": 9,
+				"full": "(direct) / (none)"
+			},
+			{
+				"label": "Yahoo検索",
+				"value": 2,
+				"full": "yahoo / organic"
 			}
 		]
 	},
