@@ -1,42 +1,37 @@
 {
-	"updated_at": "2026-11-23T10:03:00+09:00",
-	"updated_label": "2026-11-23 10:03",
+	"updated_at": "2026-11-24T10:02:00+09:00",
+	"updated_label": "2026-11-24 10:02",
 	"hp": {
 		"status": "ok",
-		"message": "11月22日(日)の実績。前週の同じ曜日(11月15日)との比較つき。取得は23日朝のため前日分が確定前の可能性あり。14日推移のうち11月9日から11月21日は前回までの取得値を引き継ぎ(11月15日は今回の比較値16と一致)。",
+		"message": "11月23日(月・祝)の実績。前週の同じ曜日(11月16日)との比較つき。取得は24日朝のため前日分が確定前の可能性あり。14日推移のうち11月10日から11月22日は前回までの取得値を引き継ぎ(11月16日は今回の比較値20と一致)。",
 		"source": {
-			"as_of": "2026-11-22",
+			"as_of": "2026-11-23",
 			"note": "Googleアナリティクス"
 		},
 		"yesterday": {
-			"users": 26,
+			"users": 53,
 			"users_delta": {
-				"pct": 62.5,
+				"pct": 165.0,
 				"label": "前週同曜日比"
 			},
-			"sessions": 29,
+			"sessions": 54,
 			"sessions_delta": {
-				"pct": 45.0,
+				"pct": 157.14,
 				"label": "前週同曜日比"
 			},
-			"pageviews": 43,
+			"pageviews": 92,
 			"pageviews_delta": {
-				"pct": 53.57,
+				"pct": 155.56,
 				"label": "前週同曜日比"
 			},
-			"avg_engagement_sec": 23,
+			"avg_engagement_sec": 37,
 			"avg_engagement_delta": {
-				"pct": -53.71,
+				"pct": -12.04,
 				"label": "前週同曜日比"
 			},
-			"compare_date": "2026-11-15"
+			"compare_date": "2026-11-16"
 		},
 		"trend": [
-			{
-				"label": "11/9",
-				"full": "2026-11-09",
-				"value": 16
-			},
 			{
 				"label": "11/10",
 				"full": "2026-11-10",
@@ -101,60 +96,65 @@
 				"label": "11/22",
 				"full": "2026-11-22",
 				"value": 26
+			},
+			{
+				"label": "11/23",
+				"full": "2026-11-23",
+				"value": 53
 			}
 		],
 		"top_pages": [
 			{
 				"label": "トップページ",
-				"value": 18,
+				"value": 30,
 				"full": "/"
 			},
 			{
+				"label": "お知らせ シニアフットゴルフの記事",
+				"value": 28,
+				"full": "/news/2026/11/23/senior-footgolf/"
+			},
+			{
 				"label": "トップページ(index.html)",
-				"value": 9,
+				"value": 8,
 				"full": "/index.html"
 			},
 			{
-				"label": "お店について",
-				"value": 4,
-				"full": "/about.html"
-			},
-			{
 				"label": "メニュー",
-				"value": 4,
+				"value": 8,
 				"full": "/menu.html"
 			},
 			{
-				"label": "お問い合わせ",
-				"value": 2,
-				"full": "/contact.html"
+				"label": "通販・ご注文",
+				"value": 6,
+				"full": "/order.html"
 			}
 		],
 		"channels": [
 			{
 				"label": "直接アクセス",
-				"value": 16,
+				"value": 17,
 				"full": "(direct) / (none)"
 			},
 			{
 				"label": "Google検索",
-				"value": 6,
+				"value": 12,
 				"full": "google / organic"
 			},
 			{
-				"label": "Yahoo検索",
-				"value": 3,
-				"full": "yahoo / organic"
+				"label": "Instagram(リンク経由)",
+				"value": 7,
+				"full": "l.instagram.com / referral"
 			},
 			{
-				"label": "Instagram",
-				"value": 2,
-				"full": "ig / social"
+				"label": "X(t.co経由)",
+				"value": 7,
+				"full": "t.co / referral"
 			},
 			{
-				"label": "Facebook",
-				"value": 1,
-				"full": "facebook.com / referral"
+				"label": "X",
+				"value": 5,
+				"full": "x / social"
 			}
 		]
 	},
