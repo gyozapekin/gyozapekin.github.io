@@ -1,42 +1,37 @@
 {
-	"updated_at": "2026-11-24T10:02:00+09:00",
-	"updated_label": "2026-11-24 10:02",
+	"updated_at": "2026-11-25T10:02:00+09:00",
+	"updated_label": "2026-11-25 10:02",
 	"hp": {
 		"status": "ok",
-		"message": "11月23日(月・祝)の実績。前週の同じ曜日(11月16日)との比較つき。取得は24日朝のため前日分が確定前の可能性あり。14日推移のうち11月10日から11月22日は前回までの取得値を引き継ぎ(11月16日は今回の比較値20と一致)。",
+		"message": "11月24日(火)の実績。前週の同じ曜日(11月17日)との比較つき。取得は25日朝のため前日分が確定前の可能性あり。14日推移のうち11月11日から11月23日は前回までの取得値を引き継ぎ(11月17日は今回の比較値17と一致)。",
 		"source": {
-			"as_of": "2026-11-23",
+			"as_of": "2026-11-24",
 			"note": "Googleアナリティクス"
 		},
 		"yesterday": {
-			"users": 53,
+			"users": 31,
 			"users_delta": {
-				"pct": 165.0,
+				"pct": 82.35,
 				"label": "前週同曜日比"
 			},
-			"sessions": 54,
+			"sessions": 35,
 			"sessions_delta": {
-				"pct": 157.14,
+				"pct": 84.21,
 				"label": "前週同曜日比"
 			},
-			"pageviews": 92,
+			"pageviews": 37,
 			"pageviews_delta": {
-				"pct": 155.56,
+				"pct": 15.63,
 				"label": "前週同曜日比"
 			},
-			"avg_engagement_sec": 37,
+			"avg_engagement_sec": 7,
 			"avg_engagement_delta": {
-				"pct": -12.04,
+				"pct": -80.07,
 				"label": "前週同曜日比"
 			},
-			"compare_date": "2026-11-16"
+			"compare_date": "2026-11-17"
 		},
 		"trend": [
-			{
-				"label": "11/10",
-				"full": "2026-11-10",
-				"value": 18
-			},
 			{
 				"label": "11/11",
 				"full": "2026-11-11",
@@ -101,39 +96,44 @@
 				"label": "11/23",
 				"full": "2026-11-23",
 				"value": 53
+			},
+			{
+				"label": "11/24",
+				"full": "2026-11-24",
+				"value": 31
 			}
 		],
 		"top_pages": [
 			{
 				"label": "トップページ",
-				"value": 30,
+				"value": 16,
 				"full": "/"
 			},
 			{
 				"label": "お知らせ シニアフットゴルフの記事",
-				"value": 28,
+				"value": 7,
 				"full": "/news/2026/11/23/senior-footgolf/"
 			},
 			{
-				"label": "トップページ(index.html)",
-				"value": 8,
-				"full": "/index.html"
-			},
-			{
 				"label": "メニュー",
-				"value": 8,
+				"value": 5,
 				"full": "/menu.html"
 			},
 			{
-				"label": "通販・ご注文",
-				"value": 6,
-				"full": "/order.html"
+				"label": "お知らせ(2026年6月2日 おはあさの記事)",
+				"value": 5,
+				"full": "/news/2026/06/02/ohaasa-kaiou-gyoza/"
+			},
+			{
+				"label": "お知らせ(2026年7月18日 ABC)",
+				"value": 2,
+				"full": "/news/2026/07/18/abc19/"
 			}
 		],
 		"channels": [
 			{
 				"label": "直接アクセス",
-				"value": 17,
+				"value": 14,
 				"full": "(direct) / (none)"
 			},
 			{
@@ -142,19 +142,19 @@
 				"full": "google / organic"
 			},
 			{
-				"label": "Instagram(リンク経由)",
-				"value": 7,
-				"full": "l.instagram.com / referral"
-			},
-			{
 				"label": "X(t.co経由)",
-				"value": 7,
+				"value": 5,
 				"full": "t.co / referral"
 			},
 			{
-				"label": "X",
-				"value": 5,
-				"full": "x / social"
+				"label": "Instagram",
+				"value": 1,
+				"full": "ig / social"
+			},
+			{
+				"label": "docomoのサイト経由",
+				"value": 1,
+				"full": "service.smt.docomo.ne.jp / referral"
 			}
 		]
 	},
