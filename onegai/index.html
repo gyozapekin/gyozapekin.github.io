@@ -79,6 +79,7 @@ h2.sec small{font-size:13px;color:var(--sub);font-weight:400}
 .conn.ok{color:var(--ok)}
 .conn.ng{color:var(--red);font-weight:600}
 .addrow{padding:4px 0 10px}
+.badge-done{display:inline-block;font-size:13px;font-weight:700;color:#fff;background:var(--ok);border-radius:4px;padding:1px 10px}
 </style>
 </head>
 <body>
@@ -124,15 +125,22 @@ function toast(m){ const t = document.getElementById("toast"); t.textContent = m
 /* ---------- Firebase ---------- */
 const IS_DEV = (location.hostname.indexOf("gyozapekin2.") === 0) || location.hostname === "localhost" || location.protocol === "file:";
 const NS = IS_DEV ? "pekin/onegai_dev" : "pekin/onegai";
-let ref = null;
+let ref = null, auth = null, owner = false;
+const OWNERS = ["kaisen.gyoza.pekin@gmail.com", "amicitiaad@gmail.com"];
 try {
   firebase.initializeApp({apiKey:"AIzaSyBygnsi6cByYRZigxlhR7d0ydVfpFGx8FQ",databaseURL:"https://pekin-shift-default-rtdb.asia-southeast1.firebasedatabase.app",projectId:"pekin-shift",appId:"1:600393805417:web:126fb18e1c5b64fc677cf8"}, "onegai");
   const app = firebase.app("onegai");
   const db = app.database();
   ref = db.ref(NS + "/t");
-  app.auth().signInAnonymously().catch(e => console.warn("auth", e)).finally(() => {
-    ref.on("value", snap => { applyRemote(snap.val() || {}); }, err => { online = false; conn(); console.warn(err); });
+  auth = app.auth();
+  ref.on("value", snap => { applyRemote(snap.val() || {}); }, err => { online = false; conn(); console.warn(err); });
+  auth.onAuthStateChanged(u => {
+    const ok = !!(u && u.email && OWNERS.includes(u.email.toLowerCase()));
+    if (u && !ok) { toast("このアカウントでは編集できません"); auth.signOut(); }
+    owner = ok; if (!owner) editMode = false;
+    const y = window.scrollY; renderAll(false); window.scrollTo(0, y);
   });
+  auth.getRedirectResult().catch(e => { console.warn(e); });
   db.ref(".info/connected").on("value", s => { online = !!s.val(); conn(); });
 } catch(e) { console.warn("firebase", e); online = false; }
 
@@ -148,6 +156,7 @@ function applyRemote(remote){
   patchView();
 }
 function save(t){
+  if (!owner) { toast("見るだけのページです（編集は社長のみ）"); return; }
   if (!ref) { toast("保存できません（通信を確認してください）"); return; }
   const o = {}; FIELDS.forEach(f => { o[f] = t[f] == null ? "" : t[f]; }); o.at = Date.now();
   pending++; conn();
@@ -159,7 +168,7 @@ function conn(){
   const el = document.getElementById("conn"); if (!el) return;
   if (online === false) { el.className = "conn ng"; el.textContent = "オフライン（保存されていません）"; }
   else if (pending > 0) { el.className = "conn"; el.textContent = "保存中…"; }
-  else if (online) { el.className = "conn ok"; el.textContent = "保存済み・自動で同期中"; }
+  else if (online) { el.className = "conn ok"; el.textContent = owner ? "保存済み・自動で同期中" : "最新の内容を表示中"; }
   else { el.className = "conn"; el.textContent = "接続中…"; }
 }
 
@@ -168,10 +177,17 @@ function renderTabs(){
   const cnt = k => k === "全部" ? TASKS.length : TASKS.filter(t => t.who === k).length;
   let h = PEOPLE.map(p => `<button class="tab ${filter===p.key?'on':''}" data-h="${p.hash}">${p.key}<b>${cnt(p.key)}</b></button>`).join("");
   h += `<span class="spacer"></span><span class="conn" id="conn"></span>`;
-  h += `<button class="btn ${editMode ? "" : "ghost"}" id="edit">${editMode ? "編集を終える" : "内容を編集する"}</button>`;
+  if (owner) {
+    h += `<button class="btn ${editMode ? "" : "ghost"}" id="edit">${editMode ? "編集を終える" : "内容を編集する"}</button>`;
+    h += `<button class="btn ghost" id="logout">ログアウト</button>`;
+  } else {
+    h += `<button class="btn ghost" id="login">社長ログイン</button>`;
+  }
   document.getElementById("tabs").innerHTML = h;
   document.querySelectorAll(".tab").forEach(b => b.onclick = () => { location.hash = b.dataset.h; });
-  document.getElementById("edit").onclick = () => { editMode = !editMode; renderAll(false); };
+  const ed = document.getElementById("edit"); if (ed) ed.onclick = () => { editMode = !editMode; const y = window.scrollY; renderAll(false); window.scrollTo(0, y); };
+  const lo = document.getElementById("logout"); if (lo) lo.onclick = () => { if (auth) auth.signOut(); };
+  const li = document.getElementById("login"); if (li) li.onclick = login;
   conn();
 }
 function cardHTML(t){
@@ -188,8 +204,11 @@ function cardHTML(t){
     <p class="place" data-f="place"${ce}>${esc(t.place)}</p>
     <p class="task" data-f="task"${ce}>${esc(t.task)}</p>
     <p class="memo" data-f="memo"${ce}>${esc(t.memo)}</p>
-    ${rule ? "" : `<div class="done-row"><input type="checkbox" id="d${esc(t.id)}" data-done ${t.done?"checked":""}><label for="d${esc(t.id)}">完了</label></div>`}
-    <textarea class="report" data-note rows="1" placeholder="報告・コメント（終わった日、困ったことなど）">${esc(t.note)}</textarea>
+    ${owner
+      ? (rule ? "" : `<div class="done-row"><input type="checkbox" id="d${esc(t.id)}" data-done ${t.done?"checked":""}><label for="d${esc(t.id)}">完了</label></div>`)
+        + `<textarea class="report" data-note rows="1" placeholder="報告・コメント（終わった日、困ったことなど）">${esc(t.note)}</textarea>`
+      : (t.done ? `<div class="done-row"><span class="badge-done">完了</span></div>` : "")
+        + (t.note ? `<p class="memo">報告・コメント：${esc(t.note)}</p>` : "")}
     <div class="assign">${as}</div></div></div>`;
 }
 function listFor(sec){
@@ -208,11 +227,13 @@ function renderGrid(){
     return `<h2 class="sec">${lab}<small>${left}${list.length}件</small></h2><div class="grid">${list.map(cardHTML).join("")}</div>${add}`;
   }).join("");
   g.innerHTML = html || `<p class="empty">この担当の作業はありません。</p>`;
-  document.getElementById("mode").textContent = editMode
+  document.getElementById("mode").textContent = !owner
+    ? "写真をタップすると大きく表示します。このページは見るだけです。終わった作業や気づいたことは、LINEで社長に報告してください。"
+    : editMode
     ? "編集中：場所・作業内容・メモの文字をクリックすると書き直せます。担当と優先度も変えられます。書いた内容は自動で保存されます。"
-    : "写真をタップすると大きく表示します。「完了」と「報告・コメント」はそのまま書き込めます。内容を直すときは「内容を編集する」を押してください。";
+    : "社長としてログイン中：「完了」と「報告・コメント」はそのまま書き込めます。内容を直すときは「内容を編集する」を押してください。";
   const foot = document.getElementById("foot");
-  foot.innerHTML = (filter === "全部" || filter === "対象外") ? "" :
+  foot.innerHTML = (!owner || filter === "全部" || filter === "対象外") ? "" :
     `<button class="btn ghost" id="copy">${esc(filter)}用のLINE文面をコピー</button><span class="status">このページのリンクと一緒に送ると便利です。</span>`;
   const c = document.getElementById("copy");
   if (c) c.onclick = async () => { try { await navigator.clipboard.writeText(lineText(filter)); toast("コピーしました"); } catch(e) { toast("コピーできませんでした"); } };
@@ -250,7 +271,7 @@ function lineText(k){
   s += `残り${ts.length}件です。写真と詳しい内容はこちらのページで見られます。\n${location.origin}${location.pathname}#${PEOPLE.find(p => p.key === k).hash}\n`;
   ts.forEach((t,i) => { s += `\n${i+1}. ${t.place}${t.prio==="高"?"（優先）":""}\n${t.task}\n`; });
   if (rs.length) { s += "\n毎回・定期の作業\n"; rs.forEach(t => { s += `・${t.freq}：${t.place}　${t.task}\n`; }); }
-  s += K ? "\nお見積りと日程のご相談をお願いいたします。" : "\n終わったら、ページの「完了」にチェックをお願いします。";
+  s += K ? "\nお見積りと日程のご相談をお願いいたします。" : "\n終わったら、LINEで報告をお願いします。";
   return s;
 }
 
@@ -293,6 +314,15 @@ grid.addEventListener("click", e => {
 grid.addEventListener("keydown", e => { if (e.key === "Enter" && e.target.matches("[data-f]")) { e.preventDefault(); e.target.blur(); } });
 document.getElementById("lb").onclick = () => document.getElementById("lb").classList.remove("show");
 window.addEventListener("hashchange", () => { filter = hashToFilter(); renderAll(true); });
+async function login(){
+  if (!auth) { toast("通信を確認してください"); return; }
+  const p = new firebase.auth.GoogleAuthProvider(); p.setCustomParameters({prompt: "select_account"});
+  try { await auth.signInWithPopup(p); }
+  catch(e) {
+    if (e && /popup-blocked|operation-not-supported|popup-closed-by-browser/.test(e.code || "")) { auth.signInWithRedirect(p); }
+    else if (e && e.code !== "auth/popup-closed-by-user" && e.code !== "auth/cancelled-popup-request") { toast("ログインできませんでした"); console.warn(e); }
+  }
+}
 renderAll(false);
 }
 </script>
