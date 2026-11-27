@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>北京 作業場 お願いリスト</title>
+<style>
+:root{color-scheme:light;--ink:#1d1d1f;--sub:#6b6b70;--line:#e4e2dc;--bg:#f7f6f2;--card:#fff;
+--yasu:#b5523b;--hiro:#2f6f8f;--koji:#6a5a2e;--none:#8a8a8a;--red:#9b2c2c;--ok:#2f7a4a}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 "Hiragino Sans","Yu Gothic UI","Meiryo",system-ui,sans-serif;overflow-x:clip}
+header{background:#1f1d1a;color:#f3efe6;padding:20px max(4vw,16px) 16px}
+header h1{margin:0;font-size:clamp(20px,3vw,26px);line-height:1.3}
+header p{margin:6px 0 0;font-size:13.5px;color:#cfc8b8}
+.wrap{max-width:1180px;margin:0 auto;padding:0 max(3vw,12px)}
+.bar{position:sticky;top:0;z-index:5;background:rgba(247,246,242,.97);border-bottom:1px solid var(--line)}
+.bar .wrap{display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:10px max(3vw,12px)}
+.tab{border:1px solid var(--line);background:#fff;border-radius:999px;padding:8px 14px;font-size:15px;cursor:pointer;color:var(--ink);min-height:40px}
+.tab.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.tab b{font-weight:600;margin-left:5px}
+.spacer{flex:1}
+.btn{border:0;border-radius:8px;padding:9px 14px;font-size:14.5px;cursor:pointer;background:var(--ink);color:#fff;min-height:40px}
+.btn.ghost{background:#fff;color:var(--ink);border:1px solid var(--line)}
+.btn:disabled{opacity:.45;cursor:default}
+.btn:focus-visible,.tab:focus-visible{outline:3px solid #e8b84a;outline-offset:2px}
+.status{font-size:13px;color:var(--sub)}
+.status.dirty{color:var(--red);font-weight:600}
+.note{font-size:13.5px;color:var(--sub);margin:14px 0 0}
+h2.sec{font-size:18px;margin:24px 0 4px;display:flex;align-items:baseline;gap:10px}
+h2.sec small{font-size:13px;color:var(--sub);font-weight:400}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(330px,100%),1fr));gap:14px;padding:10px 0 8px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden;display:flex;flex-direction:column;border-top:5px solid var(--none)}
+.card[data-who="やすよさん"]{border-top-color:var(--yasu)}
+.card[data-who="ひろ"]{border-top-color:var(--hiro)}
+.card[data-who="工事屋さん"]{border-top-color:var(--koji)}
+.card[data-who="対象外"]{opacity:.55}
+.card.done{background:#f1f6f2}
+.card.done .place{text-decoration:line-through;text-decoration-color:#9bb8a4}
+.ph{display:grid;gap:2px;background:#ddd;grid-template-columns:repeat(3,1fr)}
+.ph.n1{grid-template-columns:1fr}.ph.n2{grid-template-columns:1fr 1fr}
+.ph img{width:100%;height:120px;object-fit:cover;display:block;cursor:zoom-in}
+.ph.n1 img{height:220px}.ph.n2 img{height:170px}
+.nophoto{padding:20px;text-align:center;color:var(--sub);font-size:13px;background:#f0eee8}
+.body{padding:12px 14px 14px;display:flex;flex-direction:column;gap:6px;flex:1}
+.top{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.no{font-weight:700;font-size:13px;color:var(--sub)}
+.prio{font-size:12px;border-radius:4px;padding:1px 7px;border:1px solid var(--line);color:var(--sub);background:#fff;font-family:inherit}
+.prio.高{border-color:var(--red);color:var(--red);font-weight:700}
+.freq{font-size:12.5px;font-weight:700;color:#fff;background:#1f1d1a;border-radius:4px;padding:2px 8px}
+.place{font-size:17px;font-weight:700;margin:0}
+.task{font-size:14.5px;margin:0}
+.memo{font-size:13px;color:var(--sub);margin:0}
+.edit [data-f]{border-radius:4px;cursor:text;outline:none}
+.edit [data-f]:hover{background:#f3f0e8}
+.edit [data-f]:focus{background:#fff8e6;box-shadow:0 0 0 2px #e8d9a8}
+.edit .memo:empty::before{content:"メモを追加";color:#b9b5aa}
+.done-row{display:flex;align-items:center;gap:8px;font-size:14px;margin-top:4px}
+.done-row input{width:20px;height:20px;accent-color:var(--ok)}
+.done-row label{cursor:pointer}
+.report{width:100%;min-height:44px;font:inherit;font-size:14px;border:1px solid var(--line);border-radius:8px;padding:8px 10px;background:#fbfaf7;resize:vertical}
+.report::placeholder{color:#aaa59a}
+.assign{display:none;gap:6px;flex-wrap:wrap;padding-top:8px;border-top:1px dashed var(--line)}
+.edit .assign{display:flex}
+.assign button{font:inherit;font-size:13.5px;border:1px solid var(--line);border-radius:999px;padding:5px 12px;cursor:pointer;background:#fff;color:var(--ink);min-height:36px}
+.assign button.on-yasu{background:var(--yasu);color:#fff;border-color:var(--yasu)}
+.assign button.on-hiro{background:var(--hiro);color:#fff;border-color:var(--hiro)}
+.assign button.on-koji{background:var(--koji);color:#fff;border-color:var(--koji)}
+.assign button.on-none{background:#ccc;color:#333;border-color:#ccc}
+.empty{color:var(--sub);padding:20px 0}
+.foot{padding:20px 0 50px;display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+#lb{position:fixed;inset:0;background:rgba(0,0,0,.88);display:none;align-items:center;justify-content:center;z-index:20}
+#lb.show{display:flex}
+#lb img{max-width:94vw;max-height:90vh}
+#toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#1f1d1a;color:#fff;padding:10px 16px;border-radius:8px;font-size:14px;display:none;z-index:30;max-width:90vw}
+@media(max-width:600px){.ph img{height:96px}.ph.n1 img{height:200px}.ph.n2 img{height:140px}}
+
+.conn{font-size:12.5px;color:var(--sub)}
+.conn.ok{color:var(--ok)}
+.conn.ng{color:var(--red);font-weight:600}
+.addrow{padding:4px 0 10px}
+</style>
+</head>
+<body>
+<header><div class="wrap">
+<h1>北京 作業場 お願いリスト</h1>
+<p>ひろ・やすよさん・工事屋さんへのお願いをまとめたページです。終わった作業には「完了」を付け、気づいたことは「報告・コメント」に書いてください。書いた内容はすぐ保存され、みんなの画面に反映されます。</p>
+</div></header>
+<div class="bar"><div class="wrap" id="tabs"></div></div>
+<div class="wrap">
+<p class="note" id="mode"></p>
+<div id="grid"></div>
+<div class="foot" id="foot"></div>
+</div>
+<div id="lb"><img alt=""></div>
+<div id="toast"></div>
+<script id="base" type="application/json">[{"id": 1, "who": "ひろ", "sec": "now", "place": "溝（排水溝）全体", "task": "溝の泥・ゴミをさらって洗い、たまり場のカゴ（網）を目の細かいものに交換する", "memo": "レイコさんの優先1番。グレーチング（蓋）を外して隅々まで。たまり場の網はもっと細かいものにしないとダメ。", "prio": "高", "freq": "", "photos": ["2070", "2136", "2142", "2141", "2048"]}, {"id": 2, "who": "ひろ", "sec": "now", "place": "上がり口 冷凍庫横の溝", "task": "蓋を両方外して下の泥をさらい、水で流す。冷凍庫の後ろの黒い汚れも洗い流す", "memo": "前回流した後もゴミと黒い汚れが残っている。", "prio": "高", "freq": "", "photos": ["2038", "2047", "2135", "2042", "2113"]}, {"id": 3, "who": "工事屋さん", "sec": "now", "place": "床を這っているホース", "task": "床を這っている緑のホース・切れたホースの始末（固定するか排水まで配管を整える）", "memo": "", "prio": "高", "freq": "", "photos": ["2092", "2121", "2122", "2132"]}, {"id": 4, "who": "やすよさん", "sec": "now", "place": "入口（勝手口）のレール", "task": "レールの左右・内側と外側の泥を落として洗う。掃除後もドアが重ければ戸車を調整", "memo": "レイコさんの優先3番。レールに泥がたまってドアが重い。", "prio": "高", "freq": "", "photos": ["2052", "2053", "2085", "2128"]}, {"id": 5, "who": "工事屋さん", "sec": "now", "place": "トイレ前の手洗い場", "task": "配置を変えてすっきりさせる。蛇口が端にあって水が横にこぼれるので、蛇口の位置変更または交換。小さい手洗いシンクを壁に固定する（壁が弱い場合の方法も相談）", "memo": "洗面器の汚れはこれ以上落ちないため、洗面器ごと交換するかも相談したいです。", "prio": "高", "freq": "", "photos": ["2037", "2140"]}, {"id": 6, "who": "やすよさん", "sec": "now", "place": "入口の植木（サボテン）", "task": "サボテンを入口のほうへ移動。枯れた植木は切るか抜く。砂入りの植木鉢（5個ほど）は捨てる", "memo": "植木鉢は捨ててよいと確認済み。", "prio": "中", "freq": "", "photos": ["2096", "2127", "2134"]}, {"id": 7, "who": "対象外", "sec": "now", "place": "入口外側のコンクリート", "task": "入口外側のコンクリートを洗う", "memo": "", "prio": "中", "freq": "", "photos": ["2095", "2134"]}, {"id": 8, "who": "工事屋さん", "sec": "now", "place": "入口の引き戸（すりガラス・下パネル）", "task": "ドアのパネルとガラスを磨く。すりガラスに残ったシール跡をはがす", "memo": "上のほうは手が届かないため、お願いしたいです。", "prio": "中", "freq": "", "photos": ["2115", "2116", "2117", "2118", "2114"]}, {"id": 9, "who": "やすよさん", "sec": "now", "place": "白いドア", "task": "白いドアを磨く", "memo": "", "prio": "中", "freq": "", "photos": ["2099", "2105"]}, {"id": 10, "who": "ひろ", "sec": "now", "place": "シンク下（ホース・壁）", "task": "ホースが出ている所のほこりを取り、壁の黒カビ・汚れを落とす", "memo": "", "prio": "高", "freq": "", "photos": ["2081", "2094", "2084", "2083"]}, {"id": 11, "who": "工事屋さん", "sec": "now", "place": "シンク下の錆びた台と枠", "task": "錆びた台（すのこ）と枠のペンキ塗り直し、または交換", "memo": "ペンキの塗り直しで済むか、交換が必要か相談したいです。", "prio": "中", "freq": "", "photos": ["2082", "2129", "2084"]}, {"id": 12, "who": "ひろ", "sec": "now", "place": "一番右の冷蔵庫の中", "task": "保冷剤などの中身をどかして、床と中を洗う", "memo": "冷蔵庫は床がまだ洗えていない。", "prio": "高", "freq": "", "photos": ["2069", "2086", "2088", "2089"]}, {"id": 13, "who": "ひろ", "sec": "now", "place": "冷蔵庫の下段（ラード缶の下）", "task": "ラード缶などを移動した後、下段を洗う", "memo": "", "prio": "中", "freq": "", "photos": ["2147", "2102", "2148", "2071"]}, {"id": 14, "who": "ひろ", "sec": "now", "place": "ラード缶・保冷剤の運搬", "task": "車のときにラード缶（1斗缶）と冷蔵庫の保冷剤を店に持っていく。ラード缶は不要なら捨てる", "memo": "", "prio": "中", "freq": "", "photos": ["2106", "2064"]}, {"id": 15, "who": "やすよさん", "sec": "now", "place": "梅干し", "task": "冷蔵庫の梅干しをどうするか社長に確認して処理する", "memo": "捨てる", "prio": "低", "freq": "", "photos": ["2065"]}, {"id": 16, "who": "ひろ", "sec": "now", "place": "台下冷蔵庫の上・包丁置き場", "task": "天板をきっちり磨く。器具を入れるなら前面もきれいに。包丁の置き場所を決める", "memo": "大和冷機が掃除済みだが、磨き上げが必要。", "prio": "高", "freq": "", "photos": ["2062", "2124"]}, {"id": 17, "who": "ひろ", "sec": "now", "place": "作業台の天板", "task": "天板の黒い汚れを落とす", "memo": "", "prio": "高", "freq": "", "photos": ["2058"]}, {"id": 18, "who": "ひろ", "sec": "now", "place": "冷蔵庫の扉・パッキン", "task": "扉とパッキンの汚れを磨く", "memo": "11/20打ち合わせ：まず歯ブラシで磨く。落ちなければキッチンペーパーにカビ取り剤を浸して1〜2時間置く。それでもだめなら外して洗い、付け直す。どうしても落ちなければ部品を買うので連絡ください。", "prio": "高", "freq": "", "photos": ["2101", "2111", "2104", "2112"]}, {"id": 19, "who": "対象外", "sec": "now", "place": "冷凍庫の下・後ろの床", "task": "床を洗うときに冷凍庫の後ろ・下もしっかり磨く", "memo": "レイコさんの優先5番。入口から見ると泥がたまって見える。", "prio": "高", "freq": "", "photos": ["2066", "2055", "2057"]}, {"id": 20, "who": "対象外", "sec": "now", "place": "冷凍庫の下の床防水", "task": "防水が冷凍庫の手前までしか施工されていない。冷凍庫の下まで追加施工", "memo": "無理でしょう", "prio": "中", "freq": "", "photos": ["2056", "2057", "2055"]}, {"id": 21, "who": "ひろ", "sec": "now", "place": "冷凍庫裏の壁際・電源コード", "task": "壁際の黒い汚れを洗い流す。垂れている電源コードを整理して固定する", "memo": "コードの固定や配線変更が必要なら工事屋さんへ。", "prio": "中", "freq": "", "photos": ["2039", "2043", "2054", "2063"]}, {"id": 22, "who": "やすよさん", "sec": "now", "place": "氷入れストッカー", "task": "電源を切って中の氷を溶かし、中を洗う。上面ももう一度拭く", "memo": "上面は一度拭いてあるが、もう一度。", "prio": "中", "freq": "", "photos": ["2103"]}, {"id": 23, "who": "ひろ", "sec": "now", "place": "湯沸かし器", "task": "鏡面になるまで磨く", "memo": "", "prio": "中", "freq": "", "photos": ["2030"]}, {"id": 24, "who": "ひろ", "sec": "now", "place": "電気盤", "task": "電気盤（板・機器まわり）を磨く", "memo": "", "prio": "中", "freq": "", "photos": ["2123"]}, {"id": 25, "who": "工事屋さん", "sec": "now", "place": "スイッチ・コンセントのカバー", "task": "スイッチとコンセントのカバーを交換する", "memo": "コンセントカバーは100均、スイッチホルダーは100均になくコーナン等。", "prio": "中", "freq": "", "photos": ["2059", "2150", "2078"]}, {"id": 26, "who": "やすよさん", "sec": "now", "place": "トイレ", "task": "トイレットペーパーホルダーを合うサイズで付け替える（今はかぶせただけ）。便器・床のカビ取り", "memo": "", "prio": "中", "freq": "", "photos": ["2146", "2139", "2144"]}, {"id": 27, "who": "ひろ", "sec": "now", "place": "厨房の床全体", "task": "床の足跡・汚れを洗う", "memo": "", "prio": "中", "freq": "", "photos": ["2061", "2137", "2090", "2041"]}, {"id": 28, "who": "ひろ", "sec": "now", "place": "シンク", "task": "シンクと排水口を洗う。中に置いたホースの置き方を整理する", "memo": "", "prio": "中", "freq": "", "photos": ["2080", "2130", "2131", "2133"]}, {"id": 29, "who": "ひろ", "sec": "now", "place": "作業台まわりの荷物（ひろの荷物）", "task": "ひろの荷物を分別・整理し、不要品は捨てる", "memo": "レイコさんから「博志の荷物だと思うので分別を」。", "prio": "中", "freq": "", "photos": ["2091", "2126", "2093", "2125", "2120", "2073", "2074"]}, {"id": 30, "who": "ひろ", "sec": "now", "place": "玄関に置いてあるひろの荷物", "task": "玄関に置いてある荷物を整理する", "memo": "", "prio": "中", "freq": "", "photos": ["2075", "2072", "2076"]}, {"id": 31, "who": "やすよさん", "sec": "now", "place": "黄色い看板（昔の北京の看板）", "task": "看板を捨てる", "memo": "「すてて下さい」の紙を貼ってある。", "prio": "中", "freq": "", "photos": ["2097", "2098", "2151"]}, {"id": 32, "who": "やすよさん", "sec": "now", "place": "ダミーの戸棚のドア・台車", "task": "看板の前にあるダミーの戸棚の木製ドアを移動する。台車はハイムに持っていく", "memo": "", "prio": "中", "freq": "", "photos": ["2145", "2152"]}, {"id": 33, "who": "ひろ", "sec": "now", "place": "冷蔵庫の中の段ボール・箱", "task": "段ボールや箱を整理して、使わない物は出す", "memo": "", "prio": "低", "freq": "", "photos": ["2100", "2107", "2110", "2087"]}, {"id": 34, "who": "ひろ", "sec": "now", "place": "棚のペットボトル・隅の汚れ", "task": "空のペットボトルを片付け、棚の奥の隅の汚れを拭く", "memo": "", "prio": "低", "freq": "", "photos": ["2067", "2079", "2138"]}, {"id": 35, "who": "対象外", "sec": "now", "place": "外の花壇・ガスメーターまわり", "task": "花壇の雑草・枯れ草を取る", "memo": "写真のみ送られてきた場所。内容は要確認。", "prio": "低", "freq": "", "photos": ["2143", "2051"]}, {"id": 36, "who": "工事屋さん", "sec": "now", "place": "パトロール電気看板", "task": "店のパトロール電気看板に穴を開ける", "memo": "写真なし。穴の位置は現地で相談させてください。", "prio": "中", "freq": "", "photos": []}, {"id": 37, "who": "ひろ", "sec": "now", "place": "見本を置く入れ物", "task": "見本を置いておく入れ物（ロット）を用意する", "memo": "レイコさんから「あれば教えてほしい」。写真なし。", "prio": "低", "freq": "", "photos": []}, {"id": 101, "who": "ひろ", "sec": "mtg", "place": "シンクの蛇口（レバーの配置）", "task": "どの配置・形が一番使いやすいか、手書きの絵を描いて写真で送る。ホースをつなぐ今の蛇口はそのまま、横に延長して首振りの蛇口を追加するイメージ", "memo": "この絵をもとに工事屋さんに頼みます。", "prio": "高", "freq": "", "photos": ["2131", "2130"]}, {"id": 102, "who": "ひろ", "sec": "mtg", "place": "まな板の漂白", "task": "黒ずんだまな板を漂白する。キッチンペーパーを敷いてキッチンハイターをかけ、1〜2時間置く。落ちなければ何回か繰り返す", "memo": "買い替えずに漂白で白くしたい。見た目が大事なので優先でお願いします。", "prio": "高", "freq": "", "photos": ["2124"]}, {"id": 103, "who": "ひろ", "sec": "mtg", "place": "作業場の荷物の整理（検査に向けて）", "task": "保健所の検査の時は、作業台の上・下、コンロまわりに何も置かない状態にする。持ち出す物を把握して、車に積めるようにまとめておく", "memo": "検査日が決まったらすぐ連絡します。最後の餃子を作った後に一時移動し、検査が終わったら元に戻します。", "prio": "高", "freq": "", "photos": ["2093", "2091"]}, {"id": 104, "who": "ひろ", "sec": "mtg", "place": "自分の作業場の仕上げ", "task": "冷蔵庫、ステンレス台、ミキサー・攪拌機・カッター、シンクなど、自分が使う所を保健所が通るレベルまで仕上げる。手が回らない大まかな所はやすよさんに手伝ってもらう", "memo": "目安は今から約2週間。置き場所や使い方はひろが決めてOK。必要な物があれば言ってください。", "prio": "高", "freq": "", "photos": ["2137", "2062"]}, {"id": 105, "who": "ひろ", "sec": "mtg", "place": "黒ずんだホースの交換", "task": "洗濯機の横に置いてある新しいホースに交換できるか確認して交換する。硬くて使えなければ捨てて、合うものを買う", "memo": "ドライバーなどの道具はホースのところのかごに入れてあります。", "prio": "中", "freq": "", "photos": ["2131", "2092"]}, {"id": 106, "who": "ひろ", "sec": "mtg", "place": "一番右の大きい冷蔵庫を収納に", "task": "検査の時に、油・コンテナ・大きいボウルなど外に出ている物を入れる収納として使えるか、置き方を考える", "memo": "作業台の右にキャビネットが付いたら、青いコンテナの調味料やボウルの置き場所も決めてください。", "prio": "中", "freq": "", "photos": ["2069", "2086"]}, {"id": 107, "who": "ひろ", "sec": "mtg", "place": "餃子の製造日を決めて共有", "task": "店の在庫を見ながら、製造する曜日・時間・量を決めてみんなに共有する。包んだ餃子は冷凍保存する方向", "memo": "", "prio": "中", "freq": "", "photos": []}, {"id": 108, "who": "ひろ", "sec": "mtg", "place": "契約書と確定申告の書類", "task": "お金の契約書の更新（6月で作って送ります）と、確定申告の書類を準備しておく", "memo": "", "prio": "低", "freq": "", "photos": []}, {"id": 109, "who": "やすよさん", "sec": "mtg", "place": "冷蔵庫の右側の残り", "task": "前回できなかった冷蔵庫の右側を掃除する。汚れを落としてからアルコールで拭き、終わったら扉を閉めて5℃以下まで冷やす", "memo": "次のお休みの日にお願いします。", "prio": "中", "freq": "", "photos": []}, {"id": 110, "who": "やすよさん", "sec": "mtg", "place": "ひろの手伝い（大まかな所）", "task": "ひろが手の回らない大まかな所や目立つ汚れの掃除を手伝う", "memo": "ひろの作業台まわりは、ひろが自分でやります。", "prio": "中", "freq": "", "photos": []}, {"id": 111, "who": "やすよさん", "sec": "mtg", "place": "掃除用品の精算", "task": "立て替えた掃除用品の金額を連絡する。モバイルオーダーの購入記録（PDF）をメールかLINEで送る", "memo": "", "prio": "中", "freq": "", "photos": []}, {"id": 112, "who": "やすよさん", "sec": "mtg", "place": "手袋の購入", "task": "動きやすい手袋（約1,000円）を試しに買う。領収書をもらう", "memo": "", "prio": "低", "freq": "", "photos": []}, {"id": 113, "who": "工事屋さん", "sec": "mtg", "place": "シンク2台それぞれに蛇口", "task": "2つあるシンクに、それぞれ水が出る蛇口を付ける", "memo": "以前お願いした内容が伝わっていなかったため、改めてお願いします。", "prio": "高", "freq": "", "photos": ["2130", "2133"]}, {"id": 114, "who": "工事屋さん", "sec": "mtg", "place": "シンクのレバー蛇口", "task": "レバーが壁に当たって最後まで回らず、水量が足りない。レバーの開始位置を10時くらいにする、または上下に動かすレバー式に変更。ホースをつなぐ側は今の蛇口を残し、横に延長して首振りの蛇口を追加", "memo": "使う人の手書きのイメージ図を後で送ります。", "prio": "高", "freq": "", "photos": ["2131"]}, {"id": 115, "who": "工事屋さん", "sec": "mtg", "place": "作業台右側のドア付きキャビネット", "task": "作業台の右側にドア付きキャビネットを設置する。冷蔵庫のドアを開けても当たらず、まな板にかぶらない大きさ", "memo": "寸法は測っていただいた状態です。既製品（ニトリなど）でも構いません。", "prio": "中", "freq": "", "photos": ["2093"]}, {"id": 116, "who": "ひろ", "sec": "rule", "place": "シンク（水槽）", "task": "シンクを洗う", "memo": "", "prio": "高", "freq": "毎回の作業の後", "photos": []}, {"id": 117, "who": "ひろ", "sec": "rule", "place": "溝（排水溝）", "task": "溝の掃除をする。グレーチング（蓋）を外してゴミ・泥をさらい、水で流す。たまり場のカゴのゴミも捨てる", "memo": "", "prio": "高", "freq": "毎回の作業・調理の後", "photos": []}, {"id": 118, "who": "ひろ", "sec": "rule", "place": "作業台・器具", "task": "作業台と器具を片付けて、作業台の上に物を置かない。生ゴミ・段ボールは放置せずに出す", "memo": "", "prio": "高", "freq": "毎回の作業の後", "photos": []}, {"id": 119, "who": "ひろ", "sec": "rule", "place": "冷蔵庫の中", "task": "中身を出して汚れを落とし、アルコールで拭く。パッキン・取っ手も拭く。終わったら扉を閉めて5℃以下に戻ったか確認する", "memo": "保健所に出すマニュアルにも入れます。", "prio": "高", "freq": "月に1回", "photos": []}, {"id": 120, "who": "ひろ", "sec": "rule", "place": "冷蔵庫の一番下の段", "task": "段ボールか新聞紙を敷いて、落ちたカスを受ける。汚れたら交換する", "memo": "保健所の検査の日だけは外して、ピカピカの状態にしてください。", "prio": "中", "freq": "汚れたら", "photos": []}, {"id": 121, "who": "ひろ", "sec": "rule", "place": "まな板", "task": "黒ずんできたら漂白する", "memo": "", "prio": "高", "freq": "黒ずんできたら", "photos": []}, {"id": 122, "who": "やすよさん", "sec": "rule", "place": "掃除の後の片付け", "task": "動かした物は元の場所に戻す。テーブルの上に洗剤やハイターなどを置かない", "memo": "", "prio": "中", "freq": "掃除のたび", "photos": []}, {"id": 123, "who": "やすよさん", "sec": "rule", "place": "買い物の記録", "task": "領収書をもらう（または購入記録を送る）", "memo": "", "prio": "中", "freq": "買い物のたび", "photos": []}]</script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+<script>
+{
+const BASE = JSON.parse(document.getElementById("base").textContent);
+let TASKS = BASE.map(t => Object.assign({done:false, note:""}, t));
+const PEOPLE = [
+  {key:"ひろ", hash:"hiro"}, {key:"やすよさん", hash:"yasuyo"}, {key:"工事屋さん", hash:"koji"},
+  {key:"対象外", hash:"none"}, {key:"全部", hash:"all"}
+];
+const WHO = ["ひろ","やすよさん","工事屋さん","対象外"];
+const CLS = {"ひろ":"on-hiro","やすよさん":"on-yasu","工事屋さん":"on-koji","対象外":"on-none"};
+const SECS = ["now","mtg","rule"];
+const LAB = {now:"今回お願いしたい作業", mtg:"11月20日の打ち合わせで決まったこと", rule:"毎回・定期の作業（ルール）"};
+const LABK = {now:"工事のお願い", mtg:"追加のお願い（設備）", rule:"定期"};
+const PO = {"高":0,"中":1,"低":2};
+const FIELDS = ["who","sec","place","task","memo","prio","freq","photos","done","note"];
+const esc = s => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const byId = id => TASKS.find(t => String(t.id) === String(id));
+
+let filter = "ひろ", editMode = false, online = null, pending = 0;
+function hashToFilter(){ const h = (location.hash || "").slice(1); const p = PEOPLE.find(p => p.hash === h); return p ? p.key : "ひろ"; }
+filter = hashToFilter();
+function toast(m){ const t = document.getElementById("toast"); t.textContent = m; t.style.display = "block"; clearTimeout(toast.h); toast.h = setTimeout(() => t.style.display = "none", 2600); }
+
+/* ---------- Firebase ---------- */
+const IS_DEV = (location.hostname.indexOf("gyozapekin2.") === 0) || location.hostname === "localhost" || location.protocol === "file:";
+const NS = IS_DEV ? "pekin/onegai_dev" : "pekin/onegai";
+let ref = null;
+try {
+  firebase.initializeApp({apiKey:"AIzaSyBygnsi6cByYRZigxlhR7d0ydVfpFGx8FQ",databaseURL:"https://pekin-shift-default-rtdb.asia-southeast1.firebasedatabase.app",projectId:"pekin-shift",appId:"1:600393805417:web:126fb18e1c5b64fc677cf8"}, "onegai");
+  const app = firebase.app("onegai");
+  const db = app.database();
+  ref = db.ref(NS + "/t");
+  app.auth().signInAnonymously().catch(e => console.warn("auth", e)).finally(() => {
+    ref.on("value", snap => { applyRemote(snap.val() || {}); }, err => { online = false; conn(); console.warn(err); });
+  });
+  db.ref(".info/connected").on("value", s => { online = !!s.val(); conn(); });
+} catch(e) { console.warn("firebase", e); online = false; }
+
+function applyRemote(remote){
+  const ids = new Set(TASKS.map(t => String(t.id)));
+  Object.keys(remote).forEach(id => {
+    const r = remote[id]; if (!r || typeof r !== "object") return;
+    let t = byId(id);
+    if (!t) { t = {id: isNaN(+id) ? id : +id, photos: [], done:false, note:""}; TASKS.push(t); }
+    FIELDS.forEach(f => { if (r[f] !== undefined) t[f] = r[f]; });
+    if (!Array.isArray(t.photos)) t.photos = [];
+  });
+  patchView();
+}
+function save(t){
+  if (!ref) { toast("保存できません（通信を確認してください）"); return; }
+  const o = {}; FIELDS.forEach(f => { o[f] = t[f] == null ? "" : t[f]; }); o.at = Date.now();
+  pending++; conn();
+  ref.child(String(t.id)).set(o).then(() => { pending--; conn(); }).catch(e => { pending--; conn(); toast("保存できませんでした。通信を確認してください"); console.warn(e); });
+}
+const timers = {};
+function saveLater(t, ms){ clearTimeout(timers[t.id]); timers[t.id] = setTimeout(() => save(t), ms); }
+function conn(){
+  const el = document.getElementById("conn"); if (!el) return;
+  if (online === false) { el.className = "conn ng"; el.textContent = "オフライン（保存されていません）"; }
+  else if (pending > 0) { el.className = "conn"; el.textContent = "保存中…"; }
+  else if (online) { el.className = "conn ok"; el.textContent = "保存済み・自動で同期中"; }
+  else { el.className = "conn"; el.textContent = "接続中…"; }
+}
+
+/* ---------- 表示 ---------- */
+function renderTabs(){
+  const cnt = k => k === "全部" ? TASKS.length : TASKS.filter(t => t.who === k).length;
+  let h = PEOPLE.map(p => `<button class="tab ${filter===p.key?'on':''}" data-h="${p.hash}">${p.key}<b>${cnt(p.key)}</b></button>`).join("");
+  h += `<span class="spacer"></span><span class="conn" id="conn"></span>`;
+  h += `<button class="btn ${editMode ? "" : "ghost"}" id="edit">${editMode ? "編集を終える" : "内容を編集する"}</button>`;
+  document.getElementById("tabs").innerHTML = h;
+  document.querySelectorAll(".tab").forEach(b => b.onclick = () => { location.hash = b.dataset.h; });
+  document.getElementById("edit").onclick = () => { editMode = !editMode; renderAll(false); };
+  conn();
+}
+function cardHTML(t){
+  const rule = t.sec === "rule", n = (t.photos || []).length;
+  const ph = rule ? "" : (n ? `<div class="ph n${Math.min(n,3)}">${t.photos.map(p => `<img loading="lazy" src="img/${encodeURIComponent(p)}.jpg" alt="写真">`).join("")}</div>` : `<div class="nophoto">写真なし</div>`);
+  const ce = editMode ? ` contenteditable="plaintext-only"` : "";
+  const top = rule ? `<span class="freq" data-f="freq"${ce}>${esc(t.freq)}</span>`
+    : `<span class="no">No.${esc(t.id)}</span>` + (editMode
+        ? `<select class="prio ${esc(t.prio)}" data-prio aria-label="優先度">${["高","中","低"].map(p => `<option ${t.prio===p?"selected":""}>${p}</option>`).join("")}</select>`
+        : `<span class="prio ${esc(t.prio)}">優先度 ${esc(t.prio)}</span>`);
+  const as = WHO.map(o => `<button type="button" data-who="${o}" class="${t.who===o?CLS[o]:''}">${o}</button>`).join("");
+  return `<div class="card${t.done?' done':''}" data-id="${esc(t.id)}" data-who="${esc(t.who)}">${ph}<div class="body">
+    <div class="top">${top}</div>
+    <p class="place" data-f="place"${ce}>${esc(t.place)}</p>
+    <p class="task" data-f="task"${ce}>${esc(t.task)}</p>
+    <p class="memo" data-f="memo"${ce}>${esc(t.memo)}</p>
+    ${rule ? "" : `<div class="done-row"><input type="checkbox" id="d${esc(t.id)}" data-done ${t.done?"checked":""}><label for="d${esc(t.id)}">完了</label></div>`}
+    <textarea class="report" data-note rows="1" placeholder="報告・コメント（終わった日、困ったことなど）">${esc(t.note)}</textarea>
+    <div class="assign">${as}</div></div></div>`;
+}
+function listFor(sec){
+  return TASKS.filter(t => t.sec === sec && (filter === "全部" || t.who === filter))
+    .sort((a,b) => (sec === "rule" ? 0 : (PO[a.prio]-PO[b.prio])) || (+a.id) - (+b.id));
+}
+function renderGrid(){
+  const g = document.getElementById("grid");
+  g.className = editMode ? "edit" : "";
+  const html = SECS.map(sec => {
+    const list = listFor(sec);
+    const add = editMode && filter !== "全部" && filter !== "対象外" ? `<div class="addrow"><button class="btn ghost" data-add="${sec}">この欄に作業を追加</button></div>` : "";
+    if (!list.length && !add) return "";
+    const lab = filter === "工事屋さん" ? LABK[sec] : LAB[sec];
+    const left = sec === "rule" ? "" : `残り ${list.filter(t => !t.done).length}件 / `;
+    return `<h2 class="sec">${lab}<small>${left}${list.length}件</small></h2><div class="grid">${list.map(cardHTML).join("")}</div>${add}`;
+  }).join("");
+  g.innerHTML = html || `<p class="empty">この担当の作業はありません。</p>`;
+  document.getElementById("mode").textContent = editMode
+    ? "編集中：場所・作業内容・メモの文字をクリックすると書き直せます。担当と優先度も変えられます。書いた内容は自動で保存されます。"
+    : "写真をタップすると大きく表示します。「完了」と「報告・コメント」はそのまま書き込めます。内容を直すときは「内容を編集する」を押してください。";
+  const foot = document.getElementById("foot");
+  foot.innerHTML = (filter === "全部" || filter === "対象外") ? "" :
+    `<button class="btn ghost" id="copy">${esc(filter)}用のLINE文面をコピー</button><span class="status">このページのリンクと一緒に送ると便利です。</span>`;
+  const c = document.getElementById("copy");
+  if (c) c.onclick = async () => { try { await navigator.clipboard.writeText(lineText(filter)); toast("コピーしました"); } catch(e) { toast("コピーできませんでした"); } };
+}
+function renderAll(toTop){ renderTabs(); renderGrid(); if (toTop) window.scrollTo(0,0); }
+/* 他の人の変更が届いたとき：入力中のカード以外を差し替える（画面の位置は動かさない） */
+function patchView(){
+  renderTabs();
+  const g = document.getElementById("grid");
+  const shown = SECS.map(listFor).flat().map(t => String(t.id)).join(",");
+  const now = [...g.querySelectorAll(".card")].map(c => c.dataset.id).join(",");
+  if (shown !== now) {
+    if (g.contains(document.activeElement) && document.activeElement !== document.body) return;
+    const y = window.scrollY; renderGrid(); window.scrollTo(0, y); return;
+  }
+  g.querySelectorAll(".card").forEach(c => {
+    if (c.contains(document.activeElement)) return;
+    const t = byId(c.dataset.id); if (!t) return;
+    const tmp = document.createElement("div"); tmp.innerHTML = cardHTML(t);
+    const nc = tmp.firstElementChild;
+    if (nc.outerHTML !== c.outerHTML) {
+      const ta = c.querySelector("[data-note]"), nta = nc.querySelector("[data-note]");
+      if (ta && nta) nta.style.height = ta.style.height;
+      c.replaceWith(nc);
+    }
+  });
+  g.querySelectorAll("h2.sec small").forEach((s, i) => {});
+}
+
+function lineText(k){
+  const ts = TASKS.filter(t => t.who === k && t.sec !== "rule" && !t.done).sort((a,b) => SECS.indexOf(a.sec)-SECS.indexOf(b.sec) || PO[a.prio]-PO[b.prio] || (+a.id)-(+b.id));
+  const rs = TASKS.filter(t => t.who === k && t.sec === "rule");
+  const K = k === "工事屋さん";
+  let s = K ? "海鮮餃子 北京 工事・追加工事のお願い\n" : `${k} お願いしたい作業\n`;
+  s += `残り${ts.length}件です。写真と詳しい内容はこちらのページで見られます。\n${location.origin}${location.pathname}#${PEOPLE.find(p => p.key === k).hash}\n`;
+  ts.forEach((t,i) => { s += `\n${i+1}. ${t.place}${t.prio==="高"?"（優先）":""}\n${t.task}\n`; });
+  if (rs.length) { s += "\n毎回・定期の作業\n"; rs.forEach(t => { s += `・${t.freq}：${t.place}　${t.task}\n`; }); }
+  s += K ? "\nお見積りと日程のご相談をお願いいたします。" : "\n終わったら、ページの「完了」にチェックをお願いします。";
+  return s;
+}
+
+/* ---------- 入力 ---------- */
+const grid = document.getElementById("grid");
+grid.addEventListener("input", e => {
+  const card = e.target.closest(".card"); if (!card) return;
+  const t = byId(card.dataset.id);
+  if (e.target.matches("[data-f]")) t[e.target.dataset.f] = e.target.textContent.replace(/\s+/g, " ").trim();
+  else if (e.target.matches("[data-note]")) t.note = e.target.value;
+  else return;
+  saveLater(t, 900);
+});
+grid.addEventListener("focusout", e => {
+  const card = e.target.closest && e.target.closest(".card"); if (!card) return;
+  const t = byId(card.dataset.id); if (timers[t.id]) { clearTimeout(timers[t.id]); delete timers[t.id]; save(t); }
+});
+grid.addEventListener("change", e => {
+  const card = e.target.closest(".card"); if (!card) return;
+  const t = byId(card.dataset.id);
+  if (e.target.matches("[data-done]")) { t.done = e.target.checked; card.classList.toggle("done", t.done); save(t); renderTabs(); }
+  if (e.target.matches("[data-prio]")) { t.prio = e.target.value; e.target.className = "prio " + t.prio; save(t); }
+});
+grid.addEventListener("click", e => {
+  const b = e.target.closest(".assign button");
+  if (b) {
+    const card = b.closest(".card"), t = byId(card.dataset.id); t.who = b.dataset.who; card.dataset.who = t.who;
+    card.querySelectorAll(".assign button").forEach(x => x.className = x.dataset.who === t.who ? CLS[t.who] : "");
+    save(t); renderTabs(); return;
+  }
+  const a = e.target.closest("[data-add]");
+  if (a) {
+    const t = {id: Date.now(), who: filter, sec: a.dataset.add, place: "新しい作業（場所）", task: "作業内容を書いてください", memo: "", prio: "中", freq: a.dataset.add === "rule" ? "毎回" : "", photos: [], done: false, note: ""};
+    TASKS.push(t); save(t); const y = window.scrollY; renderGrid(); window.scrollTo(0, y);
+    const el = grid.querySelector(`.card[data-id="${t.id}"] .place`); if (el) { el.focus(); document.getSelection().selectAllChildren(el); }
+    return;
+  }
+  if (e.target.matches(".ph img")) { const lb = document.getElementById("lb"); lb.querySelector("img").src = e.target.src; lb.classList.add("show"); }
+});
+grid.addEventListener("keydown", e => { if (e.key === "Enter" && e.target.matches("[data-f]")) { e.preventDefault(); e.target.blur(); } });
+document.getElementById("lb").onclick = () => document.getElementById("lb").classList.remove("show");
+window.addEventListener("hashchange", () => { filter = hashToFilter(); renderAll(true); });
+renderAll(false);
+}
+</script>
+</body>
+</html>

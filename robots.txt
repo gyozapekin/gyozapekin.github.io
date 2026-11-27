@@ -5,6 +5,9 @@ Allow: /
 Disallow: /shift/
 Disallow: /shift.html
 
+# 作業場のお願いリスト（スタッフ向け）はクロールさせない
+Disallow: /onegai/
+
 # 社内向けの数字まとめはクロールさせない
 Disallow: /kpi/
 
