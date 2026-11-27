@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>社長ログイン | 北京 作業場 お願いリスト</title>
+<style>
+:root{color-scheme:light;--ink:#1d1d1f;--sub:#6b6b70;--line:#e4e2dc;--bg:#f7f6f2;--card:#fff;
+--yasu:#b5523b;--hiro:#2f6f8f;--koji:#6a5a2e;--none:#8a8a8a;--red:#9b2c2c;--ok:#2f7a4a}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 "Hiragino Sans","Yu Gothic UI","Meiryo",system-ui,sans-serif;overflow-x:clip}
+header{background:#1f1d1a;color:#f3efe6;padding:20px 0 16px}
+header h1{margin:0;font-size:clamp(20px,3vw,26px);line-height:1.3}
+header p{margin:6px 0 0;font-size:13.5px;color:#cfc8b8}
+.wrap{max-width:1180px;margin:0 auto;padding:0 max(3vw,12px)}
+.bar{position:sticky;top:0;z-index:5;background:rgba(247,246,242,.97);border-bottom:1px solid var(--line)}
+.bar .wrap{display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:10px max(3vw,12px)}
+.tab{border:1px solid var(--line);background:#fff;border-radius:999px;padding:8px 14px;font-size:15px;cursor:pointer;color:var(--ink);min-height:40px}
+.tab.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.tab b{font-weight:600;margin-left:5px}
+.spacer{flex:1}
+.btn{border:0;border-radius:8px;padding:9px 14px;font-size:14.5px;cursor:pointer;background:var(--ink);color:#fff;min-height:40px}
+.btn.ghost{background:#fff;color:var(--ink);border:1px solid var(--line)}
+.btn:disabled{opacity:.45;cursor:default}
+.btn:focus-visible,.tab:focus-visible{outline:3px solid #e8b84a;outline-offset:2px}
+.status{font-size:13px;color:var(--sub)}
+.status.dirty{color:var(--red);font-weight:600}
+.note{font-size:13.5px;color:var(--sub);margin:14px 0 0}
+h2.sec{font-size:18px;margin:24px 0 4px;display:flex;align-items:baseline;gap:10px}
+h2.sec small{font-size:13px;color:var(--sub);font-weight:400}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(330px,100%),1fr));gap:14px;padding:10px 0 8px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden;display:flex;flex-direction:column;border-top:5px solid var(--none)}
+.card[data-who="やすよさん"]{border-top-color:var(--yasu)}
+.card[data-who="ひろ"]{border-top-color:var(--hiro)}
+.card[data-who="工事屋さん"]{border-top-color:var(--koji)}
+.card[data-who="対象外"]{opacity:.55}
+.card.done{background:#f1f6f2}
+.card.done .place{text-decoration:line-through;text-decoration-color:#9bb8a4}
+.ph{display:grid;gap:2px;background:#ddd;grid-template-columns:repeat(3,1fr)}
+.ph.n1{grid-template-columns:1fr}.ph.n2{grid-template-columns:1fr 1fr}
+.ph img{width:100%;height:120px;object-fit:cover;display:block;cursor:zoom-in}
+.ph.n1 img{height:220px}.ph.n2 img{height:170px}
+.nophoto{padding:20px;text-align:center;color:var(--sub);font-size:13px;background:#f0eee8}
+.body{padding:12px 14px 14px;display:flex;flex-direction:column;gap:6px;flex:1}
+.top{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.no{font-weight:700;font-size:13px;color:var(--sub)}
+.prio{font-size:12px;border-radius:4px;padding:1px 7px;border:1px solid var(--line);color:var(--sub);background:#fff;font-family:inherit}
+.prio.高{border-color:var(--red);color:var(--red);font-weight:700}
+.freq{font-size:12.5px;font-weight:700;color:#fff;background:#1f1d1a;border-radius:4px;padding:2px 8px}
+.place{font-size:17px;font-weight:700;margin:0}
+.task{font-size:14.5px;margin:0}
+.memo{font-size:13px;color:var(--sub);margin:0}
+.edit [data-f]{border-radius:4px;cursor:text;outline:none}
+.edit [data-f]:hover{background:#f3f0e8}
+.edit [data-f]:focus{background:#fff8e6;box-shadow:0 0 0 2px #e8d9a8}
+.edit .memo:empty::before{content:"メモを追加";color:#b9b5aa}
+.done-row{display:flex;align-items:center;gap:8px;font-size:14px;margin-top:4px}
+.done-row input{width:20px;height:20px;accent-color:var(--ok)}
+.done-row label{cursor:pointer}
+.report{width:100%;min-height:44px;font:inherit;font-size:14px;border:1px solid var(--line);border-radius:8px;padding:8px 10px;background:#fbfaf7;resize:vertical}
+.report::placeholder{color:#aaa59a}
+.assign{display:none;gap:6px;flex-wrap:wrap;padding-top:8px;border-top:1px dashed var(--line)}
+.edit .assign{display:flex}
+.assign button{font:inherit;font-size:13.5px;border:1px solid var(--line);border-radius:999px;padding:5px 12px;cursor:pointer;background:#fff;color:var(--ink);min-height:36px}
+.assign button.on-yasu{background:var(--yasu);color:#fff;border-color:var(--yasu)}
+.assign button.on-hiro{background:var(--hiro);color:#fff;border-color:var(--hiro)}
+.assign button.on-koji{background:var(--koji);color:#fff;border-color:var(--koji)}
+.assign button.on-none{background:#ccc;color:#333;border-color:#ccc}
+.empty{color:var(--sub);padding:20px 0}
+.foot{padding:20px 0 50px;display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+#lb{position:fixed;inset:0;background:rgba(0,0,0,.88);display:none;align-items:center;justify-content:center;z-index:20}
+#lb.show{display:flex}
+#lb img{max-width:94vw;max-height:90vh}
+#toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#1f1d1a;color:#fff;padding:10px 16px;border-radius:8px;font-size:14px;display:none;z-index:30;max-width:90vw}
+@media(max-width:600px){.ph img{height:96px}.ph.n1 img{height:200px}.ph.n2 img{height:140px}}
+
+.hero{padding:clamp(24px,5vw,48px) 0 8px}
+.hero h2{font-size:clamp(22px,4vw,30px);margin:0 0 6px}
+.hero p{color:var(--sub);margin:0}
+.people{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr));gap:16px;padding:22px 0}
+.person{display:flex;flex-direction:column;gap:6px;text-decoration:none;color:#fff;border-radius:14px;padding:26px 22px;min-height:150px;justify-content:flex-end;box-shadow:0 2px 0 rgba(0,0,0,.08)}
+.person:focus-visible{outline:3px solid #e8b84a;outline-offset:3px}
+.person .nm{font-size:30px;font-weight:700;line-height:1.1}
+.person .ct{font-size:15px;opacity:.92}
+.person .go{font-size:13.5px;opacity:.85;margin-top:6px}
+.p-hiro{background:var(--hiro)}.p-yasu{background:var(--yasu)}.p-koji{background:var(--koji)}
+.sub{display:flex;flex-wrap:wrap;gap:14px;align-items:center;padding:18px 0 40px;border-top:1px solid var(--line);margin-top:10px}
+.sub a{color:var(--ink)}
+.loginbox{max-width:460px;margin:clamp(24px,6vw,60px) auto;background:#fff;border:1px solid var(--line);border-radius:14px;padding:26px 22px}
+.loginbox h2{margin:0 0 8px;font-size:22px}
+.loginbox p{color:var(--sub);font-size:14.5px;margin:8px 0}
+.gbtn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;font:inherit;font-size:16px;font-weight:600;border:1px solid #dadce0;border-radius:10px;background:#fff;color:#3c4043;padding:12px 16px;cursor:pointer;min-height:50px;margin-top:14px}
+.gbtn:disabled{opacity:.5}
+.warn{background:#fff6e5;border:1px solid #f0d9a8;border-radius:10px;padding:12px 14px;font-size:14px;color:#6b4e12;margin-top:12px}
+.warn a{color:#6b4e12;font-weight:700}
+.ok{background:#eef6f0;border:1px solid #c9e2d0;border-radius:10px;padding:12px 14px;font-size:14.5px;color:#245c37;margin-top:12px}
+.ok a{color:#245c37;font-weight:700;margin-right:12px}
+</style>
+</head>
+<body>
+<header><div class="wrap">
+<a href="./" style="color:#cfc8b8;font-size:13.5px;text-decoration:none">お願いリストのトップへ戻る</a>
+<h1>北京 作業場 お願いリスト</h1>
+</div></header>
+<div class="wrap">
+<div class="loginbox">
+  <h2>社長ログイン</h2>
+  <p>ログインすると、作業の「完了」チェック、報告・コメントの書き込み、内容の編集ができます。スタッフの方はログインしなくても見られます。</p>
+  <div id="inapp"></div>
+  <button class="gbtn" id="g" type="button"><svg width="20" height="20" viewBox="0 0 48 48" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9.1 3.6l6.8-6.8C35.8 2.4 30.3 0 24 0 14.6 0 6.6 5.4 2.7 13.3l7.9 6.1C12.5 13.6 17.8 9.5 24 9.5z"/><path fill="#4285F4" d="M46.5 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.7c-.6 3-2.3 5.5-4.8 7.2l7.7 6c4.5-4.2 6.9-10.3 6.9-17.7z"/><path fill="#FBBC05" d="M10.6 28.6c-.5-1.4-.8-3-.8-4.6s.3-3.2.8-4.6l-7.9-6.1C1 16.6 0 20.2 0 24s1 7.4 2.7 10.7l7.9-6.1z"/><path fill="#34A853" d="M24 48c6.5 0 11.9-2.1 15.9-5.8l-7.7-6c-2.1 1.4-4.9 2.3-8.2 2.3-6.2 0-11.5-4.1-13.4-9.8l-7.9 6.1C6.6 42.6 14.6 48 24 48z"/></svg>Googleでログイン</button>
+  <div id="msg"></div>
+  <p style="margin-top:16px;font-size:13px">社長のGoogleアカウント（北京の運営用アカウント、または個人アカウント）でログインしてください。</p>
+</div>
+</div>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+<script>
+{
+let app = null;
+try { firebase.initializeApp({apiKey:"AIzaSyBygnsi6cByYRZigxlhR7d0ydVfpFGx8FQ",databaseURL:"https://pekin-shift-default-rtdb.asia-southeast1.firebasedatabase.app",projectId:"pekin-shift",appId:"1:600393805417:web:126fb18e1c5b64fc677cf8",authDomain:"pekin-shift.firebaseapp.com"}, "onegai"); app = firebase.app("onegai"); } catch(e) { console.warn(e); }
+const IS_DEV = (location.hostname.indexOf("gyozapekin2.") === 0) || location.hostname === "localhost" || location.protocol === "file:";
+const NS = IS_DEV ? "pekin/onegai_dev" : "pekin/onegai";
+const clean = s => String(s || "").replace(/[&<>"']/g, "");
+/* 書き込みが許可されたアカウントか（Firebase のルールで判定） */
+async function checkOwner(u){
+  if (!u || u.isAnonymous) return false;
+  try { await app.database().ref(NS + "/_ping/" + u.uid).set(Date.now()); return true; } catch(e) { return false; }
+}
+const msg = html => { document.getElementById("msg").innerHTML = html; };
+const ua = navigator.userAgent || "";
+if (/Line\/|FBAN|FBAV|Instagram|; wv\)/i.test(ua)) {
+  const url = location.origin + location.pathname + "?openExternalBrowser=1";
+  document.getElementById("inapp").innerHTML = `<div class="warn">LINEの中のブラウザではGoogleログインができません。<br><a href="${url}">SafariやChromeで開き直す</a>を押してから、ログインしてください。</div>`;
+}
+if (app) {
+  const auth = app.auth();
+  const b = document.getElementById("g");
+  auth.onAuthStateChanged(async u => {
+    if (!u || u.isAnonymous) return;
+    msg(`<div class="ok">確認中…</div>`);
+    if (await checkOwner(u)) {
+      msg(`<div class="ok">ログインしました（${clean(u.email)}）。<br><a href="./">トップへ戻る</a><a href="list.html#hiro">ひろのリストを開く</a></div>`);
+      b.style.display = "none";
+    } else {
+      msg(`<div class="warn">このアカウント（${clean(u.email)}）では編集できません。社長のアカウントでログインしてください。</div>`);
+      auth.signOut();
+    }
+  });
+  auth.getRedirectResult().catch(e => { msg(`<div class="warn">ログインできませんでした（${clean(e.code) || "エラー"}）。もう一度お試しください。</div>`); });
+  b.onclick = async () => {
+    const p = new firebase.auth.GoogleAuthProvider(); p.setCustomParameters({prompt: "select_account"});
+    b.disabled = true;
+    try { await auth.signInWithPopup(p); }
+    catch(e) {
+      if (/popup-blocked|operation-not-supported|popup-closed-by-browser/.test(e.code || "")) { auth.signInWithRedirect(p); return; }
+      if (e.code !== "auth/popup-closed-by-user" && e.code !== "auth/cancelled-popup-request") msg(`<div class="warn">ログインできませんでした（${clean(e.code) || "エラー"}）。もう一度お試しください。</div>`);
+    }
+    b.disabled = false;
+  };
+} else { msg(`<div class="warn">通信を確認してください。</div>`); }
+}
+</script>
+</body>
+</html>
