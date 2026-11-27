@@ -1,42 +1,37 @@
 {
-  "updated_at": "2026-11-26T10:02:00+09:00",
-  "updated_label": "2026-11-26 10:02",
+  "updated_at": "2026-11-27T10:02:00+09:00",
+  "updated_label": "2026-11-27 10:02",
   "hp": {
     "status": "ok",
-    "message": "11月25日(水)の実績。前週の同じ曜日(11月18日)との比較つき。取得は26日朝のため前日分が確定前の可能性あり。14日推移のうち11月12日から11月24日は前回までの取得値を引き継ぎ(11月18日は今回の比較値7と一致)。",
+    "message": "11月26日(木)の実績。前週の同じ曜日(11月19日)との比較つき。取得は27日朝のため前日分が確定前の可能性あり。14日推移のうち11月13日から11月25日は前回までの取得値を引き継ぎ(11月19日は今回の比較値22と一致)。",
     "source": {
-      "as_of": "2026-11-25",
+      "as_of": "2026-11-26",
       "note": "Googleアナリティクス"
     },
     "yesterday": {
-      "users": 26,
+      "users": 15,
       "users_delta": {
-        "pct": 271.43,
+        "pct": -31.82,
         "label": "前週同曜日比"
       },
-      "sessions": 29,
+      "sessions": 17,
       "sessions_delta": {
-        "pct": 222.22,
+        "pct": -34.62,
         "label": "前週同曜日比"
       },
-      "pageviews": 45,
+      "pageviews": 34,
       "pageviews_delta": {
-        "pct": 181.25,
+        "pct": -32.0,
         "label": "前週同曜日比"
       },
-      "avg_engagement_sec": 38,
+      "avg_engagement_sec": 48,
       "avg_engagement_delta": {
-        "pct": -23.25,
+        "pct": -15.59,
         "label": "前週同曜日比"
       },
-      "compare_date": "2026-11-18"
+      "compare_date": "2026-11-19"
     },
     "trend": [
-      {
-        "label": "11/12",
-        "full": "2026-11-12",
-        "value": 30
-      },
       {
         "label": "11/13",
         "full": "2026-11-13",
@@ -101,60 +96,55 @@
         "label": "11/25",
         "full": "2026-11-25",
         "value": 26
+      },
+      {
+        "label": "11/26",
+        "full": "2026-11-26",
+        "value": 15
       }
     ],
     "top_pages": [
       {
         "label": "トップページ",
-        "value": 14,
+        "value": 12,
         "full": "/"
       },
       {
         "label": "トップページ(index.html)",
-        "value": 9,
+        "value": 5,
         "full": "/index.html"
       },
       {
-        "label": "お店について",
-        "value": 6,
-        "full": "/about.html"
+        "label": "ご注文",
+        "value": 5,
+        "full": "/order.html"
       },
       {
         "label": "メニュー",
-        "value": 5,
+        "value": 3,
         "full": "/menu.html"
       },
       {
-        "label": "お知らせ(2026年7月18日 ABC)",
+        "label": "お知らせ一覧",
         "value": 3,
-        "full": "/news/2026/07/18/abc19/"
+        "full": "/news/"
       }
     ],
     "channels": [
       {
-        "label": "Google検索",
-        "value": 12,
-        "full": "google / organic"
-      },
-      {
         "label": "直接アクセス",
-        "value": 9,
+        "value": 10,
         "full": "(direct) / (none)"
       },
       {
         "label": "Yahoo!検索",
-        "value": 5,
+        "value": 4,
         "full": "yahoo / organic"
       },
       {
-        "label": "不明(未設定)",
-        "value": 2,
-        "full": "(not set)"
-      },
-      {
-        "label": "Instagram",
-        "value": 1,
-        "full": "ig / social"
+        "label": "Google検索",
+        "value": 3,
+        "full": "google / organic"
       }
     ]
   },
