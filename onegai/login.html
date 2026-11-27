@@ -90,6 +90,10 @@ h2.sec small{font-size:13px;color:var(--sub);font-weight:400}
 .loginbox{max-width:460px;margin:clamp(24px,6vw,60px) auto;background:#fff;border:1px solid var(--line);border-radius:14px;padding:26px 22px}
 .loginbox h2{margin:0 0 8px;font-size:22px}
 .loginbox p{color:var(--sub);font-size:14.5px;margin:8px 0}
+.lbl{display:block;font-size:14px;font-weight:600;margin:14px 0 4px}
+.inp{width:100%;font:inherit;font-size:16px;border:1px solid var(--line);border-radius:10px;padding:12px;background:#fbfaf7}
+.inp:focus{outline:3px solid #e8d9a8;border-color:#e8d9a8}
+.btn.wide{width:100%;margin-top:16px;min-height:50px;font-size:16px}
 .gbtn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;font:inherit;font-size:16px;font-weight:600;border:1px solid #dadce0;border-radius:10px;background:#fff;color:#3c4043;padding:12px 16px;cursor:pointer;min-height:50px;margin-top:14px}
 .gbtn:disabled{opacity:.5}
 .warn{background:#fff6e5;border:1px solid #f0d9a8;border-radius:10px;padding:12px 14px;font-size:14px;color:#6b4e12;margin-top:12px}
@@ -107,10 +111,19 @@ h2.sec small{font-size:13px;color:var(--sub);font-weight:400}
 <div class="loginbox">
   <h2>社長ログイン</h2>
   <p>ログインすると、作業の「完了」チェック、報告・コメントの書き込み、内容の編集ができます。スタッフの方はログインしなくても見られます。</p>
-  <div id="inapp"></div>
-  <button class="gbtn" id="g" type="button"><svg width="20" height="20" viewBox="0 0 48 48" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9.1 3.6l6.8-6.8C35.8 2.4 30.3 0 24 0 14.6 0 6.6 5.4 2.7 13.3l7.9 6.1C12.5 13.6 17.8 9.5 24 9.5z"/><path fill="#4285F4" d="M46.5 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.7c-.6 3-2.3 5.5-4.8 7.2l7.7 6c4.5-4.2 6.9-10.3 6.9-17.7z"/><path fill="#FBBC05" d="M10.6 28.6c-.5-1.4-.8-3-.8-4.6s.3-3.2.8-4.6l-7.9-6.1C1 16.6 0 20.2 0 24s1 7.4 2.7 10.7l7.9-6.1z"/><path fill="#34A853" d="M24 48c6.5 0 11.9-2.1 15.9-5.8l-7.7-6c-2.1 1.4-4.9 2.3-8.2 2.3-6.2 0-11.5-4.1-13.4-9.8l-7.9 6.1C6.6 42.6 14.6 48 24 48z"/></svg>Googleでログイン</button>
+  <form id="pf" autocomplete="on">
+    <label class="lbl" for="em">メールアドレス</label>
+    <input class="inp" id="em" type="email" autocomplete="username" inputmode="email" required>
+    <label class="lbl" for="pw">パスワード</label>
+    <input class="inp" id="pw" type="password" autocomplete="current-password" required>
+    <button class="btn wide" id="pbtn" type="submit">ログイン</button>
+  </form>
+  <p style="font-size:13.5px"><a href="#" id="reset">パスワードを忘れたとき（再設定のメールを送る）</a></p>
   <div id="msg"></div>
-  <p style="margin-top:16px;font-size:13px">社長のGoogleアカウント（北京の運営用アカウント、または個人アカウント）でログインしてください。</p>
+  <details style="margin-top:18px"><summary style="cursor:pointer;font-size:14px;color:var(--sub)">パソコンではGoogleでもログインできます</summary>
+  <div id="inapp"></div>
+  <button class="gbtn" id="g" type="button">Googleでログイン</button></details>
+  <p style="margin-top:16px;font-size:13px">北京の運営用のメールアドレスとパスワードでログインしてください。</p>
 </div>
 </div>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
@@ -142,13 +155,32 @@ if (app) {
     msg(`<div class="ok">確認中…</div>`);
     if (await checkOwner(u)) {
       msg(`<div class="ok">ログインしました（${clean(u.email)}）。<br><a href="./">トップへ戻る</a><a href="list.html#hiro">ひろのリストを開く</a></div>`);
-      b.style.display = "none";
+      document.getElementById("pf").style.display = "none"; b.style.display = "none";
     } else {
       msg(`<div class="warn">このアカウント（${clean(u.email)}）では編集できません。社長のアカウントでログインしてください。</div>`);
       auth.signOut();
     }
   });
   auth.getRedirectResult().catch(e => { msg(`<div class="warn">ログインできませんでした（${clean(e.code) || "エラー"}）。もう一度お試しください。</div>`); });
+  document.getElementById("pf").onsubmit = async e => {
+    e.preventDefault();
+    const pb = document.getElementById("pbtn"); pb.disabled = true; msg(`<div class="ok">ログイン中…</div>`);
+    try { await auth.signInWithEmailAndPassword(document.getElementById("em").value.trim(), document.getElementById("pw").value); }
+    catch(err) {
+      const c = err.code || "";
+      const t = /wrong-password|invalid-credential|invalid-login|user-not-found|invalid-email/.test(c) ? "メールアドレスかパスワードが違います。"
+        : /too-many-requests/.test(c) ? "何度も失敗したため、しばらく待ってからお試しください。" : `ログインできませんでした（${clean(c) || "エラー"}）。`;
+      msg(`<div class="warn">${t}</div>`);
+    }
+    pb.disabled = false;
+  };
+  document.getElementById("reset").onclick = async e => {
+    e.preventDefault();
+    const em = document.getElementById("em").value.trim();
+    if (!em) { msg(`<div class="warn">先にメールアドレスを入れてから押してください。</div>`); return; }
+    try { await auth.sendPasswordResetEmail(em); msg(`<div class="ok">パスワード再設定のメールを送りました。メールのリンクから新しいパスワードを決めてください。</div>`); }
+    catch(err) { msg(`<div class="warn">メールを送れませんでした（${clean(err.code) || "エラー"}）。</div>`); }
+  };
   b.onclick = async () => {
     const p = new firebase.auth.GoogleAuthProvider(); p.setCustomParameters({prompt: "select_account"});
     b.disabled = true;
