@@ -1084,7 +1084,9 @@ function isClosedDay(y,m,d){
 function isOpenOverride(y,m,d){
   const s=getSettings();
   const k=dKey(y,m,d);
-  return !!(s.specialDates&&s.specialDates[k]&&s.specialDates[k].type==='open');
+  if(!(s.specialDates&&s.specialDates[k]&&s.specialDates[k].type==='open'))return false;
+  /* 定休スケジュール上もともと営業日なら、例外ではなく通常営業として表示する */
+  return closedDowsAt(s,k).includes(new Date(y,m,d).getDay());
 }
 
 /* Returns closed info object or null */
@@ -2486,13 +2488,14 @@ function renderOpenExceptionList(){
   list.innerHTML=entries.map(([k])=>{
     const [y,m,d]=k.split('-').map(Number);
     const dow=new Date(y,m-1,d).getDay();
-    return `<div class="open-ex-row">
+    const needed=closedDowsAt(s,k).includes(dow);
+    return `<div class="open-ex-row"${needed?'':' style="opacity:.6"'}>
       <div>
         <span style="background:#dbeafe;color:#1d4ed8;font-size:.72em;padding:2px 8px;border-radius:10px;font-weight:600;margin-right:6px">営業</span>
         <strong>${y}年${m}月${d}日（${DOW_NAMES[dow]}）</strong>
-        <span style="font-size:.8em;color:#94a3b8;margin-left:6px">本来は定休日</span>
+        <span style="font-size:.8em;color:#94a3b8;margin-left:6px">${needed?'本来は定休日':'定休の変更で通常営業日になったため、この登録は使われていません'}</span>
       </div>
-      <button class="act-btn del" onclick="deleteOpenException('${k}')">定休に戻す</button>
+      ${needed?`<button class="act-btn del" onclick="deleteOpenException('${k}')">定休に戻す</button>`:''}
     </div>`;
   }).join('');
 }
@@ -3005,7 +3008,9 @@ function _removeTplStaff(week,dow,type,name){
 function toggleQuickClose(y,m,d){
   const k=dKey(y,m,d);
   const s=getSettings();
-  const special=s.specialDates&&s.specialDates[k];
+  let special=s.specialDates&&s.specialDates[k];
+  /* 通常営業日に残っている営業例外は無視して、通常営業日として扱う */
+  if(special&&special.type==='open'&&!closedDowsAt(s,k).includes(new Date(y,m,d).getDay()))special=null;
 
   if(special){
     const stype=special.type;
