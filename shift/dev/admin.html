@@ -2981,6 +2981,7 @@ function onRestoreFile(input){
   };
   rd.readAsText(f);
 }
+function _keyJa(k){if(k.startsWith('pekin_shift_'))return 'シフト（下書き）';if(k.startsWith('pekin_meta_'))return '公開の記録';if(k.startsWith('pekin_published_'))return '公開中のシフト';if(k.startsWith('pekin_avail_'))return '希望';if(k==='pekin_settings')return '設定';return k;}
 function _restoreTargets(){
   const ym=document.getElementById('restoreMonth').value;const t=[];
   if(!ym)return t;
@@ -2999,7 +3000,7 @@ async function previewRestore(){
   const lines=[];
   keys.forEach(k=>{
     const a=cur[k],b=_restoreFile[k];
-    if(JSON.stringify(a??null)===JSON.stringify(b??null)){lines.push(`<div><strong>${_esc(k.replace('_'+ym,''))}</strong>：今と同じ（変わりません）</div>`);return;}
+    if(JSON.stringify(a??null)===JSON.stringify(b??null)){lines.push(`<div><strong>${_esc(_keyJa(k))}</strong>：今と同じ（変わりません）</div>`);return;}
     if(k.startsWith('pekin_shift_')||k.startsWith('pekin_published_')){
       const d=shiftDiffLines(_parseMaybe(a),_parseMaybe(b));
       const nm=k.startsWith('pekin_shift_')?'シフト（下書き）':'公開中のシフト';
@@ -3031,7 +3032,7 @@ async function doRestore(){
     await _fbDb.ref(FB_NS).update(upd);
     keys.forEach(k=>{const v=upd[k];if(v==null)localStorage.removeItem(k);else localStorage.setItem(k,typeof v==='string'?v:JSON.stringify(v));});
     localStorage.setItem('pekin_db_v',String(upd._v));
-    writeLog('restore',ym,`バックアップから戻しました（${_ymJa(ym)}：${keys.map(k=>k.replace('_'+ym,'')).join('・')}）`,[`ファイル：${_restoreFileName}`]);
+    writeLog('restore',ym,`バックアップから戻しました（${_ymJa(ym)}：${keys.map(_keyJa).join('・')}）`,[`ファイル：${_restoreFileName}`]);
     await _cdsNotice('戻しました。画面を読み込み直します。');
     location.reload();
   }catch(e){_cdsNotice('戻せませんでした：'+e.message);}
