@@ -1,42 +1,37 @@
 {
-  "updated_at": "2026-11-27T10:02:00+09:00",
-  "updated_label": "2026-11-27 10:02",
+  "updated_at": "2026-11-28T10:05:00+09:00",
+  "updated_label": "2026-11-28 10:05",
   "hp": {
     "status": "ok",
-    "message": "11月26日(木)の実績。前週の同じ曜日(11月19日)との比較つき。取得は27日朝のため前日分が確定前の可能性あり。14日推移のうち11月13日から11月25日は前回までの取得値を引き継ぎ(11月19日は今回の比較値22と一致)。",
+    "message": "11月27日(金)の実績。前週の同じ曜日(11月20日)との比較つき。取得は28日朝のため前日分が確定前の可能性あり。14日推移のうち11月14日から11月26日は前回までの取得値を引き継ぎ(11月20日は今回の比較値8と一致)。",
     "source": {
-      "as_of": "2026-11-26",
+      "as_of": "2026-11-27",
       "note": "Googleアナリティクス"
     },
     "yesterday": {
-      "users": 15,
+      "users": 17,
       "users_delta": {
-        "pct": -31.82,
+        "pct": 112.5,
         "label": "前週同曜日比"
       },
-      "sessions": 17,
+      "sessions": 21,
       "sessions_delta": {
-        "pct": -34.62,
+        "pct": 162.5,
         "label": "前週同曜日比"
       },
       "pageviews": 34,
       "pageviews_delta": {
-        "pct": -32.0,
+        "pct": 100.0,
         "label": "前週同曜日比"
       },
-      "avg_engagement_sec": 48,
+      "avg_engagement_sec": 26,
       "avg_engagement_delta": {
-        "pct": -15.59,
+        "pct": -28.2,
         "label": "前週同曜日比"
       },
-      "compare_date": "2026-11-19"
+      "compare_date": "2026-11-20"
     },
     "trend": [
-      {
-        "label": "11/13",
-        "full": "2026-11-13",
-        "value": 16
-      },
       {
         "label": "11/14",
         "full": "2026-11-14",
@@ -101,13 +96,23 @@
         "label": "11/26",
         "full": "2026-11-26",
         "value": 15
+      },
+      {
+        "label": "11/27",
+        "full": "2026-11-27",
+        "value": 17
       }
     ],
     "top_pages": [
       {
         "label": "トップページ",
-        "value": 12,
+        "value": 17,
         "full": "/"
+      },
+      {
+        "label": "メニュー",
+        "value": 8,
+        "full": "/menu.html"
       },
       {
         "label": "トップページ(index.html)",
@@ -116,35 +121,40 @@
       },
       {
         "label": "ご注文",
-        "value": 5,
+        "value": 2,
         "full": "/order.html"
       },
       {
-        "label": "メニュー",
-        "value": 3,
-        "full": "/menu.html"
-      },
-      {
-        "label": "お知らせ一覧",
-        "value": 3,
-        "full": "/news/"
+        "label": "ギャラリー",
+        "value": 1,
+        "full": "/gallery.html"
       }
     ],
     "channels": [
       {
         "label": "直接アクセス",
-        "value": 10,
+        "value": 11,
         "full": "(direct) / (none)"
       },
       {
-        "label": "Yahoo!検索",
-        "value": 4,
-        "full": "yahoo / organic"
+        "label": "Google検索",
+        "value": 8,
+        "full": "google / organic"
       },
       {
-        "label": "Google検索",
-        "value": 3,
-        "full": "google / organic"
+        "label": "Facebook",
+        "value": 1,
+        "full": "m.facebook.com / referral"
+      },
+      {
+        "label": "X",
+        "value": 1,
+        "full": "t.co / referral"
+      },
+      {
+        "label": "Yahoo!検索",
+        "value": 1,
+        "full": "yahoo / organic"
       }
     ]
   },
