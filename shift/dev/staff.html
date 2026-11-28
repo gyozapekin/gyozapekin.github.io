@@ -525,6 +525,23 @@ function loadAvail(y,m){return JSON.parse(localStorage.getItem(availKey(y,m))||'
 function saveAvail(y,m,data){
   const key=availKey(y,m);
   const json=JSON.stringify(data);
+  /* 変更ログ：自分の希望の変わった日を記録する（FB_NS/_log） */
+  try{
+    const prev=(JSON.parse(localStorage.getItem(key)||'{}')||{})[sess.userId]||{};
+    const cur=data[sess.userId]||{};
+    const L={ok:'出勤可',off:'休み希望',maybe:'調整可','':'未選択'};
+    const W=['日','月','火','水','木','金','土'];
+    const lines=[];
+    [...new Set([...Object.keys(prev),...Object.keys(cur)])].sort().forEach(k=>{
+      ['lunch','dinner'].forEach(sl=>{
+        const a=(prev[k]&&prev[k][sl])||'',b=(cur[k]&&cur[k][sl])||'';
+        if(a!==b){const p=k.split('-').map(Number);lines.push(`${p[1]}/${p[2]}(${W[new Date(p[0],p[1]-1,p[2]).getDay()]}) ${sl==='lunch'?'昼':'夜'}：${L[a]||a} を ${L[b]||b} に`);}
+      });
+    });
+    const now=new Date(),lym=`${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}`;
+    _fbDb.ref(FB_NS+'/_log/'+lym).push({at:Date.now(),by:sess.name||'',byId:sess.userId||'',type:'avail',target:key.slice(-7),
+      text:`${y}年${m+1}月の希望を提出（変更${lines.length}か所）`,detail:lines.slice(0,300)}).catch(()=>{});
+  }catch(e){console.warn('avail log failed',e);}
   localStorage.setItem(key,json);
   /* Firebaseには自分のサブパスのみ書き込む（他人の希望を上書きしないため） */
   try{

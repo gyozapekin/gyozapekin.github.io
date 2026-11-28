@@ -337,17 +337,17 @@ document.addEventListener('DOMContentLoaded',function(){
 </div>
 <script>
 async function __devCopyProd(){
-  if(!confirm('本番のデータを読み込んで、テスト用の保存場所（pekin/db_dev）を上書きします。\n本番のデータは変わりません。よろしいですか？'))return;
+  if(!(await _cdsAsk('本番のデータを読み込んで、テスト用の保存場所（pekin/db_dev）を上書きします。\n本番のデータは変わりません。よろしいですか？')))return;
   try{
     try{await firebase.auth().signInAnonymously();}catch(e){}
     const snap=await firebase.database().ref('pekin/db').get();
-    if(!snap.exists()){alert('本番データを読めませんでした');return;}
+    if(!snap.exists()){_cdsNotice('本番データを読めませんでした');return;}
     const v=snap.val();v._v=Date.now();
     await firebase.database().ref('pekin/db_dev').set(v);
     localStorage.clear();
-    alert('コピーしました。画面を読み込み直します。');
+    await _cdsNotice('コピーしました。画面を読み込み直します。');
     location.reload();
-  }catch(e){alert('コピーに失敗しました：'+e.message);}
+  }catch(e){_cdsNotice('コピーに失敗しました：'+e.message);}
 }
 </script>
 
@@ -388,6 +388,7 @@ async function __devCopyProd(){
   <button class="tab" onclick="switchTab('settings')">⚙ 設定</button>
   <button class="tab" onclick="switchTab('template')">📋 テンプレート</button>
   <button class="tab" onclick="switchTab('stats')">📈 統計</button>
+  <button class="tab" onclick="switchTab('history')">履歴・バックアップ</button>
 </div>
 
 <!-- PANEL: SHIFT MANAGEMENT -->
@@ -593,6 +594,67 @@ async function __devCopyProd(){
     「今月に反映」ボタンで <strong style="color:#374151">シフト管理</strong> タブにテンプレートが下書きとして反映されます。
   </p>
   <div id="templatePanelBody"></div>
+</div>
+
+<!-- PANEL: HISTORY / BACKUP -->
+<div class="panel" id="panel-history">
+  <div class="sec">
+    <div class="sec-head">変更履歴（ログ）</div>
+    <div class="sec-body">
+      <p style="font-size:.83em;color:#475569;margin-bottom:10px">
+        シフトの入れ替え・公開・希望の提出・設定やスタッフの変更を、日時と名前つきで記録しています。記録は消せません。
+      </p>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px;font-size:.85em">
+        <select id="histMonth" onchange="_renderHistList()" style="padding:4px 6px;border:1px solid #cbd5e1;border-radius:6px"></select>
+        <select id="histType" onchange="_renderHistList()" style="padding:4px 6px;border:1px solid #cbd5e1;border-radius:6px">
+          <option value="">すべて</option><option value="shift">シフト</option><option value="publish">公開</option>
+          <option value="avail">希望</option><option value="settings">設定</option><option value="users">スタッフ</option>
+          <option value="template">テンプレート</option><option value="restore">復元</option><option value="backup">バックアップ</option>
+        </select>
+        <input id="histFilter" oninput="_renderHistList()" placeholder="名前や日付で絞り込み（例：ひろせ、12/9）" style="flex:1;min-width:180px;padding:4px 8px;border:1px solid #cbd5e1;border-radius:6px">
+        <button class="cbtn cbtn-outline" onclick="renderHistoryPanel()">最新にする</button>
+      </div>
+      <div id="histList"></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head">バックアップ</div>
+    <div class="sec-body" style="font-size:.86em;line-height:1.7">
+      <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:10px 12px;margin-bottom:12px">
+        <strong>自動バックアップ</strong>：毎日深夜に、シフト・希望・設定・変更履歴を丸ごと保存しています。<br>
+        保存先：GitHubの非公開リポジトリ <strong>gyozapekin/pekin-shift-backup</strong>（gyozapekin のアカウントでログインして見ます）<br>
+        残し方：毎日の分は30日、毎週の分は1年、毎月の分はずっと残ります。
+      </div>
+      <button class="cbtn cbtn-blue" onclick="downloadBackupNow()">今すぐバックアップをファイルに保存する</button>
+      <span style="color:#64748b;margin-left:6px">大きな変更の前に控えを取るときに使います</span>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head" style="background:#991b1b">バックアップから戻す（管理者のみ）</div>
+    <div class="sec-body" style="font-size:.86em;line-height:1.7">
+      <p style="color:#475569;margin-bottom:8px">
+        1. バックアップのファイルを選ぶ　2. 戻す月と中身を選ぶ　3. 違いを確認して戻す。<br>
+        月ごとに戻すので、ほかの月の入力はそのままです。戻す直前の状態は自動で保存し、あとで取り消せます。
+      </p>
+      <input type="file" accept=".json,application/json" onchange="onRestoreFile(this)">
+      <div id="restoreInfo" style="color:#64748b;margin-top:6px"></div>
+      <div id="restoreStep2" style="display:none;margin-top:10px">
+        <label>戻す月：<select id="restoreMonth" style="padding:4px 6px;border:1px solid #cbd5e1;border-radius:6px"></select></label>
+        <div style="margin:8px 0;display:flex;flex-wrap:wrap;gap:12px">
+          <label><input type="checkbox" id="rsShift" checked> シフト（下書き）</label>
+          <label><input type="checkbox" id="rsPub" checked> 公開中のシフト</label>
+          <label><input type="checkbox" id="rsAvail"> 希望</label>
+          <label><input type="checkbox" id="rsSettings"> 設定（定休・休業日・締切）</label>
+        </div>
+        <button class="cbtn cbtn-outline" onclick="previewRestore()">違いを確認する</button>
+        <div id="restorePreview" style="margin-top:10px"></div>
+      </div>
+      <div style="margin-top:16px;font-weight:700">これまでの復元（取り消しができます）</div>
+      <div id="restorePoints"></div>
+    </div>
+  </div>
 </div>
 
 <div class="panel" id="panel-stats">
@@ -997,6 +1059,7 @@ function getUsers(){
 }
 function saveUsers(u){
   const json=JSON.stringify(u);
+  try{const d=_usersDiffLines(_parseMaybe(localStorage.getItem('pekin_users')),u);if(d.length)writeLog('users','','スタッフ情報を変更',d);}catch(e){}
   localStorage.setItem('pekin_users',json);
   _syncKeyToFirebase('pekin_users',json);
 }
@@ -1041,6 +1104,7 @@ function getSettings(){
 }
 function saveSettings(s){
   const json=JSON.stringify(s);
+  try{const _o=_parseMaybe(localStorage.getItem(SETTINGS_KEY));const d=_settingsDiffLines(_o,s);if(d.length)writeLog('settings','','設定を変更',d);}catch(e){}
   localStorage.setItem(SETTINGS_KEY,json);
   _syncKeyToFirebase(SETTINGS_KEY,json);
 }
@@ -1126,6 +1190,8 @@ function loadShift(){
 function saveShift(){
   const json=JSON.stringify(shiftData);
   const k=shiftKey();
+  const _prev=localStorage.getItem(k);
+  if(_prev!==json){try{const d=shiftDiffLines(_parseMaybe(_prev),shiftData);if(d.length)writeLog('shift',k.slice(-7),`${_ymJa(k.slice(-7))}のシフトを変更（${d.length}か所）`,d);}catch(e){}}
   localStorage.setItem(k,json);
   _syncKeyToFirebase(k,json);  /* ← Firebaseに即同期（再ログインで消えないように） */
 }
@@ -1247,6 +1313,7 @@ function publishShift(){
   meta.publishedBy=(typeof sess!=='undefined'&&sess&&sess.userId)||'admin';
   meta.publishedByName=(typeof sess!=='undefined'&&sess&&sess.name)||'';
   saveMeta(meta);
+  writeLog('publish',`${Y}-${String(M+1).padStart(2,'0')}`,`${Y}年${M+1}月のシフトを${already?'再公開':'公開'}`);
   updatePublishStatus();
   showUpdateToast(already?'🔄 シフトを再公開しました':'📱 公開しました');
 }
@@ -1262,6 +1329,7 @@ function unpublishShift(){
   const meta=getMeta();
   delete meta.publishedAt;delete meta.publishedBy;delete meta.publishedByName;
   saveMeta(meta);
+  writeLog('unpublish',`${Y}-${String(M+1).padStart(2,'0')}`,`${Y}年${M+1}月のシフトを未公開に戻した`);
   updatePublishStatus();
   showUpdateToast('↩ 未公開に戻しました');
 }
@@ -2765,7 +2833,242 @@ function resetToDefault(){
   shiftData=applyTemplate(Y,M);_pushShiftHistory();saveShift();render();
 }
 
-const TAB_NAMES=['shift','overview','avail','staff','settings','template','stats'];
+/* ════════════════════════════════════════
+   変更ログ・バックアップ・復元  2026-11-28
+   ログ   : FB_NS/_log/{YYYY-MM}/{自動ID}  （_ で始まるので既存の同期処理は読まない）
+   戻し前 : FB_NS/_restore/{自動ID}       （「戻したことを取り消す」用）
+   自動バックアップ: GitHub 非公開リポジトリ gyozapekin/pekin-shift-backup（毎日深夜）
+════════════════════════════════════════ */
+var SLOT_JA={lunch:'昼',dinner:'夜'};
+var DOW_JA=['日','月','火','水','木','金','土'];
+function _ymOf(t){const d=t?new Date(t):new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`;}
+function _ymJa(ym){const p=String(ym).split('-');return `${p[0]}年${Number(p[1])}月`;}
+function _mdJa(k){const p=k.split('-').map(Number);return `${p[1]}/${p[2]}(${DOW_JA[new Date(p[0],p[1]-1,p[2]).getDay()]})`;}
+function writeLog(type,target,text,detail){
+  try{
+    if(typeof _fbDb==='undefined')return;
+    const e={at:Date.now(),by:(typeof sess!=='undefined'&&sess&&sess.name)||'',byId:(typeof sess!=='undefined'&&sess&&sess.userId)||'',type,target:target||'',text};
+    if(detail&&detail.length)e.detail=detail.slice(0,300);
+    _fbDb.ref(FB_NS+'/_log/'+_ymOf()).push(e).catch(err=>console.warn('log write failed',err));
+  }catch(err){console.warn('log failed',err);}
+}
+function _parseMaybe(v){if(v==null)return null;if(typeof v==='string'){try{return JSON.parse(v);}catch(e){return null;}}return v;}
+/* シフトの違い → 「12/9(水) 夜：＋ひろせくん －ちえちゃん」 */
+function shiftDiffLines(oldObj,newObj){
+  const o=oldObj||{},n=newObj||{},out=[];
+  const keys=[...new Set([...Object.keys(o),...Object.keys(n)])].sort();
+  keys.forEach(k=>{
+    if(!/^\d{4}-\d{2}-\d{2}$/.test(k))return;
+    ['lunch','dinner'].forEach(sl=>{
+      const a=((o[k]&&o[k][sl]&&o[k][sl].names)||[]),b=((n[k]&&n[k][sl]&&n[k][sl].names)||[]);
+      const add=b.filter(x=>!a.includes(x)),del=a.filter(x=>!b.includes(x));
+      const ea=!!(o[k]&&o[k][sl]&&o[k][sl].ext),eb=!!(n[k]&&n[k][sl]&&n[k][sl].ext);
+      if(!add.length&&!del.length&&ea===eb)return;
+      let s=`${_mdJa(k)} ${SLOT_JA[sl]}：`;
+      if(add.length)s+=add.map(x=>'＋'+x).join(' ')+' ';
+      if(del.length)s+=del.map(x=>'－'+x).join(' ')+' ';
+      if(ea!==eb)s+=eb?'（延長あり）':'（延長なし）';
+      out.push(s.trim());
+    });
+  });
+  return out;
+}
+function _settingsDiffLines(o,n){
+  o=o||{};n=n||{};const out=[];
+  const so=o.specialDates||{},sn=n.specialDates||{};
+  const lab=v=>v?(v.type==='open'?'営業':(v.label||({holiday:'振替休日',closed:'臨時休業',other:'その他'}[v.type]||'休業'))):'';
+  [...new Set([...Object.keys(so),...Object.keys(sn)])].sort().forEach(k=>{
+    const a=JSON.stringify(so[k]||null),b=JSON.stringify(sn[k]||null);
+    if(a===b)return;
+    if(!so[k])out.push(`${_mdJa(k)} を「${lab(sn[k])}」に設定`);
+    else if(!sn[k])out.push(`${_mdJa(k)} の「${lab(so[k])}」を解除`);
+    else out.push(`${_mdJa(k)}：「${lab(so[k])}」を「${lab(sn[k])}」に変更`);
+  });
+  const dlo=o.deadlines||{},dln=n.deadlines||{};
+  [...new Set([...Object.keys(dlo),...Object.keys(dln)])].sort().forEach(k=>{
+    if(dlo[k]!==dln[k])out.push(`${_ymJa(k)}の希望締切：${dlo[k]||'なし'} を ${dln[k]||'なし'} に変更`);
+  });
+  if(JSON.stringify(o.closedDaySchedule||[])!==JSON.stringify(n.closedDaySchedule||[]))out.push('定休日の曜日設定（いつから）を変更');
+  if(JSON.stringify(o.defaultClosedDays||null)!==JSON.stringify(n.defaultClosedDays||null))out.push('定休曜日（これまでの設定）を変更');
+  return out;
+}
+function _usersDiffLines(o,n){
+  o=Array.isArray(o)?o:[];n=Array.isArray(n)?n:[];const out=[];
+  const mo=Object.fromEntries(o.map(u=>[u.id,u])),mn=Object.fromEntries(n.map(u=>[u.id,u]));
+  n.forEach(u=>{if(!mo[u.id])out.push(`スタッフ追加：${u.name}`);
+    else{const a=mo[u.id];
+      if(a.name!==u.name)out.push(`名前変更：${a.name} を ${u.name} に`);
+      if(a.type!==u.type||a.role!==u.role)out.push(`種別変更：${u.name}`);
+      if(a.username!==u.username)out.push(`ログインID変更：${u.name}`);}});
+  o.forEach(u=>{if(!mn[u.id])out.push(`スタッフ削除：${u.name}`);});
+  return out;
+}
+
+/* ── 履歴・バックアップ画面 ── */
+let _histLogs={};      /* ym -> [entries] */
+let _restoreFile=null; /* 読み込んだバックアップ（db） */
+let _restoreFileName='';
+var LOG_TYPE_JA={shift:'シフト',publish:'公開',unpublish:'公開取り下げ',settings:'設定',users:'スタッフ',template:'テンプレート',avail:'希望',restore:'復元',backup:'バックアップ'};
+function _esc(v){return String(v==null?'':v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function _fmtAt(t){const d=new Date(t);return `${d.getFullYear()}/${d.getMonth()+1}/${d.getDate()} ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;}
+
+async function renderHistoryPanel(){
+  const box=document.getElementById('histList');if(!box)return;
+  box.innerHTML='<div class="empty-state">読み込み中…</div>';
+  try{
+    const snap=await _fbDb.ref(FB_NS+'/_log').get();
+    _histLogs={};
+    const v=snap.exists()?snap.val():{};
+    Object.entries(v||{}).forEach(([ym,items])=>{_histLogs[ym]=Object.values(items||{}).sort((a,b)=>b.at-a.at);});
+  }catch(e){box.innerHTML='<div class="empty-state">履歴を読み込めませんでした：'+_esc(e.message)+'</div>';return;}
+  const sel=document.getElementById('histMonth');
+  const months=Object.keys(_histLogs).sort().reverse();
+  const cur=sel.value;
+  sel.innerHTML=months.length?months.map(m=>`<option value="${m}">${_ymJa(m)}</option>`).join(''):'<option value="">記録なし</option>';
+  if(cur&&months.includes(cur))sel.value=cur;
+  _renderHistList();
+  _renderRestorePoints();
+}
+function _renderHistList(){
+  const box=document.getElementById('histList');if(!box)return;
+  const ym=document.getElementById('histMonth').value;
+  const q=(document.getElementById('histFilter').value||'').trim();
+  const ty=document.getElementById('histType').value;
+  let items=(_histLogs[ym]||[]);
+  if(ty)items=items.filter(e=>e.type===ty);
+  if(q)items=items.filter(e=>[e.by,e.text,(e.detail||[]).join(' '),e.target].join(' ').indexOf(q)!==-1);
+  if(!items.length){box.innerHTML='<div class="empty-state">該当する記録はありません</div>';return;}
+  box.innerHTML=items.map(e=>`<div style="padding:8px 0;border-bottom:1px dashed #e2e8f0;font-size:.84em">
+    <div><span style="color:#64748b">${_esc(_fmtAt(e.at))}</span>　<strong>${_esc(e.by||'（不明）')}</strong>
+    <span style="background:#f1f5f9;border-radius:8px;padding:1px 7px;margin-left:6px;font-size:.85em">${_esc(LOG_TYPE_JA[e.type]||e.type)}</span></div>
+    <div style="margin-top:2px">${_esc(e.text)}</div>
+    ${(e.detail&&e.detail.length)?`<div style="color:#475569;margin-top:2px;padding-left:10px">${e.detail.map(_esc).join('<br>')}</div>`:''}
+  </div>`).join('');
+}
+
+/* 今すぐバックアップ：今のデータを丸ごとファイルに保存 */
+async function downloadBackupNow(){
+  try{
+    const snap=await _fbDb.ref(FB_NS).get();
+    if(!snap.exists()){_cdsNotice('データを読み込めませんでした。');return;}
+    const now=new Date();
+    const stamp=`${now.getFullYear()}${String(now.getMonth()+1).padStart(2,'0')}${String(now.getDate()).padStart(2,'0')}_${String(now.getHours()).padStart(2,'0')}${String(now.getMinutes()).padStart(2,'0')}`;
+    const body=JSON.stringify({kind:'pekin-shift-backup',ns:FB_NS,takenAt:now.toISOString(),db:snap.val()},null,1);
+    const a=document.createElement('a');
+    a.href=URL.createObjectURL(new Blob([body],{type:'application/json'}));
+    a.download=`pekin_shift_backup_${stamp}.json`;
+    document.body.appendChild(a);a.click();a.remove();
+    writeLog('backup','','手動でバックアップファイルを保存');
+  }catch(e){_cdsNotice('バックアップに失敗しました：'+e.message);}
+}
+
+/* バックアップファイルを読み込む（自動バックアップのファイルも手動のファイルも読める） */
+function onRestoreFile(input){
+  const f=input.files&&input.files[0];if(!f)return;
+  const rd=new FileReader();
+  rd.onload=()=>{
+    try{
+      const j=JSON.parse(rd.result);
+      const db=(j&&j.db&&typeof j.db==='object')?j.db:j;
+      if(!db||typeof db!=='object'||!Object.keys(db).some(k=>k.startsWith('pekin_')))throw new Error('シフトアプリのバックアップではないようです');
+      _restoreFile=db;_restoreFileName=f.name;
+      const months=[...new Set(Object.keys(db).map(k=>(k.match(/^pekin_(?:shift|avail|published|meta)_(\d{4}-\d{2})$/)||[])[1]).filter(Boolean))].sort().reverse();
+      document.getElementById('restoreMonth').innerHTML=months.map(m=>`<option value="${m}">${_ymJa(m)}</option>`).join('');
+      document.getElementById('restoreInfo').textContent=`読み込んだファイル：${f.name}（${(j&&j.takenAt)?'取得 '+_fmtAt(j.takenAt):'取得日時不明'}）`;
+      document.getElementById('restoreStep2').style.display='block';
+      document.getElementById('restorePreview').innerHTML='';
+    }catch(e){_restoreFile=null;_cdsNotice('ファイルを読み込めませんでした：'+e.message);}
+  };
+  rd.readAsText(f);
+}
+function _restoreTargets(){
+  const ym=document.getElementById('restoreMonth').value;const t=[];
+  if(!ym)return t;
+  if(document.getElementById('rsShift').checked)t.push('pekin_shift_'+ym,'pekin_meta_'+ym);
+  if(document.getElementById('rsPub').checked)t.push('pekin_published_'+ym);
+  if(document.getElementById('rsAvail').checked)t.push('pekin_avail_'+ym);
+  if(document.getElementById('rsSettings').checked)t.push('pekin_settings');
+  return t;
+}
+async function previewRestore(){
+  if(!_restoreFile)return;
+  const ym=document.getElementById('restoreMonth').value;
+  const keys=_restoreTargets();
+  if(!keys.length){_cdsNotice('戻すものを1つ以上選んでください。');return;}
+  const snap=await _fbDb.ref(FB_NS).get();const cur=snap.exists()?snap.val():{};
+  const lines=[];
+  keys.forEach(k=>{
+    const a=cur[k],b=_restoreFile[k];
+    if(JSON.stringify(a??null)===JSON.stringify(b??null)){lines.push(`<div><strong>${_esc(k.replace('_'+ym,''))}</strong>：今と同じ（変わりません）</div>`);return;}
+    if(k.startsWith('pekin_shift_')||k.startsWith('pekin_published_')){
+      const d=shiftDiffLines(_parseMaybe(a),_parseMaybe(b));
+      const nm=k.startsWith('pekin_shift_')?'シフト（下書き）':'公開中のシフト';
+      lines.push(`<div style="margin-top:6px"><strong>${nm}</strong>：${b==null?'バックアップには無いので空になります':d.length+'か所が変わります'}</div>`+
+        (d.length?`<div style="padding-left:10px;color:#475569">${d.slice(0,80).map(_esc).join('<br>')}${d.length>80?'<br>ほか'+(d.length-80)+'件':''}</div>`:''));
+    }else if(k.startsWith('pekin_avail_')){
+      lines.push(`<div style="margin-top:6px"><strong>希望</strong>：バックアップの時点の希望に戻ります</div>`);
+    }else if(k==='pekin_settings'){
+      const d=_settingsDiffLines(_parseMaybe(a),_parseMaybe(b));
+      lines.push(`<div style="margin-top:6px"><strong>設定（定休・休業日・締切）</strong>：${d.length?'':'内容の違いは見つかりません'}</div>`+(d.length?`<div style="padding-left:10px;color:#475569">${d.map(_esc).join('<br>')}</div>`:''));
+    }
+  });
+  document.getElementById('restorePreview').innerHTML=`<div style="font-size:.84em;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:10px">${lines.join('')}</div>
+    <button class="cbtn cbtn-red" style="margin-top:10px" onclick="doRestore()">この内容で戻す</button>`;
+}
+async function doRestore(){
+  if(!_restoreFile)return;
+  if(typeof sess==='undefined'||!sess||sess.role!=='admin'){_cdsNotice('復元は管理者だけができます。');return;}
+  const ym=document.getElementById('restoreMonth').value;
+  const keys=_restoreTargets();
+  if(!keys.length)return;
+  if(!await _cdsAsk(`${_ymJa(ym)}の選んだ内容を、バックアップ（${_restoreFileName}）の状態に戻します。\n戻す直前の状態は保存しておくので、あとで「戻したことを取り消す」で元に戻せます。\nよろしいですか？`))return;
+  try{
+    const snap=await _fbDb.ref(FB_NS).get();const cur=snap.exists()?snap.val():{};
+    const before={};keys.forEach(k=>{before[k]=cur[k]===undefined?null:cur[k];});
+    await _fbDb.ref(FB_NS+'/_restore').push({at:Date.now(),by:sess.name||'',ym,file:_restoreFileName,keys,before:JSON.stringify(before)});
+    const upd={};keys.forEach(k=>{upd[k]=_restoreFile[k]===undefined?null:_restoreFile[k];});
+    upd._v=Date.now();
+    await _fbDb.ref(FB_NS).update(upd);
+    keys.forEach(k=>{const v=upd[k];if(v==null)localStorage.removeItem(k);else localStorage.setItem(k,typeof v==='string'?v:JSON.stringify(v));});
+    localStorage.setItem('pekin_db_v',String(upd._v));
+    writeLog('restore',ym,`バックアップから戻しました（${_ymJa(ym)}：${keys.map(k=>k.replace('_'+ym,'')).join('・')}）`,[`ファイル：${_restoreFileName}`]);
+    await _cdsNotice('戻しました。画面を読み込み直します。');
+    location.reload();
+  }catch(e){_cdsNotice('戻せませんでした：'+e.message);}
+}
+async function _renderRestorePoints(){
+  const box=document.getElementById('restorePoints');if(!box)return;
+  try{
+    const snap=await _fbDb.ref(FB_NS+'/_restore').get();
+    const v=snap.exists()?snap.val():{};
+    const items=Object.entries(v).map(([id,e])=>Object.assign({id},e)).sort((a,b)=>b.at-a.at).slice(0,10);
+    box.innerHTML=items.length?items.map(e=>`<div style="padding:6px 0;border-bottom:1px dashed #e2e8f0;font-size:.84em">
+      ${_esc(_fmtAt(e.at))}　${_esc(e.by)}　${_esc(_ymJa(e.ym))}を戻した（${_esc(e.file||'')}）
+      ${e.undoneAt?`<span style="color:#94a3b8">　取り消し済み（${_esc(_fmtAt(e.undoneAt))}）</span>`:`<button class="cbtn cbtn-outline" style="margin-left:6px;padding:3px 8px" onclick="undoRestore('${_esc(e.id)}')">戻したことを取り消す</button>`}
+    </div>`).join(''):'<div class="empty-state">まだ復元はしていません</div>';
+  }catch(e){box.innerHTML='';}
+}
+async function undoRestore(id){
+  if(typeof sess==='undefined'||!sess||sess.role!=='admin'){_cdsNotice('復元は管理者だけができます。');return;}
+  const snap=await _fbDb.ref(FB_NS+'/_restore/'+id).get();
+  if(!snap.exists())return;
+  const e=snap.val();
+  if(e.undoneAt)return;
+  if(!await _cdsAsk(`${_fmtAt(e.at)}に行った「${_ymJa(e.ym)}の復元」を取り消して、戻す前の状態にします。よろしいですか？`))return;
+  try{
+    const before=JSON.parse(e.before||'{}');
+    const upd=Object.assign({},before);upd._v=Date.now();
+    await _fbDb.ref(FB_NS).update(upd);
+    Object.entries(before).forEach(([k,v])=>{if(v==null)localStorage.removeItem(k);else localStorage.setItem(k,typeof v==='string'?v:JSON.stringify(v));});
+    localStorage.setItem('pekin_db_v',String(upd._v));
+    await _fbDb.ref(FB_NS+'/_restore/'+id).update({undoneAt:Date.now(),undoneBy:sess.name||''});
+    writeLog('restore',e.ym,`復元を取り消しました（${_ymJa(e.ym)}）`);
+    await _cdsNotice('取り消しました。画面を読み込み直します。');
+    location.reload();
+  }catch(err){_cdsNotice('取り消せませんでした：'+err.message);}
+}
+
+const TAB_NAMES=['shift','overview','avail','staff','settings','template','stats','history'];
 function switchTab(name){
   document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active',TAB_NAMES[i]===name));
   document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
@@ -2777,6 +3080,7 @@ function switchTab(name){
   if(name==='settings'){renderSettingsPanel();if(typeof renderDeadlinePanel==='function')renderDeadlinePanel();renderMasterPwStatus();}
   if(name==='template')renderTemplatePanel();
   if(name==='stats')renderStatsPanel();
+  if(name==='history')renderHistoryPanel();
 }
 
 /* ════════════════════════════════════════
@@ -2819,6 +3123,7 @@ function getTemplate(){
 
 function saveTemplateData(t){
   const json=JSON.stringify(t);
+  try{if(localStorage.getItem(TEMPLATE_KEY)!==json)writeLog('template','','シフトのテンプレートを変更');}catch(e){}
   localStorage.setItem(TEMPLATE_KEY,json);
   _syncKeyToFirebase(TEMPLATE_KEY,json);  /* ← テンプレもFirebaseへ */
 }
