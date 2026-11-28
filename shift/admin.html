@@ -3397,5 +3397,40 @@ function renderStatsPanel(){
 setTimeout(()=>{try{_attachMonthListeners();updatePublishStatus();}catch(e){console.warn('init attach:',e);}},1200);
 
 </script>
+<script>
+/* パスワード欄に「目のマーク」を付け、押すと入力中の文字を表示・非表示に切り替える */
+(function(){
+  var EYE='<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg>';
+  var EYE_OFF='<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 19c-7 0-11-7-11-7a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 7 11 7a18.5 18.5 0 0 1-2.16 3.19"/><path d="M14.12 14.12a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>';
+  function addEye(inp){
+    if(inp.dataset.pwEye||inp.id==='masterPwInput')return; /* 既に独自の表示ボタンがある欄は除く */
+    inp.dataset.pwEye='1';
+    var wrap=document.createElement('span');
+    wrap.style.cssText='position:relative;display:block;width:100%';
+    inp.parentNode.insertBefore(wrap,inp);
+    wrap.appendChild(inp);
+    inp.style.paddingRight='44px';
+    inp.style.boxSizing='border-box';
+    var btn=document.createElement('button');
+    btn.type='button';
+    btn.className='pw-eye-btn';
+    btn.setAttribute('aria-label','パスワードを表示');
+    btn.title='パスワードを表示';
+    btn.innerHTML=EYE;
+    btn.style.cssText='position:absolute;right:4px;top:50%;transform:translateY(-50%);width:36px;height:36px;display:flex;align-items:center;justify-content:center;border:none;background:transparent;color:#666;cursor:pointer;padding:0;margin:0';
+    btn.addEventListener('click',function(){
+      var show=inp.type==='password';
+      inp.type=show?'text':'password';
+      btn.innerHTML=show?EYE_OFF:EYE;
+      var label=show?'パスワードを隠す':'パスワードを表示';
+      btn.setAttribute('aria-label',label);btn.title=label;
+      inp.focus();
+    });
+    wrap.appendChild(btn);
+  }
+  function run(){document.querySelectorAll('input[type="password"]').forEach(addEye);}
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',run);else run();
+})();
+</script>
 </body>
 </html>
