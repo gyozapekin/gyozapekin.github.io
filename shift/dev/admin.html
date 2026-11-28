@@ -2310,7 +2310,16 @@ function renderClosedDaySchedule(){
 
   /* 入力欄 */
   const fromEl=document.getElementById('cdsFrom');
-  if(fromEl){fromEl.min=today;if(!cdsEditingId&&!fromEl.value)fromEl.value=today;}
+  if(fromEl){
+    fromEl.min=today;
+    if(!cdsEditingId&&!fromEl.value)fromEl.value=today;
+    /* 適用開始日を選んだら、曜日はその日に効いている定休から始める */
+    fromEl.onchange=()=>{
+      if(cdsEditingId)return;
+      const v=fromEl.value;
+      if(/^\d{4}-\d{2}-\d{2}$/.test(v)){closedDaySelection=[...closedDowsAt(getSettings(),v)];_cdsRenderChips();}
+    };
+  }
   const ce=document.getElementById('cdsCancelEdit');
   if(ce)ce.style.display=cdsEditingId?'inline-block':'none';
   const st=document.getElementById('cdsFormTitle');
