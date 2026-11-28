@@ -1,6 +1,6 @@
 # 海鮮餃子 北京 - SEO/インフラ設定リファレンス
 
-最終更新: 2026年6月2日
+最終更新: 2026年11月28日（点検履歴は「12. 定期点検の履歴」）
 このファイルは gyozapekin.com のSEO設定・インフラ構成の完全リファレンスです。
 
 ---
@@ -124,7 +124,7 @@
 
 ### 削除厳禁
 - `google7882b477a4884e43.html` - Search Console所有権確認ファイル
-- `.nojekyll` - GitHub PagesでJekyll処理を無効化
+- `_config.yml` の `url: "https://gyozapekin.com"`（2026年夏以降 Jekyll 有効。旧 `.nojekyll` は削除済み）
 - `sitemap.xml` - 検索エンジン向けサイトマップ
 - `robots.txt` - クローラー制御
 
@@ -181,6 +181,8 @@
 ---
 
 ## 7. 標準作業フロー
+
+> 2026-11 追記：OneDrive の作業コピーは大きく遅れていることがあるため、SEO修正は origin/main の最新を元に作り、一時フォルダに clone して対象ファイルだけ push する方式を推奨（手順は gyozapekin-seo-check スキル参照）。以下は旧手順。
 
 ### コード変更を push する手順
 1. ローカル（OneDrive）で編集
@@ -294,3 +296,21 @@ exit
 
 このリファレンスは今後のSEO関連作業の起点として使用してください。
 内容に変更があれば随時更新すること。
+
+---
+
+## 12. 定期点検の履歴
+
+点検は gyozapekin-seo-check スキルで実施（sitemap 全URL自動検査 + リモート main 検査 + Google 検索確認）。
+
+### 2026-11-28
+- 結果（修正前）：sitemap 掲載74ページ中 NG 4件
+  - gallery.html：canonical が github.io、構造化データの画像URL 1500件も github.io
+    （2026-06-13 のギャラリー刷新「絶対URL化」で混入。以後5か月 github.io 側がインデックスに残っていた原因）
+  - contact.html：canonical 欠落（2026-06-04 のフォーム修正時に消失）
+  - /gyozalink/・/hirakata/：canonical 未設定
+- 対応：上記4ファイルを修正して push（commit ef00ba1）。修正後 NG 0件を確認
+- 保留：sitemap 非掲載で canonical の無いページ（gyozalinkeng.html / hirakataeng.html / landing.html）。shift.html は robots で除外済み
+- 検索順位：「海鮮餃子 北京」1位 / 「枚方 餃子」自然検索1位（6月の3位から改善）/ 「枚方 中華料理」上位圏外（改善余地）
+- site:gyozapekin.github.io：トップ・ギャラリー・メニュー等がまだ残存 → 今回の修正で減るはず。次回比較
+- 運用メモ：OneDrive の作業コピーは他の自動pushで300コミット以上遅れていた。点検と修正は必ず origin/main とライブサイトを対象にし、push は一時フォルダに clone して対象ファイルだけ行う
