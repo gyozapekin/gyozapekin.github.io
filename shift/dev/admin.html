@@ -2168,6 +2168,25 @@ function resetDeadline(ym){
 
 /* ── 定休スケジュールの設定画面（適用開始日つき・予約・取り消し・ログ） ── */
 let cdsEditingId=null;
+/* 確認・お知らせは画面内に表示する（ブラウザによっては confirm/alert が出ないため） */
+function _cdsDialog(msg,withCancel){
+  return new Promise(res=>{
+    const ov=document.createElement('div');
+    ov.id='cdsDialog';
+    ov.style.cssText='position:fixed;inset:0;background:rgba(15,23,42,.45);z-index:10000;display:flex;align-items:center;justify-content:center;padding:16px';
+    const box=document.createElement('div');
+    box.style.cssText='background:#fff;border-radius:12px;max-width:440px;width:100%;padding:18px;box-shadow:0 10px 30px rgba(0,0,0,.25);font-size:.9em;line-height:1.7;color:#0f172a';
+    const p=document.createElement('div');p.style.whiteSpace='pre-wrap';p.textContent=msg;
+    const bar=document.createElement('div');bar.style.cssText='display:flex;justify-content:flex-end;gap:8px;margin-top:16px';
+    const close=v=>{ov.remove();res(v);};
+    if(withCancel){const c=document.createElement('button');c.className='cbtn cbtn-outline';c.textContent='やめる';c.id='cdsDialogNo';c.onclick=()=>close(false);bar.appendChild(c);}
+    const ok=document.createElement('button');ok.className='cbtn cbtn-red';ok.textContent=withCancel?'はい':'OK';ok.id='cdsDialogOk';ok.onclick=()=>close(true);bar.appendChild(ok);
+    box.appendChild(p);box.appendChild(bar);ov.appendChild(box);document.body.appendChild(ov);
+    try{ok.focus();}catch(e){}
+  });
+}
+function _cdsAsk(m){return _cdsDialog(m,true);}
+function _cdsNotice(m){return _cdsDialog(m,false);}
 function _cdsUser(){return (typeof sess!=='undefined'&&sess&&sess.name)||'管理者';}
 function _cdsEsc(v){return String(v==null?'':v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
 function _cdsDays(days){
@@ -2313,12 +2332,12 @@ function _cdsAfterSave(msg){
   if(typeof showUpdateToast==='function')showUpdateToast(msg);
 }
 
-function saveClosedDays(){
+async function saveClosedDays(){
   const fromEl=document.getElementById('cdsFrom');
   const from=fromEl?fromEl.value:'';
   const today=todayKey();
-  if(!/^\d{4}-\d{2}-\d{2}$/.test(from)){alert('適用開始日を選んでください。');return;}
-  if(from<today){alert('適用開始日は今日以降の日付にしてください。\n過去の定休の記録を守るため、過去にさかのぼる変更はできません。');return;}
+  if(!/^\d{4}-\d{2}-\d{2}$/.test(from)){_cdsNotice('適用開始日を選んでください。');return;}
+  if(from<today){_cdsNotice('適用開始日は今日以降の日付にしてください。\n過去の定休の記録を守るため、過去にさかのぼる変更はできません。');return;}
   const days=closedDaySelection.slice().sort((a,b)=>a-b);
   const s=getSettings();
   _cdsEnsureBase(s);
@@ -2329,7 +2348,7 @@ function saveClosedDays(){
   msg+=from>today?'\n予約として登録し、その日から自動で切り替わります。':'\n今日から切り替わります。';
   msg+='\nそれより前の日の定休は変わりません。入力済みのシフト・希望もそのまま残ります。';
   if(sameFrom.length)msg+=`\n同じ日に登録済みの「${_cdsDays(sameFrom[0].days)}」は取り消しになります（記録は残ります）。`;
-  if(!confirm(msg))return;
+  if(!await _cdsAsk(msg))return;
   const now=new Date().toISOString(),by=_cdsUser();
   if(editing){editing.canceled=true;editing.canceledAt=now;editing.canceledBy=by;editing.cancelReason='修正のため置き換え';}
   sameFrom.forEach(e=>{e.canceled=true;e.canceledAt=now;e.canceledBy=by;e.cancelReason='同じ日の登録で置き換え';});
@@ -2343,11 +2362,11 @@ function saveClosedDays(){
   _cdsAfterSave(from>today?'定休の変更を予約しました':'定休の変更を登録しました');
 }
 
-function cdsEdit(id){
+async function cdsEdit(id){
   const s=getSettings();
   const e=(s.closedDaySchedule||[]).find(x=>x.id===id&&!x.canceled);
   if(!e)return;
-  if(e.from<=todayKey()){alert('すでに始まっている定休は修正できません。新しく登録してください。');return;}
+  if(e.from<=todayKey()){_cdsNotice('すでに始まっている定休は修正できません。新しく登録してください。');return;}
   cdsEditingId=id;
   closedDaySelection=e.days.slice();
   const fromEl=document.getElementById('cdsFrom');if(fromEl)fromEl.value=e.from;
@@ -2360,13 +2379,13 @@ function cdsResetForm(){
   const fromEl=document.getElementById('cdsFrom');if(fromEl)fromEl.value='';
   renderSettingsPanel();
 }
-function cdsCancel(id){
+async function cdsCancel(id){
   const s=getSettings();
   _cdsEnsureBase(s);
   const e=s.closedDaySchedule.find(x=>x.id===id);
   if(!e||e.canceled)return;
-  if(e.from===CDS_BASE_FROM||e.from<todayKey()){alert('すでに始まっている定休は取り消せません。');return;}
-  if(!confirm(`${_cdsFmt(e.from)}からの「${_cdsDays(e.days)}」を取り消しますか？\n取り消した記録はログに残り、「元に戻す」で戻せます。`))return;
+  if(e.from===CDS_BASE_FROM||e.from<todayKey()){_cdsNotice('すでに始まっている定休は取り消せません。');return;}
+  if(!await _cdsAsk(`${_cdsFmt(e.from)}からの「${_cdsDays(e.days)}」を取り消しますか？\n取り消した記録はログに残り、「元に戻す」で戻せます。`))return;
   const now=new Date().toISOString();
   e.canceled=true;e.canceledAt=now;e.canceledBy=_cdsUser();e.cancelReason='取り消し';
   _cdsLog(s,'cancel',`取り消し：${_cdsFmt(e.from)}から「${_cdsDays(e.days)}」`);
@@ -2374,16 +2393,16 @@ function cdsCancel(id){
   saveSettings(s);
   _cdsAfterSave('定休の予約を取り消しました');
 }
-function cdsRestore(id){
+async function cdsRestore(id){
   const s=getSettings();
   _cdsEnsureBase(s);
   const e=s.closedDaySchedule.find(x=>x.id===id);
   if(!e||!e.canceled)return;
-  if(e.from<todayKey()){alert('開始日が過ぎているため元に戻せません。新しく登録してください。');return;}
+  if(e.from<todayKey()){_cdsNotice('開始日が過ぎているため元に戻せません。新しく登録してください。');return;}
   const clash=activeSchedule(s).filter(x=>x.from===e.from&&x.from!==CDS_BASE_FROM);
   let msg=`${_cdsFmt(e.from)}からの「${_cdsDays(e.days)}」を元に戻しますか？`;
   if(clash.length)msg+=`\n同じ日に登録済みの「${_cdsDays(clash[0].days)}」は取り消しになります（記録は残ります）。`;
-  if(!confirm(msg))return;
+  if(!await _cdsAsk(msg))return;
   const now=new Date().toISOString(),by=_cdsUser();
   clash.forEach(x=>{x.canceled=true;x.canceledAt=now;x.canceledBy=by;x.cancelReason='元に戻した登録で置き換え';});
   e.canceled=false;e.restoredAt=now;e.restoredBy=by;
