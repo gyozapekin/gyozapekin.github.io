@@ -235,12 +235,12 @@ document.getElementById('loginId').addEventListener('keydown',e=>{if(e.key==='En
     btn.className='pw-eye-btn';
     btn.setAttribute('aria-label','パスワードを表示');
     btn.title='パスワードを表示';
-    btn.innerHTML=EYE;
+    btn.innerHTML=EYE_OFF; /* 隠れている間は斜線入りの目 */
     btn.style.cssText='position:absolute;right:4px;top:50%;transform:translateY(-50%);width:36px;height:36px;display:flex;align-items:center;justify-content:center;border:none;background:transparent;color:#666;cursor:pointer;padding:0;margin:0';
     btn.addEventListener('click',function(){
       var show=inp.type==='password';
       inp.type=show?'text':'password';
-      btn.innerHTML=show?EYE_OFF:EYE;
+      btn.innerHTML=show?EYE:EYE_OFF; /* 見えている間は斜線なしの目 */
       var label=show?'パスワードを隠す':'パスワードを表示';
       btn.setAttribute('aria-label',label);btn.title=label;
       inp.focus();
